@@ -523,4 +523,24 @@ public class GameManager : MonoBehaviour
 
 📅2023-01-27 fri 21:31  
 
+![202301_unity_27-2144--y-1.png](https://crieit.now.sh/upload_images/5dc3bd03f4e8a1f7b49cfb3764d6577663d3c77972faa.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　あれっ！　まだ　時計回りに１８０°回転してないのに　ひっくり返ってるぜ！」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　じゃあ　１８０°回転して　戻せだぜ」  
+
+![202301_unity_27-2151--game.png](https://crieit.now.sh/upload_images/d91b4b0160e1db1087f4e8b1342e437e63d3c8fc03705.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　なんか積んでる手札の底が１枚ずれてるな。  
+まあいいや　進んでる間に　原因が見つかるだろ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　じゃあ　先に進みましょう。  
+場にオープンしているカードを１枚選んで　ルールを気にせず　中央の台札に　積みましょう！」  
+
+📅2023-01-27 fri 21:53  
+
 # // 書きかけ

@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
             float xStep = (maxX - minX) / (goPlayersHandCards[1].Count - 1);
             foreach (var goCard in goPlayersHandCards[1])
             {
-                SetPosRot(goCard, x, y, z);
+                SetPosRot(goCard, x, y, z, angleY: 0.0f);
                 x += xStep;
             }
         }
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
             float z = player2PileZ;
             foreach (var goCard in goPlayersPileCards[1])
             {
-                SetPosRot(goCard, x, y, z);
+                SetPosRot(goCard, x, y, z, angleY: 0.0f, angleZ: 180.0f);
                 y += 0.2f;
             }
         }
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
             float z = leftCenterStackZ;
             foreach (var goCard in goCenterStacksCards[1])
             {
-                SetPosRot(goCard, x, y, z);
+                SetPosRot(goCard, x, y, z, angleY:0.0f);
                 y += 0.2f;
             }
         }
@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
             float z = player1PileZ;
             foreach (var goCard in goPlayersPileCards[0])
             {
-                SetPosRot(goCard, x, y, z);
+                SetPosRot(goCard, x, y, z, angleZ:180.0f);
                 y += 0.2f;
             }
         }
@@ -150,10 +150,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SetPosRot(GameObject card, float x, float y, float z)
+    private void SetPosRot(GameObject card, float x, float y, float z, float angleY=180.0f, float angleZ = 0.0f)
     {
         card.transform.position = new Vector3(x, y, z);
-        card.transform.rotation = Quaternion.Euler(0, 180, 0);
+        card.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
     }
 
     // Update is called once per frame
