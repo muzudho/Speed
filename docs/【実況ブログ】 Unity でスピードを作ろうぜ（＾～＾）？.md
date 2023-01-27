@@ -602,10 +602,6 @@ public class GameManager : MonoBehaviour
 
 ![202301_unity_27-2238--focus.png](https://crieit.now.sh/upload_images/f018484a5edbaebb5e34b0275e76499863d3d3dab9f5b.png)  
 
-![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
-「　👆　逆関数をあてれば　持ち上げたカードは場に戻り、  
-また別のカードを持ち上げれば　カードを選んでいる雰囲気が出るな」  
-
 ```csharp
     /// <summary>
     /// 持ち上げたカードを場に戻す
@@ -627,6 +623,236 @@ public class GameManager : MonoBehaviour
     }
 ```
 
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　逆関数をあてれば　持ち上げたカードは場に戻り、  
+また別のカードを持ち上げれば　カードを選んでいる雰囲気が出るな」  
+
 📅2023-01-27 fri 22:40  
+
+```csharp
+        // １プレイヤーの１枚目のカードにフォーカスを当てる
+        {
+            if (0 < goPlayersHandCards[0].Count)
+            {
+                var goCard = goPlayersHandCards[0][0];
+                SetFocus(goCard);
+            }
+        }
+        // １プレイヤーの１枚目のカードのフォーカスを外す
+        {
+            if (0 < goPlayersHandCards[0].Count)
+            {
+                var goCard = goPlayersHandCards[0][0];
+                ResetFocus(goCard);
+            }
+        }
+        // １プレイヤーの１枚目のカードにフォーカスを当てる
+        {
+            if (1 < goPlayersHandCards[0].Count)
+            {
+                var goCard = goPlayersHandCards[0][1];
+                SetFocus(goCard);
+            }
+        }
+        // ２プレイヤーの１枚目のカードにフォーカスを当てる
+        {
+            if (0 < goPlayersHandCards[1].Count)
+            {
+                var goCard = goPlayersHandCards[1][0];
+                SetFocus(goCard);
+            }
+        }
+        // ２プレイヤーの１枚目のカードのフォーカスを外す
+        {
+            if (0 < goPlayersHandCards[1].Count)
+            {
+                var goCard = goPlayersHandCards[1][0];
+                ResetFocus(goCard);
+            }
+        }
+        // ２プレイヤーの２枚目のカードにフォーカスを当てる
+        {
+            if (1 < goPlayersHandCards[1].Count)
+            {
+                var goCard = goPlayersHandCards[1][1];
+                SetFocus(goCard);
+            }
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　画作り　をしている間は　ベタ書きするぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　ただ、コードが長くなって　読みにくいよな」  
+
+![202301_unity_27-2259--policy-1.png](https://crieit.now.sh/upload_images/eef6c69316169a684db175c6e47e90e763d3d8f2747ae.png)  
+
+`Assets.Scripts.PolicyOfArgs.cs`:  
+
+```csharp
+namespace Assets.Scripts
+{
+    /// <summary>
+    /// コーディングの方針
+    /// </summary>
+    internal class PolicyOfArgs
+    {
+        public delegate void SetValue<T>(T value);
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　そこで　コードを短くするための　仕込み　をするぜ」  
+
+![202301_unity_27-2302--getCard-1.png](https://crieit.now.sh/upload_images/9c29788089a2a4aa758be0654aa19fe363d3d9d601e2a.png)  
+
+`Assets.Scripts.GameManager.cs`:  
+
+```csharp
+    /// <summary>
+    /// カードを取得
+    /// </summary>
+    /// <param name="player">何番目のプレイヤー</param>
+    /// <param name="cardIndex">何枚目のカード</param>
+    /// <param name="setCard">カードをセットする関数</param>
+    private void GetCard(int player, int cardIndex, PolicyOfArgs.SetValue<GameObject> setCard)
+    {
+        if (cardIndex < goPlayersHandCards[player].Count)
+        {
+            var goCard = goPlayersHandCards[player][cardIndex];
+            setCard(goCard);
+        }
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　カードを取得するという　ありきたりな関数を書き」  
+
+![202301_unity_27-2305--lambda-1.png](https://crieit.now.sh/upload_images/fbecb05256d088eec47bc8b8926a59f363d3da74d6bed.png)  
+
+```csharp
+        // １プレイヤーの１枚目のカードにフォーカスを当てる
+        GetCard(0, 0, (goCard) => SetFocus(goCard));
+
+        // １プレイヤーの１枚目のカードのフォーカスを外す
+        GetCard(0, 0, (goCard) => ResetFocus(goCard));
+
+        // １プレイヤーの２枚目のカードにフォーカスを当てる
+        GetCard(0, 1, (goCard) => SetFocus(goCard));
+
+        // ２プレイヤーの１枚目のカードにフォーカスを当てる
+        GetCard(1, 0, (goCard) => SetFocus(goCard));
+
+        // ２プレイヤーの１枚目のカードのフォーカスを外す
+        GetCard(1, 0, (goCard) => ResetFocus(goCard));
+
+        // ２プレイヤーの２枚目のカードにフォーカスを当てる
+        GetCard(1, 1, (goCard) => SetFocus(goCard));
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　長ったらしかったコードを　ワンライナー（１行）で書けるようにしたぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　１プレイヤーが `0` で、 １枚目が `0` って分かりづらくない？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　序数と基数の違いだぜ　別のものなのだから仕方ない　慣れろだぜ」  
+
+📅2023-01-27 fri 23:09  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　台札に１枚乗せなさいよ」  
+
+```csharp
+        // 右の台札を積み上げる
+        {
+            float x = rightCenterStackX;
+            float y = minY;
+            float z = rightCenterStackZ;
+            foreach (var goCard in goCenterStacksCards[0])
+            {
+                SetPosRot(goCard, x, y, z);
+                y += 0.2f;
+            }
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　このコードだと　使い回しづらいので、使い回しやすい形にするかだぜ」  
+
+```csharp
+        // 右の台札を積み上げる
+        {
+            float x = rightCenterStackX;
+            this.rightCenterStacksY = minY;
+            float z = rightCenterStackZ;
+
+            foreach (var goCard in goCenterStacksCards[0])
+            {
+                SetPosRot(goCard, x, this.rightCenterStacksY, z);
+                this.rightCenterStacksY += 0.2f;
+            }
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　Y座標は　記憶することにしよう」  
+
+![202301_unity_27-2332--hand-card-1.png](https://crieit.now.sh/upload_images/a706e47f7197dac257ffc00450c2fdca63d3e0e061ef7.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　『台札は、場札から１枚抜いて置く』という動作に１本化しようぜ」  
+
+```csharp
+        // 左の台札が空っぽの状態
+        this.leftCenterStackX = -15.0f;
+        this.leftCenterStackY = minY;
+        this.leftCenterStackZ = 10.0f;
+
+        // 左の台札を積み上げる
+        {
+            // 場札の好きなところから１枚抜いて、台札を１枚置く
+            var player = 1; // ２プレイヤーが
+            var handIndex = 0; // 場札の１枚目から
+            var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
+            goPlayersHandCards[player].RemoveAt(handIndex);
+            goCenterStacksCards[player].Add(goCard); // 台札として置く
+
+            // カードの位置と角度をセット
+            SetPosRot(goCard, this.leftCenterStackX, this.leftCenterStackY, this.leftCenterStackZ, angleY: 0.0f);
+
+            // 次に台札に積むカードの高さ
+            this.leftCenterStackY += 0.2f;
+        }
+
+        // 右の台札が空っぽの状態
+        this.rightCenterStackX = 15.0f;
+        this.rightCenterStackY = minY;
+        this.rightCenterStackZ = 0.0f;
+
+        // 右の台札を積み上げる
+        {
+            var player = 0; // １プレイヤーが
+            var handIndex = 0; // 場札の１枚目から
+            var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
+            goPlayersHandCards[player].RemoveAt(handIndex);
+            goCenterStacksCards[player].Add(goCard); // 台札として置く
+
+            // カードの位置と角度をセット
+            SetPosRot(goCard, this.rightCenterStackX, this.rightCenterStackY, this.rightCenterStackZ);
+
+            // 次に台札に積むカードの高さ
+            this.rightCenterStackY += 0.2f;
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　左の台札と、右の台札を　別にした方がいいな。  
+カードの移動があったときに、同時に　ポリゴンの位置と角度も設定しよう」  
+
+📅2023-01-27 fri 23:50  
 
 # // 書きかけ

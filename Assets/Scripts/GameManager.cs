@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     List<List<GameObject>> goCenterStacksCards = new() { new(), new() };
 
+    float rightCenterStackX;
+
+    /// <summary>
+    /// 台札のY座標
+    /// 
+    /// - 0.0f は盤なので、それより上にある
+    /// </summary>
+    float rightCenterStackY;
+    float rightCenterStackZ;
+
+    float leftCenterStackX;
+    float leftCenterStackY;
+    float leftCenterStackZ;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,28 +68,60 @@ public class GameManager : MonoBehaviour
             // シャッフル
             goPlayersPileCards[player] = goPlayersPileCards[player].OrderBy(i => Guid.NewGuid()).ToList();
 
-            // 場札を４枚配る
-            var goCards = goPlayersPileCards[player].GetRange(0, 4);
-            goPlayersPileCards[player].RemoveRange(0, 4);
+            // 手札から５枚抜いて、場札を５枚置く
+            var goCards = goPlayersPileCards[player].GetRange(0, 5);
+            goPlayersPileCards[player].RemoveRange(0, 5);
             goPlayersHandCards[player].AddRange(goCards);
-
-            // 台札を１枚配る
-            goCards = goPlayersPileCards[player].GetRange(0, 1);
-            goPlayersPileCards[player].RemoveRange(0, 1);
-            goCenterStacksCards[player].AddRange(goCards);
         }
 
         float minX = -62.0f;
-        float leftCenterStackX = -15.0f;
-        float rightCenterStackX = 15.0f;
         float maxX = 62.0f;
         float minY = 0.5f; // 0.0f は盤
         float player2HandZ = 42.0f;
         float player2PileZ = 26.0f;
-        float leftCenterStackZ = 10.0f;
-        float rightCenterStackZ = 0.0f;
         float player1PileZ = -12.0f;
         float player1HandZ = -28.0f;
+
+        // 左の台札が空っぽの状態
+        this.leftCenterStackX = -15.0f;
+        this.leftCenterStackY = minY;
+        this.leftCenterStackZ = 10.0f;
+
+        // 左の台札を積み上げる
+        {
+            // 場札の好きなところから１枚抜いて、台札を１枚置く
+            var player = 1; // ２プレイヤーが
+            var handIndex = 0; // 場札の１枚目から
+            var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
+            goPlayersHandCards[player].RemoveAt(handIndex);
+            goCenterStacksCards[player].Add(goCard); // 台札として置く
+
+            // カードの位置と角度をセット
+            SetPosRot(goCard, this.leftCenterStackX, this.leftCenterStackY, this.leftCenterStackZ, angleY: 0.0f);
+
+            // 次に台札に積むカードの高さ
+            this.leftCenterStackY += 0.2f;
+        }
+
+        // 右の台札が空っぽの状態
+        this.rightCenterStackX = 15.0f;
+        this.rightCenterStackY = minY;
+        this.rightCenterStackZ = 0.0f;
+
+        // 右の台札を積み上げる
+        {
+            var player = 0; // １プレイヤーが
+            var handIndex = 0; // 場札の１枚目から
+            var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
+            goPlayersHandCards[player].RemoveAt(handIndex);
+            goCenterStacksCards[player].Add(goCard); // 台札として置く
+
+            // カードの位置と角度をセット
+            SetPosRot(goCard, this.rightCenterStackX, this.rightCenterStackY, this.rightCenterStackZ);
+
+            // 次に台札に積むカードの高さ
+            this.rightCenterStackY += 0.2f;
+        }
 
 
         // ２プレイヤーの場札を並べる（画面では、左から右へ並べる）
@@ -98,30 +145,6 @@ public class GameManager : MonoBehaviour
             foreach (var goCard in goPlayersPileCards[1])
             {
                 SetPosRot(goCard, x, y, z, angleY: 0.0f, angleZ: 180.0f);
-                y += 0.2f;
-            }
-        }
-
-        // 左の台札を積み上げる
-        {
-            float x = leftCenterStackX;
-            float y = minY;
-            float z = leftCenterStackZ;
-            foreach (var goCard in goCenterStacksCards[1])
-            {
-                SetPosRot(goCard, x, y, z, angleY: 0.0f);
-                y += 0.2f;
-            }
-        }
-
-        // 右の台札を積み上げる
-        {
-            float x = rightCenterStackX;
-            float y = minY;
-            float z = rightCenterStackZ;
-            foreach (var goCard in goCenterStacksCards[0])
-            {
-                SetPosRot(goCard, x, y, z);
                 y += 0.2f;
             }
         }
@@ -170,19 +193,25 @@ public class GameManager : MonoBehaviour
         GetCard(1, 1, (goCard) => SetFocus(goCard));
     }
 
-    private void SetPosRot(GameObject card, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f)
-    {
-        card.transform.position = new Vector3(x, y, z);
-        card.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
-    }
-
-    private void GetCard(int player, int cardIndex, Assets.Scripts.PolicyOfArgs.SetValue<GameObject> setCard)
+    /// <summary>
+    /// カードを取得
+    /// </summary>
+    /// <param name="player">何番目のプレイヤー</param>
+    /// <param name="cardIndex">何枚目のカード</param>
+    /// <param name="setCard">カードをセットする関数</param>
+    private void GetCard(int player, int cardIndex, PolicyOfArgs.SetValue<GameObject> setCard)
     {
         if (cardIndex < goPlayersHandCards[player].Count)
         {
             var goCard = goPlayersHandCards[player][cardIndex];
             setCard(goCard);
         }
+    }
+
+    private void SetPosRot(GameObject card, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f)
+    {
+        card.transform.position = new Vector3(x, y, z);
+        card.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
     }
 
     /// <summary>
