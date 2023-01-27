@@ -63,14 +63,24 @@ public class GameManager : MonoBehaviour
             goCenterStacksCards[player].AddRange(goCards);
         }
 
+        float minX = -62.0f;
+        float leftCenterStackX = -15.0f;
+        float rightCenterStackX = 15.0f;
+        float maxX = 62.0f;
+        float player2HandZ = 42.0f;
+        float player2PileZ = 26.0f;
+        float leftCenterStackZ = 10.0f;
+        float rightCenterStackZ = 0.0f;
+        float player1PileZ = -12.0f;
+        float player1HandZ = -28.0f;
+
+
         // ‚QƒvƒŒƒCƒ„[‚ÌêD‚ğ•À‚×‚é
         {
-            float minX = -62.0f;
-            float maxX = 62.0f;
-            float x = -62.0f;
+            float x = minX;
             float y = 0.0f;
-            float z = 42.0f;
-            float xStep = (maxX - minX) / goPlayersHandCards[1].Count;
+            float z = player2HandZ;
+            float xStep = (maxX - minX) / (goPlayersHandCards[1].Count - 1);
             foreach (var goCard in goPlayersHandCards[1])
             {
                 SetPosRot(goCard, x, y, z);
@@ -80,9 +90,9 @@ public class GameManager : MonoBehaviour
 
         // ‚QƒvƒŒƒCƒ„[‚ÌèD‚ğÏ‚İã‚°‚é
         {
-            float x = -62.0f;
+            float x = minX;
             float y = 0.0f;
-            float z = 26.0f;
+            float z = player2PileZ;
             foreach (var goCard in goPlayersPileCards[1])
             {
                 SetPosRot(goCard, x, y, z);
@@ -92,9 +102,9 @@ public class GameManager : MonoBehaviour
 
         // ¶‚Ì‘äD‚ğÏ‚İã‚°‚é
         {
-            float x = -15.0f;
+            float x = leftCenterStackX;
             float y = 0.0f;
-            float z = 10.0f;
+            float z = leftCenterStackZ;
             foreach (var goCard in goCenterStacksCards[1])
             {
                 SetPosRot(goCard, x, y, z);
@@ -104,9 +114,9 @@ public class GameManager : MonoBehaviour
 
         // ‰E‚Ì‘äD‚ğÏ‚İã‚°‚é
         {
-            float x = 15.0f;
+            float x = rightCenterStackX;
             float y = 0.0f;
-            float z = 0.0f;
+            float z = rightCenterStackZ;
             foreach (var goCard in goCenterStacksCards[0])
             {
                 SetPosRot(goCard, x, y, z);
@@ -116,9 +126,9 @@ public class GameManager : MonoBehaviour
 
         // ‚PƒvƒŒƒCƒ„[‚ÌèD‚ğÏ‚İã‚°‚é
         {
-            float x = 62.0f;
+            float x = maxX;
             float y = 0.0f;
-            float z = -28.0f;
+            float z = player1PileZ;
             foreach (var goCard in goPlayersPileCards[0])
             {
                 SetPosRot(goCard, x, y, z);
@@ -128,12 +138,10 @@ public class GameManager : MonoBehaviour
 
         // ‚PƒvƒŒƒCƒ„[‚ÌêD‚ğ•À‚×‚é
         {
-            float minX = -62.0f;
-            float maxX = 62.0f;
-            float x = -62.0f;
+            float x = minX;
             float y = 0.0f;
-            float z = -28.0f;
-            float xStep = (maxX - minX) / goPlayersHandCards[0].Count;
+            float z = player1HandZ;
+            float xStep = (maxX - minX) / (goPlayersHandCards[0].Count - 1);
             foreach (var goCard in goPlayersHandCards[0])
             {
                 SetPosRot(goCard, x, y, z);

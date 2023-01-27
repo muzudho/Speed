@@ -417,6 +417,54 @@ Example:
 
 ![202301_unity_24-2344--script-1.png](https://crieit.now.sh/upload_images/05aca195987ba013e745a15ad42989fd63cfeeff5f131.png)  
 
+GameManager.cs:  
+
+```cs
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    /// <summary>
+    /// トランプ・カード
+    /// </summary>
+    List<GameObject> goPlayingCards = new();
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        for (int i = 1; i < 14; i++)
+        {
+            goPlayingCards.Add(GameObject.Find($"Clubs {i}"));
+            goPlayingCards.Add(GameObject.Find($"Diamonds {i}"));
+            goPlayingCards.Add(GameObject.Find($"Hearts {i}"));
+            goPlayingCards.Add(GameObject.Find($"Spades {i}"));
+        }
+
+        float posY = 0.0f;
+        float posYStep = -0.2f;
+        float posZ = 42.0f;
+        float posZStep = -((42.0f - (-28)) / goPlayingCards.Count);
+        for (int i = 0; i < goPlayingCards.Count; i++)
+        {
+            var card = goPlayingCards[i];
+            float x = -62.0f + i * (124 / (goPlayingCards.Count - 1));
+            card.transform.position = new Vector3(x, posY, posZ);
+            card.transform.rotation = Quaternion.Euler(0, 180, 0);
+            posY += posYStep;
+            posZ += posZStep;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+}
+```
+
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　まず、カードをかき集めて　ざらっと　机に並べるコードを書いてみよう」  
 
@@ -443,3 +491,36 @@ Example:
 「　用事のため　あとで」  
 
 📅2023-01-25 mon 19:14
+
+# 📅2023-01-27 fri 20:00
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　Excel でチューリング・マシン作ってたら時間が飛んだぜ。  
+戻ってきたぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　数字が見えるようにしなさいよ」  
+
+![202301_unity_25-1908--screen-size.png](https://crieit.now.sh/upload_images/af2d241379fb270da3bc15dac29af24d63d3af5f7bc96.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　画面の座標は　こんな感じか」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　あっ、しまった！」  
+
+![202301_unity_27-2127--game.png](https://crieit.now.sh/upload_images/be5e085e43f13919daeee79cf0c2d31863d3c355f27da.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　うっかり　ゲームの配置にしてしまった！」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　カードのテクスチャーや枚数を検品しないと　不良品が混じってるかもしれないのに……」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　じゃあ　先に進みましょう。  
+積みあがってる手札を　裏返しなさいよ」  
+
+📅2023-01-27 fri 21:31  
+
+# // 書きかけ
