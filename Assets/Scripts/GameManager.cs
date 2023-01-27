@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 /// <summary>
 /// 日本と海外で　ルールとプレイング・スタイルに違いがあるので
@@ -33,19 +32,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     List<List<GameObject>> goCenterStacksCards = new() { new(), new() };
 
-    float rightCenterStackX;
+    float[] centerStacksX;
 
     /// <summary>
     /// 台札のY座標
     /// 
+    /// - 右が 0、左が 1
     /// - 0.0f は盤なので、それより上にある
     /// </summary>
-    float rightCenterStackY;
-    float rightCenterStackZ;
-
-    float leftCenterStackX;
-    float leftCenterStackY;
-    float leftCenterStackZ;
+    float[] centerStacksY;
+    float[] centerStacksZ;
 
     // Start is called before the first frame update
     void Start()
@@ -83,44 +79,31 @@ public class GameManager : MonoBehaviour
         float player1HandZ = -28.0f;
 
         // 左の台札が空っぽの状態
-        this.leftCenterStackX = -15.0f;
-        this.leftCenterStackY = minY;
-        this.leftCenterStackZ = 10.0f;
+        this.centerStacksX[1] = -15.0f;
+        this.centerStacksY[1] = minY;
+        this.centerStacksZ[1] = 10.0f;
+
+        // 右の台札が空っぽの状態
+        this.centerStacksX[0] = 15.0f;
+        this.centerStacksY[0] = minY;
+        this.centerStacksZ[0] = 0.0f;
 
         // 左の台札を積み上げる
         {
-            // 場札の好きなところから１枚抜いて、台札を１枚置く
-            var player = 1; // ２プレイヤーが
-            var handIndex = 0; // 場札の１枚目から
-            var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
-            goPlayersHandCards[player].RemoveAt(handIndex);
-            goCenterStacksCards[player].Add(goCard); // 台札として置く
-
-            // カードの位置と角度をセット
-            SetPosRot(goCard, this.leftCenterStackX, this.leftCenterStackY, this.leftCenterStackZ, angleY: 0.0f);
-
-            // 次に台札に積むカードの高さ
-            this.leftCenterStackY += 0.2f;
+            PutCardToCenterStack(
+                player: 1, // ２プレイヤーが
+                handIndex: 0, // 場札の１枚目から
+                leftRight: 0 // 左の
+                );
         }
-
-        // 右の台札が空っぽの状態
-        this.rightCenterStackX = 15.0f;
-        this.rightCenterStackY = minY;
-        this.rightCenterStackZ = 0.0f;
 
         // 右の台札を積み上げる
         {
-            var player = 0; // １プレイヤーが
-            var handIndex = 0; // 場札の１枚目から
-            var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
-            goPlayersHandCards[player].RemoveAt(handIndex);
-            goCenterStacksCards[player].Add(goCard); // 台札として置く
-
-            // カードの位置と角度をセット
-            SetPosRot(goCard, this.rightCenterStackX, this.rightCenterStackY, this.rightCenterStackZ);
-
-            // 次に台札に積むカードの高さ
-            this.rightCenterStackY += 0.2f;
+            PutCardToCenterStack(
+                player: 0, // １プレイヤーが
+                handIndex: 0, // 場札の１枚目から
+                leftRight: 1 // 右の
+                );
         }
 
 
@@ -191,6 +174,25 @@ public class GameManager : MonoBehaviour
 
         // ２プレイヤーの２枚目のカードにフォーカスを当てる
         GetCard(1, 1, (goCard) => SetFocus(goCard));
+    }
+
+    /// <summary>
+    /// 場札の好きなところから１枚抜いて、台札を１枚置く
+    /// </summary>
+    /// <param name="player">何番目のプレイヤー</param>
+    /// <param name="handIndex">何枚目のカード</param>
+    /// <param name="leftRight">左なら1、右なら0</param>
+    private void PutCardToCenterStack(int player, int handIndex, int leftRight)
+    {
+        var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
+        goPlayersHandCards[player].RemoveAt(handIndex);
+        goCenterStacksCards[leftRight].Add(goCard); // 台札として置く
+
+        // カードの位置をセット
+        SetPosRot(goCard, this.centerStacksX[leftRight], this.centerStacksY[leftRight], this.centerStacksZ[leftRight]);
+
+        // 次に台札に積むカードの高さ
+        this.centerStacksY[leftRight] += 0.2f;
     }
 
     /// <summary>
