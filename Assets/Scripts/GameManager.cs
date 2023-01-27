@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /// <summary>
 /// 日本と海外で　ルールとプレイング・スタイルに違いがあるので
@@ -151,60 +152,37 @@ public class GameManager : MonoBehaviour
         }
 
         // １プレイヤーの１枚目のカードにフォーカスを当てる
-        {
-            if (0 < goPlayersHandCards[0].Count)
-            {
-                var goCard = goPlayersHandCards[0][0];
-                SetFocus(goCard);
-            }
-        }
+        GetCard(0, 0, (goCard) => SetFocus(goCard));
+
         // １プレイヤーの１枚目のカードのフォーカスを外す
-        {
-            if (0 < goPlayersHandCards[0].Count)
-            {
-                var goCard = goPlayersHandCards[0][0];
-                ResetFocus(goCard);
-            }
-        }
-        // １プレイヤーの１枚目のカードにフォーカスを当てる
-        {
-            if (1 < goPlayersHandCards[0].Count)
-            {
-                var goCard = goPlayersHandCards[0][1];
-                SetFocus(goCard);
-            }
-        }
+        GetCard(0, 0, (goCard) => ResetFocus(goCard));
+
+        // １プレイヤーの２枚目のカードにフォーカスを当てる
+        GetCard(0, 1, (goCard) => SetFocus(goCard));
 
         // ２プレイヤーの１枚目のカードにフォーカスを当てる
-        {
-            if (0 < goPlayersHandCards[1].Count)
-            {
-                var goCard = goPlayersHandCards[1][0];
-                SetFocus(goCard);
-            }
-        }
+        GetCard(1, 0, (goCard) => SetFocus(goCard));
+
         // ２プレイヤーの１枚目のカードのフォーカスを外す
-        {
-            if (0 < goPlayersHandCards[1].Count)
-            {
-                var goCard = goPlayersHandCards[1][0];
-                ResetFocus(goCard);
-            }
-        }
+        GetCard(1, 0, (goCard) => ResetFocus(goCard));
+
         // ２プレイヤーの２枚目のカードにフォーカスを当てる
-        {
-            if (1 < goPlayersHandCards[1].Count)
-            {
-                var goCard = goPlayersHandCards[1][1];
-                SetFocus(goCard);
-            }
-        }
+        GetCard(1, 1, (goCard) => SetFocus(goCard));
     }
 
     private void SetPosRot(GameObject card, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f)
     {
         card.transform.position = new Vector3(x, y, z);
         card.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
+    }
+
+    private void GetCard(int player, int cardIndex, Assets.Scripts.PolicyOfArgs.SetValue<GameObject> setCard)
+    {
+        if (cardIndex < goPlayersHandCards[player].Count)
+        {
+            var goCard = goPlayersHandCards[player][cardIndex];
+            setCard(goCard);
+        }
     }
 
     /// <summary>
