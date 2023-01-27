@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
         float leftCenterStackX = -15.0f;
         float rightCenterStackX = 15.0f;
         float maxX = 62.0f;
+        float minY = 0.5f; // 0.0f ‚Í”Õ
         float player2HandZ = 42.0f;
         float player2PileZ = 26.0f;
         float leftCenterStackZ = 10.0f;
@@ -78,7 +79,7 @@ public class GameManager : MonoBehaviour
         // ‚QƒvƒŒƒCƒ„[‚ÌêD‚ğ•À‚×‚é
         {
             float x = minX;
-            float y = 0.0f;
+            float y = minY;
             float z = player2HandZ;
             float xStep = (maxX - minX) / (goPlayersHandCards[1].Count - 1);
             foreach (var goCard in goPlayersHandCards[1])
@@ -91,7 +92,7 @@ public class GameManager : MonoBehaviour
         // ‚QƒvƒŒƒCƒ„[‚ÌèD‚ğÏ‚İã‚°‚é
         {
             float x = minX;
-            float y = 0.0f;
+            float y = minY;
             float z = player2PileZ;
             foreach (var goCard in goPlayersPileCards[1])
             {
@@ -103,7 +104,7 @@ public class GameManager : MonoBehaviour
         // ¶‚Ì‘äD‚ğÏ‚İã‚°‚é
         {
             float x = leftCenterStackX;
-            float y = 0.0f;
+            float y = minY;
             float z = leftCenterStackZ;
             foreach (var goCard in goCenterStacksCards[1])
             {
@@ -115,7 +116,7 @@ public class GameManager : MonoBehaviour
         // ‰E‚Ì‘äD‚ğÏ‚İã‚°‚é
         {
             float x = rightCenterStackX;
-            float y = 0.0f;
+            float y = minY;
             float z = rightCenterStackZ;
             foreach (var goCard in goCenterStacksCards[0])
             {
@@ -127,7 +128,7 @@ public class GameManager : MonoBehaviour
         // ‚PƒvƒŒƒCƒ„[‚ÌèD‚ğÏ‚İã‚°‚é
         {
             float x = maxX;
-            float y = 0.0f;
+            float y = minY;
             float z = player1PileZ;
             foreach (var goCard in goPlayersPileCards[0])
             {
@@ -139,7 +140,7 @@ public class GameManager : MonoBehaviour
         // ‚PƒvƒŒƒCƒ„[‚ÌêD‚ğ•À‚×‚é
         {
             float x = minX;
-            float y = 0.0f;
+            float y = minY;
             float z = player1HandZ;
             float xStep = (maxX - minX) / (goPlayersHandCards[0].Count - 1);
             foreach (var goCard in goPlayersHandCards[0])

@@ -543,4 +543,17 @@ public class GameManager : MonoBehaviour
 
 📅2023-01-27 fri 21:53  
 
+![202301_unity_27-2159--board.png](https://crieit.now.sh/upload_images/8d51e143aaaafae7ca33180c1e3583ff63d3cac4c6dcf.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　その前に　カードが　空飛んでるのが気になるぜ　地面を置こう」  
+
+![202301_unity_27-2205--board-on-game.png](https://crieit.now.sh/upload_images/55a861eb9ae4abffca209f3a8b0e6d5a63d3cc36b6e5e.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　位置は　こんなもんでいいだろ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　UI はどうすんだぜ？　どのカードを選んでるとか」  
+
 # // 書きかけ
