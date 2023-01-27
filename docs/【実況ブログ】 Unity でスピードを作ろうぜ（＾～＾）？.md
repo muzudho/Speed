@@ -1,0 +1,445 @@
+# 📅2023-01-23 mon 21:00
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　Unity で スピードのモックアップを作ろうぜ？」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　お父ん、モックアップしか作らないから　つまんな……」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　企画書と　設計書のフェーズは　すっ飛ばすんでしょ。  
+プログラミングしかやらないから」  
+
+![202301_unity_23-2113--unity-hub-1.png](https://crieit.now.sh/upload_images/2e5408d4040b15d1191be9e3001e0c4063ce7a550abcd.png)  
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 Unity Hub でプロジェクトを作る所から始まるぜ」  
+
+![202301_unity_23-2116--new-project-1.png](https://crieit.now.sh/upload_images/5ef24fe15e444437b71bc798bbce0e9363ce7b19c09d6.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 プロジェクト名は `Speed` でいいだろ」  
+
+![202301_unity_23-2122--files.png](https://crieit.now.sh/upload_images/c933f8126230c479ba0c5ebec0d0b76963ce7c129e87f.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 ファイルが最初から、いくつか　入ってるぜ」  
+
+![202301_unity_23-2124--unity-editor.png](https://crieit.now.sh/upload_images/cea0e9603e5e6dc94ea4cf623b6f791863ce7ca99fb8b.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 Unity Editor が出てくるが、自分が使いやすいように　セットアップしておいたぜ。  
+ほんとは　ディスプレイいっぱい　でかく広げて作業しているが、  
+上の画像は　ブログにアップするために　ウィンドウを小さくしているぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　その　ディスプレイいっぱいに広げたウィンドウの画像も　１回　見せてくれだぜ」  
+
+![202301_unity_23-2127--maximized-window.png](https://crieit.now.sh/upload_images/1f248217c15688279b47b2f0900fdbc563ce7d460c0a3.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 こうだぜ」  
+
+![202301_unity_23-2129--images-1.png](https://crieit.now.sh/upload_images/11c709172df2a247cb41d4142c7e681d63ce7e10aa081.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 トランプ・ゲーム作るんだから　トランプの画像がいるだろ。  
+Project ウィンドウの `Assets` フォルダーの下に `Images` フォルダーを作って、  
+右クリックして `Show in Explorer` をクリックしろだぜ」  
+
+![202301_unity_23-2137--playing-cards.png](https://crieit.now.sh/upload_images/c821fad3a403091a255dbe30d7aba20c63ce7f9d886d0.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 前に神経衰弱を作った時に 描いたものを　フォルダーへぶち込むぜ」  
+
+![202301_unity_23-2139--assets-1.png](https://crieit.now.sh/upload_images/53d649d27d91edfcb15f92cd081316d063ce804487a82.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 Unity Editor からも見えるな」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　しかし　また　１枚１枚　プレーンを置いて　画像をプレーンにドラッグ＆ドロップ　していくのかだぜ？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 それは　きついな……。どないしよ……」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　前に作った `Concentration` （コンセントレーション；トランプの神経衰弱ゲーム） を `Inport Package` （インポート・パッケージ）したらいいんじゃないの？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　やってみるか……」  
+
+📅2023-01-23 mon 21:44  
+
+![202301_unity_23-2145--import-package-1.png](https://crieit.now.sh/upload_images/db1ee23de0677a42495a93b2e8d77e9763ce81d24a808.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　前に `Import Package` したら 中身をぶちまけられたり、ぐちゃぐちゃに壊されたりしたから　嫌なんだが  
+まだ　プロジェクトを作ったばかりだし　被害もないだろ」  
+
+![202301_unity_23-2152--file-chooser-1.png](https://crieit.now.sh/upload_images/af42b45138bea9d29fa1e1742959d73663ce8352c6e58.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　開くぜ」  
+
+![202301_unity_23-2154--import-unity-package.png](https://crieit.now.sh/upload_images/0827bb871523102e75db38dd2c47592663ce83a8b77a3.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　コンフリクトは注意してくれるのか」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　あっ、　カードの **ゲーム・オブジェクト** が入ってないぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　`Concentration` プロジェクトの方で カードのゲーム・オブジェクトを プレファブにして　Assets に入れておけばいいんじゃないの？」  
+![202301_unity_23-2200--concentration-1.png](https://crieit.now.sh/upload_images/bda04b6bb9979645b606a1ebc107f03c63ce851936456.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 Hierarchy ウィンドウにあるだけでは Assets ではないから、 Assets に入れないといけないのか。  
+下準備が　けっこう居るな。  
+元のプロジェクトを壊さずに　ゲーム・オブジェクトを プレファブに差し替えられるかな？」  
+
+![202301_unity_23-2204--prefabs-1.png](https://crieit.now.sh/upload_images/054a299baf1e6823b0710a64d70df3a163ce861db3d61.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 Hierarchy ウィンドウから Project ウィンドウへ　ドラッグ＆ドロップで　コピーすることは　でけるみたいだけど」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　じゃあ　Hierarchy ウィンドウにある方の `Hearts 1` フォルダーを消して、  
+Project ウィンドウにある方の `Hearts 1` プレファブを Hierarchy ウィンドウに戻してみろだぜ」  
+
+![202301_unity_23-2208--back-to-the-hierarchy-1.png](https://crieit.now.sh/upload_images/b1b07a72012e1a71ae5ba928f66443b363ce87221cba4.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆 何ごともなく　無事　でけたぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　ふーん　できるんだ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　じゃあ　残り５３枚のカードを　プレファブに変換しろだぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　つら……　ぢごくだ……」  
+
+📅2023-01-23 mon 22:11  
+
+![202301_unity_23-2212--highlight-1.png](https://crieit.now.sh/upload_images/7f23762fb1609ad1875880f9700511a563ce882216fd3.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こうやって選択して　一度に持っていけないかな……」  
+
+![202301_unity_23-2215--prefabs-1.png](https://crieit.now.sh/upload_images/925b95fa67eb4991a0d4a6152d57060763ce888477949.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　おっ、いけたようだぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　Hierarchy ウィンドウの方の　元のゲーム・オブジェクトも　水色のアイコンに変わってるわよ。  
+もう　プレファブになってんじゃない？」  
+
+![202301_unity_23-2219--export-package-1.png](https://crieit.now.sh/upload_images/beb3bfd6a5c8b27ba2ea1d7abc49add763ce89a6caf05.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　なんでもいいや…… `Export Package` しよ」  
+
+![202301_unity_23-2223--import-package-1.png](https://crieit.now.sh/upload_images/1740b8b65ec09e248ee3a881bf0ae68563ce8a6d239bf.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`Speed` プロジェクトの方で `Import Package` しよ」  
+
+![202301_unity_23-2226--not-found-image-1.png](https://crieit.now.sh/upload_images/701cfef5bcb46b2dc95fc01b7e3fa8b063ce8b53738fc.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　プレファブだけ持ってきてもだけで　画像も持ってこないと　リンク切れを起こすか  
+当たり前と言えば　当たり前だが」  
+
+![202301_unity_23-2230--images-1.png](https://crieit.now.sh/upload_images/ab0d257fdc6e998609920acef218c19b63ce8c2896079.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　画像を持ってきたら　復元した」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　スクリプトのアタッチが切れているようだぜ？」  
+
+![202301_unity_23-2233--scripts-1.png](https://crieit.now.sh/upload_images/09512b60f16781c4daa6b08b7dc20e9b63ce8cfb8ac07.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　スクリプトを持ってきたら　復元したぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　トランプ・カードだけを　インポート・パッケージしやすいような  
+トランプ・カードだけのプロジェクトを　作っておくべきなんじゃない？」」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　下ごしらえか。　トランプ・ゲームをよく作るようなら　作っておいた方が良さそうだな」  
+
+📅2023-01-23 mon 22:36  
+
+![202301_unity_23-2300--backward.png](https://crieit.now.sh/upload_images/df1169b57a32c731f1b9ff59fd6781d063ce932219cc2.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　なんか知らんけど　裏側　剥がれてるから　貼り直しだ　ひ～」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　検品って　大事ね～」  
+
+![202301_unity_23-2310--overrides-1.png](https://crieit.now.sh/upload_images/6af7ebb1504cec28e39fa2f54cabdb4663ce95b50010b.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　Unity Learn のビギナーコースで学んだところによると、 `Prefab` を `Hierarchy` でまた　いじったら、 `Inspector` ウィンドウの `Overrides` ドロップダウンリストから  
+`Apply All` ボタンを選んで　押せば　プレファブの設定を上書きしてくれるんだったと思う、多分」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　じゃあ　全部のカードの `Apply All` ボタンを押すのが終わったら、  
+Hierarchy ウィンドウのカードを全部消して、  
+Project ウィンドウにあるカードを Hierarchy ウィンドウへ　ドラッグ＆ドロップしろだぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　でけた。　今度は　オモテも　ウラも　画像が貼り付いてるぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　カードができたんだったら、　並べて、  
+スピードをやってるみたいな　画面を作りなさいよ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　画作り（えづくり）か」  
+
+![202301_unity_23-2323--picture-making-rotation-1.png](https://crieit.now.sh/upload_images/93ce062d324302068b8bbaaef3f6d12063ce98c0b3aed.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　例えば　赤色のスートのカードだけ　１８０°回転させるとか　Unity Editor を使って操作する。  
+こういう道具の使い方の基本操作が　すばやいことが　開発屋の　**基本のき**　だぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　解説はいいから　早よ　画を作れだぜ」  
+
+![202301_unity_23-2345--failed-1.png](https://crieit.now.sh/upload_images/1f7ec43cbc69b6b830e6301ac4867b0f63ce9dcc3eb46.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　あっ！　カードを裏返そうとしたら　オモテ面と　ウラ面の両方が　ウラの方向いて  
+ワケが分からなくなった！」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　やり直せ！」  
+
+![202301_unity_23-2349--redo-1.png](https://crieit.now.sh/upload_images/eeff03117a61300f478adb928e70365463ce9e9d8eeb5.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　不思議な話だが　プロジェクトにある　カードを全部消して、  
+エクスポートした自分自身の中身を　再び　自分に入れ直すぜ」  
+
+![202301_unity_24-0003--picture-making.png](https://crieit.now.sh/upload_images/fe3ccc0013db269150d9fed0f8209ee963cea1cf6de55.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　オモテ面、ウラ面の２枚で１つのカードを　ひっくり返す　うまい操作が　よく分からん。　疲れた。  
+今日は　ここまでだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　おつ」  
+
+📅2023-01-24 tue 00:05 end
+
+# 📅2023-01-24 tue 20:20 start
+
+![202301_unity_24-2021--turn-1.png](https://crieit.now.sh/upload_images/0cac9dd11f72aee33b71ed29369ba99363cfbfb764369.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`Speades 3` ゲーム・オブジェクトを選択して `Rotation Z` を `180` にすれば  
+オモテ面、ウラ面を１つのまとまりとして　裏返してくれるぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　１個　１個　ゲーム・オブジェクトを選んで　テキストボックスに `180` を入れていけだぜ」  
+
+![202301_unity_24-2037--turn-and-pop-1.png](https://crieit.now.sh/upload_images/d3624ebdc33c41681d3fe986e0f1208863cfc343289d7.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　この　カードを１枚ずつ選んで　裏返して　少し持ち上げる　たこ焼き　みたいな作業をやるの  
+嫌なんだが」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　もっと　スピーディーにやる方法　あるんじゃないの？」  
+
+![202301_unity_24-2053--move-1.png](https://crieit.now.sh/upload_images/19e06e34c524de3978c86d0a713d958b63cfc6c640d41.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　あったとしても　知りようがないぜ。  
+ここを　プログラミング化できたら　３０分は　縮まる！」  
+
+![202301_unity_24-2055--turn-and-pop-1.png](https://crieit.now.sh/upload_images/fa1aa590e1b9848430bd58d4d7cbb6c263cfc756734e2.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　反対側にもあって　まだ１５枚もある！」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　30分　がんばれよ」  
+
+![202301_unity_24-2110--picture-making-1.png](https://crieit.now.sh/upload_images/f1336529d2a4b05eff678cd21e22f55963cfcac813012.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　見た目は　こんなんで　いいかあ」  
+
+📅2023-01-24 tue 21:13  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　手札って　最大で　何枚になるの？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　パイルを全部　手札に混ぜれば　２０枚だぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　20枚の手札があるケースも　画作り　してくれだぜ」  
+
+![202301_unity_24-2119--line-1.png](https://crieit.now.sh/upload_images/371ccf8233305415b3c09656cc3a8de963cfcd3b80ea6.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　カードの端を　ちょっと被せつつ並べれば　２０枚は　収まるかな？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　WebGL でビルドして　出力結果で　確かめなさいよ」  
+
+![202301_unity_24-2130--output.png](https://crieit.now.sh/upload_images/13b016c7d8a0c5288d90ba320bcc9b8063cfcf9124c1e.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　端が切れてるなあ。　カメラの角度が付いてるからかな？」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　メインカメラの位置を　きっちり　決めてくれだぜ」  
+
+![202301_unity_24-2155--main-camera-1.png](https://crieit.now.sh/upload_images/007394f89996bba92895414dc9d7a3d263cfd5932b0dd.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　真上というのも　味気ないんで　ちょっと傾けつつ　整数にまとめたぜ」  
+
+![202301_unity_24-2154--output.png](https://crieit.now.sh/upload_images/8086af4d99c885dcc426b550c41a60c263cfd5c87158d.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　画作り　は　こんなもんでいいだろ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　相手の手札を　前後ひっくり返す意味ってある？」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　ダイヤの６と、ダイヤの９は　見分けが付かないよな」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　将棋の駒だって　後手は　ひっくり返ってるだろ　例はある　気にするなだぜ」  
+
+📅2023-01-24 tue 22:01  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　ゲーム開始時に　セット　されるプログラムを組みましょうよ」  
+
+![202301_unity_24-2203--coordinate-1.png](https://crieit.now.sh/upload_images/a1d0a6f349b6dada94d3ab69b1f3146163cfd9bc9d5f9.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　ゲームを作るときは　座標をメモって置くのが　コツだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　ｘとｚの正負が逆じゃないか？　カメラが裏向いてんじゃないか？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　あれまっ！　ほんとだぜ……」  
+
+![202301_unity_24-2217--flip-1.png](https://crieit.now.sh/upload_images/2fe82bb51e287fe4d9888bbf4745caf963cfdac046b15.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　グローバル座標にして　Y軸を回転軸にして　１８０°回転したぜ」  
+
+![202301_unity_24-2219--coordinate-1.png](https://crieit.now.sh/upload_images/acb6aecebe1b2b23e40643c296fe379663cfdcea086fb.png)
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　座標の目安は　これでいいだろ」  
+
+📅2023-01-24 tue 22:28  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　手札は　１枚～２０枚　を　位置調整することになるだろ。  
+予め　計算式を　まとめてくれだぜ」
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　カード１枚の横幅は　だいたい　１０　のようだぜ。それを元に計算してみるか」  
+
+![202301_unity_24-2240--coordinate-calc.png](https://crieit.now.sh/upload_images/c2caeed0546c30ccaa9baddd2b32391763cfe15805c97.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　横幅が無限にあるのなら、 `(カードの枚数 - 1) * -5` の位置から `+10` 間隔でカードを並べるだけでいいが……」  
+
+![202301_unity_24-2248--coordinate-calc-b.png](https://crieit.now.sh/upload_images/2263ec6f1360cad978e8ed49000cdde863cfe26322c50.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　左端が `x=-62` 、右端が `x=62` と決まってて、カードは２０枚あるのだった」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　62 - (-62) = 124 なので、  
+横幅 124 の中に 20 枚のカードがあるので、  
+言い換えると  
+横幅 124 の中に 19 箇所のカードの隙間があるので、  
+１つの間隔は 124 / 19 = 6.526... んー　すっきりしないなあ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　123.5 なら 19 で割り切れたのにね」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　割り切ろうとするなだぜ」  
+
+```
+左端のカードの位置 + (左から何枚目 - 1) * ((右端のカードの位置 - 左端のカードの位置) / (カードの枚数 - 1))
+
+Example:
+    -62 + (左から何枚目 - 1) * (124/19)
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　上式で x 座標はイケるだろう」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　じゃあ　座標の設計は　終わりだぜ」  
+
+📅2023-01-24 tue 23:02  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　カードを配るのって　どうやってプログラミングすんの？」  
+
+![202301_unity_24-2313--arrangement.png](https://crieit.now.sh/upload_images/6ac00d690a09a483727fa87e0b0a60d363cfe9e77d8b4.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　かき集めて　シャッフルして　配るだけだぜ」  
+
+📅2023-01-24 tue 23:25  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　ちょっと　やってみてくれだぜ」  
+
+![202301_unity_24-2326--game-manager-1.png](https://crieit.now.sh/upload_images/e9833a5ce75ba96cc1a5ba4db319a03563cfeaea3d791.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　ゲーム・マネージャーを作る手順は　前にやったから　途中は省略するぜ」  
+
+![202301_unity_24-2344--script-1.png](https://crieit.now.sh/upload_images/05aca195987ba013e745a15ad42989fd63cfeeff5f131.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　まず、カードをかき集めて　ざらっと　机に並べるコードを書いてみよう」  
+
+![202301_unity_24-2346--game.png](https://crieit.now.sh/upload_images/190fa7577a114692299e0a231a22af7663cfef49df78b.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　カードが被ってしまって　数字が　なんにも見えないが、  
+まあ、かき集めるのは　でけたな」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　続きはまた今度だぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　おつ」  
+
+📅2023-01-24 tue 23:47  
+
+# 📅2023-01-25 mon 19:05
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　数字が見えるようにしなさいよ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　用事のため　あとで」  
+
+📅2023-01-25 mon 19:14
