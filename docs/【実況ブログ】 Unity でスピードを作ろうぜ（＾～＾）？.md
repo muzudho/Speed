@@ -556,4 +556,77 @@ public class GameManager : MonoBehaviour
 ![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
 「　UI はどうすんだぜ？　どのカードを選んでるとか」  
 
+![202301_unity_27-2218--lift.png](https://crieit.now.sh/upload_images/83cc18e04fb697b888b1ae37df6ac00f63d3cf4513870.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　カードを持ち上げてみると……、  
+カメラアングルと　光源の関係なのか　手前と奥のプレイヤーで　持ち上げた高さが違って見えるぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　カメラの位置を調整したらどうだぜ？」  
+
+![202301_unity_27-2227--picture-making.png](https://crieit.now.sh/upload_images/1e3dac9675abc60577c116577b127bb663d3d18b1e80f.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こつこつ　画作り……」  
+
+![202301_unity_27-2231--picture-making.png](https://crieit.now.sh/upload_images/35af9c23609d01ab298b5f1c2e1d03a763d3d257522a4.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　回転も付けた方が　カードゲームっぽいかな？」  
+
+```csharp
+    /// <summary>
+    /// カードを持ち上げる
+    /// </summary>
+    /// <param name="card"></param>
+    private void SetFocus(GameObject card)
+    {
+        var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
+        var rotateY = -5; // -5°傾ける
+        var rotateZ = -5; // -5°傾ける
+
+        card.transform.position = new Vector3(card.transform.position.x, card.transform.position.y + liftY, card.transform.position.z);
+        card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　付けた変化を　関数にしておくぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　行列にした方がよくないかだぜ？　逆関数　作るの　めんどくさいだろ？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　そういう最適化は　問題点が出尽くして　完成したあとに　やりたかったら　やればいいんで」  
+
+![202301_unity_27-2238--focus.png](https://crieit.now.sh/upload_images/f018484a5edbaebb5e34b0275e76499863d3d3dab9f5b.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　逆関数をあてれば　持ち上げたカードは場に戻り、  
+また別のカードを持ち上げれば　カードを選んでいる雰囲気が出るな」  
+
+```csharp
+    /// <summary>
+    /// 持ち上げたカードを場に戻す
+    /// </summary>
+    /// <param name="card"></param>
+    private void ResetFocus(GameObject card)
+    {
+        var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
+        var rotateY = -5; // -5°傾ける
+        var rotateZ = -5; // -5°傾ける
+
+        // 逆をする
+        liftY = -liftY;
+        rotateY = -rotateY;
+        rotateZ = -rotateZ;
+
+        card.transform.position = new Vector3(card.transform.position.x, card.transform.position.y + liftY, card.transform.position.z);
+        card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
+    }
+```
+
+📅2023-01-27 fri 22:40  
+
 # // 書きかけ

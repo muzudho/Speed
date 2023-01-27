@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,12 +17,12 @@ public class PlayingCard : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒ}ƒEƒXƒ{ƒ^ƒ“‰Ÿ‰º
+    /// ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³æŠ¼ä¸‹æ™‚
     /// </summary>
     private void OnMouseDown()
     {
-        // — •Ô‚µ‚Ü‚·
-        var oldZ = transform.rotation.eulerAngles.z; // “x”–@
-        transform.rotation = Quaternion.Euler(0, 0, oldZ + 180); // 180‹‰ñ“]
+        // è£è¿”ã—ã¾ã™
+        var oldZ = transform.rotation.eulerAngles.z; // åº¦æ•°æ³•
+        transform.rotation = Quaternion.Euler(0, 0, oldZ + 180); // 180Â°å›è»¢
     }
 }
