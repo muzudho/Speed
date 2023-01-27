@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     List<List<GameObject>> goCenterStacksCards = new() { new(), new() };
 
-    float[] centerStacksX;
+    float[] centerStacksX = { 0, 0 };
 
     /// <summary>
     /// 台札のY座標
@@ -40,8 +40,8 @@ public class GameManager : MonoBehaviour
     /// - 右が 0、左が 1
     /// - 0.0f は盤なので、それより上にある
     /// </summary>
-    float[] centerStacksY;
-    float[] centerStacksZ;
+    float[] centerStacksY = { 0, 0 };
+    float[] centerStacksZ = { 0, 0 };
 
     // Start is called before the first frame update
     void Start()
@@ -157,23 +157,64 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        StartCoroutine("DoDemo");
+    }
+
+    IEnumerator DoDemo()
+    {
+        float seconds = 1.0f;
+
+        yield return new WaitForSeconds(seconds);
+
         // １プレイヤーの１枚目のカードにフォーカスを当てる
         GetCard(0, 0, (goCard) => SetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
 
         // １プレイヤーの１枚目のカードのフォーカスを外す
         GetCard(0, 0, (goCard) => ResetFocus(goCard));
 
+        yield return new WaitForSeconds(seconds);
+
         // １プレイヤーの２枚目のカードにフォーカスを当てる
         GetCard(0, 1, (goCard) => SetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの２枚目のカードのフォーカスを外す
+        GetCard(0, 1, (goCard) => ResetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
+
+        for (int i=0;i<3;i++)
+        {
+            // 右の台札を積み上げる
+            {
+                PutCardToCenterStack(
+                    player: 0, // １プレイヤーが
+                    handIndex: 1, // 場札の２枚目から
+                    leftRight: 1 // 右の台札
+                    );
+                yield return new WaitForSeconds(seconds);
+            }
+        }
+
+        // -
 
         // ２プレイヤーの１枚目のカードにフォーカスを当てる
         GetCard(1, 0, (goCard) => SetFocus(goCard));
 
+        yield return new WaitForSeconds(seconds);
+
         // ２プレイヤーの１枚目のカードのフォーカスを外す
         GetCard(1, 0, (goCard) => ResetFocus(goCard));
 
+        yield return new WaitForSeconds(seconds);
+
         // ２プレイヤーの２枚目のカードにフォーカスを当てる
         GetCard(1, 1, (goCard) => SetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
     }
 
     /// <summary>

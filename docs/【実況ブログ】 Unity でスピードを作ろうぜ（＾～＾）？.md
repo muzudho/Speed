@@ -819,7 +819,8 @@ namespace Assets.Scripts
             var handIndex = 0; // 場札の１枚目から
             var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
             goPlayersHandCards[player].RemoveAt(handIndex);
-            goCenterStacksCards[player].Add(goCard); // 台札として置く
+            var leftRight = 0; // 左の
+            goCenterStacksCards[leftRight].Add(goCard); // 台札として置く
 
             // カードの位置と角度をセット
             SetPosRot(goCard, this.leftCenterStackX, this.leftCenterStackY, this.leftCenterStackZ, angleY: 0.0f);
@@ -839,7 +840,8 @@ namespace Assets.Scripts
             var handIndex = 0; // 場札の１枚目から
             var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
             goPlayersHandCards[player].RemoveAt(handIndex);
-            goCenterStacksCards[player].Add(goCard); // 台札として置く
+            var leftRight = 1; // 右の
+            goCenterStacksCards[leftRight].Add(goCard); // 台札として置く
 
             // カードの位置と角度をセット
             SetPosRot(goCard, this.rightCenterStackX, this.rightCenterStackY, this.rightCenterStackZ);
@@ -854,5 +856,141 @@ namespace Assets.Scripts
 カードの移動があったときに、同時に　ポリゴンの位置と角度も設定しよう」  
 
 📅2023-01-27 fri 23:50  
+
+```csharp
+    /// <summary>
+    /// 場札の好きなところから１枚抜いて、台札を１枚置く
+    /// </summary>
+    /// <param name="player">何番目のプレイヤー</param>
+    /// <param name="handIndex">何枚目のカード</param>
+    /// <param name="leftRight">左なら1、右なら0</param>
+    private void PutCardToCenterStack(int player, int handIndex, int leftRight)
+    {
+        var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
+        goPlayersHandCards[player].RemoveAt(handIndex);
+        goCenterStacksCards[leftRight].Add(goCard); // 台札として置く
+
+        // カードの位置をセット
+        SetPosRot(goCard, this.centerStacksX[leftRight], this.centerStacksY[leftRight], this.centerStacksZ[leftRight]);
+
+        // 次に台札に積むカードの高さ
+        this.centerStacksY[leftRight] += 0.2f;
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　一本化すれば　こんな感じか」  
+
+```csharp
+        // 左の台札が空っぽの状態
+        this.centerStacksX[1] = -15.0f;
+        this.centerStacksY[1] = minY;
+        this.centerStacksZ[1] = 10.0f;
+
+        // 右の台札が空っぽの状態
+        this.centerStacksX[0] = 15.0f;
+        this.centerStacksY[0] = minY;
+        this.centerStacksZ[0] = 0.0f;
+
+        // 左の台札を積み上げる
+        {
+            PutCardToCenterStack(
+                player: 1, // ２プレイヤーが
+                handIndex: 0, // 場札の１枚目から
+                leftRight: 0 // 左の
+                );
+        }
+
+        // 右の台札を積み上げる
+        {
+            PutCardToCenterStack(
+                player: 0, // １プレイヤーが
+                handIndex: 0, // 場札の１枚目から
+                leftRight: 1 // 右の
+                );
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　ゲーム開始時の台札は　こんな感じに置く」  
+
+![202301_unity_28-0013--coroutine-1.png](https://crieit.now.sh/upload_images/d58d857a620027e6d00db7151d8ccdc163d3ea43f2156.png)  
+
+```csharp
+    IEnumerator DoDemo()
+    {
+        float seconds = 1.0f;
+
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの１枚目のカードにフォーカスを当てる
+        GetCard(0, 0, (goCard) => SetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの１枚目のカードのフォーカスを外す
+        GetCard(0, 0, (goCard) => ResetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの２枚目のカードにフォーカスを当てる
+        GetCard(0, 1, (goCard) => SetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの２枚目のカードのフォーカスを外す
+        GetCard(0, 1, (goCard) => ResetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
+
+        // 右の台札を積み上げる
+        {
+            PutCardToCenterStack(
+                player: 0, // １プレイヤーが
+                handIndex: 1, // 場札の２枚目から
+                leftRight: 1 // 右の台札
+                );
+        }
+
+        yield return new WaitForSeconds(seconds);
+
+        // -
+
+        // ２プレイヤーの１枚目のカードにフォーカスを当てる
+        GetCard(1, 0, (goCard) => SetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
+
+        // ２プレイヤーの１枚目のカードのフォーカスを外す
+        GetCard(1, 0, (goCard) => ResetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
+
+        // ２プレイヤーの２枚目のカードにフォーカスを当てる
+        GetCard(1, 1, (goCard) => SetFocus(goCard));
+
+        yield return new WaitForSeconds(seconds);
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　あっ、そうだ　コルーチン使お」  
+
+![202301_unity_28-0016--demo-1.png](https://crieit.now.sh/upload_images/48076d79f58dd808524438de34cfd70d63d3eb135da8c.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　台札に置けるぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　次は、手札から　１枚取ってきて　場札として置く動作を作りなさいよ。  
+そのとき　場札の位置が　歯抜けだったりするだろうから、位置の再調整がいるかもしれないわね」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　今日はここまでだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　おつ」  
+
+📅2023-01-28 fri 00:20  
 
 # // 書きかけ
