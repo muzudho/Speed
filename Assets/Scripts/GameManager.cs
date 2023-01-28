@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
     /// <param name="player">何番目のプレイヤー</param>
     /// <param name="cardIndex">何枚目のカード</param>
     /// <param name="setCard">カードをセットする関数</param>
-    private void GetCard(int player, int cardIndex, PolicyOfArgs.SetValue<GameObject> setCard)
+    private void GetCard(int player, int cardIndex, LazyArgs.SetValue<GameObject> setCard)
     {
         if (cardIndex < goPlayersHandCards[player].Count)
         {

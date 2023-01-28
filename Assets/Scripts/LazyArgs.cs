@@ -1,9 +1,9 @@
 ﻿namespace Assets.Scripts
 {
     /// <summary>
-    /// コーディングの方針
+    /// コーディングのテクニックのための仕込み
     /// </summary>
-    internal class PolicyOfArgs
+    internal class LazyArgs
     {
         public delegate void SetValue<T>(T value);
     }
