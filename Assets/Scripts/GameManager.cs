@@ -12,6 +12,26 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     /// <summary>
+    /// 西端
+    /// </summary>
+    readonly float minX = -62.0f;
+
+    /// <summary>
+    /// 東端
+    /// </summary>
+    readonly float maxX = 62.0f;
+
+    /// <summary>
+    /// 底端
+    /// 
+    /// - `0.0f` は盤
+    /// </summary>
+    readonly float minY = 0.5f;
+
+    readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
+    readonly float[] pileCardsZ = new[] { -12.0f, 26.0f };
+
+    /// <summary>
     /// 手札
     /// 0: １プレイヤー（黒色）
     /// 1: ２プレイヤー（黒色）
@@ -70,14 +90,6 @@ public class GameManager : MonoBehaviour
             goPlayersHandCards[player].AddRange(goCards);
         }
 
-        float minX = -62.0f;
-        float maxX = 62.0f;
-        float minY = 0.5f; // 0.0f は盤
-        float player2HandZ = 42.0f;
-        float player2PileZ = 26.0f;
-        float player1PileZ = -12.0f;
-        float player1HandZ = -28.0f;
-
         // 左の台札が空っぽの状態
         this.centerStacksX[1] = -15.0f;
         this.centerStacksY[1] = minY;
@@ -107,24 +119,14 @@ public class GameManager : MonoBehaviour
         }
 
 
-        // ２プレイヤーの場札を並べる（画面では、左から右へ並べる）
-        {
-            float x = maxX;
-            float y = minY;
-            float z = player2HandZ;
-            float xStep = (maxX - minX) / (goPlayersHandCards[1].Count - 1);
-            foreach (var goCard in goPlayersHandCards[1])
-            {
-                SetPosRot(goCard, x, y, z, angleY: 0.0f);
-                x -= xStep;
-            }
-        }
+        // ２プレイヤーの場札を並べる
+        ArrangeHandCards(1);
 
         // ２プレイヤーの手札を積み上げる
         {
             float x = minX;
             float y = minY;
-            float z = player2PileZ;
+            float z = pileCardsZ[1];
             foreach (var goCard in goPlayersPileCards[1])
             {
                 SetPosRot(goCard, x, y, z, angleY: 0.0f, angleZ: 180.0f);
@@ -136,7 +138,7 @@ public class GameManager : MonoBehaviour
         {
             float x = maxX;
             float y = minY;
-            float z = player1PileZ;
+            float z = pileCardsZ[0];
             foreach (var goCard in goPlayersPileCards[0])
             {
                 SetPosRot(goCard, x, y, z, angleZ: 180.0f);
@@ -145,19 +147,46 @@ public class GameManager : MonoBehaviour
         }
 
         // １プレイヤーの場札を並べる
-        {
-            float x = minX;
-            float y = minY;
-            float z = player1HandZ;
-            float xStep = (maxX - minX) / (goPlayersHandCards[0].Count - 1);
-            foreach (var goCard in goPlayersHandCards[0])
-            {
-                SetPosRot(goCard, x, y, z);
-                x += xStep;
-            }
-        }
+        ArrangeHandCards(0);
 
         StartCoroutine("DoDemo");
+    }
+
+    /// <summary>
+    /// 場札を並べる
+    /// </summary>
+    void ArrangeHandCards(int player)
+    {
+        float angleY;
+        float stepSign;
+        float x;
+
+        switch (player)
+        {
+            case 0:
+                // １プレイヤーの場札は、画面では、右から左へ並べる
+                angleY = 180.0f;
+                stepSign = 1;
+                x = minX;
+                break;
+
+            case 1:
+                // ２プレイヤーの場札は、画面では、左から右へ並べる
+                angleY = 0.0f;
+                stepSign = -1;
+                x = maxX;
+                break;
+
+            default:
+                throw new Exception();
+        }
+
+        float xStep = stepSign * (maxX - minX) / (goPlayersHandCards[player].Count - 1);
+        foreach (var goCard in goPlayersHandCards[player])
+        {
+            SetPosRot(goCard, x, minY, handCardsZ[player], angleY: angleY);
+            x += xStep;
+        }
     }
 
     IEnumerator DoDemo()
@@ -186,7 +215,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(seconds);
 
-        for (int i=0;i<3;i++)
+        for (int i = 0; i < 3; i++)
         {
             // 右の台札を積み上げる
             {
