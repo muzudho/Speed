@@ -73,48 +73,43 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
+        const int right = 0;// 台札の右
+        const int left = 1;// 台札の左
         for (int i = 1; i < 14; i++)
         {
             // 右の台札
-            goCenterStacksCards[0].Add(GameObject.Find($"Clubs {i}"));
-            goCenterStacksCards[0].Add(GameObject.Find($"Diamonds {i}"));
-            goCenterStacksCards[0].Add(GameObject.Find($"Hearts {i}"));
-            goCenterStacksCards[0].Add(GameObject.Find($"Spades {i}"));
+            goCenterStacksCards[right].Add(GameObject.Find($"Clubs {i}"));
+            goCenterStacksCards[right].Add(GameObject.Find($"Diamonds {i}"));
+            goCenterStacksCards[right].Add(GameObject.Find($"Hearts {i}"));
+            goCenterStacksCards[right].Add(GameObject.Find($"Spades {i}"));
         }
 
         // 右の台札をシャッフル
-        var rightLeft = 0;// 右
-        goCenterStacksCards[rightLeft] = goCenterStacksCards[rightLeft].OrderBy(i => Guid.NewGuid()).ToList();
+        goCenterStacksCards[right] = goCenterStacksCards[right].OrderBy(i => Guid.NewGuid()).ToList();
 
         // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
-        while (0 < goCenterStacksCards[rightLeft].Count)
+        while (0 < goCenterStacksCards[right].Count)
         {
-            AddCardsToPileFromCenterStacks(rightLeft);
+            AddCardsToPileFromCenterStacks(right);
         }
 
-        // 手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
-        for (int player = 0; player < 2; player++)
-        {
-            AddCardsToHandFromPile(player, 5);
-        }
+        // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
+        AddCardsToHandFromPile(player: 0, numberOfCards: 5);
+        AddCardsToHandFromPile(player: 1, numberOfCards: 5);
 
         // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
-        PutCardToCenterStack(
+        PutCardToCenterStackFromHand(
             player: 1, // ２プレイヤーが
             handIndex: 0, // 場札の１枚目から
-            rightLeft: 0 // 左の
+            place: left // 左の
             );
-        // ２プレイヤーの場札を並べる
-        ArrangeHandCards(1);
 
         // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
-        PutCardToCenterStack(
+        PutCardToCenterStackFromHand(
             player: 0, // １プレイヤーが
             handIndex: 0, // 場札の１枚目から
-            rightLeft: 1 // 右の
+            place: right // 右の
             );
-        // １プレイヤーの場札を並べる
-        ArrangeHandCards(0);
 
         StartCoroutine("DoDemo");
     }
@@ -122,17 +117,17 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 台札を、手札へ移動する
     /// </summary>
-    /// <param name="rightLeft">右:0, 左:1</param>
-    void AddCardsToPileFromCenterStacks(int rightLeft)
+    /// <param name="place">右:0, 左:1</param>
+    void AddCardsToPileFromCenterStacks(int place)
     {
         // 台札の一番上（一番後ろ）のカードを１枚抜く
         var numberOfCards = 1;
-        var length = goCenterStacksCards[rightLeft].Count; // 手札の枚数
+        var length = goCenterStacksCards[place].Count; // 手札の枚数
         if (1 <= length)
         {
             var startIndex = length - numberOfCards;
-            var goCard = goCenterStacksCards[rightLeft].ElementAt(startIndex);
-            goCenterStacksCards[rightLeft].RemoveAt(startIndex);
+            var goCard = goCenterStacksCards[place].ElementAt(startIndex);
+            goCenterStacksCards[place].RemoveAt(startIndex);
 
             // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
             int player;
@@ -243,10 +238,10 @@ public class GameManager : MonoBehaviour
         {
             // 右の台札を積み上げる
             {
-                PutCardToCenterStack(
+                PutCardToCenterStackFromHand(
                     player: 0, // １プレイヤーが
                     handIndex: 1, // 場札の２枚目から
-                    rightLeft: 1 // 右の台札
+                    place: 1 // 右の台札
                     );
                 yield return new WaitForSeconds(seconds);
             }
@@ -276,18 +271,21 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="player">何番目のプレイヤー</param>
     /// <param name="handIndex">何枚目のカード</param>
-    /// <param name="rightLeft">右なら0、左なら1</param>
-    private void PutCardToCenterStack(int player, int handIndex, int rightLeft)
+    /// <param name="place">右なら0、左なら1</param>
+    private void PutCardToCenterStackFromHand(int player, int handIndex, int place)
     {
         var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
         goPlayersHandCards[player].RemoveAt(handIndex);
-        goCenterStacksCards[rightLeft].Add(goCard); // 台札として置く
+        goCenterStacksCards[place].Add(goCard); // 台札として置く
 
         // カードの位置をセット
-        SetPosRot(goCard, this.centerStacksX[rightLeft], this.centerStacksY[rightLeft], this.centerStacksZ[rightLeft]);
+        SetPosRot(goCard, this.centerStacksX[place], this.centerStacksY[place], this.centerStacksZ[place]);
 
         // 次に台札に積むカードの高さ
-        this.centerStacksY[rightLeft] += 0.2f;
+        this.centerStacksY[place] += 0.2f;
+
+        // 場札の位置調整
+        ArrangeHandCards(player);
     }
 
     /// <summary>

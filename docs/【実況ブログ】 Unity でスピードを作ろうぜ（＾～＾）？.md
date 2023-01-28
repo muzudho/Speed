@@ -1359,4 +1359,105 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 
 📅2023-01-28 sat 21:17  
 
+```csharp
+        // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
+        PutCardToCenterStack(
+            player: 1, // ２プレイヤーが
+            handIndex: 0, // 場札の１枚目から
+            rightLeft: 0 // 左の
+            );
+        // ２プレイヤーの場札の位置調整
+        ArrangeHandCards(1);
+
+        // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
+        PutCardToCenterStack(
+            player: 0, // １プレイヤーが
+            handIndex: 0, // 場札の１枚目から
+            rightLeft: 1 // 右の
+            );
+        // １プレイヤーの場札の位置調整
+        ArrangeHandCards(0);
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　場札の位置調整を　毎回書くのも煩わしいから　関数の中に入れるかだぜ」  
+
+```csharp
+    /// <summary>
+    /// 場札の好きなところから１枚抜いて、台札を１枚置く
+    /// </summary>
+    /// <param name="player">何番目のプレイヤー</param>
+    /// <param name="handIndex">何枚目のカード</param>
+    /// <param name="rightLeft">右なら0、左なら1</param>
+    private void PutCardToCenterStackFromHand(int player, int handIndex, int rightLeft)
+    {
+        var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
+        goPlayersHandCards[player].RemoveAt(handIndex);
+        goCenterStacksCards[rightLeft].Add(goCard); // 台札として置く
+
+        // カードの位置をセット
+        SetPosRot(goCard, this.centerStacksX[rightLeft], this.centerStacksY[rightLeft], this.centerStacksZ[rightLeft]);
+
+        // 次に台札に積むカードの高さ
+        this.centerStacksY[rightLeft] += 0.2f;
+
+        // 場札の位置調整
+        ArrangeHandCards(player);
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　モデルへの編集と、画面への編集は　同じ関数に入れない方がいいんだが、  
+それは　あとで考えるぜ。  
+関数名も変更」  
+
+```csharp
+    void Start()
+    {
+        // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
+        const int right = 0;// 台札の右
+        const int left = 1;// 台札の左
+        for (int i = 1; i < 14; i++)
+        {
+            // 右の台札
+            goCenterStacksCards[right].Add(GameObject.Find($"Clubs {i}"));
+            goCenterStacksCards[right].Add(GameObject.Find($"Diamonds {i}"));
+            goCenterStacksCards[right].Add(GameObject.Find($"Hearts {i}"));
+            goCenterStacksCards[right].Add(GameObject.Find($"Spades {i}"));
+        }
+
+        // 右の台札をシャッフル
+        goCenterStacksCards[right] = goCenterStacksCards[right].OrderBy(i => Guid.NewGuid()).ToList();
+
+        // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
+        while (0 < goCenterStacksCards[right].Count)
+        {
+            AddCardsToPileFromCenterStacks(right);
+        }
+
+        // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
+        AddCardsToHandFromPile(player: 0, numberOfCards: 5);
+        AddCardsToHandFromPile(player: 1, numberOfCards: 5);
+
+        // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
+        PutCardToCenterStackFromHand(
+            player: 1, // ２プレイヤーが
+            handIndex: 0, // 場札の１枚目から
+            place: left // 左の
+            );
+
+        // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
+        PutCardToCenterStackFromHand(
+            player: 0, // １プレイヤーが
+            handIndex: 0, // 場札の１枚目から
+            place: right // 右の
+            );
+
+        StartCoroutine("DoDemo");
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　開始時のコードが　かなり短くなっただろ」  
+
 # // 書きかけ
