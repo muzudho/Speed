@@ -1194,4 +1194,183 @@ public class GameManager : MonoBehaviour
 
 📅2023-01-28 sat 19:12  
 
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　手札を先頭から抜いたら、後ろのカードが浮いたままになってしまうわよ？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　確かに」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　先頭から抜くのが　おかしいのでは？　後ろから抜けだぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　もっともだぜ」  
+
+```csharp
+    /// <summary>
+    /// 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
+    /// 
+    /// - 画面上の場札は位置調整される
+    /// </summary>
+    void AddCardsToHandFromPile(int player, int numberOfCards)
+    {
+        // 手札の上の方からｎ枚抜いて、場札へ移動する
+        var length = goPlayersPileCards[player].Count; // 手札の枚数
+        if (numberOfCards <= length)
+        {
+            var startIndex = length - numberOfCards;
+            var goCards = goPlayersPileCards[player].GetRange(startIndex, numberOfCards);
+            goPlayersPileCards[player].RemoveRange(startIndex, numberOfCards);
+            goPlayersHandCards[player].AddRange(goCards);
+
+            // 場札を並べる
+            ArrangeHandCards(player);
+        }
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こうかな」  
+
+📅2023-01-28 sat 19:51  
+
+![202301_unity_28-2000--picture-making.png](https://crieit.now.sh/upload_images/040401253e79479b700bb3e75f2b586e63d500601bf39.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　画作り　を進め中」  
+
+![202301_unity_28-2003--piles-1.png](https://crieit.now.sh/upload_images/fed74a67948058a38082edad6516497663d5013bbfedb.png)  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　👆　スピードをやってて、手札を積み上げるのって　全部で　どういうケースがあるの？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　初回で　カードを配るときじゃないか？  
+ゲームが始まったら　手札にカードを積む　という動きは無いだろ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　初回は、どこから手札にカードが飛んでくるの？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　どこからでもない。  
+Unity のシーン上に　ゲーム・オブジェクトが適当に散らばっているぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　関数にしたいのよ。  
+『どこかに置いてあって、それを手札に積む』という定型パターンに乗せたいから、  
+どこかに置いてあることにしなさいよ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　手札以外には、台札と　場札しかないぜ。  
+そのどっちかだろ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　じゃあ　ゲーム開始時に　散らばっているカードは  
+台札という扱いにして、ゲーム開始時に　『台札を色分けして、手札に積む』という定型パターンに乗せなさいよ」  
+
+![202301_unity_28-2044--pileCardsY-1.png](https://crieit.now.sh/upload_images/6efa99b1d3073e58ebea8ca0aad5ce0163d50abce2f43.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　台札の一番上のカードのY座標を　外側に追いやって……」  
+
+```csharp
+    /// <summary>
+    /// 台札を、手札へ移動する
+    /// </summary>
+    /// <param name="rightLeft">右:0, 左:1</param>
+    void AddCardsToPileFromCenterStacks(int rightLeft)
+    {
+        // 台札の一番上（一番後ろ）のカードを１枚抜く
+        var numberOfCards = 1;
+        var length = goCenterStacksCards[rightLeft].Count; // 手札の枚数
+        if (1 <= length)
+        {
+            var startIndex = length - numberOfCards;
+            var goCard = goCenterStacksCards[rightLeft].ElementAt(startIndex);
+            goCenterStacksCards[rightLeft].RemoveAt(startIndex);
+            goPlayersPileCards[rightLeft].Add(goCard);
+
+            // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
+            int player;
+            if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
+            {
+                player = 0;
+            }
+            else if (goCard.name.StartsWith("Diamonds") || goCard.name.StartsWith("Hearts"))
+            {
+                player = 1;
+            }
+            else
+            {
+                throw new Exception();
+            }
+
+            switch (player)
+            {
+                case 0:
+                    // １プレイヤーの手札を積み上げる
+                    {
+                        float y = minY;
+                        SetPosRot(goCard, pileCardsX[0], pileCardsY[0], pileCardsZ[0], angleZ: 180.0f);
+                        pileCardsY[0] += 0.2f;
+                    }
+                    break;
+
+                case 1:
+                    // ２プレイヤーの手札を積み上げる
+                    {
+                        float y = minY;
+                        SetPosRot(goCard, pileCardsX[1], pileCardsY[1], pileCardsZ[1], angleY: 0.0f, angleZ: 180.0f);
+                        pileCardsY[1] += 0.2f;
+                    }
+                    break;
+
+                default:
+                    throw new Exception();
+            }
+        }
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　台札を手札へ移動する動きも　１本化するぜ」  
+
+```csharp
+    void Start()
+    {
+        // ゲーム開始時、すべてのカードは、いったん台札という扱いにする
+
+        // 台札
+        // ２６枚ずつカードを集める
+        for (int i = 1; i < 14; i++)
+        {
+            // 右の台札
+            goCenterStacksCards[0].Add(GameObject.Find($"Clubs {i}"));
+            goCenterStacksCards[1].Add(GameObject.Find($"Diamonds {i}"));
+
+            // 左の台札
+            goCenterStacksCards[1].Add(GameObject.Find($"Hearts {i}"));
+            goCenterStacksCards[0].Add(GameObject.Find($"Spades {i}"));
+        }
+
+        // 台札をすべて、色分けして、手札に乗せる
+        // 右
+        var rightLeft = 0;
+        while (0 < goCenterStacksCards[rightLeft].Count)
+        {
+            AddCardsToPileFromCenterStacks(rightLeft);
+        }
+        // 左
+        rightLeft = 1;
+        while (0 < goCenterStacksCards[rightLeft].Count)
+        {
+            AddCardsToPileFromCenterStacks(rightLeft);
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　それに引きずられて、開始時の処理も変えるぜ」  
+
+📅2023-01-28 sat 20:49  
+
 # // 書きかけ

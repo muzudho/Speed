@@ -21,12 +21,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     readonly float maxX = 62.0f;
 
+    readonly float[] pileCardsX = new[] { -62.0f, 62.0f };
+
     /// <summary>
     /// 底端
     /// 
     /// - `0.0f` は盤
     /// </summary>
     readonly float minY = 0.5f;
+    readonly float[] pileCardsY = new[] { 0.5f, 0.5f };
 
     readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
     readonly float[] pileCardsZ = new[] { -12.0f, 26.0f };
@@ -66,22 +69,38 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // 手札
+        // ゲーム開始時、すべてのカードは、いったん台札という扱いにする
+
+        // 台札
         // ２６枚ずつカードを集める
         for (int i = 1; i < 14; i++)
         {
-            // １プレイヤー（黒色）
-            goPlayersPileCards[0].Add(GameObject.Find($"Clubs {i}"));
-            goPlayersPileCards[0].Add(GameObject.Find($"Spades {i}"));
+            // 右の台札
+            goCenterStacksCards[0].Add(GameObject.Find($"Clubs {i}"));
+            goCenterStacksCards[1].Add(GameObject.Find($"Diamonds {i}"));
 
-            // ２プレイヤー（赤色）
-            goPlayersPileCards[1].Add(GameObject.Find($"Diamonds {i}"));
-            goPlayersPileCards[1].Add(GameObject.Find($"Hearts {i}"));
+            // 左の台札
+            goCenterStacksCards[1].Add(GameObject.Find($"Hearts {i}"));
+            goCenterStacksCards[0].Add(GameObject.Find($"Spades {i}"));
         }
 
+        // 台札をすべて、色分けして、手札に乗せる
+        // 右
+        var rightLeft = 0;
+        while (0 < goCenterStacksCards[rightLeft].Count)
+        {
+            AddCardsToPileFromCenterStacks(rightLeft);
+        }
+        // 左
+        rightLeft = 1;
+        while (0 < goCenterStacksCards[rightLeft].Count)
+        {
+            AddCardsToPileFromCenterStacks(rightLeft);
+        }
+
+        // 手札をシャッフル
         for (int player = 0; player < 2; player++)
         {
-            // シャッフル
             goPlayersPileCards[player] = goPlayersPileCards[player].OrderBy(i => Guid.NewGuid()).ToList();
         }
 
@@ -102,46 +121,18 @@ public class GameManager : MonoBehaviour
         this.centerStacksZ[0] = 0.0f;
 
         // 左の台札を積み上げる
-        {
-            PutCardToCenterStack(
-                player: 1, // ２プレイヤーが
-                handIndex: 0, // 場札の１枚目から
-                leftRight: 0 // 左の
-                );
-        }
+        PutCardToCenterStack(
+            player: 1, // ２プレイヤーが
+            handIndex: 0, // 場札の１枚目から
+            rightLeft: 0 // 左の
+            );
 
         // 右の台札を積み上げる
-        {
-            PutCardToCenterStack(
-                player: 0, // １プレイヤーが
-                handIndex: 0, // 場札の１枚目から
-                leftRight: 1 // 右の
-                );
-        }
-
-        // ２プレイヤーの手札を積み上げる
-        {
-            float x = minX;
-            float y = minY;
-            float z = pileCardsZ[1];
-            foreach (var goCard in goPlayersPileCards[1])
-            {
-                SetPosRot(goCard, x, y, z, angleY: 0.0f, angleZ: 180.0f);
-                y += 0.2f;
-            }
-        }
-
-        // １プレイヤーの手札を積み上げる
-        {
-            float x = maxX;
-            float y = minY;
-            float z = pileCardsZ[0];
-            foreach (var goCard in goPlayersPileCards[0])
-            {
-                SetPosRot(goCard, x, y, z, angleZ: 180.0f);
-                y += 0.2f;
-            }
-        }
+        PutCardToCenterStack(
+            player: 0, // １プレイヤーが
+            handIndex: 0, // 場札の１枚目から
+            rightLeft: 1 // 右の
+            );
 
         // ２プレイヤーの場札を並べる
         ArrangeHandCards(1);
@@ -153,19 +144,81 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 手札からｎ枚抜いて、場札へ移動する
+    /// 台札を、手札へ移動する
+    /// </summary>
+    /// <param name="rightLeft">右:0, 左:1</param>
+    void AddCardsToPileFromCenterStacks(int rightLeft)
+    {
+        // 台札の一番上（一番後ろ）のカードを１枚抜く
+        var numberOfCards = 1;
+        var length = goCenterStacksCards[rightLeft].Count; // 手札の枚数
+        if (1 <= length)
+        {
+            var startIndex = length - numberOfCards;
+            var goCard = goCenterStacksCards[rightLeft].ElementAt(startIndex);
+            goCenterStacksCards[rightLeft].RemoveAt(startIndex);
+            goPlayersPileCards[rightLeft].Add(goCard);
+
+            // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
+            int player;
+            if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
+            {
+                player = 0;
+            }
+            else if (goCard.name.StartsWith("Diamonds") || goCard.name.StartsWith("Hearts"))
+            {
+                player = 1;
+            }
+            else
+            {
+                throw new Exception();
+            }
+
+            switch (player)
+            {
+                case 0:
+                    // １プレイヤーの手札を積み上げる
+                    {
+                        float y = minY;
+                        SetPosRot(goCard, pileCardsX[0], pileCardsY[0], pileCardsZ[0], angleZ: 180.0f);
+                        pileCardsY[0] += 0.2f;
+                    }
+                    break;
+
+                case 1:
+                    // ２プレイヤーの手札を積み上げる
+                    {
+                        float y = minY;
+                        SetPosRot(goCard, pileCardsX[1], pileCardsY[1], pileCardsZ[1], angleY: 0.0f, angleZ: 180.0f);
+                        pileCardsY[1] += 0.2f;
+                    }
+                    break;
+
+                default:
+                    throw new Exception();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
     /// 
-    /// - 場札は並び直される
+    /// - 画面上の場札は位置調整される
     /// </summary>
     void AddCardsToHandFromPile(int player, int numberOfCards)
     {
-        // 手札からｎ枚抜いて、場札へ移動する
-        var goCards = goPlayersPileCards[player].GetRange(0, numberOfCards);
-        goPlayersPileCards[player].RemoveRange(0, numberOfCards);
-        goPlayersHandCards[player].AddRange(goCards);
+        // 手札の上の方からｎ枚抜いて、場札へ移動する
+        var length = goPlayersPileCards[player].Count; // 手札の枚数
+        if (numberOfCards <= length)
+        {
+            var startIndex = length - numberOfCards;
+            var goCards = goPlayersPileCards[player].GetRange(startIndex, numberOfCards);
+            goPlayersPileCards[player].RemoveRange(startIndex, numberOfCards);
+            goPlayersHandCards[player].AddRange(goCards);
 
-        // 場札を並べる
-        ArrangeHandCards(player);
+            // 場札を並べる
+            ArrangeHandCards(player);
+        }
     }
 
     /// <summary>
@@ -213,22 +266,18 @@ public class GameManager : MonoBehaviour
 
         // １プレイヤーの１枚目のカードにフォーカスを当てる
         GetCard(0, 0, (goCard) => SetFocus(goCard));
-
         yield return new WaitForSeconds(seconds);
 
         // １プレイヤーの１枚目のカードのフォーカスを外す
         GetCard(0, 0, (goCard) => ResetFocus(goCard));
-
         yield return new WaitForSeconds(seconds);
 
         // １プレイヤーの２枚目のカードにフォーカスを当てる
         GetCard(0, 1, (goCard) => SetFocus(goCard));
-
         yield return new WaitForSeconds(seconds);
 
         // １プレイヤーの２枚目のカードのフォーカスを外す
         GetCard(0, 1, (goCard) => ResetFocus(goCard));
-
         yield return new WaitForSeconds(seconds);
 
         for (int i = 0; i < 3; i++)
@@ -238,27 +287,28 @@ public class GameManager : MonoBehaviour
                 PutCardToCenterStack(
                     player: 0, // １プレイヤーが
                     handIndex: 1, // 場札の２枚目から
-                    leftRight: 1 // 右の台札
+                    rightLeft: 1 // 右の台札
                     );
                 yield return new WaitForSeconds(seconds);
             }
         }
 
+        // １プレイヤーは手札から３枚抜いて、場札として置く
+        AddCardsToHandFromPile(0, 3);
+        yield return new WaitForSeconds(seconds);
+
         // -
 
         // ２プレイヤーの１枚目のカードにフォーカスを当てる
         GetCard(1, 0, (goCard) => SetFocus(goCard));
-
         yield return new WaitForSeconds(seconds);
 
         // ２プレイヤーの１枚目のカードのフォーカスを外す
         GetCard(1, 0, (goCard) => ResetFocus(goCard));
-
         yield return new WaitForSeconds(seconds);
 
         // ２プレイヤーの２枚目のカードにフォーカスを当てる
         GetCard(1, 1, (goCard) => SetFocus(goCard));
-
         yield return new WaitForSeconds(seconds);
     }
 
@@ -267,18 +317,18 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="player">何番目のプレイヤー</param>
     /// <param name="handIndex">何枚目のカード</param>
-    /// <param name="leftRight">左なら1、右なら0</param>
-    private void PutCardToCenterStack(int player, int handIndex, int leftRight)
+    /// <param name="rightLeft">右なら0、左なら1</param>
+    private void PutCardToCenterStack(int player, int handIndex, int rightLeft)
     {
         var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
         goPlayersHandCards[player].RemoveAt(handIndex);
-        goCenterStacksCards[leftRight].Add(goCard); // 台札として置く
+        goCenterStacksCards[rightLeft].Add(goCard); // 台札として置く
 
         // カードの位置をセット
-        SetPosRot(goCard, this.centerStacksX[leftRight], this.centerStacksY[leftRight], this.centerStacksZ[leftRight]);
+        SetPosRot(goCard, this.centerStacksX[rightLeft], this.centerStacksY[rightLeft], this.centerStacksZ[rightLeft]);
 
         // 次に台札に積むカードの高さ
-        this.centerStacksY[leftRight] += 0.2f;
+        this.centerStacksY[rightLeft] += 0.2f;
     }
 
     /// <summary>
