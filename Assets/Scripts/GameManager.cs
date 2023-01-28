@@ -39,20 +39,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     List<List<GameObject>> goPlayersPileCards = new() { new(), new() };
 
-    // 手札
-    readonly float[] pileCardsX = new[] { 62.0f, -62.0f };
+    // 手札（プレイヤー側で伏せて積んでる札）
+    readonly float[] pileCardsX = new[] { 40.0f, -40.0f }; // 端っこは 62.0f, -62.0f
     readonly float[] pileCardsY = new[] { 0.5f, 0.5f };
-    readonly float[] pileCardsZ = new[] { -12.0f, 26.0f };
+    readonly float[] pileCardsZ = new[] { -6.5f, 16.0f };
 
     /// <summary>
-    /// 場札
+    /// 場札（プレイヤー側でオープンしている札）
     /// 0: １プレイヤー（黒色）
     /// 1: ２プレイヤー（黒色）
     /// </summary>
     List<List<GameObject>> goPlayersHandCards = new() { new(), new() };
 
     /// <summary>
-    /// 台札
+    /// 台札（画面中央に積んでいる札）
     /// 0: 右
     /// 1: 左
     /// </summary>
@@ -91,22 +91,22 @@ public class GameManager : MonoBehaviour
         // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
         while (0 < goCenterStacksCards[right].Count)
         {
-            AddCardsToPileFromCenterStacks(right);
+            MoveCardsToPileFromCenterStacks(right);
         }
 
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
-        AddCardsToHandFromPile(player: 0, numberOfCards: 5);
-        AddCardsToHandFromPile(player: 1, numberOfCards: 5);
+        MoveCardsToHandFromPile(player: 0, numberOfCards: 5);
+        MoveCardsToHandFromPile(player: 1, numberOfCards: 5);
 
         // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
-        AddCardToCenterStackFromHand(
+        MoveCardToCenterStackFromHand(
             player: 1, // ２プレイヤーが
             handIndex: 0, // 場札の１枚目から
             place: left // 左の
             );
 
         // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
-        AddCardToCenterStackFromHand(
+        MoveCardToCenterStackFromHand(
             player: 0, // １プレイヤーが
             handIndex: 0, // 場札の１枚目から
             place: right // 右の
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     /// 台札を、手札へ移動する
     /// </summary>
     /// <param name="place">右:0, 左:1</param>
-    void AddCardsToPileFromCenterStacks(int place)
+    void MoveCardsToPileFromCenterStacks(int place)
     {
         // 台札の一番上（一番後ろ）のカードを１枚抜く
         var numberOfCards = 1;
@@ -160,7 +160,7 @@ public class GameManager : MonoBehaviour
     /// 
     /// - 画面上の場札は位置調整される
     /// </summary>
-    void AddCardsToHandFromPile(int player, int numberOfCards)
+    void MoveCardsToHandFromPile(int player, int numberOfCards)
     {
         // 手札の上の方からｎ枚抜いて、場札へ移動する
         var length = goPlayersPileCards[player].Count; // 手札の枚数
@@ -181,6 +181,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void ArrangeHandCards(int player)
     {
+        // 25枚の場札が並べるように調整してある
+
         int numberOfCards = goPlayersHandCards[player].Count; // カードの枚数
         if (numberOfCards < 1)
         {
@@ -194,8 +196,10 @@ public class GameManager : MonoBehaviour
 
         float angleY;
         float playerTheta;
-        float startTheta = 112.0f * Mathf.Deg2Rad;
-        float thetaStep = -1.83f * Mathf.Deg2Rad; ; // 時計回り
+        // float leftestAngle = 112.0f;
+        float angleStep = -1.83f;
+        float startTheta = (numberOfCards * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
+        float thetaStep = angleStep * Mathf.Deg2Rad; ; // 時計回り
 
         float ox = 0.0f;
         float oz = handCardsZ[player];
@@ -266,6 +270,7 @@ public class GameManager : MonoBehaviour
         float seconds = 1.0f;
         yield return new WaitForSeconds(seconds);
 
+        /*
         AddCardsToHandFromPile(player: 0, numberOfCards: 21);
         AddCardsToHandFromPile(player: 1, numberOfCards: 21);
 
@@ -294,29 +299,30 @@ public class GameManager : MonoBehaviour
                 yield return new WaitForSeconds(seconds);
             }
         }
+        */
 
-        /*
+        //*
         // １プレイヤーの１枚目のカードにフォーカスを当てる
-        GetCard(0, 0, (goCard) => SetFocus(goCard));
+        GetCard(0, 0, (goCard) => SetFocusHand(goCard));
         yield return new WaitForSeconds(seconds);
 
         // １プレイヤーの１枚目のカードのフォーカスを外す
-        GetCard(0, 0, (goCard) => ResetFocus(goCard));
+        GetCard(0, 0, (goCard) => ResetFocusHand(goCard));
         yield return new WaitForSeconds(seconds);
 
         // １プレイヤーの２枚目のカードにフォーカスを当てる
-        GetCard(0, 1, (goCard) => SetFocus(goCard));
+        GetCard(0, 1, (goCard) => SetFocusHand(goCard));
         yield return new WaitForSeconds(seconds);
 
         // １プレイヤーの２枚目のカードのフォーカスを外す
-        GetCard(0, 1, (goCard) => ResetFocus(goCard));
+        GetCard(0, 1, (goCard) => ResetFocusHand(goCard));
         yield return new WaitForSeconds(seconds);
 
         for (int i = 0; i < 3; i++)
         {
             // 左の台札を積み上げる
             {
-                PutCardToCenterStackFromHand(
+                MoveCardToCenterStackFromHand(
                     player: 0, // １プレイヤーが
                     handIndex: 1, // 場札の２枚目から
                     place: 1 // 左の台札
@@ -326,32 +332,32 @@ public class GameManager : MonoBehaviour
         }
 
         // １プレイヤーは手札から３枚抜いて、場札として置く
-        AddCardsToHandFromPile(0, 3);
+        MoveCardsToHandFromPile(0, 3);
         yield return new WaitForSeconds(seconds);
 
         // -
 
         // ２プレイヤーの１枚目のカードにフォーカスを当てる
-        GetCard(1, 0, (goCard) => SetFocus(goCard));
+        GetCard(1, 0, (goCard) => SetFocusHand(goCard));
         yield return new WaitForSeconds(seconds);
 
         // ２プレイヤーの１枚目のカードのフォーカスを外す
-        GetCard(1, 0, (goCard) => ResetFocus(goCard));
+        GetCard(1, 0, (goCard) => ResetFocusHand(goCard));
         yield return new WaitForSeconds(seconds);
 
         // ２プレイヤーの２枚目のカードにフォーカスを当てる
-        GetCard(1, 1, (goCard) => SetFocus(goCard));
+        GetCard(1, 1, (goCard) => SetFocusHand(goCard));
         yield return new WaitForSeconds(seconds);
 
         // ２プレイヤーの２枚目のカードのフォーカスを外す
-        GetCard(1, 1, (goCard) => ResetFocus(goCard));
+        GetCard(1, 1, (goCard) => ResetFocusHand(goCard));
         yield return new WaitForSeconds(seconds);
 
         // -
 
         // １プレイヤーは、手札から１枚抜いて、場札とする
-        AddCardsToHandFromPile(0, 1);
-        */
+        MoveCardsToHandFromPile(0, 1);
+        // */
     }
 
     /// <summary>
@@ -360,7 +366,7 @@ public class GameManager : MonoBehaviour
     /// <param name="player">何番目のプレイヤー</param>
     /// <param name="handIndex">何枚目のカード</param>
     /// <param name="place">右なら0、左なら1</param>
-    private void AddCardToCenterStackFromHand(int player, int handIndex, int place)
+    private void MoveCardToCenterStackFromHand(int player, int handIndex, int place)
     {
         var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
         goPlayersHandCards[player].RemoveAt(handIndex);
@@ -413,17 +419,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SetPosRot(GameObject card, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="card"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <param name="angleY"></param>
+    /// <param name="angleZ"></param>
+    /// <param name="motionProgress">Update関数の中でないと役に立たない</param>
+    private void SetPosRot(GameObject card, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
     {
-        card.transform.position = new Vector3(x, y, z);
+        var beginPos = card.transform.position;
+        var endPos = new Vector3(x, y, z);
+        card.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);
+
         card.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
     }
 
     /// <summary>
-    /// カードを持ち上げる
+    /// 場札カードを持ち上げる
     /// </summary>
     /// <param name="card"></param>
-    private void SetFocus(GameObject card)
+    private void SetFocusHand(GameObject card)
     {
         var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
         var rotateY = -5; // -5°傾ける
@@ -437,7 +456,7 @@ public class GameManager : MonoBehaviour
     /// 持ち上げたカードを場に戻す
     /// </summary>
     /// <param name="card"></param>
-    private void ResetFocus(GameObject card)
+    private void ResetFocusHand(GameObject card)
     {
         var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
         var rotateY = -5; // -5°傾ける

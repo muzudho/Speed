@@ -1696,4 +1696,111 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 
 📅2023-01-29 sat 00:42  
 
+![202301_unity_29-0049--picture-making.png](https://crieit.now.sh/upload_images/451b97166a4ee878146f6f824fc6df3b63d5440e06550.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　カードのセンタリングが　まだ作ってないので　作るぜ」  
+
+![202301_unity_29-0054--picture-making.png](https://crieit.now.sh/upload_images/08a864806a6973158ce09b84cd87f77c63d54556e70c3.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　なんか　手札が　めっちゃ遠くに見えるな」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　そりゃ、２５枚の場札に合わせた位置だしな」  
+
+ソースコード:  
+
+```csharp
+    /// <summary>
+    /// 場札を並べる
+    /// </summary>
+    void ArrangeHandCards(int player)
+    {
+        // 25枚の場札が並べるように調整してある
+
+        int numberOfCards = goPlayersHandCards[player].Count; // カードの枚数
+        if (numberOfCards < 1)
+        {
+            return;
+        }
+
+        float cardAngleZ = -5; // カードの少しの傾き
+
+        int range = 200; // 半径。大きな円にするので、中心を遠くに離したい
+        int offsetCircleCenterZ; // 中心位置の調整
+
+        float angleY;
+        float playerTheta;
+        // float leftestAngle = 112.0f;
+        float angleStep = -1.83f;
+        float startTheta = (numberOfCards * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
+        float thetaStep = angleStep * Mathf.Deg2Rad; ; // 時計回り
+
+        float ox = 0.0f;
+        float oz = handCardsZ[player];
+
+
+        switch (player)
+        {
+            case 0:
+                // １プレイヤー
+                angleY = 180.0f;
+                playerTheta = 0;
+                offsetCircleCenterZ = -190;
+                break;
+
+            case 1:
+                // ２プレイヤー
+                angleY = 0.0f;
+                playerTheta = 180 * Mathf.Deg2Rad;
+                offsetCircleCenterZ = 188;  // カメラのパースペクティブが付いているから、目視で調整
+                break;
+
+            default:
+                throw new Exception();
+        }
+
+        float theta = startTheta;
+        foreach (var goCard in goPlayersHandCards[player])
+        {
+            float x = range * Mathf.Cos(theta + playerTheta) + ox;
+            float z = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
+
+            SetPosRot(goCard, x, minY, z, angleY: angleY, angleZ: cardAngleZ);
+            theta += thetaStep;
+        }
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　このコードは　まあ　こんなもんだろ」  
+
+![202301_unity_29-0102--picture-making.png](https://crieit.now.sh/upload_images/6f29b136f7add61236e8cdfb44a59b8863d5471b2f5bb.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　目視確認と　感覚で　調整」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　画作り　は、こんなもんでいいでしょ」  
+
+📅2023-01-29 sat 01:04  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　次は　入力　を作っていきましょう」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　カーソル・キーの　左、右で　ピックアップしている場札を　隣の札に変えるようにしましょう」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　すると、今どの場札に　フォーカスが当たっているかを　変数として持ちたいよな」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　でも　今日はここまでだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　おつ」  
+
+📅2023-01-29 sat 01:23  
+
 # // 書きかけ
