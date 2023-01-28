@@ -1460,4 +1460,35 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　開始時のコードが　かなり短くなっただろ」  
 
+📅2023-01-28 sat 21:37  
+
+![202301_unity_28-2137--picture-making.png](https://crieit.now.sh/upload_images/ab86da7eb537bc99aadf3ebd969b8c6863d51737a5161.png)  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　👆　場札の間隔が空きすぎていて、スピードをしてる感じ、しなくない？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　**均等割り付け** なんだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　隙間を詰めてくれだぜ」  
+
+![202301_unity_28-2147--calculate.png](https://crieit.now.sh/upload_images/26148aac75f12353e84752b46a84c54163d519fbb4986.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こういう感じか。　まるで　プロポーショナル・フォント　みたいだな」  
+
+![202301_unity_28-2208--picture-making.png](https://crieit.now.sh/upload_images/5a09a01bf912e6528f2dbd9821d6cdbd63d51e488bc77.png)  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　👆　カードの境界線が見えないから　１枚の長い紙みたいに見えるわよ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　世界に　境界線というものは　無いので……」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　カードを少し傾けたらどうだぜ？」  
+
+📅2023-01-28 sat 22:09  
+
 # // 書きかけ

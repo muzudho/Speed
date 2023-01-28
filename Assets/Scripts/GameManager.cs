@@ -180,6 +180,17 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void ArrangeHandCards(int player)
     {
+        int numberOfCards = goPlayersHandCards[player].Count; // カードの枚数
+        if (numberOfCards < 1)
+        {
+            return;
+        }
+
+        float cardWidth = 10; // カードの横幅
+        float marginRight = -2; // カードは隣のカードと少し重なる
+        float wholeWidth = numberOfCards * cardWidth + ((numberOfCards - 1) * marginRight); // 場札全体の横幅
+        float centerOfLeftestCard = -(wholeWidth / 2 - (cardWidth / 2)); // １プレイヤーから見て一番左のカードの中心座標
+
         float angleY;
         float stepSign;
         float x;
@@ -190,21 +201,21 @@ public class GameManager : MonoBehaviour
                 // １プレイヤーの場札は、画面では、右から左へ並べる
                 angleY = 180.0f;
                 stepSign = 1;
-                x = minX;
+                x = centerOfLeftestCard;
                 break;
 
             case 1:
                 // ２プレイヤーの場札は、画面では、左から右へ並べる
                 angleY = 0.0f;
                 stepSign = -1;
-                x = maxX;
+                x = -centerOfLeftestCard;
                 break;
 
             default:
                 throw new Exception();
         }
 
-        float xStep = stepSign * (maxX - minX) / (goPlayersHandCards[player].Count - 1);
+        float xStep = stepSign * (cardWidth + marginRight);
         foreach (var goCard in goPlayersHandCards[player])
         {
             SetPosRot(goCard, x, minY, handCardsZ[player], angleY: angleY);
@@ -264,6 +275,15 @@ public class GameManager : MonoBehaviour
         // ２プレイヤーの２枚目のカードにフォーカスを当てる
         GetCard(1, 1, (goCard) => SetFocus(goCard));
         yield return new WaitForSeconds(seconds);
+
+        // ２プレイヤーの２枚目のカードのフォーカスを外す
+        GetCard(1, 1, (goCard) => ResetFocus(goCard));
+        yield return new WaitForSeconds(seconds);
+
+        // -
+
+        // １プレイヤーは、手札から１枚抜いて、場札とする
+        AddCardsToHandFromPile(0, 1);
     }
 
     /// <summary>
