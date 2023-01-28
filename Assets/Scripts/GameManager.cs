@@ -246,22 +246,21 @@ public class GameManager : MonoBehaviour
         var right = 0.5f;
         var bottom = -0.5f;
         var top = 1.5f;
-        float angleY;
+        var angleY = UnityEngine.Random.Range(-10, 40); // 反時計回りに大きく捻りそう
 
         switch (player)
         {
             case 0:
-                angleY = UnityEngine.Random.Range(-10, 40); // 反時計回りに大きく捻りそう
                 return (UnityEngine.Random.Range(left, right), UnityEngine.Random.Range(bottom, top), angleY);
 
             case 1:
-                angleY = UnityEngine.Random.Range(-40, 10); // 時計回りに大きく捻りそう
                 return (UnityEngine.Random.Range(-right, -left), UnityEngine.Random.Range(-top, -bottom), angleY);
 
             default:
                 throw new Exception();
         }
     }
+
     IEnumerator DoDemo()
     {
         float seconds = 1.0f;
@@ -369,7 +368,7 @@ public class GameManager : MonoBehaviour
         // 台札の一番上（一番後ろ）のカードの中心座標 X, Z
         float nextTopX;
         float nextTopZ;
-        float nextAngleY = goCard.transform.rotation.z;
+        float nextAngleY = goCard.transform.rotation.eulerAngles.y;
 
         var (shakeX, shakeZ, shakeAngleY) = MakeShakeForCenterStack(place);
 

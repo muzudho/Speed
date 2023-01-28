@@ -1577,4 +1577,123 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　これで行ってみるかだぜ」  
 
+![202301_unity_28-2311--picture-making.png](https://crieit.now.sh/upload_images/d0b68d4d1a088f2f9f87ab91931f876063d52d26c2bc0.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　わたしは恥ずかしい。一発で決めれない」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　何発で決まったとか　ユーザーには分かんないから　目視確認と　手調整を繰り返せばいいのよ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　半径が 100、スタートの角度が 110°、 間隔の角度は -4°　でこれだから、  
+もっと半径を大きくして　カーブを緩くするか」  
+
+![202301_unity_28-2322--picture-making.png](https://crieit.now.sh/upload_images/d41b155b49f4551af3ae041a30fa1f3563d52fbe64198.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　半径が 200、スタートの角度が 112°、 間隔の角度は -1.83°、 円の中心のz位置を +10」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　うまく画面に収めたが、ゲーム中にこんなケースは出てこないのでは？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　盤の周りが　スカスカに空いてる分には　ユーザーも困らないでしょう」  
+
+![202301_unity_28-2332--picture-making.png](https://crieit.now.sh/upload_images/caf7c6cc3f7bd62dacfdeee456ad0aa263d531f2053da.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　2P側も　どう見えるか確認だぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　台札は　カードが積み重なっていくはずだから、　画面の下側に　気持ち　ずらした方がよくない？」  
+
+📅2023-01-28 sat 22:58  
+
+![202301_unity_28-2339--picture-making.png](https://crieit.now.sh/upload_images/a3de1bff60c52c33dd076bbecb3e1dcf63d533a7eeb87.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　几帳面に真上に積むから　２Pのカードと被って見えることは無さそうだぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　几帳面に積まれるのも　スピードな感じは　しないわねえ」  
+
+![202301_unity_28-2359--picture-making.png](https://crieit.now.sh/upload_images/bf87bea9ab444f6333a58139cf0dd26263d53857d7652.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　ランダムにずれを入れると　どこに行くか　わからんけど」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　もっと　上下の空いてる方向に　伸びなさいよ」  
+
+![202301_unity_29-0007--picture-making.png](https://crieit.now.sh/upload_images/906d94f006435d15bb7ac931844003ba63d53a468f78f.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こうかだぜ？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　スピードな感じは　しないわねえ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　台札の所定の位置から離れていくのが　おかしいのと、  
+カードが几帳面に　正方形の角度が　ぶれてないのが　おかしいんだぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　なるほど」  
+
+![202301_unity_29-0021--picture-making.png](https://crieit.now.sh/upload_images/2c6b4f87a4a0b118168adace270d965463d53d7939ad3.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こうかだぜ？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　少しは　揃えて置こうと　してほしいわねえ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　１プレイヤー、２プレイヤーが　右利きか、左利きかでも　変わってくるんじゃないかだぜ？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　そんなん　設定するのも　嬉しさがあるのか分からないので　右利き　ということにしとこうぜ？」  
+
+![202301_unity_29-0042--picture-making.png](https://crieit.now.sh/upload_images/5cde71936fe6af498ffe18637d8fef4263d5429662c3a.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　少しは揃えてみたのと、１プレイヤーと　２プレイヤーで　大きく捻る回転方向を　ずらしたぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　良くは　なってきたわね」  
+
+```csharp
+    /// <summary>
+    /// ぴったり積むと不自然だから、X と Z を少しずらすための仕組み
+    /// 
+    /// - １プレイヤー、２プレイヤーのどちらも右利きと仮定
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    (float, float, float) MakeShakeForCenterStack(int player)
+    {
+        // １プレイヤーから見て。左上にずれていくだろう
+        var left = -1.5f;
+        var right = 0.5f;
+        var bottom = -0.5f;
+        var top = 1.5f;
+        var angleY = UnityEngine.Random.Range(-10, 40); // 反時計回りに大きく捻りそう
+
+        switch (player)
+        {
+            case 0:
+                return (UnityEngine.Random.Range(left, right), UnityEngine.Random.Range(bottom, top), angleY);
+
+            case 1:
+                return (UnityEngine.Random.Range(-right, -left), UnityEngine.Random.Range(-top, -bottom), angleY);
+
+            default:
+                throw new Exception();
+        }
+    }
+```
+
+📅2023-01-29 sat 00:42  
+
 # // 書きかけ
