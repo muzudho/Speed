@@ -1545,11 +1545,36 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 ```
 
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
-「　２プレイヤー側は　いい感じに影が付いたが、１プレイヤー側は　光の当たり方のせいで　思ったようにはなってないぜ」  
+「　👆　２プレイヤー側は　いい感じに影が付いたが、１プレイヤー側は　光の当たり方のせいで　思ったようにはなってないぜ」  
 
 ![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
 「　扇状に並べたら　いい感じになるんじゃない？」  
 
 📅2023-01-28 sat 22:17  
+
+![202301_unity_28-2220--calculate.png](https://crieit.now.sh/upload_images/e0cdf84d063a717958eaf0a4eb708d0363d5223685550.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　頭の運動不足の頭では　ｎ枚のとき角度は何ｍがいいのか　ぱっと出てこないが　まあ　手調整してみるか」  
+
+![202301_unity_28-2227--calculate.png](https://crieit.now.sh/upload_images/451a21aeb768027cb85956a23304222863d523df195f7.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こんな式だったかな？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　Y は空を指してるから、テーブルの奥は Z ね」  
+
+📅2023-01-28 sat 22:58  
+
+![202301_unity_28-2254--picture-making.png](https://crieit.now.sh/upload_images/e89144db700bf6658c029cdae3fcb07c63d52957045fd.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　うーん、　どうすればいいのか。ちょっと　考えようか」  
+
+![202301_unity_28-2256--idea.png](https://crieit.now.sh/upload_images/16f459ea4a174ee5b69b354607d77b7863d52a3ade814.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　これで行ってみるかだぜ」  
 
 # // 書きかけ

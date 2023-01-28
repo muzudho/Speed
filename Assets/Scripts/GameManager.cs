@@ -187,40 +187,47 @@ public class GameManager : MonoBehaviour
         }
 
         float cardAngleZ = -5; // カードの少しの傾き
-        float cardWidth = 10; // カードの横幅
-        float marginRight = -2; // カードは隣のカードと少し重なる
-        float wholeWidth = numberOfCards * cardWidth + ((numberOfCards - 1) * marginRight); // 場札全体の横幅
-        float centerOfLeftestCard = -(wholeWidth / 2 - (cardWidth / 2)); // １プレイヤーから見て一番左のカードの中心座標
+
+        int range = 200; // 半径。大きな円にするので、中心を遠くに離したい
+        int offsetCircleCenterZ; // 中心位置の調整
 
         float angleY;
-        float stepSign;
-        float x;
+        float playerTheta;
+        float startTheta = 112.0f * Mathf.Deg2Rad;
+        float thetaStep = -1.83f * Mathf.Deg2Rad; ; // 時計回り
+
+        float ox = 0.0f;
+        float oz = handCardsZ[player];
+
 
         switch (player)
         {
             case 0:
-                // １プレイヤーの場札は、画面では、右から左へ並べる
+                // １プレイヤー
                 angleY = 180.0f;
-                stepSign = 1;
-                x = centerOfLeftestCard;
+                playerTheta = 0;
+                offsetCircleCenterZ = -190;
                 break;
 
             case 1:
-                // ２プレイヤーの場札は、画面では、左から右へ並べる
+                // ２プレイヤー
                 angleY = 0.0f;
-                stepSign = -1;
-                x = -centerOfLeftestCard;
+                playerTheta = 180 * Mathf.Deg2Rad;
+                offsetCircleCenterZ = 188;  // カメラのパースペクティブが付いているから、目視で調整
                 break;
 
             default:
                 throw new Exception();
         }
 
-        float xStep = stepSign * (cardWidth + marginRight);
+        float theta = startTheta;
         foreach (var goCard in goPlayersHandCards[player])
         {
-            SetPosRot(goCard, x, minY, handCardsZ[player], angleY: angleY, angleZ: cardAngleZ);
-            x += xStep;
+            float x2 = range * Mathf.Cos(theta + playerTheta) + ox;
+            float z2 = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
+
+            SetPosRot(goCard, x2, minY, z2, angleY: angleY, angleZ: cardAngleZ);
+            theta += thetaStep;
         }
     }
 
@@ -230,6 +237,10 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(seconds);
 
+        AddCardsToHandFromPile(player: 0, numberOfCards: 21);
+        AddCardsToHandFromPile(player: 1, numberOfCards: 21);
+
+        /*
         // １プレイヤーの１枚目のカードにフォーカスを当てる
         GetCard(0, 0, (goCard) => SetFocus(goCard));
         yield return new WaitForSeconds(seconds);
@@ -285,6 +296,7 @@ public class GameManager : MonoBehaviour
 
         // １プレイヤーは、手札から１枚抜いて、場札とする
         AddCardsToHandFromPile(0, 1);
+        */
     }
 
     /// <summary>
