@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     readonly float maxX = 62.0f;
 
-    readonly float[] pileCardsX = new[] { -62.0f, 62.0f };
 
     /// <summary>
     /// 底端
@@ -29,10 +28,8 @@ public class GameManager : MonoBehaviour
     /// - `0.0f` は盤
     /// </summary>
     readonly float minY = 0.5f;
-    readonly float[] pileCardsY = new[] { 0.5f, 0.5f };
 
     readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
-    readonly float[] pileCardsZ = new[] { -12.0f, 26.0f };
 
     /// <summary>
     /// 手札
@@ -40,6 +37,11 @@ public class GameManager : MonoBehaviour
     /// 1: ２プレイヤー（黒色）
     /// </summary>
     List<List<GameObject>> goPlayersPileCards = new() { new(), new() };
+
+    // 手札
+    readonly float[] pileCardsX = new[] { 62.0f, -62.0f };
+    readonly float[] pileCardsY = new[] { 0.5f, 0.5f };
+    readonly float[] pileCardsZ = new[] { -12.0f, 26.0f };
 
     /// <summary>
     /// 場札
@@ -55,7 +57,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     List<List<GameObject>> goCenterStacksCards = new() { new(), new() };
 
-    float[] centerStacksX = { 0, 0 };
+    // 台札
+    float[] centerStacksX = { 15.0f, -15.0f };
 
     /// <summary>
     /// 台札のY座標
@@ -63,80 +66,53 @@ public class GameManager : MonoBehaviour
     /// - 右が 0、左が 1
     /// - 0.0f は盤なので、それより上にある
     /// </summary>
-    float[] centerStacksY = { 0, 0 };
-    float[] centerStacksZ = { 0, 0 };
+    float[] centerStacksY = { 0.5f, 0.5f };
+    float[] centerStacksZ = { 0.0f, 10.0f };
 
     // Start is called before the first frame update
     void Start()
     {
-        // ゲーム開始時、すべてのカードは、いったん台札という扱いにする
-
-        // 台札
-        // ２６枚ずつカードを集める
+        // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
         for (int i = 1; i < 14; i++)
         {
             // 右の台札
             goCenterStacksCards[0].Add(GameObject.Find($"Clubs {i}"));
-            goCenterStacksCards[1].Add(GameObject.Find($"Diamonds {i}"));
-
-            // 左の台札
-            goCenterStacksCards[1].Add(GameObject.Find($"Hearts {i}"));
+            goCenterStacksCards[0].Add(GameObject.Find($"Diamonds {i}"));
+            goCenterStacksCards[0].Add(GameObject.Find($"Hearts {i}"));
             goCenterStacksCards[0].Add(GameObject.Find($"Spades {i}"));
         }
 
-        // 台札をすべて、色分けして、手札に乗せる
-        // 右
-        var rightLeft = 0;
-        while (0 < goCenterStacksCards[rightLeft].Count)
-        {
-            AddCardsToPileFromCenterStacks(rightLeft);
-        }
-        // 左
-        rightLeft = 1;
+        // 右の台札をシャッフル
+        var rightLeft = 0;// 右
+        goCenterStacksCards[rightLeft] = goCenterStacksCards[rightLeft].OrderBy(i => Guid.NewGuid()).ToList();
+
+        // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
         while (0 < goCenterStacksCards[rightLeft].Count)
         {
             AddCardsToPileFromCenterStacks(rightLeft);
         }
 
-        // 手札をシャッフル
+        // 手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
         for (int player = 0; player < 2; player++)
         {
-            goPlayersPileCards[player] = goPlayersPileCards[player].OrderBy(i => Guid.NewGuid()).ToList();
-        }
-
-        for (int player = 0; player < 2; player++)
-        {
-            // 手札から５枚抜いて、場札を５枚置く
             AddCardsToHandFromPile(player, 5);
         }
 
-        // 左の台札が空っぽの状態
-        this.centerStacksX[1] = -15.0f;
-        this.centerStacksY[1] = minY;
-        this.centerStacksZ[1] = 10.0f;
-
-        // 右の台札が空っぽの状態
-        this.centerStacksX[0] = 15.0f;
-        this.centerStacksY[0] = minY;
-        this.centerStacksZ[0] = 0.0f;
-
-        // 左の台札を積み上げる
+        // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
         PutCardToCenterStack(
             player: 1, // ２プレイヤーが
             handIndex: 0, // 場札の１枚目から
             rightLeft: 0 // 左の
             );
+        // ２プレイヤーの場札を並べる
+        ArrangeHandCards(1);
 
-        // 右の台札を積み上げる
+        // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
         PutCardToCenterStack(
             player: 0, // １プレイヤーが
             handIndex: 0, // 場札の１枚目から
             rightLeft: 1 // 右の
             );
-
-        // ２プレイヤーの場札を並べる
-        ArrangeHandCards(1);
-
         // １プレイヤーの場札を並べる
         ArrangeHandCards(0);
 
@@ -157,46 +133,29 @@ public class GameManager : MonoBehaviour
             var startIndex = length - numberOfCards;
             var goCard = goCenterStacksCards[rightLeft].ElementAt(startIndex);
             goCenterStacksCards[rightLeft].RemoveAt(startIndex);
-            goPlayersPileCards[rightLeft].Add(goCard);
 
             // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
             int player;
+            float angleY;
             if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
             {
                 player = 0;
+                angleY = 180.0f;
             }
             else if (goCard.name.StartsWith("Diamonds") || goCard.name.StartsWith("Hearts"))
             {
                 player = 1;
+                angleY = 0.0f;
             }
             else
             {
                 throw new Exception();
             }
 
-            switch (player)
-            {
-                case 0:
-                    // １プレイヤーの手札を積み上げる
-                    {
-                        float y = minY;
-                        SetPosRot(goCard, pileCardsX[0], pileCardsY[0], pileCardsZ[0], angleZ: 180.0f);
-                        pileCardsY[0] += 0.2f;
-                    }
-                    break;
-
-                case 1:
-                    // ２プレイヤーの手札を積み上げる
-                    {
-                        float y = minY;
-                        SetPosRot(goCard, pileCardsX[1], pileCardsY[1], pileCardsZ[1], angleY: 0.0f, angleZ: 180.0f);
-                        pileCardsY[1] += 0.2f;
-                    }
-                    break;
-
-                default:
-                    throw new Exception();
-            }
+            // プレイヤーの手札を積み上げる
+            goPlayersPileCards[player].Add(goCard);
+            SetPosRot(goCard, pileCardsX[player], pileCardsY[player], pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
+            pileCardsY[player] += 0.2f;
         }
     }
 

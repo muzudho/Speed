@@ -1268,7 +1268,19 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 「　じゃあ　ゲーム開始時に　散らばっているカードは  
 台札という扱いにして、ゲーム開始時に　『台札を色分けして、手札に積む』という定型パターンに乗せなさいよ」  
 
-![202301_unity_28-2044--pileCardsY-1.png](https://crieit.now.sh/upload_images/6efa99b1d3073e58ebea8ca0aad5ce0163d50abce2f43.png)  
+```csharp
+    // 台札
+    float[] centerStacksX = { 15.0f, -15.0f };
+
+    /// <summary>
+    /// 台札のY座標
+    /// 
+    /// - 右が 0、左が 1
+    /// - 0.0f は盤なので、それより上にある
+    /// </summary>
+    float[] centerStacksY = { 0.5f, 0.5f };
+    float[] centerStacksZ = { 0.0f, 10.0f };
+```
 
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　台札の一番上のカードのY座標を　外側に追いやって……」  
@@ -1288,46 +1300,29 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
             var startIndex = length - numberOfCards;
             var goCard = goCenterStacksCards[rightLeft].ElementAt(startIndex);
             goCenterStacksCards[rightLeft].RemoveAt(startIndex);
-            goPlayersPileCards[rightLeft].Add(goCard);
 
             // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
             int player;
+            float angleY;
             if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
             {
                 player = 0;
+                angleY = 180.0f;
             }
             else if (goCard.name.StartsWith("Diamonds") || goCard.name.StartsWith("Hearts"))
             {
                 player = 1;
+                angleY = 0.0f;
             }
             else
             {
                 throw new Exception();
             }
 
-            switch (player)
-            {
-                case 0:
-                    // １プレイヤーの手札を積み上げる
-                    {
-                        float y = minY;
-                        SetPosRot(goCard, pileCardsX[0], pileCardsY[0], pileCardsZ[0], angleZ: 180.0f);
-                        pileCardsY[0] += 0.2f;
-                    }
-                    break;
-
-                case 1:
-                    // ２プレイヤーの手札を積み上げる
-                    {
-                        float y = minY;
-                        SetPosRot(goCard, pileCardsX[1], pileCardsY[1], pileCardsZ[1], angleY: 0.0f, angleZ: 180.0f);
-                        pileCardsY[1] += 0.2f;
-                    }
-                    break;
-
-                default:
-                    throw new Exception();
-            }
+            // プレイヤーの手札を積み上げる
+            goPlayersPileCards[player].Add(goCard);
+            SetPosRot(goCard, pileCardsX[player], pileCardsY[player], pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
+            pileCardsY[player] += 0.2f;
         }
     }
 ```
@@ -1338,30 +1333,21 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 ```csharp
     void Start()
     {
-        // ゲーム開始時、すべてのカードは、いったん台札という扱いにする
-
-        // 台札
-        // ２６枚ずつカードを集める
+        // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
         for (int i = 1; i < 14; i++)
         {
             // 右の台札
             goCenterStacksCards[0].Add(GameObject.Find($"Clubs {i}"));
-            goCenterStacksCards[1].Add(GameObject.Find($"Diamonds {i}"));
-
-            // 左の台札
-            goCenterStacksCards[1].Add(GameObject.Find($"Hearts {i}"));
+            goCenterStacksCards[0].Add(GameObject.Find($"Diamonds {i}"));
+            goCenterStacksCards[0].Add(GameObject.Find($"Hearts {i}"));
             goCenterStacksCards[0].Add(GameObject.Find($"Spades {i}"));
         }
 
-        // 台札をすべて、色分けして、手札に乗せる
-        // 右
-        var rightLeft = 0;
-        while (0 < goCenterStacksCards[rightLeft].Count)
-        {
-            AddCardsToPileFromCenterStacks(rightLeft);
-        }
-        // 左
-        rightLeft = 1;
+        // 右の台札をシャッフル
+        var rightLeft = 0;// 右
+        goCenterStacksCards[rightLeft] = goCenterStacksCards[rightLeft].OrderBy(i => Guid.NewGuid()).ToList();
+
+        // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
         while (0 < goCenterStacksCards[rightLeft].Count)
         {
             AddCardsToPileFromCenterStacks(rightLeft);
@@ -1371,6 +1357,6 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　それに引きずられて、開始時の処理も変えるぜ」  
 
-📅2023-01-28 sat 20:49  
+📅2023-01-28 sat 21:17  
 
 # // 書きかけ
