@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using UnityEngine;
 
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
     /// - 0.0f は盤なので、それより上にある
     /// </summary>
     float[] centerStacksY = { 0.5f, 0.5f };
-    float[] centerStacksZ = { 0.0f, 10.0f };
+    float[] centerStacksZ = { 0.5f, 10.5f };
 
     // Start is called before the first frame update
     void Start()
@@ -98,14 +99,14 @@ public class GameManager : MonoBehaviour
         AddCardsToHandFromPile(player: 1, numberOfCards: 5);
 
         // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
-        PutCardToCenterStackFromHand(
+        AddCardToCenterStackFromHand(
             player: 1, // ２プレイヤーが
             handIndex: 0, // 場札の１枚目から
             place: left // 左の
             );
 
         // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
-        PutCardToCenterStackFromHand(
+        AddCardToCenterStackFromHand(
             player: 0, // １プレイヤーが
             handIndex: 0, // 場札の１枚目から
             place: right // 右の
@@ -223,22 +224,77 @@ public class GameManager : MonoBehaviour
         float theta = startTheta;
         foreach (var goCard in goPlayersHandCards[player])
         {
-            float x2 = range * Mathf.Cos(theta + playerTheta) + ox;
-            float z2 = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
+            float x = range * Mathf.Cos(theta + playerTheta) + ox;
+            float z = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
 
-            SetPosRot(goCard, x2, minY, z2, angleY: angleY, angleZ: cardAngleZ);
+            SetPosRot(goCard, x, minY, z, angleY: angleY, angleZ: cardAngleZ);
             theta += thetaStep;
         }
     }
 
+    /// <summary>
+    /// ぴったり積むと不自然だから、X と Z を少しずらすための仕組み
+    /// 
+    /// - １プレイヤー、２プレイヤーのどちらも右利きと仮定
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    (float, float, float) MakeShakeForCenterStack(int player)
+    {
+        // １プレイヤーから見て。左上にずれていくだろう
+        var left = -1.5f;
+        var right = 0.5f;
+        var bottom = -0.5f;
+        var top = 1.5f;
+        float angleY;
+
+        switch (player)
+        {
+            case 0:
+                angleY = UnityEngine.Random.Range(-10, 40); // 反時計回りに大きく捻りそう
+                return (UnityEngine.Random.Range(left, right), UnityEngine.Random.Range(bottom, top), angleY);
+
+            case 1:
+                angleY = UnityEngine.Random.Range(-40, 10); // 時計回りに大きく捻りそう
+                return (UnityEngine.Random.Range(-right, -left), UnityEngine.Random.Range(-top, -bottom), angleY);
+
+            default:
+                throw new Exception();
+        }
+    }
     IEnumerator DoDemo()
     {
         float seconds = 1.0f;
-
         yield return new WaitForSeconds(seconds);
 
         AddCardsToHandFromPile(player: 0, numberOfCards: 21);
         AddCardsToHandFromPile(player: 1, numberOfCards: 21);
+
+        for (int i = 0; i < 25; i++)
+        {
+            // 左の台札を積み上げる
+            {
+                AddCardToCenterStackFromHand(
+                    player: 0, // １プレイヤーが
+                    handIndex: 0, // 場札の１枚目から
+                    place: 1 // 左の台札
+                    );
+                yield return new WaitForSeconds(seconds);
+            }
+        }
+
+        for (int i = 0; i < 25; i++)
+        {
+            // 右の台札を積み上げる
+            {
+                AddCardToCenterStackFromHand(
+                    player: 1, // ２プレイヤーが
+                    handIndex: 0, // 場札の１枚目から
+                    place: 0 // 右の台札
+                    );
+                yield return new WaitForSeconds(seconds);
+            }
+        }
 
         /*
         // １プレイヤーの１枚目のカードにフォーカスを当てる
@@ -259,12 +315,12 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            // 右の台札を積み上げる
+            // 左の台札を積み上げる
             {
                 PutCardToCenterStackFromHand(
                     player: 0, // １プレイヤーが
                     handIndex: 1, // 場札の２枚目から
-                    place: 1 // 右の台札
+                    place: 1 // 左の台札
                     );
                 yield return new WaitForSeconds(seconds);
             }
@@ -305,14 +361,36 @@ public class GameManager : MonoBehaviour
     /// <param name="player">何番目のプレイヤー</param>
     /// <param name="handIndex">何枚目のカード</param>
     /// <param name="place">右なら0、左なら1</param>
-    private void PutCardToCenterStackFromHand(int player, int handIndex, int place)
+    private void AddCardToCenterStackFromHand(int player, int handIndex, int place)
     {
         var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
         goPlayersHandCards[player].RemoveAt(handIndex);
+
+        // 台札の一番上（一番後ろ）のカードの中心座標 X, Z
+        float nextTopX;
+        float nextTopZ;
+        float nextAngleY = goCard.transform.rotation.z;
+
+        var (shakeX, shakeZ, shakeAngleY) = MakeShakeForCenterStack(place);
+
+        var length = goCenterStacksCards[place].Count;
+        if (length < 1)
+        {
+            nextTopX = this.centerStacksX[place];
+            nextTopZ = this.centerStacksZ[place];
+        }
+        else
+        {
+            var goLastCard = goCenterStacksCards[place][length - 1]; // 最後のカード
+            nextTopX = (goLastCard.transform.position.x - this.centerStacksX[place]) / 2 + this.centerStacksX[place];
+            nextTopZ = (goLastCard.transform.position.z - this.centerStacksZ[place]) / 2 + this.centerStacksZ[place];
+            nextAngleY += shakeAngleY;
+        }
+
         goCenterStacksCards[place].Add(goCard); // 台札として置く
 
         // カードの位置をセット
-        SetPosRot(goCard, this.centerStacksX[place], this.centerStacksY[place], this.centerStacksZ[place]);
+        SetPosRot(goCard, nextTopX + shakeX, this.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
 
         // 次に台札に積むカードの高さ
         this.centerStacksY[place] += 0.2f;
