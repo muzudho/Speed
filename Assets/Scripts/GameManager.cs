@@ -83,11 +83,12 @@ public class GameManager : MonoBehaviour
         {
             // シャッフル
             goPlayersPileCards[player] = goPlayersPileCards[player].OrderBy(i => Guid.NewGuid()).ToList();
+        }
 
+        for (int player = 0; player < 2; player++)
+        {
             // 手札から５枚抜いて、場札を５枚置く
-            var goCards = goPlayersPileCards[player].GetRange(0, 5);
-            goPlayersPileCards[player].RemoveRange(0, 5);
-            goPlayersHandCards[player].AddRange(goCards);
+            AddCardsToHandFromPile(player, 5);
         }
 
         // 左の台札が空っぽの状態
@@ -118,10 +119,6 @@ public class GameManager : MonoBehaviour
                 );
         }
 
-
-        // ２プレイヤーの場札を並べる
-        ArrangeHandCards(1);
-
         // ２プレイヤーの手札を積み上げる
         {
             float x = minX;
@@ -146,10 +143,29 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // ２プレイヤーの場札を並べる
+        ArrangeHandCards(1);
+
         // １プレイヤーの場札を並べる
         ArrangeHandCards(0);
 
         StartCoroutine("DoDemo");
+    }
+
+    /// <summary>
+    /// 手札からｎ枚抜いて、場札へ移動する
+    /// 
+    /// - 場札は並び直される
+    /// </summary>
+    void AddCardsToHandFromPile(int player, int numberOfCards)
+    {
+        // 手札からｎ枚抜いて、場札へ移動する
+        var goCards = goPlayersPileCards[player].GetRange(0, numberOfCards);
+        goPlayersPileCards[player].RemoveRange(0, numberOfCards);
+        goPlayersHandCards[player].AddRange(goCards);
+
+        // 場札を並べる
+        ArrangeHandCards(player);
     }
 
     /// <summary>

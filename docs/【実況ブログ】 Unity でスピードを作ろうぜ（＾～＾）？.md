@@ -1160,4 +1160,38 @@ public class GameManager : MonoBehaviour
 
 📅2023-01-28 sat 18:46  
 
+![202301_unity_28-1850--addPile-1.png](https://crieit.now.sh/upload_images/08af1db6255bb190ceaeba626ab2a42063d4f23cb4d13.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　次は　『手札から１枚抜いて場札に置く』というモーションを１つの関数にしたいぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　せっかく　ｎ枚　指定できる作りなのに……」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　じゃあ　ｎ枚　のところも残すか……」  
+
+```csharp
+    /// <summary>
+    /// 手札からｎ枚抜いて、場札へ移動する
+    /// 
+    /// - 場札は並び直される
+    /// </summary>
+    void AddCardsToHandFromPile(int player, int numberOfCards)
+    {
+        // 手札からｎ枚抜いて、場札へ移動する
+        var goCards = goPlayersPileCards[player].GetRange(0, numberOfCards);
+        goPlayersPileCards[player].RemoveRange(0, numberOfCards);
+        goPlayersHandCards[player].AddRange(goCards);
+
+        // 場札を並べる
+        ArrangeHandCards(player);
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こんな感じで」  
+
+📅2023-01-28 sat 19:12  
+
 # // 書きかけ
