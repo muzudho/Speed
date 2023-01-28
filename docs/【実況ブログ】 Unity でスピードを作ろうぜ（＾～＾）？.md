@@ -1491,4 +1491,65 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 
 📅2023-01-28 sat 22:09  
 
+![202301_unity_28-2214--angle.png](https://crieit.now.sh/upload_images/a377c400c9e27ce82da82679529fa85863d51fd264fac.png)  
+
+```csharp
+    /// <summary>
+    /// 場札を並べる
+    /// </summary>
+    void ArrangeHandCards(int player)
+    {
+        int numberOfCards = goPlayersHandCards[player].Count; // カードの枚数
+        if (numberOfCards < 1)
+        {
+            return;
+        }
+
+        float cardAngleZ = -5; // カードの少しの傾き
+        float cardWidth = 10; // カードの横幅
+        float marginRight = -2; // カードは隣のカードと少し重なる
+        float wholeWidth = numberOfCards * cardWidth + ((numberOfCards - 1) * marginRight); // 場札全体の横幅
+        float centerOfLeftestCard = -(wholeWidth / 2 - (cardWidth / 2)); // １プレイヤーから見て一番左のカードの中心座標
+
+        float angleY;
+        float stepSign;
+        float x;
+
+        switch (player)
+        {
+            case 0:
+                // １プレイヤーの場札は、画面では、右から左へ並べる
+                angleY = 180.0f;
+                stepSign = 1;
+                x = centerOfLeftestCard;
+                break;
+
+            case 1:
+                // ２プレイヤーの場札は、画面では、左から右へ並べる
+                angleY = 0.0f;
+                stepSign = -1;
+                x = -centerOfLeftestCard;
+                break;
+
+            default:
+                throw new Exception();
+        }
+
+        float xStep = stepSign * (cardWidth + marginRight);
+        foreach (var goCard in goPlayersHandCards[player])
+        {
+            SetPosRot(goCard, x, minY, handCardsZ[player], angleY: angleY, angleZ: cardAngleZ);
+            x += xStep;
+        }
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　２プレイヤー側は　いい感じに影が付いたが、１プレイヤー側は　光の当たり方のせいで　思ったようにはなってないぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　扇状に並べたら　いい感じになるんじゃない？」  
+
+📅2023-01-28 sat 22:17  
+
 # // 書きかけ

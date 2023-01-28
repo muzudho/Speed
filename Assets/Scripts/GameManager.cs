@@ -186,6 +186,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        float cardAngleZ = -5; // カードの少しの傾き
         float cardWidth = 10; // カードの横幅
         float marginRight = -2; // カードは隣のカードと少し重なる
         float wholeWidth = numberOfCards * cardWidth + ((numberOfCards - 1) * marginRight); // 場札全体の横幅
@@ -218,7 +219,7 @@ public class GameManager : MonoBehaviour
         float xStep = stepSign * (cardWidth + marginRight);
         foreach (var goCard in goPlayersHandCards[player])
         {
-            SetPosRot(goCard, x, minY, handCardsZ[player], angleY: angleY);
+            SetPosRot(goCard, x, minY, handCardsZ[player], angleY: angleY, angleZ: cardAngleZ);
             x += xStep;
         }
     }
