@@ -105,20 +105,7 @@ public class GameManager : MonoBehaviour
         MoveCardsToHandFromPile(player: 0, numberOfCards: 5);
         MoveCardsToHandFromPile(player: 1, numberOfCards: 5);
 
-        // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
-        MoveCardToCenterStackFromHand(
-            player: 1, // ２プレイヤーが
-            handIndex: 0, // 場札の１枚目から
-            place: left // 左の
-            );
-
-        // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
-        MoveCardToCenterStackFromHand(
-            player: 0, // １プレイヤーが
-            handIndex: 0, // 場札の１枚目から
-            place: right // 右の
-            );
-
+        StartCoroutine("DoIntroduction");
         StartCoroutine("DoDemo");
     }
 
@@ -160,6 +147,125 @@ public class GameManager : MonoBehaviour
         {
             // TODO （１プレイヤー視点で言うと）右隣の場札を選択する
         }
+    }
+
+    IEnumerator DoIntroduction()
+    {
+        const int right = 0;// 台札の右
+        const int left = 1;// 台札の左
+
+        float seconds = 1.0f;
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの先頭のカードへフォーカスを移します
+        MoveFocusToNextCard(player: 0, direction: 0);
+        // ２プレイヤーの先頭のカードへフォーカスを移します
+        MoveFocusToNextCard(player: 1, direction: 0);
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
+        MoveCardToCenterStackFromHand(
+            player: 0, // １プレイヤーが
+            place: right // 右の
+            );
+        // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
+        MoveCardToCenterStackFromHand(
+            player: 1, // ２プレイヤーが
+            place: left // 左の
+            );
+        yield return new WaitForSeconds(seconds);
+    }
+
+    IEnumerator DoDemo()
+    {
+        float seconds = 1.0f;
+        yield return new WaitForSeconds(seconds);
+
+        /*
+        AddCardsToHandFromPile(player: 0, numberOfCards: 21);
+        AddCardsToHandFromPile(player: 1, numberOfCards: 21);
+
+        for (int i = 0; i < 25; i++)
+        {
+            // 左の台札を積み上げる
+            {
+                AddCardToCenterStackFromHand(
+                    player: 0, // １プレイヤーが
+                    handIndex: 0, // 場札の１枚目から
+                    place: 1 // 左の台札
+                    );
+                yield return new WaitForSeconds(seconds);
+            }
+        }
+
+        for (int i = 0; i < 25; i++)
+        {
+            // 右の台札を積み上げる
+            {
+                AddCardToCenterStackFromHand(
+                    player: 1, // ２プレイヤーが
+                    handIndex: 0, // 場札の１枚目から
+                    place: 0 // 右の台札
+                    );
+                yield return new WaitForSeconds(seconds);
+            }
+        }
+        */
+
+        /*
+        for (int i = 0; i < 1; i++)
+        {
+            // １プレイヤーの右隣のカードへフォーカスを移します
+            MoveFocusToNextCard(0, 0);
+            yield return new WaitForSeconds(seconds);
+        }
+        */
+
+
+        /*
+        // // １プレイヤーの２枚目のカードのフォーカスを外す
+        // GetCard(0, 1, (goCard) => ResetFocusHand(goCard));
+        // yield return new WaitForSeconds(seconds);
+
+        for (int i = 0; i < 3; i++)
+        {
+            // 左の台札を積み上げる
+            {
+                MoveCardToCenterStackFromHand(
+                    player: 0, // １プレイヤーが
+                    place: 1 // 左の台札
+                    );
+                yield return new WaitForSeconds(seconds);
+            }
+        }
+
+        // １プレイヤーは手札から３枚抜いて、場札として置く
+        MoveCardsToHandFromPile(0, 3);
+        yield return new WaitForSeconds(seconds);
+
+        // -
+
+        // ２プレイヤーの１枚目のカードにフォーカスを当てる
+        GetCard(1, 0, (goCard) => SetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+
+        // ２プレイヤーの１枚目のカードのフォーカスを外す
+        GetCard(1, 0, (goCard) => ResetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+
+        // ２プレイヤーの２枚目のカードにフォーカスを当てる
+        GetCard(1, 1, (goCard) => SetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+
+        // ２プレイヤーの２枚目のカードのフォーカスを外す
+        GetCard(1, 1, (goCard) => ResetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+
+        // -
+
+        // １プレイヤーは、手札から１枚抜いて、場札とする
+        MoveCardsToHandFromPile(0, 1);
+        // */
     }
 
     /// <summary>
@@ -312,106 +418,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator DoDemo()
-    {
-        float seconds = 1.0f;
-        yield return new WaitForSeconds(seconds);
-
-        /*
-        AddCardsToHandFromPile(player: 0, numberOfCards: 21);
-        AddCardsToHandFromPile(player: 1, numberOfCards: 21);
-
-        for (int i = 0; i < 25; i++)
-        {
-            // 左の台札を積み上げる
-            {
-                AddCardToCenterStackFromHand(
-                    player: 0, // １プレイヤーが
-                    handIndex: 0, // 場札の１枚目から
-                    place: 1 // 左の台札
-                    );
-                yield return new WaitForSeconds(seconds);
-            }
-        }
-
-        for (int i = 0; i < 25; i++)
-        {
-            // 右の台札を積み上げる
-            {
-                AddCardToCenterStackFromHand(
-                    player: 1, // ２プレイヤーが
-                    handIndex: 0, // 場札の１枚目から
-                    place: 0 // 右の台札
-                    );
-                yield return new WaitForSeconds(seconds);
-            }
-        }
-        */
-
-        //*
-        for (int i=0; i<2; i++)
-        {
-            // １プレイヤーの右隣のカードへフォーカスを移します
-            MoveFocusToNextCard(0, 0);
-            yield return new WaitForSeconds(seconds);
-        }
-
-        // １プレイヤーの２枚目のカードのフォーカスを外す
-        GetCard(0, 1, (goCard) => ResetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        for (int i = 0; i < 3; i++)
-        {
-            // 左の台札を積み上げる
-            {
-                MoveCardToCenterStackFromHand(
-                    player: 0, // １プレイヤーが
-                    handIndex: 1, // 場札の２枚目から
-                    place: 1 // 左の台札
-                    );
-                yield return new WaitForSeconds(seconds);
-            }
-        }
-
-        // １プレイヤーは手札から３枚抜いて、場札として置く
-        MoveCardsToHandFromPile(0, 3);
-        yield return new WaitForSeconds(seconds);
-
-        // -
-
-        // ２プレイヤーの１枚目のカードにフォーカスを当てる
-        GetCard(1, 0, (goCard) => SetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        // ２プレイヤーの１枚目のカードのフォーカスを外す
-        GetCard(1, 0, (goCard) => ResetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        // ２プレイヤーの２枚目のカードにフォーカスを当てる
-        GetCard(1, 1, (goCard) => SetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        // ２プレイヤーの２枚目のカードのフォーカスを外す
-        GetCard(1, 1, (goCard) => ResetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        // -
-
-        // １プレイヤーは、手札から１枚抜いて、場札とする
-        MoveCardsToHandFromPile(0, 1);
-        // */
-    }
-
     /// <summary>
     /// 場札の好きなところから１枚抜いて、台札を１枚置く
     /// </summary>
     /// <param name="player">何番目のプレイヤー</param>
-    /// <param name="handIndex">何枚目のカード</param>
     /// <param name="place">右なら0、左なら1</param>
-    private void MoveCardToCenterStackFromHand(int player, int handIndex, int place)
+    private void MoveCardToCenterStackFromHand(int player, int place)
     {
+        int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
+        if (handIndex < 0 || goPlayersHandCards[player].Count <= handIndex) // 範囲外は無視
+        {
+            return;
+        }
+
         var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
         goPlayersHandCards[player].RemoveAt(handIndex);
+        if (goPlayersHandCards[player].Count <= handIndex) // 範囲外アクセス防止対応
+        {
+            handIndex = goPlayersHandCards[player].Count - 1;
+        }
 
         // 台札の一番上（一番後ろ）のカードの中心座標 X, Z
         float nextTopX;
@@ -444,6 +469,13 @@ public class GameManager : MonoBehaviour
 
         // 場札の位置調整
         ArrangeHandCards(player);
+
+        if (0 <= handIndex && handIndex < goPlayersHandCards[player].Count) // 範囲内なら
+        {
+            // 抜いたカードの右隣のカードを（有れば）ピックアップする
+            var goNewPickupCard = goPlayersHandCards[player].ElementAt(handIndex);
+            SetFocusHand(goNewPickupCard);
+        }
     }
 
     /// <summary>
@@ -528,7 +560,7 @@ public class GameManager : MonoBehaviour
         {
             case 0:
                 previous = playsersFocusedCardIndex[player];
-                if (previous==-1)
+                if (previous == -1)
                 {
                     // 先頭の外から、先頭へ入ってくる
                     current = 0;
@@ -546,7 +578,7 @@ public class GameManager : MonoBehaviour
 
             case 1:
                 previous = playsersFocusedCardIndex[player];
-                if (previous==-1)
+                if (previous == -1)
                 {
                     // 最後尾の外から、最後尾へ入ってくる
                     current = length - 1;

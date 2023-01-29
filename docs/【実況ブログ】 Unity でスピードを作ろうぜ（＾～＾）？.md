@@ -2130,4 +2130,128 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 
 📅2023-01-29 sat 16:03  
 
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　持ってる場札を、台札の上に置いたら、  
+場札は　どれをピックアップしている状態に戻るんだぜ？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　どれもピックアップしてないんじゃないの？」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　じゃあ　また端っこから　ピックアップし直しかだぜ？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　それも不便だぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　じゃあ　抜いたカードの右隣を　ピックアップするようにしたらいいんじゃないの？」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　右端のカードを抜いたんだったら　どうする？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　一番右端のカードを　ピックアップしたらいいのよ。  
+何もピックアップしないというのも　自然だけど」  
+
+📅2023-01-29 sat 16:21  
+
+```csharp
+    void Start()
+    { // ... 略
+
+        // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
+        MoveCardToCenterStackFromHand(
+            player: 1, // ２プレイヤーが
+            handIndex: 0, // 場札の１枚目から
+            place: left // 左の
+            );
+
+        // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
+        MoveCardToCenterStackFromHand(
+            player: 0, // １プレイヤーが
+            handIndex: 0, // 場札の１枚目から
+            place: right // 右の
+            );
+
+        StartCoroutine("DoDemo");
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　既存のコードでは、任意の場所のカードを引き抜けたが、  
+これを　ピックアップしているカードを引き抜く　ように固定したいぜ」  
+
+```csharp
+    private void MoveCardToCenterStackFromHand(int player, int handIndex, int place)
+    {
+        var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
+        goPlayersHandCards[player].RemoveAt(handIndex);
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　つまり　handIndex 変数を廃止して、  
+`playsersFocusedCardIndex[player]` を参照するように　１本化したいぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　しろだぜ」  
+
+```csharp
+    private void MoveCardToCenterStackFromHand(int player, int place)
+    {
+        int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
+        if (handIndex < 0 || goPlayersHandCards[player].Count <= handIndex) // 範囲外は無視
+        {
+            return;
+        }
+
+        var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
+        goPlayersHandCards[player].RemoveAt(handIndex);
+        if (goPlayersHandCards[player].Count <= handIndex) // 範囲外アクセス防止対応
+        {
+            handIndex = goPlayersHandCards[player].Count - 1;
+        }
+
+        // ... 場札の位置調整が済んだ後で
+
+        if (0 <= handIndex && handIndex < goPlayersHandCards[player].Count) // 範囲内なら
+        {
+            // 抜いたカードの右隣のカードを（有れば）ピックアップする
+            var goNewPickupCard = goPlayersHandCards[player].ElementAt(handIndex);
+            SetFocusHand(goNewPickupCard);
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こう書きかえて」  
+
+```csharp
+    void Start()
+    { // ... 略
+
+        // １プレイヤーの先頭のカードへフォーカスを移します
+        MoveFocusToNextCard(player: 0, direction: 0);
+        // ２プレイヤーの先頭のカードへフォーカスを移します
+        MoveFocusToNextCard(player: 1, direction: 0);
+
+        // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
+        MoveCardToCenterStackFromHand(
+            player: 1, // ２プレイヤーが
+            place: left // 左の
+            );
+
+        // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
+        MoveCardToCenterStackFromHand(
+            player: 0, // １プレイヤーが
+            place: right // 右の
+            );
+
+        StartCoroutine("DoDemo");
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こうだぜ」  
+
+📅2023-01-29 sat 16:44  
+
 # // 書きかけ
