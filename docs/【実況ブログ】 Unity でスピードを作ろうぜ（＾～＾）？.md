@@ -1860,4 +1860,274 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 
 📅2023-01-29 sat 15:24  
 
+`Assets.Scripts.GameManager.cs` :  
+
+```csharp
+    /// <summary>
+    /// プレイヤーが選択しているカードは、先頭から何枚目
+    /// </summary>
+    int[] playsersFocusedCardIndex ={ 0, 0 };
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　何枚目のカードを選択しているか、覚えさせることにするぜ」  
+
+```csharp
+    /// <summary>
+    /// 左（前側）のカードをフォーカスします
+    /// </summary>
+    /// <param name="player"></param>
+    void MoveFocusToLeftCard(int player)
+    {
+        var previous = playsersFocusedCardIndex[player];
+        var current = previous - 1;
+
+        if (current < 1)
+        {
+            return;
+        }
+
+        // 前にフォーカスしていたカードを、盤に下ろす
+        var goPreviousCard = goPlayersHandCards[player][previous];
+        ResetFocusHand(goPreviousCard);
+
+        // 今回フォーカスするカードを持ち上げる
+        var goCurrentCard = goPlayersHandCards[player][current];
+        SetFocusHand(goCurrentCard);
+    }
+
+    /// <summary>
+    /// 右（後ろ側）のカードをフォーカスします
+    /// </summary>
+    /// <param name="player"></param>
+    void MoveFocusToRightCard(int player)
+    {
+        var previous = playsersFocusedCardIndex[player];
+        var current = previous + 1;
+
+        if (goPlayersHandCards[player].Count <= current)
+        {
+            return;
+        }
+
+        // 前にフォーカスしていたカードを、盤に下ろす
+        var goPreviousCard = goPlayersHandCards[player][previous];
+        ResetFocusHand(goPreviousCard);
+
+        // 今回フォーカスするカードを持ち上げる
+        var goCurrentCard = goPlayersHandCards[player][current];
+        SetFocusHand(goCurrentCard);
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こうかなあ？」  
+
+📅2023-01-29 sat 15:42  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　１本化しろだぜ」  
+
+```csharp
+    /// <summary>
+    /// 隣のカードへフォーカスを移します
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="direction">後ろ:0, 前:1</param>
+    void MoveFocusToNextCard(int player, int direction)
+    {
+        int previous;
+        int current;
+
+        switch (direction)
+        {
+            case 0:
+                previous = playsersFocusedCardIndex[player];
+                current = previous + 1;
+
+                if (goPlayersHandCards[player].Count <= current)
+                {
+                    return;
+                }
+                break;
+
+            case 1:
+                previous = playsersFocusedCardIndex[player];
+                current = previous - 1;
+
+                if (current < 0)
+                {
+                    return;
+                }
+                break;
+
+            default:
+                throw new Exception();
+        }
+
+        // 前にフォーカスしていたカードを、盤に下ろす
+        var goPreviousCard = goPlayersHandCards[player][previous];
+        ResetFocusHand(goPreviousCard);
+
+        // 今回フォーカスするカードを持ち上げる
+        var goCurrentCard = goPlayersHandCards[player][current];
+        SetFocusHand(goCurrentCard);
+
+        // 更新
+        playsersFocusedCardIndex[player] = current;
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こうかなあ？」  
+
+📅2023-01-29 sat 15:45  
+
+古いコード:  
+
+```csharp
+        // １プレイヤーの１枚目のカードにフォーカスを当てる
+        GetCard(0, 0, (goCard) => SetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの１枚目のカードのフォーカスを外す
+        GetCard(0, 0, (goCard) => ResetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの２枚目のカードにフォーカスを当てる
+        GetCard(0, 1, (goCard) => SetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの２枚目のカードのフォーカスを外す
+        GetCard(0, 1, (goCard) => ResetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　これは」
+
+新しいコード:  
+
+```csharp
+        // １プレイヤーの１枚目のカードにフォーカスを当てる
+        GetCard(0, 0, (goCard) => SetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの右隣のカードへフォーカスを移します
+        MoveFocusToNextCard(0, 0);
+        yield return new WaitForSeconds(seconds);
+
+        // １プレイヤーの２枚目のカードのフォーカスを外す
+        GetCard(0, 1, (goCard) => ResetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こう書き直せるな」
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　『フォーカスされているカードはない』という状態を　有りにすれば、  
+『１枚目のカードにフォーカスを当てる』のも、  
+『１プレイヤーの右隣のカードへフォーカスを移します』で代用できるんじゃないの？」  
+
+```csharp
+    /// <summary>
+    /// プレイヤーが選択している場札は、先頭から何枚目
+    /// 
+    /// - 選択中の場札が無いなら、-1
+    /// </summary>
+    int[] playsersFocusedCardIndex = { -1, -1 };
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こう書き直して……」  
+
+```csharp
+    /// <summary>
+    /// 隣のカードへフォーカスを移します
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="direction">後ろ:0, 前:1</param>
+    void MoveFocusToNextCard(int player, int direction)
+    {
+        int previous;
+        int current;
+
+        switch (direction)
+        {
+            case 0:
+                var length = goPlayersHandCards[player].Count;
+                previous = playsersFocusedCardIndex[player];
+                if (previous==-1)
+                {
+                    // 最後尾の外から、最後尾へ入ってくる
+                    current = length - 1;
+                }
+                else
+                {
+                    current = previous + 1;
+                }
+
+                if (length <= current)
+                {
+                    return;
+                }
+                break;
+
+            case 1:
+                previous = playsersFocusedCardIndex[player];
+                if (previous==-1)
+                {
+                    // 先頭の外から、先頭へ入ってくる
+                    current = 0;
+                }
+                else
+                {
+                    current = previous - 1;
+                }
+
+                if (current < 0)
+                {
+                    return;
+                }
+                break;
+
+            default:
+                throw new Exception();
+        }
+
+        // 前にフォーカスしていたカードを、盤に下ろす
+        var goPreviousCard = goPlayersHandCards[player][previous];
+        ResetFocusHand(goPreviousCard);
+
+        // 今回フォーカスするカードを持ち上げる
+        var goCurrentCard = goPlayersHandCards[player][current];
+        SetFocusHand(goCurrentCard);
+
+        // 更新
+        playsersFocusedCardIndex[player] = current;
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こうかだぜ」  
+
+```csharp
+        for (int i=0; i<2; i++)
+        {
+            // １プレイヤーの右隣のカードへフォーカスを移します
+            MoveFocusToNextCard(0, 0);
+            yield return new WaitForSeconds(seconds);
+        }
+
+        // １プレイヤーの２枚目のカードのフォーカスを外す
+        GetCard(0, 1, (goCard) => ResetFocusHand(goCard));
+        yield return new WaitForSeconds(seconds);
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　すると　こう書けるわけかだぜ。　便利になるな」  
+
+📅2023-01-29 sat 16:03  
+
 # // 書きかけ

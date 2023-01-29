@@ -70,6 +70,13 @@ public class GameManager : MonoBehaviour
     float[] centerStacksY = { 0.5f, 0.5f };
     float[] centerStacksZ = { 0.5f, 10.5f };
 
+    /// <summary>
+    /// プレイヤーが選択している場札は、先頭から何枚目
+    /// 
+    /// - 選択中の場札が無いなら、-1
+    /// </summary>
+    int[] playsersFocusedCardIndex = { -1, -1 };
+
     // Start is called before the first frame update
     void Start()
     {
@@ -342,17 +349,12 @@ public class GameManager : MonoBehaviour
         */
 
         //*
-        // １プレイヤーの１枚目のカードにフォーカスを当てる
-        GetCard(0, 0, (goCard) => SetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        // １プレイヤーの１枚目のカードのフォーカスを外す
-        GetCard(0, 0, (goCard) => ResetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        // １プレイヤーの２枚目のカードにフォーカスを当てる
-        GetCard(0, 1, (goCard) => SetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
+        for (int i=0; i<2; i++)
+        {
+            // １プレイヤーの右隣のカードへフォーカスを移します
+            MoveFocusToNextCard(0, 0);
+            yield return new WaitForSeconds(seconds);
+        }
 
         // １プレイヤーの２枚目のカードのフォーカスを外す
         GetCard(0, 1, (goCard) => ResetFocusHand(goCard));
@@ -509,5 +511,73 @@ public class GameManager : MonoBehaviour
 
         card.transform.position = new Vector3(card.transform.position.x, card.transform.position.y + liftY, card.transform.position.z);
         card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
+    }
+
+    /// <summary>
+    /// 隣のカードへフォーカスを移します
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="direction">後ろ:0, 前:1</param>
+    void MoveFocusToNextCard(int player, int direction)
+    {
+        int previous;
+        int current;
+        var length = goPlayersHandCards[player].Count;
+
+        switch (direction)
+        {
+            case 0:
+                previous = playsersFocusedCardIndex[player];
+                if (previous==-1)
+                {
+                    // 先頭の外から、先頭へ入ってくる
+                    current = 0;
+                }
+                else
+                {
+                    current = previous + 1;
+                }
+
+                if (length <= current)
+                {
+                    return;
+                }
+                break;
+
+            case 1:
+                previous = playsersFocusedCardIndex[player];
+                if (previous==-1)
+                {
+                    // 最後尾の外から、最後尾へ入ってくる
+                    current = length - 1;
+                }
+                else
+                {
+                    current = previous - 1;
+                }
+
+                if (current < 0)
+                {
+                    return;
+                }
+                break;
+
+            default:
+                throw new Exception();
+        }
+
+        if (previous != -1)
+        {
+            // 前にフォーカスしていたカードを、盤に下ろす
+            var goPreviousCard = goPlayersHandCards[player][previous];
+            ResetFocusHand(goPreviousCard);
+        }
+
+        // 今回フォーカスするカードを持ち上げる
+        var goCurrentCard = goPlayersHandCards[player][current];
+        SetFocusHand(goCurrentCard);
+
+        // 更新
+        playsersFocusedCardIndex[player] = current;
     }
 }
