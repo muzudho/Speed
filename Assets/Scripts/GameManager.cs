@@ -105,7 +105,6 @@ public class GameManager : MonoBehaviour
         MoveCardsToHandFromPile(player: 0, numberOfCards: 5);
         MoveCardsToHandFromPile(player: 1, numberOfCards: 5);
 
-        StartCoroutine("DoIntroduction");
         StartCoroutine("DoDemo");
     }
 
@@ -149,8 +148,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator DoIntroduction()
+    IEnumerator DoDemo()
     {
+        // 卓準備
         const int right = 0;// 台札の右
         const int left = 1;// 台札の左
 
@@ -174,12 +174,8 @@ public class GameManager : MonoBehaviour
             place: left // 左の
             );
         yield return new WaitForSeconds(seconds);
-    }
 
-    IEnumerator DoDemo()
-    {
-        float seconds = 1.0f;
-        yield return new WaitForSeconds(seconds);
+        // ゲーム開始
 
         /*
         AddCardsToHandFromPile(player: 0, numberOfCards: 21);
@@ -212,36 +208,36 @@ public class GameManager : MonoBehaviour
         }
         */
 
-        /*
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 2; i++)
         {
             // １プレイヤーの右隣のカードへフォーカスを移します
             MoveFocusToNextCard(0, 0);
+            // ２プレイヤーの右隣のカードへフォーカスを移します
+            MoveFocusToNextCard(1, 0);
             yield return new WaitForSeconds(seconds);
         }
-        */
 
-
-        /*
-        // // １プレイヤーの２枚目のカードのフォーカスを外す
-        // GetCard(0, 1, (goCard) => ResetFocusHand(goCard));
-        // yield return new WaitForSeconds(seconds);
-
-        for (int i = 0; i < 3; i++)
+        // 台札を積み上げる
         {
-            // 左の台札を積み上げる
-            {
-                MoveCardToCenterStackFromHand(
-                    player: 0, // １プレイヤーが
-                    place: 1 // 左の台札
-                    );
-                yield return new WaitForSeconds(seconds);
-            }
+            MoveCardToCenterStackFromHand(
+                player: 0, // １プレイヤーが
+                place: 1 // 左の台札
+                );
+            MoveCardToCenterStackFromHand(
+                player: 1, // ２プレイヤーが
+                place: 0 // 右の台札
+                );
+            yield return new WaitForSeconds(seconds);
         }
 
         // １プレイヤーは手札から３枚抜いて、場札として置く
         MoveCardsToHandFromPile(0, 3);
+        // ２プレイヤーは手札から３枚抜いて、場札として置く
+        MoveCardsToHandFromPile(1, 3);
         yield return new WaitForSeconds(seconds);
+
+        /*
+
 
         // -
 
@@ -339,7 +335,7 @@ public class GameManager : MonoBehaviour
         int numberOfCards = goPlayersHandCards[player].Count; // カードの枚数
         if (numberOfCards < 1)
         {
-            return;
+            return; // 何もしない
         }
 
         float cardAngleZ = -5; // カードの少しの傾き
@@ -386,6 +382,23 @@ public class GameManager : MonoBehaviour
 
             SetPosRot(goCard, x, minY, z, angleY: angleY, angleZ: cardAngleZ);
             theta += thetaStep;
+        }
+
+        // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
+        ResumeCardPickup(player);
+    }
+
+    /// <summary>
+    /// 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
+    /// </summary>
+    void ResumeCardPickup(int player)
+    {
+        int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
+        if (0 <= handIndex && handIndex < goPlayersHandCards[player].Count) // 範囲内なら
+        {
+            // 抜いたカードの右隣のカードを（有れば）ピックアップする
+            var goNewPickupCard = goPlayersHandCards[player].ElementAt(handIndex);
+            SetFocusHand(goNewPickupCard);
         }
     }
 
@@ -469,13 +482,6 @@ public class GameManager : MonoBehaviour
 
         // 場札の位置調整
         ArrangeHandCards(player);
-
-        if (0 <= handIndex && handIndex < goPlayersHandCards[player].Count) // 範囲内なら
-        {
-            // 抜いたカードの右隣のカードを（有れば）ピックアップする
-            var goNewPickupCard = goPlayersHandCards[player].ElementAt(handIndex);
-            SetFocusHand(goNewPickupCard);
-        }
     }
 
     /// <summary>

@@ -2254,4 +2254,44 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 
 📅2023-01-29 sat 16:44  
 
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　場札を並べ直すと、場札を全部　盤の上に置いてしまって　ピックアップを忘れているぜ」  
+
+```csharp
+    /// <summary>
+    /// 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
+    /// </summary>
+    void ResumeCardPickup(int player)
+    {
+        int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
+        if (0 <= handIndex && handIndex < goPlayersHandCards[player].Count) // 範囲内なら
+        {
+            // 抜いたカードの右隣のカードを（有れば）ピックアップする
+            var goNewPickupCard = goPlayersHandCards[player].ElementAt(handIndex);
+            SetFocusHand(goNewPickupCard);
+        }
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　再度、持ち上げるのを関数化して……」  
+
+```csharp
+    /// <summary>
+    /// 場札を並べる
+    /// </summary>
+    void ArrangeHandCards(int player)
+    { // ... 略
+
+        // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
+        ResumeCardPickup(player);
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　場札の並べなおしメソッドに組み込んでしまおう。  
+他の箇所の既存の　持ち上げ直しコードは消すぜ」  
+
+📅2023-01-29 sat 17:07  
+
 # // 書きかけ
