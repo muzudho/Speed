@@ -112,39 +112,43 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // １プレイヤー
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             // TODO 選択中の場札を１枚抜いて、左の台札に置く
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             // TODO 選択中の場札を１枚抜いて、右の台札に置く
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            // TODO 左隣の場札を選択する
+            // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
+            MoveFocusToNextCard(0, 1);
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            // TODO 右隣の場札を選択する
+            // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
+            MoveFocusToNextCard(0, 0);
         }
 
         // ２プレイヤー
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、右の台札に置く
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、左の台札に置く
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A))
         {
-            // TODO （１プレイヤー視点で言うと）右隣の場札を選択する
+            // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
+            MoveFocusToNextCard(1, 1);
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
-            // TODO （１プレイヤー視点で言うと）右隣の場札を選択する
+            // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
+            MoveFocusToNextCard(1, 0);
         }
     }
 

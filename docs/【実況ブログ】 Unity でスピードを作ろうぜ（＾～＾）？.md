@@ -1822,11 +1822,11 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
         {
             // TODO 選択中の場札を１枚抜いて、右の台札に置く
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             // TODO 左隣の場札を選択する
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             // TODO 右隣の場札を選択する
         }
@@ -1840,11 +1840,11 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
         {
             // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、左の台札に置く
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A))
         {
             // TODO （１プレイヤー視点で言うと）右隣の場札を選択する
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             // TODO （１プレイヤー視点で言うと）右隣の場札を選択する
         }
@@ -2293,5 +2293,61 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 他の箇所の既存の　持ち上げ直しコードは消すぜ」  
 
 📅2023-01-29 sat 17:07  
+
+```csharp
+    void Update()
+    {
+        // １プレイヤー
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            // TODO 選択中の場札を１枚抜いて、左の台札に置く
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            // TODO 選択中の場札を１枚抜いて、右の台札に置く
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
+            MoveFocusToNextCard(0, 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
+            MoveFocusToNextCard(0, 0);
+        }
+
+        // ２プレイヤー
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、右の台札に置く
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、左の台札に置く
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
+            MoveFocusToNextCard(1, 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
+            MoveFocusToNextCard(1, 0);
+        }
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　半分埋まったな」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　２プレイヤーは　頭がひっくり返って　不利じゃない？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　上級者用のハンデに使えだぜ」  
+
+📅2023-01-29 sat 17:18  
 
 # // 書きかけ
