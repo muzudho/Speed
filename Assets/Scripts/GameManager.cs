@@ -111,14 +111,25 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        const int right = 0;// 台札の右
+        const int left = 1;// 台札の左
+
         // １プレイヤー
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            // TODO 選択中の場札を１枚抜いて、左の台札に置く
+            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
+            MoveCardToCenterStackFromHand(
+                player: 0, // １プレイヤーが
+                place: left // 左の
+                );
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            // TODO 選択中の場札を１枚抜いて、右の台札に置く
+            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+            MoveCardToCenterStackFromHand(
+                player: 0, // １プレイヤーが
+                place: right // 右の
+                );
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -134,11 +145,19 @@ public class GameManager : MonoBehaviour
         // ２プレイヤー
         if (Input.GetKeyDown(KeyCode.W))
         {
-            // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、右の台札に置く
+            // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+            MoveCardToCenterStackFromHand(
+                player: 1, // ２プレイヤーが
+                place: right // 右の
+                );
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、左の台札に置く
+            // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
+            MoveCardToCenterStackFromHand(
+                player: 1, // ２プレイヤーが
+                place: left // 左の
+                );
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
@@ -167,12 +186,12 @@ public class GameManager : MonoBehaviour
         MoveFocusToNextCard(player: 1, direction: 0);
         yield return new WaitForSeconds(seconds);
 
-        // １プレイヤーが、場札の１枚目を抜いて、右の台札へ積み上げる
+        // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
         MoveCardToCenterStackFromHand(
             player: 0, // １プレイヤーが
             place: right // 右の
             );
-        // ２プレイヤーが、場札の１枚目を抜いて、左の台札へ積み上げる
+        // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
         MoveCardToCenterStackFromHand(
             player: 1, // ２プレイヤーが
             place: left // 左の
@@ -180,37 +199,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
 
         // ゲーム開始
-
-        /*
-        AddCardsToHandFromPile(player: 0, numberOfCards: 21);
-        AddCardsToHandFromPile(player: 1, numberOfCards: 21);
-
-        for (int i = 0; i < 25; i++)
-        {
-            // 左の台札を積み上げる
-            {
-                AddCardToCenterStackFromHand(
-                    player: 0, // １プレイヤーが
-                    handIndex: 0, // 場札の１枚目から
-                    place: 1 // 左の台札
-                    );
-                yield return new WaitForSeconds(seconds);
-            }
-        }
-
-        for (int i = 0; i < 25; i++)
-        {
-            // 右の台札を積み上げる
-            {
-                AddCardToCenterStackFromHand(
-                    player: 1, // ２プレイヤーが
-                    handIndex: 0, // 場札の１枚目から
-                    place: 0 // 右の台札
-                    );
-                yield return new WaitForSeconds(seconds);
-            }
-        }
-        */
 
         for (int i = 0; i < 2; i++)
         {
@@ -568,58 +556,61 @@ public class GameManager : MonoBehaviour
 
         switch (direction)
         {
+            // 後ろへ
             case 0:
                 previous = playsersFocusedCardIndex[player];
                 if (previous == -1)
                 {
-                    // 先頭の外から、先頭へ入ってくる
+                    // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
                     current = 0;
                 }
                 else
                 {
                     current = previous + 1;
+                    if (length <= current)
+                    {
+                        // 範囲外は -1 ということにしておく
+                        current = -1;
+                    }
                 }
 
-                if (length <= current)
-                {
-                    return;
-                }
                 break;
 
+            // 前へ
             case 1:
                 previous = playsersFocusedCardIndex[player];
                 if (previous == -1)
                 {
-                    // 最後尾の外から、最後尾へ入ってくる
+                    // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
                     current = length - 1;
                 }
                 else
                 {
                     current = previous - 1;
+                    // - 1 になるケースもある
                 }
 
-                if (current < 0)
-                {
-                    return;
-                }
                 break;
 
             default:
                 throw new Exception();
         }
 
-        if (previous != -1)
+        // 更新
+        playsersFocusedCardIndex[player] = current;
+
+        if (0 <= previous && previous < goPlayersHandCards[player].Count) // 範囲内なら
         {
             // 前にフォーカスしていたカードを、盤に下ろす
             var goPreviousCard = goPlayersHandCards[player][previous];
             ResetFocusHand(goPreviousCard);
         }
 
-        // 今回フォーカスするカードを持ち上げる
-        var goCurrentCard = goPlayersHandCards[player][current];
-        SetFocusHand(goCurrentCard);
-
-        // 更新
-        playsersFocusedCardIndex[player] = current;
+        if (0 <= current && current < goPlayersHandCards[player].Count) // 範囲内なら
+        {
+            // 今回フォーカスするカードを持ち上げる
+            var goCurrentCard = goPlayersHandCards[player][current];
+            SetFocusHand(goCurrentCard);
+        }
     }
 }
