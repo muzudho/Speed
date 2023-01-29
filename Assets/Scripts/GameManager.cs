@@ -438,10 +438,17 @@ public class GameManager : MonoBehaviour
 
         var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
         goPlayersHandCards[player].RemoveAt(handIndex);
-        if (goPlayersHandCards[player].Count <= handIndex) // 範囲外アクセス防止対応
+        if (handIndex < 0 && 0 < goPlayersHandCards[player].Count)
         {
+            handIndex = 0;
+        }
+        else if (goPlayersHandCards[player].Count <= handIndex) // 範囲外アクセス防止対応
+        {
+            // 一旦、最後尾へ
             handIndex = goPlayersHandCards[player].Count - 1;
         }
+        // それでも範囲外なら、負の数
+        playsersFocusedCardIndex[player] = handIndex; // 更新：何枚目の場札をピックアップしているか
 
         // 台札の一番上（一番後ろ）のカードの中心座標 X, Z
         float nextTopX;
@@ -550,50 +557,48 @@ public class GameManager : MonoBehaviour
     /// <param name="direction">後ろ:0, 前:1</param>
     void MoveFocusToNextCard(int player, int direction)
     {
-        int previous;
+        int previous = playsersFocusedCardIndex[player];
         int current;
         var length = goPlayersHandCards[player].Count;
 
-        switch (direction)
+        if (length < 1)
         {
-            // 後ろへ
-            case 0:
-                previous = playsersFocusedCardIndex[player];
-                if (previous == -1)
-                {
-                    // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
-                    current = 0;
-                }
-                else
-                {
-                    current = previous + 1;
-                    if (length <= current)
+            // 場札が無いなら、何もピックアップされていません
+            current = -1;
+        }
+        else
+        {
+            switch (direction)
+            {
+                // 後ろへ
+                case 0:
+                    if (previous == -1 || length <= previous + 1)
                     {
-                        // 範囲外は -1 ということにしておく
-                        current = -1;
+                        // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
+                        current = 0;
                     }
-                }
+                    else
+                    {
+                        current = previous + 1;
+                    }
+                    break;
 
-                break;
+                // 前へ
+                case 1:
+                    if (previous == -1 || previous - 1 < 0)
+                    {
+                        // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
+                        current = length - 1;
+                    }
+                    else
+                    {
+                        current = previous - 1;
+                    }
+                    break;
 
-            // 前へ
-            case 1:
-                previous = playsersFocusedCardIndex[player];
-                if (previous == -1)
-                {
-                    // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
-                    current = length - 1;
-                }
-                else
-                {
-                    current = previous - 1;
-                    // - 1 になるケースもある
-                }
-
-                break;
-
-            default:
-                throw new Exception();
+                default:
+                    throw new Exception();
+            }
         }
 
         // 更新

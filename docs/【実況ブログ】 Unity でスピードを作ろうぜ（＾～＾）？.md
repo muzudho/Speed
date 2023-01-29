@@ -2447,4 +2447,124 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 
 📅2023-01-29 sat 17:40  
 
+![202301_unity_29-1744--game.png](https://crieit.now.sh/upload_images/8372f0534816009612dd239cc72bf53a63d63200df956.png)  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　右端の場札を　台札の上に置いたら、  
+何も場札を選択していない状態になるんだけど、  
+この瞬間、何ボタンを押したらいいのか　分かんなくなっちゃうのよね」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　じゃあ、場札がある限り、必ず　なんらかの場札が１枚　ピックアップされている状態にした方が　いいのかだぜ？」  
+
+```csharp
+    /// <summary>
+    /// 隣のカードへフォーカスを移します
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="direction">後ろ:0, 前:1</param>
+    void MoveFocusToNextCard(int player, int direction)
+    {
+        int previous = playsersFocusedCardIndex[player];
+        int current;
+        var length = goPlayersHandCards[player].Count;
+
+        if (length < 1)
+        {
+            // 場札が無いなら、何もピックアップされていません
+            current = -1;
+        }
+        else
+        {
+            switch (direction)
+            {
+                // 後ろへ
+                case 0:
+                    if (previous == -1 || length <= previous + 1)
+                    {
+                        // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
+                        current = 0;
+                    }
+                    else
+                    {
+                        current = previous + 1;
+                    }
+                    break;
+
+                // 前へ
+                case 1:
+                    if (previous == -1 || previous - 1 < 0)
+                    {
+                        // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
+                        current = length - 1;
+                    }
+                    else
+                    {
+                        current = previous - 1;
+                    }
+                    break;
+
+                default:
+                    throw new Exception();
+            }
+        }
+
+        // 更新
+        playsersFocusedCardIndex[player] = current;
+
+        if (0 <= previous && previous < goPlayersHandCards[player].Count) // 範囲内なら
+        {
+            // 前にフォーカスしていたカードを、盤に下ろす
+            var goPreviousCard = goPlayersHandCards[player][previous];
+            ResetFocusHand(goPreviousCard);
+        }
+
+        if (0 <= current && current < goPlayersHandCards[player].Count) // 範囲内なら
+        {
+            // 今回フォーカスするカードを持ち上げる
+            var goCurrentCard = goPlayersHandCards[player][current];
+            SetFocusHand(goCurrentCard);
+        }
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　左右への移動は　右端が左端とつながっているようにループさせて」  
+
+```csharp
+    /// <summary>
+    /// 場札の好きなところから１枚抜いて、台札を１枚置く
+    /// </summary>
+    /// <param name="player">何番目のプレイヤー</param>
+    /// <param name="place">右なら0、左なら1</param>
+    private void MoveCardToCenterStackFromHand(int player, int place)
+    {
+        int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
+        if (handIndex < 0 || goPlayersHandCards[player].Count <= handIndex) // 範囲外は無視
+        {
+            return;
+        }
+
+        var goCard = goPlayersHandCards[player].ElementAt(handIndex); // カードを１枚抜いて
+        goPlayersHandCards[player].RemoveAt(handIndex);
+        if (handIndex < 0 && 0 < goPlayersHandCards[player].Count)
+        {
+            handIndex = 0;
+        }
+        else if (goPlayersHandCards[player].Count <= handIndex) // 範囲外アクセス防止対応
+        {
+            // 一旦、最後尾へ
+            handIndex = goPlayersHandCards[player].Count - 1;
+        }
+        // それでも範囲外なら、負の数
+        playsersFocusedCardIndex[player] = handIndex; // 更新：何枚目の場札をピックアップしているか
+
+// ... 略
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　台札の移動は　場札のどれかを必ず選択しておくようにするぜ」  
+
+📅2023-01-29 sat 18:03  
+
 # // 書きかけ
