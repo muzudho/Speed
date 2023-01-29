@@ -115,6 +115,46 @@ public class GameManager : MonoBehaviour
         StartCoroutine("DoDemo");
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        // １プレイヤー
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            // TODO 選択中の場札を１枚抜いて、左の台札に置く
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            // TODO 選択中の場札を１枚抜いて、右の台札に置く
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            // TODO 左隣の場札を選択する
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            // TODO 右隣の場札を選択する
+        }
+
+        // ２プレイヤー
+        if (Input.GetKey(KeyCode.W))
+        {
+            // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、右の台札に置く
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、左の台札に置く
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            // TODO （１プレイヤー視点で言うと）右隣の場札を選択する
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            // TODO （１プレイヤー視点で言うと）右隣の場札を選択する
+        }
+    }
+
     /// <summary>
     /// 台札を、手札へ移動する
     /// </summary>
@@ -469,11 +509,5 @@ public class GameManager : MonoBehaviour
 
         card.transform.position = new Vector3(card.transform.position.x, card.transform.position.y + liftY, card.transform.position.z);
         card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

@@ -1803,4 +1803,61 @@ Unity のシーン上に　ゲーム・オブジェクトが適当に散らば�
 
 📅2023-01-29 sat 01:23  
 
+# 📅2023-01-29 sat 15:05  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　入力を受け取る部分を　まず書くか」  
+
+`Assets.Scripts.GameManager.cs` :  
+
+```csharp
+    void Update()
+    {
+        // １プレイヤー
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            // TODO 選択中の場札を１枚抜いて、左の台札に置く
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            // TODO 選択中の場札を１枚抜いて、右の台札に置く
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            // TODO 左隣の場札を選択する
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            // TODO 右隣の場札を選択する
+        }
+
+        // ２プレイヤー
+        if (Input.GetKey(KeyCode.W))
+        {
+            // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、右の台札に置く
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            // TODO （１プレイヤー視点で言うと）選択中の場札を１枚抜いて、左の台札に置く
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            // TODO （１プレイヤー視点で言うと）右隣の場札を選択する
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            // TODO （１プレイヤー視点で言うと）右隣の場札を選択する
+        }
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　スピードの操作って　他にある？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　だいたい　こんなもんでしょう。  
+あとで　気づいたら　そのとき　追加しましょう」  
+
+📅2023-01-29 sat 15:24  
+
 # // 書きかけ
