@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using UnityEngine;
 
@@ -68,7 +67,7 @@ public class GameManager : MonoBehaviour
     /// - 0.0f は盤なので、それより上にある
     /// </summary>
     float[] centerStacksY = { 0.5f, 0.5f };
-    float[] centerStacksZ = { 0.5f, 10.5f };
+    float[] centerStacksZ = { 2.5f, 9.0f };
 
     /// <summary>
     /// プレイヤーが選択している場札は、先頭から何枚目
@@ -476,8 +475,8 @@ public class GameManager : MonoBehaviour
         else
         {
             var goLastCard = goCenterStacksCards[place][length - 1]; // 最後のカード
-            nextTopX = (goLastCard.transform.position.x - this.centerStacksX[place]) / 2 + this.centerStacksX[place];
-            nextTopZ = (goLastCard.transform.position.z - this.centerStacksZ[place]) / 2 + this.centerStacksZ[place];
+            nextTopX = (this.centerStacksX[place] - goLastCard.transform.position.x) / 2 + this.centerStacksX[place];
+            nextTopZ = (this.centerStacksZ[place] - goLastCard.transform.position.z) / 2 + this.centerStacksZ[place];
             nextAngleY += shakeAngleY;
         }
 
