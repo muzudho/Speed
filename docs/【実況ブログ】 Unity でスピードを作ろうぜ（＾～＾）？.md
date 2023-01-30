@@ -2665,4 +2665,60 @@ PNG画像が RGB 形式で、データが　不透明度を表す A チャンネ
 
 📅2023-01-31 sat 06:38  
 
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　やっぱ　RGB値を　加算したいな……。  
+シェーダーの書き方を調べるか」  
+
+📖 [【Unity UI】uGUIで色を加算合成する方法](https://shibuya24.info/entry/unity-ui-additive)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　日本人の薄っぺらい記事なんか読んでも　さっぱり分からんな　公式読むか」  
+
+📖 [カスタムシェーダーの基礎](https://docs.unity3d.com/ja/2021.3/Manual/SL-VertexFragmentShaderExamples.html)  
+📖 [シェーダーの作成](https://docs.unity3d.com/ja/2021.3/Manual/shader-writing.html)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`HLSL` という書き方を覚えればいいらしいぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　数十分で終わるレベルではないので　パス」  
+
+📅2023-01-31 sat 06:58  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　次は、ゲームのルールを組み込んでいくか」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　しかし、今のプログラミングの書き方では　ルール・ベースで書きにくい……」  
+
+![202301_unity_31-0715--game-view-model-1.png](https://crieit.now.sh/upload_images/536ba5b01096d0f188a03d6161da27e963d841d1070f4.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　いったん　画面関係の変数は　`GameViewModel` クラスを新しく作って　そっちへ移し……」  
+
+![202301_unity_31-0717--game-manager-1.png](https://crieit.now.sh/upload_images/c6b7756586ef797f69daf16ce236a71763d84239388c9.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`GameManager.cs` の方では　`GameViewModel` インスタンスを使うように書き直し……」  
+
+![202301_unity_31-0724--game-view-model-1.png](https://crieit.now.sh/upload_images/08f6ab6ebc398a80be9e777a38645aea63d843db3828a.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　変数名の頭に `go` と付けたやつは　`GameObject`　なんで、  
+画面に関係するものは全部　`GameViewModel`　クラスへ　追いやるぜ」  
+
+![202301_unity_31-0728--wrapping.png](https://crieit.now.sh/upload_images/4512ae14d4b714e74265ac153596ae6163d844b10115c.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　配列の長さを取りたいときは、 `GetCenterStackCardsLength()` メソッドを使うようにする。  
+これを　ラッピング・メソッド（Wrapping method）　という」  
+
+![202301_unity_31-0731--game-manager-1.png](https://crieit.now.sh/upload_images/50fdf08e3d9aed1244e2b4096a015a8263d8456837f39.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こうやって、 `GameManager` の方は、　ゲーム・オブジェクトをいじらなくても、  
+`player: 0` とか、 `numberOfCards: 5` とか、命令だけ書けばいいような　見た目に変えていくぜ」  
+
+📅2023-01-31 sat 07:33  
+
 # // 書きかけ
