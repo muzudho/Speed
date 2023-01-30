@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
         // const int left = 1;// 台札の左
 
         // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
-        // while (0 < gameViewModel.goCenterStacksCards[right].Count)
         while (0 < gameViewModel.GetCenterStackCardsLength(right))
         {
             MoveCardsToPileFromCenterStacks(right);
@@ -172,33 +171,6 @@ public class GameManager : MonoBehaviour
         // ２プレイヤーは手札から３枚抜いて、場札として置く
         MoveCardsToHandFromPile(1, 3);
         yield return new WaitForSeconds(seconds);
-
-        /*
-
-
-        // -
-
-        // ２プレイヤーの１枚目のカードにフォーカスを当てる
-        GetCard(1, 0, (goCard) => SetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        // ２プレイヤーの１枚目のカードのフォーカスを外す
-        GetCard(1, 0, (goCard) => ResetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        // ２プレイヤーの２枚目のカードにフォーカスを当てる
-        GetCard(1, 1, (goCard) => SetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        // ２プレイヤーの２枚目のカードのフォーカスを外す
-        GetCard(1, 1, (goCard) => ResetFocusHand(goCard));
-        yield return new WaitForSeconds(seconds);
-
-        // -
-
-        // １プレイヤーは、手札から１枚抜いて、場札とする
-        MoveCardsToHandFromPile(0, 1);
-        // */
     }
 
     /// <summary>
@@ -209,12 +181,12 @@ public class GameManager : MonoBehaviour
     {
         // 台札の一番上（一番後ろ）のカードを１枚抜く
         var numberOfCards = 1;
-        var length = gameViewModel.goCenterStacksCards[place].Count; // 手札の枚数
+        var length = gameViewModel.GetCenterStackCardsLength(place); // 台札の枚数
         if (1 <= length)
         {
             var startIndex = length - numberOfCards;
-            var goCard = gameViewModel.goCenterStacksCards[place].ElementAt(startIndex);
-            gameViewModel.goCenterStacksCards[place].RemoveAt(startIndex);
+            var goCard = gameViewModel.GetCenterStackCard(place, startIndex);
+            gameViewModel.RemoveCenterStackCardAt(place, startIndex);
 
             // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
             int player;
@@ -235,7 +207,7 @@ public class GameManager : MonoBehaviour
             }
 
             // プレイヤーの手札を積み上げる
-            gameViewModel.goPlayersPileCards[player].Add(goCard);
+            gameViewModel.AddPlayersPileCards(player, goCard);
             SetPosRot(goCard, gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
             gameViewModel.pileCardsY[player] += 0.2f;
         }
@@ -249,13 +221,13 @@ public class GameManager : MonoBehaviour
     void MoveCardsToHandFromPile(int player, int numberOfCards)
     {
         // 手札の上の方からｎ枚抜いて、場札へ移動する
-        var length = gameViewModel.goPlayersPileCards[player].Count; // 手札の枚数
+        var length = gameViewModel.GetPlayerPileCardsLength(player); // 手札の枚数
         if (numberOfCards <= length)
         {
             var startIndex = length - numberOfCards;
-            var goCards = gameViewModel.goPlayersPileCards[player].GetRange(startIndex, numberOfCards);
-            gameViewModel.goPlayersPileCards[player].RemoveRange(startIndex, numberOfCards);
-            gameViewModel.goPlayersHandCards[player].AddRange(goCards);
+            var goCards = gameViewModel.GetRangePlayerPileCards(player,startIndex, numberOfCards);
+            gameViewModel.RemovePlayerPileCards(player, startIndex, numberOfCards);
+            gameViewModel.AddRangePlayerHandCards(player, goCards);
 
             // 場札を並べる
             ArrangeHandCards(player);
@@ -269,7 +241,7 @@ public class GameManager : MonoBehaviour
     {
         // 25枚の場札が並べるように調整してある
 
-        int numberOfCards = gameViewModel.goPlayersHandCards[player].Count; // カードの枚数
+        int numberOfCards = gameViewModel.GetPlayerHandCardsLength(player); // 場札の枚数
         if (numberOfCards < 1)
         {
             return; // 何もしない

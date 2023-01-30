@@ -90,5 +90,53 @@
         {
             return this.goCenterStacksCards[place].Count;
         }
+
+        internal GameObject GetCenterStackCard(int place, int startIndex)
+        {
+            return this.goCenterStacksCards[place].ElementAt(startIndex);
+        }
+
+        internal void RemoveCenterStackCardAt(int place, int startIndex)
+        {
+            this.goCenterStacksCards[place].RemoveAt(startIndex);
+        }
+
+        internal void AddPlayersPileCards(int player, GameObject goCard)
+        {
+            this.goPlayersPileCards[player].Add(goCard);
+        }
+
+        /// <summary>
+        /// 手札の枚数
+        /// </summary>
+        /// <returns></returns>
+        internal int GetPlayerPileCardsLength(int player)
+        {
+            return this.goPlayersPileCards[player].Count;
+        }
+
+        internal List<GameObject> GetRangePlayerPileCards(int player, int startIndex, int numberOfCards)
+        {
+            return this.goPlayersPileCards[player].GetRange(startIndex, numberOfCards);
+        }
+
+        internal void RemovePlayerPileCards(int player, int startIndex, int numberOfCards)
+        {
+            this.goPlayersPileCards[player].RemoveRange(startIndex, numberOfCards);
+        }
+
+        internal void AddRangePlayerHandCards(int player, List<GameObject> goCards)
+        {
+            this.goPlayersHandCards[player].AddRange(goCards);
+        }
+
+        /// <summary>
+        /// 場札の枚数
+        /// </summary>
+        /// <returns></returns>
+        internal int GetPlayerHandCardsLength(int player)
+        {
+            return this.goPlayersHandCards[player].Count;
+        }
     }
 }
