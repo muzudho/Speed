@@ -169,6 +169,16 @@ public class GameManager : MonoBehaviour
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
             MoveFocusToNextCard(1, 0);
         }
+
+        // デバッグ用
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // 両プレイヤーは手札から１枚抜いて、場札として置く
+            for (var player=0; player<2; player++)
+            {
+                MoveCardsToHandFromPile(player, 1);
+            }
+        }
     }
 
     IEnumerator DoDemo()
