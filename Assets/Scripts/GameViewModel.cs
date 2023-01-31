@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
-    using UnityEngine.UIElements;
 
     /// <summary>
     /// 西端: -62.0f
@@ -14,7 +13,7 @@
     {
         // - 初期化系
 
-        internal void Init(int player0HandIndex, int player1HandIndex)
+        internal void Init(GameModel gameModel)
         {
             // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
             const int right = 0;// 台札の右
@@ -38,8 +37,8 @@
             }
 
             // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
-            this.MoveCardsToHandFromPile(player: 0, numberOfCards: 5, indexOfFocusedHandCard: player0HandIndex);
-            this.MoveCardsToHandFromPile(player: 1, numberOfCards: 5, indexOfFocusedHandCard: player1HandIndex);
+            this.MoveCardsToHandFromPile(gameModel: gameModel, player: 0, numberOfCards: 5);
+            this.MoveCardsToHandFromPile(gameModel: gameModel, player: 1, numberOfCards: 5);
         }
 
         // - プロパティー
@@ -286,8 +285,10 @@
         /// 
         /// - 画面上の場札は位置調整される
         /// </summary>
-        internal void MoveCardsToHandFromPile(int player, int numberOfCards, int indexOfFocusedHandCard)
+        internal void MoveCardsToHandFromPile(GameModel gameModel, int player, int numberOfCards)
         {
+            int indexOfFocusedHandCard = gameModel.GetIndexOfFocusedCardOfPlayer(0);
+
             // 手札の上の方からｎ枚抜いて、場札へ移動する
             var length = this.GetLengthOfPlayerPileCards(player); // 手札の枚数
             if (numberOfCards <= length)

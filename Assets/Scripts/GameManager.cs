@@ -8,25 +8,19 @@ using UnityEngine;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    /// <summary>
-    /// プレイヤーが選択している場札は、先頭から何枚目
-    /// 
-    /// - 選択中の場札が無いなら、-1
-    /// </summary>
-    int[] playsersFocusedCardIndex = { -1, -1 };
-
+    GameModelBuffer gameModelBuffer;
+    GameModel gameModel;
     GameViewModel gameViewModel;
 
     // Start is called before the first frame update
     void Start()
     {
-        int player0HandIndex = playsersFocusedCardIndex[0]; // 何枚目の場札をピックアップしているか
-        int player1HandIndex = playsersFocusedCardIndex[1]; // 何枚目の場札をピックアップしているか
+        gameModelBuffer = new GameModelBuffer();
+        gameModel = new GameModel(gameModelBuffer);
 
         gameViewModel = new GameViewModel();
         gameViewModel.Init(
-            player0HandIndex: player0HandIndex,
-            player1HandIndex: player1HandIndex);
+            gameModel:gameModel);
 
         StartCoroutine("DoDemo");
     }
@@ -61,10 +55,10 @@ public class GameManager : MonoBehaviour
             gameViewModel.MoveFocusToNextCard(
                 player: player,
                 direction: 1,
-                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                 {
-                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 });
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -74,10 +68,10 @@ public class GameManager : MonoBehaviour
             gameViewModel.MoveFocusToNextCard(
                 player: player,
                 direction: 0,
-                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                 {
-                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 });
         }
 
@@ -105,10 +99,10 @@ public class GameManager : MonoBehaviour
             gameViewModel.MoveFocusToNextCard(
                 player: player,
                 direction: 1,
-                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                 {
-                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 });
         }
         else if (Input.GetKeyDown(KeyCode.D))
@@ -118,10 +112,10 @@ public class GameManager : MonoBehaviour
             gameViewModel.MoveFocusToNextCard(
                 player: player,
                 direction: 0,
-                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                 {
-                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 });
         }
 
@@ -132,8 +126,10 @@ public class GameManager : MonoBehaviour
             for (var player = 0; player < 2; player++)
             {
                 // 場札を並べる
-                int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
-                gameViewModel.MoveCardsToHandFromPile(player, 1, handIndex);
+                gameViewModel.MoveCardsToHandFromPile(
+                    gameModel:gameModel,
+                    player:player,
+                    numberOfCards:1);
             }
         }
     }
@@ -153,10 +149,10 @@ public class GameManager : MonoBehaviour
             gameViewModel.MoveFocusToNextCard(
                 player: player,
                 direction: 0,
-                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                 {
-                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 });
         }
         // ２プレイヤーの先頭のカードへフォーカスを移します
@@ -165,10 +161,10 @@ public class GameManager : MonoBehaviour
             gameViewModel.MoveFocusToNextCard(
                 player: player,
                 direction: 0,
-                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                 {
-                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 });
         }
         yield return new WaitForSeconds(seconds);
@@ -195,10 +191,10 @@ public class GameManager : MonoBehaviour
                 gameViewModel.MoveFocusToNextCard(
                     player: player,
                     direction: 0,
-                    indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                    indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
                     setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                     {
-                        playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
             }
 
@@ -208,10 +204,10 @@ public class GameManager : MonoBehaviour
                 gameViewModel.MoveFocusToNextCard(
                     player: player,
                     direction: 0,
-                    indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                    indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
                     setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                     {
-                        playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
             }
             yield return new WaitForSeconds(seconds);
@@ -231,11 +227,9 @@ public class GameManager : MonoBehaviour
         }
 
         // １プレイヤーは手札から３枚抜いて、場札として置く
-        int player0HandIndex = playsersFocusedCardIndex[0]; // 何枚目の場札をピックアップしているか
-        gameViewModel.MoveCardsToHandFromPile(player: 0, numberOfCards: 3, indexOfFocusedHandCard: player0HandIndex);
+        gameViewModel.MoveCardsToHandFromPile(gameModel: gameModel, player: 0, numberOfCards: 3);
         // ２プレイヤーは手札から３枚抜いて、場札として置く
-        int player1fHandIndex = playsersFocusedCardIndex[1]; // 何枚目の場札をピックアップしているか
-        gameViewModel.MoveCardsToHandFromPile(player: 1, numberOfCards: 3, indexOfFocusedHandCard: player1fHandIndex);
+        gameViewModel.MoveCardsToHandFromPile(gameModel: gameModel, player: 1, numberOfCards: 3);
         yield return new WaitForSeconds(seconds);
     }
 
@@ -257,14 +251,14 @@ public class GameManager : MonoBehaviour
                     indexOfFocusedHandCard: indexOfFocusedHandCard,
                     setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                     {
-                        playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
+                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
                     });
             });
     }
 
     private void GetIndexOfFocusedHandCard(int player, LazyArgs.SetValue<int> setIndex)
     {
-        int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
+        int handIndex = gameModelBuffer.IndexOfFocusedCardOfPlayers[player]; // 何枚目の場札をピックアップしているか
         if (handIndex < 0 || gameViewModel.GetLengthOfPlayerHandCards(player) <= handIndex) // 範囲外は無視
         {
             return;
