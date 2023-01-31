@@ -248,10 +248,15 @@ public class GameManager : MonoBehaviour
                 gameViewModel.RemoveAtOfHandCard(
                     player: player,
                     place: place,
-                    indexOfFocusedHandCard: indexOfFocusedHandCard,
+                    indexOfHandCardToRemove: indexOfFocusedHandCard,
                     setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
+
+                        // 場札の位置調整
+                        gameViewModel.ArrangeHandCards(
+                            gameModel: gameModel,
+                            player: player);
                     });
             });
     }

@@ -18,72 +18,69 @@
         internal void Init(GameModel gameModel)
         {
             // 全てのカードのゲーム・オブジェクトを、IDに紐づける
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs1, GameObject.Find($"Clubs 1"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs2, GameObject.Find($"Clubs 2"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs3, GameObject.Find($"Clubs 3"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs4, GameObject.Find($"Clubs 4"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs5, GameObject.Find($"Clubs 5"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs6, GameObject.Find($"Clubs 6"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs7, GameObject.Find($"Clubs 7"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs8, GameObject.Find($"Clubs 8"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs9, GameObject.Find($"Clubs 9"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs10, GameObject.Find($"Clubs 10"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs11, GameObject.Find($"Clubs 11"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs12, GameObject.Find($"Clubs 12"));
-            PlayingCardsViewMapping.Add(PlayingCards.Clubs13, GameObject.Find($"Clubs 13"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs1, GameObject.Find($"Clubs 1"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs2, GameObject.Find($"Clubs 2"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs3, GameObject.Find($"Clubs 3"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs4, GameObject.Find($"Clubs 4"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs5, GameObject.Find($"Clubs 5"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs6, GameObject.Find($"Clubs 6"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs7, GameObject.Find($"Clubs 7"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs8, GameObject.Find($"Clubs 8"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs9, GameObject.Find($"Clubs 9"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs10, GameObject.Find($"Clubs 10"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs11, GameObject.Find($"Clubs 11"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs12, GameObject.Find($"Clubs 12"));
+            ViewStorage.Add(IdOfPlayingCards.Clubs13, GameObject.Find($"Clubs 13"));
 
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds1, GameObject.Find($"Diamonds 1"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds2, GameObject.Find($"Diamonds 2"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds3, GameObject.Find($"Diamonds 3"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds4, GameObject.Find($"Diamonds 4"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds5, GameObject.Find($"Diamonds 5"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds6, GameObject.Find($"Diamonds 6"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds7, GameObject.Find($"Diamonds 7"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds8, GameObject.Find($"Diamonds 8"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds9, GameObject.Find($"Diamonds 9"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds10, GameObject.Find($"Diamonds 10"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds11, GameObject.Find($"Diamonds 11"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds12, GameObject.Find($"Diamonds 12"));
-            PlayingCardsViewMapping.Add(PlayingCards.Diamonds13, GameObject.Find($"Diamonds 13"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds1, GameObject.Find($"Diamonds 1"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds2, GameObject.Find($"Diamonds 2"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds3, GameObject.Find($"Diamonds 3"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds4, GameObject.Find($"Diamonds 4"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds5, GameObject.Find($"Diamonds 5"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds6, GameObject.Find($"Diamonds 6"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds7, GameObject.Find($"Diamonds 7"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds8, GameObject.Find($"Diamonds 8"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds9, GameObject.Find($"Diamonds 9"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds10, GameObject.Find($"Diamonds 10"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds11, GameObject.Find($"Diamonds 11"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds12, GameObject.Find($"Diamonds 12"));
+            ViewStorage.Add(IdOfPlayingCards.Diamonds13, GameObject.Find($"Diamonds 13"));
 
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts1, GameObject.Find($"Hearts 1"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts2, GameObject.Find($"Hearts 2"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts3, GameObject.Find($"Hearts 3"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts4, GameObject.Find($"Hearts 4"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts5, GameObject.Find($"Hearts 5"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts6, GameObject.Find($"Hearts 6"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts7, GameObject.Find($"Hearts 7"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts8, GameObject.Find($"Hearts 8"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts9, GameObject.Find($"Hearts 9"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts10, GameObject.Find($"Hearts 10"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts11, GameObject.Find($"Hearts 11"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts12, GameObject.Find($"Hearts 12"));
-            PlayingCardsViewMapping.Add(PlayingCards.Hearts13, GameObject.Find($"Hearts 13"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts1, GameObject.Find($"Hearts 1"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts2, GameObject.Find($"Hearts 2"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts3, GameObject.Find($"Hearts 3"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts4, GameObject.Find($"Hearts 4"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts5, GameObject.Find($"Hearts 5"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts6, GameObject.Find($"Hearts 6"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts7, GameObject.Find($"Hearts 7"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts8, GameObject.Find($"Hearts 8"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts9, GameObject.Find($"Hearts 9"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts10, GameObject.Find($"Hearts 10"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts11, GameObject.Find($"Hearts 11"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts12, GameObject.Find($"Hearts 12"));
+            ViewStorage.Add(IdOfPlayingCards.Hearts13, GameObject.Find($"Hearts 13"));
 
-            PlayingCardsViewMapping.Add(PlayingCards.Spades1, GameObject.Find($"Spades 1"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades2, GameObject.Find($"Spades 2"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades3, GameObject.Find($"Spades 3"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades4, GameObject.Find($"Spades 4"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades5, GameObject.Find($"Spades 5"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades6, GameObject.Find($"Spades 6"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades7, GameObject.Find($"Spades 7"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades8, GameObject.Find($"Spades 8"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades9, GameObject.Find($"Spades 9"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades10, GameObject.Find($"Spades 10"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades11, GameObject.Find($"Spades 11"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades12, GameObject.Find($"Spades 12"));
-            PlayingCardsViewMapping.Add(PlayingCards.Spades13, GameObject.Find($"Spades 13"));
+            ViewStorage.Add(IdOfPlayingCards.Spades1, GameObject.Find($"Spades 1"));
+            ViewStorage.Add(IdOfPlayingCards.Spades2, GameObject.Find($"Spades 2"));
+            ViewStorage.Add(IdOfPlayingCards.Spades3, GameObject.Find($"Spades 3"));
+            ViewStorage.Add(IdOfPlayingCards.Spades4, GameObject.Find($"Spades 4"));
+            ViewStorage.Add(IdOfPlayingCards.Spades5, GameObject.Find($"Spades 5"));
+            ViewStorage.Add(IdOfPlayingCards.Spades6, GameObject.Find($"Spades 6"));
+            ViewStorage.Add(IdOfPlayingCards.Spades7, GameObject.Find($"Spades 7"));
+            ViewStorage.Add(IdOfPlayingCards.Spades8, GameObject.Find($"Spades 8"));
+            ViewStorage.Add(IdOfPlayingCards.Spades9, GameObject.Find($"Spades 9"));
+            ViewStorage.Add(IdOfPlayingCards.Spades10, GameObject.Find($"Spades 10"));
+            ViewStorage.Add(IdOfPlayingCards.Spades11, GameObject.Find($"Spades 11"));
+            ViewStorage.Add(IdOfPlayingCards.Spades12, GameObject.Find($"Spades 12"));
+            ViewStorage.Add(IdOfPlayingCards.Spades13, GameObject.Find($"Spades 13"));
 
             // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
             const int right = 0;// 台札の右
             // const int left = 1;// 台札の左
-            for (int i = 1; i < 14; i++)
+            foreach (var idOfCard in ViewStorage.PlayingCards.Keys)
             {
                 // 右の台札
-                this.goCenterStacksCards[right].Add(GameObject.Find($"Clubs {i}"));
-                this.goCenterStacksCards[right].Add(GameObject.Find($"Diamonds {i}"));
-                this.goCenterStacksCards[right].Add(GameObject.Find($"Hearts {i}"));
-                this.goCenterStacksCards[right].Add(GameObject.Find($"Spades {i}"));
+                this.goCenterStacksCards[right].Add(idOfCard);
             }
 
             // 右の台札をシャッフル
@@ -102,28 +99,26 @@
 
         // - プロパティー
 
-        // TODO カードのID と、ゲーム・オブジェクトのマッピングを持ちたい
-
         /// <summary>
         /// 手札
         /// 0: １プレイヤー（黒色）
         /// 1: ２プレイヤー（黒色）
         /// </summary>
-        internal List<List<GameObject>> goPlayersPileCards = new() { new(), new() };
+        internal List<List<IdOfPlayingCards>> goPlayersPileCards = new() { new(), new() };
 
         /// <summary>
         /// 場札（プレイヤー側でオープンしている札）
         /// 0: １プレイヤー（黒色）
         /// 1: ２プレイヤー（黒色）
         /// </summary>
-        internal List<List<GameObject>> goPlayersHandCards = new() { new(), new() };
+        internal List<List<IdOfPlayingCards>> goPlayersHandCards = new() { new(), new() };
 
         /// <summary>
         /// 台札（画面中央に積んでいる札）
         /// 0: 右
         /// 1: 左
         /// </summary>
-        internal List<List<GameObject>> goCenterStacksCards = new() { new(), new() };
+        internal List<List<IdOfPlayingCards>> goCenterStacksCards = new() { new(), new() };
 
         /// <summary>
         /// 底端
@@ -162,7 +157,7 @@
             return this.goCenterStacksCards[place].Count;
         }
 
-        internal GameObject GetCardOfCenterStack(int place, int startIndex)
+        internal IdOfPlayingCards GetCardOfCenterStack(int place, int startIndex)
         {
             return this.goCenterStacksCards[place].ElementAt(startIndex);
         }
@@ -172,7 +167,7 @@
         /// </summary>
         /// <param name="place"></param>
         /// <returns></returns>
-        internal GameObject GetLastCardOfCenterStack(int place)
+        internal IdOfPlayingCards GetLastCardOfCenterStack(int place)
         {
             var length = this.GetLengthOfCenterStackCards(place);
             return this.GetCardOfCenterStack(place, length - 1); // 最後のカード
@@ -183,9 +178,9 @@
             this.goCenterStacksCards[place].RemoveAt(startIndex);
         }
 
-        internal void AddCardOfCenterStack(int place, GameObject goCard)
+        internal void AddCardOfCenterStack(int place, IdOfPlayingCards idOfCard)
         {
-            this.goCenterStacksCards[place].Add(goCard);
+            this.goCenterStacksCards[place].Add(idOfCard);
         }
 
         /// <summary>
@@ -205,7 +200,8 @@
             }
 
             // 台札の次の天辺の位置
-            var goLastCard = this.GetLastCardOfCenterStack(place); // 天辺（最後）のカード
+            var idOfLastCard = this.GetLastCardOfCenterStack(place); // 天辺（最後）のカード
+            var goLastCard = ViewStorage.PlayingCards[idOfLastCard];
             var nextTopX = (this.centerStacksX[place] - goLastCard.transform.position.x) / 2 + this.centerStacksX[place];
             var nextTopZ = (this.centerStacksZ[place] - goLastCard.transform.position.z) / 2 + this.centerStacksZ[place];
             return (nextTopX, nextTopZ);
@@ -215,10 +211,10 @@
         /// 手札を追加
         /// </summary>
         /// <param name="player"></param>
-        /// <param name="goCard"></param>
-        internal void AddCardOfPlayersPile(int player, GameObject goCard)
+        /// <param name="idOfCard"></param>
+        internal void AddCardOfPlayersPile(int player, IdOfPlayingCards idOfCard)
         {
-            this.goPlayersPileCards[player].Add(goCard);
+            this.goPlayersPileCards[player].Add(idOfCard);
         }
 
         /// <summary>
@@ -230,7 +226,7 @@
             return this.goPlayersPileCards[player].Count;
         }
 
-        internal List<GameObject> GetRangeCardsOfPlayerPile(int player, int startIndex, int numberOfCards)
+        internal List<IdOfPlayingCards> GetRangeCardsOfPlayerPile(int player, int startIndex, int numberOfCards)
         {
             return this.goPlayersPileCards[player].GetRange(startIndex, numberOfCards);
         }
@@ -244,10 +240,10 @@
         /// 場札を追加
         /// </summary>
         /// <param name="player"></param>
-        /// <param name="goCards"></param>
-        internal void AddRangeCardsOfPlayerHand(int player, List<GameObject> goCards)
+        /// <param name="idOfCards"></param>
+        internal void AddRangeCardsOfPlayerHand(int player, List<IdOfPlayingCards> idOfCards)
         {
-            this.goPlayersHandCards[player].AddRange(goCards);
+            this.goPlayersHandCards[player].AddRange(idOfCards);
         }
 
         /// <summary>
@@ -259,12 +255,12 @@
             return this.goPlayersHandCards[player].Count;
         }
 
-        internal List<GameObject> GetCardsOfPlayerHand(int player)
+        internal List<IdOfPlayingCards> GetCardsOfPlayerHand(int player)
         {
             return this.goPlayersHandCards[player];
         }
 
-        internal GameObject GetCardAtOfPlayerHand(int player, int handIndex)
+        internal IdOfPlayingCards GetCardAtOfPlayerHand(int player, int handIndex)
         {
             return this.goPlayersHandCards[player].ElementAt(handIndex);
         }
@@ -281,8 +277,9 @@
         /// <param name="handIndesx"></param>
         internal void SetFocusCardOfPlayerHand(int player, int handIndesx)
         {
-            var goCurrentCard = this.GetCardAtOfPlayerHand(player, handIndesx);
-            this.SetFocusHand(goCurrentCard);
+            var idOfFocusedHandCard = this.GetCardAtOfPlayerHand(player, handIndesx);
+            Debug.Log($"[GameViewModel SetFocusCardOfPlayerHand] idOfFocusedHandCard:{idOfFocusedHandCard}");
+            this.SetFocusHand(idOfFocusedHandCard);
         }
 
         /// <summary>
@@ -300,21 +297,22 @@
         /// 場札カードを持ち上げる
         /// </summary>
         /// <param name="card"></param>
-        void SetFocusHand(GameObject card)
+        void SetFocusHand(IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
             var rotateZ = -5; // -5°傾ける
 
-            card.transform.position = new Vector3(card.transform.position.x, card.transform.position.y + liftY, card.transform.position.z);
-            card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
+            var goCard = ViewStorage.PlayingCards[idOfCard];
+            goCard.transform.position = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
+            goCard.transform.rotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
         }
 
         /// <summary>
         /// 持ち上げたカードを場に戻す
         /// </summary>
         /// <param name="card"></param>
-        void ResetFocusHand(GameObject card)
+        void ResetFocusHand(IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
@@ -325,15 +323,18 @@
             rotateY = -rotateY;
             rotateZ = -rotateZ;
 
-            card.transform.position = new Vector3(card.transform.position.x, card.transform.position.y + liftY, card.transform.position.z);
-            card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
+            var goCard = ViewStorage.PlayingCards[idOfCard];
+            goCard.transform.position = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
+            goCard.transform.rotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
         }
 
         /// <summary>
         /// 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
         /// </summary>
-        internal void ResumeCardPickup(int player, int handIndex)
+        internal void ResumeCardPickup(GameModel gameModel, int player)
         {
+            int handIndex = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+
             if (0 <= handIndex && handIndex < this.GetLengthOfPlayerHandCards(player)) // 範囲内なら
             {
                 // 抜いたカードの右隣のカードを（有れば）ピックアップする
@@ -348,8 +349,6 @@
         /// </summary>
         internal void MoveCardsToHandFromPile(GameModel gameModel, int player, int numberOfCards)
         {
-            int indexOfFocusedHandCard = gameModel.GetIndexOfFocusedCardOfPlayer(0);
-
             // 手札の上の方からｎ枚抜いて、場札へ移動する
             var length = this.GetLengthOfPlayerPileCards(player); // 手札の枚数
             if (numberOfCards <= length)
@@ -359,7 +358,7 @@
                 this.RemoveRangeCardsOfPlayerPile(player, startIndex, numberOfCards);
                 this.AddRangeCardsOfPlayerHand(player, goCards);
 
-                ArrangeHandCards(player, indexOfFocusedHandCard);
+                ArrangeHandCards(gameModel, player);
             }
         }
 
@@ -368,8 +367,10 @@
         /// 
         /// - 左端は角度で言うと 112.0f
         /// </summary>
-        internal void ArrangeHandCards(int player, int handIndex)
+        internal void ArrangeHandCards(GameModel gameModel, int player)
         {
+            int handIndex = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+
             // 25枚の場札が並べるように調整してある
 
             int numberOfCards = this.GetLengthOfPlayerHandCards(player); // 場札の枚数
@@ -423,7 +424,7 @@
             }
 
             // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
-            this.ResumeCardPickup(player, handIndex);
+            this.ResumeCardPickup(gameModel, player);
         }
 
         /// <summary>
@@ -436,26 +437,27 @@
         /// <param name="angleY"></param>
         /// <param name="angleZ"></param>
         /// <param name="motionProgress">Update関数の中でないと役に立たない</param>
-        internal void SetPosRot(GameObject card, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
+        internal void SetPosRot(IdOfPlayingCards idOfCard, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
         {
-            var beginPos = card.transform.position;
+            var goCard = ViewStorage.PlayingCards[idOfCard];
+            var beginPos = goCard.transform.position;
             var endPos = new Vector3(x, y, z);
-            card.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);
+            goCard.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);
 
-            card.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
+            goCard.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
         }
 
         /// <summary>
         /// 台札を抜く
         /// </summary>
         /// <param name="player"></param>
-        /// <param name="indexOfFocusedHandCard"></param>
+        /// <param name="indexOfHandCardToRemove"></param>
         /// <param name="setIndexOfNextFocusedHandCard"></param>
-        internal void RemoveAtOfHandCard(int player, int place, int indexOfFocusedHandCard, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        internal void RemoveAtOfHandCard(int player, int place, int indexOfHandCardToRemove, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
         {
             // 抜く前の場札の数
             var lengthBeforeRemove = this.GetLengthOfPlayerHandCards(player);
-            if (indexOfFocusedHandCard < 0 || lengthBeforeRemove <= indexOfFocusedHandCard)
+            if (indexOfHandCardToRemove < 0 || lengthBeforeRemove <= indexOfHandCardToRemove)
             {
                 // 抜くのに失敗
                 return;
@@ -465,25 +467,23 @@
             var lengthAfterRemove = lengthBeforeRemove - 1;
 
             // 抜いた後の次のピックアップするカードが先頭から何枚目か、先に算出
-            if (indexOfFocusedHandCard < 0 && 0 < lengthAfterRemove)
-            {
-                indexOfFocusedHandCard = 0;
-            }
-            else if (lengthAfterRemove <= indexOfFocusedHandCard) // 範囲外アクセス防止対応
+            int indexOfNextFocusedHandCard;
+            if (lengthAfterRemove <= indexOfHandCardToRemove) // 範囲外アクセス防止対応
             {
                 // 一旦、最後尾へ
-                indexOfFocusedHandCard = lengthAfterRemove - 1;
+                indexOfNextFocusedHandCard = lengthAfterRemove - 1;
             }
-            // それでも範囲外なら、負の数
+            else
+            {
+                // そのまま
+                indexOfNextFocusedHandCard = indexOfHandCardToRemove;
+            }
 
-            var goCard = this.GetCardAtOfPlayerHand(player, indexOfFocusedHandCard); // 場札を１枚抜いて
-            this.RemoveCardAtOfPlayerHand(player, indexOfFocusedHandCard);
-
-            // 場札の位置調整
-            this.ArrangeHandCards(player, indexOfFocusedHandCard);
+            var goCard = this.GetCardAtOfPlayerHand(player, indexOfHandCardToRemove); // 場札を１枚抜いて
+            this.RemoveCardAtOfPlayerHand(player, indexOfHandCardToRemove);
 
             this.AddCardOfCenterStack2(goCard, place); // 台札
-            setIndexOfNextFocusedHandCard(indexOfFocusedHandCard);
+            setIndexOfNextFocusedHandCard(indexOfNextFocusedHandCard);
         }
 
         /// <summary>
@@ -515,7 +515,7 @@
             }
         }
 
-        internal void AddCardOfCenterStack2(GameObject goCard, int place)
+        internal void AddCardOfCenterStack2(IdOfPlayingCards idOfCard, int place)
         {
             // 手ぶれ
             var (shakeX, shakeZ, shakeAngleY) = this.MakeShakeForCenterStack(place);
@@ -524,6 +524,7 @@
             var (nextTopX, nextTopZ) = this.GetXZOfNextCenterStackCard(place);
 
             // 台札の捻り
+            var goCard = ViewStorage.PlayingCards[idOfCard];
             float nextAngleY = goCard.transform.rotation.eulerAngles.y;
             var length = this.GetLengthOfCenterStackCards(place);
             if (length < 1)
@@ -534,10 +535,10 @@
                 nextAngleY += shakeAngleY;
             }
 
-            this.AddCardOfCenterStack(place, goCard); // 台札として置く
+            this.AddCardOfCenterStack(place, idOfCard); // 台札として置く
 
             // 台札の位置をセット
-            this.SetPosRot(goCard, nextTopX + shakeX, this.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
+            this.SetPosRot(idOfCard, nextTopX + shakeX, this.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
 
             // 次に台札に積むカードの高さ
             this.centerStacksY[place] += 0.2f;
@@ -620,12 +621,13 @@
             if (1 <= length)
             {
                 var startIndex = length - numberOfCards;
-                var goCard = this.GetCardOfCenterStack(place, startIndex);
+                var idOfCard = this.GetCardOfCenterStack(place, startIndex);
                 this.RemoveCardAtOfCenterStack(place, startIndex);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 int player;
                 float angleY;
+                var goCard = ViewStorage.PlayingCards[idOfCard];
                 if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
                 {
                     player = 0;
@@ -642,8 +644,8 @@
                 }
 
                 // プレイヤーの手札を積み上げる
-                this.AddCardOfPlayersPile(player, goCard);
-                this.SetPosRot(goCard, this.pileCardsX[player], this.pileCardsY[player], this.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
+                this.AddCardOfPlayersPile(player, idOfCard);
+                this.SetPosRot(idOfCard, this.pileCardsX[player], this.pileCardsY[player], this.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
                 this.pileCardsY[player] += 0.2f;
             }
         }

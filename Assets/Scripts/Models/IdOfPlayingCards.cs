@@ -5,7 +5,7 @@
     /// 
     /// - ジョーカーを除く
     /// </summary>
-    internal enum PlayingCards
+    internal enum IdOfPlayingCards
     {
         Clubs1,
         Clubs2,
