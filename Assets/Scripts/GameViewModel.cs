@@ -86,22 +86,32 @@
         /// 台札の枚数
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        internal int GetCenterStackCardsLength(int place)
+        internal int GetLengthOfCenterStackCards(int place)
         {
             return this.goCenterStacksCards[place].Count;
         }
 
-        internal GameObject GetCenterStackCard(int place, int startIndex)
+        internal GameObject GetCardOfCenterStack(int place, int startIndex)
         {
             return this.goCenterStacksCards[place].ElementAt(startIndex);
         }
 
-        internal void RemoveCenterStackCardAt(int place, int startIndex)
+        internal void RemoveCardAtOfCenterStack(int place, int startIndex)
         {
             this.goCenterStacksCards[place].RemoveAt(startIndex);
         }
 
-        internal void AddPlayersPileCards(int player, GameObject goCard)
+        internal void AddCardOfCenterStack(int place, GameObject goCard)
+        {
+            this.goCenterStacksCards[place].Add(goCard);
+        }
+
+        /// <summary>
+        /// 手札を追加
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="goCard"></param>
+        internal void AddCardOfPlayersPile(int player, GameObject goCard)
         {
             this.goPlayersPileCards[player].Add(goCard);
         }
@@ -110,22 +120,27 @@
         /// 手札の枚数
         /// </summary>
         /// <returns></returns>
-        internal int GetPlayerPileCardsLength(int player)
+        internal int GetLengthOfPlayerPileCards(int player)
         {
             return this.goPlayersPileCards[player].Count;
         }
 
-        internal List<GameObject> GetRangePlayerPileCards(int player, int startIndex, int numberOfCards)
+        internal List<GameObject> GetRangeCardsOfPlayerPile(int player, int startIndex, int numberOfCards)
         {
             return this.goPlayersPileCards[player].GetRange(startIndex, numberOfCards);
         }
 
-        internal void RemovePlayerPileCards(int player, int startIndex, int numberOfCards)
+        internal void RemoveRangeCardsOfPlayerPile(int player, int startIndex, int numberOfCards)
         {
             this.goPlayersPileCards[player].RemoveRange(startIndex, numberOfCards);
         }
 
-        internal void AddRangePlayerHandCards(int player, List<GameObject> goCards)
+        /// <summary>
+        /// 場札を追加
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="goCards"></param>
+        internal void AddRangeCardsOfPlayerHand(int player, List<GameObject> goCards)
         {
             this.goPlayersHandCards[player].AddRange(goCards);
         }
@@ -134,9 +149,24 @@
         /// 場札の枚数
         /// </summary>
         /// <returns></returns>
-        internal int GetPlayerHandCardsLength(int player)
+        internal int GetLengthOfPlayerHandCards(int player)
         {
             return this.goPlayersHandCards[player].Count;
+        }
+
+        internal List<GameObject> GetCardsOfPlayerHand(int player)
+        {
+            return this.goPlayersHandCards[player];
+        }
+
+        internal GameObject GetCardAtOfPlayerHand(int player, int handIndex)
+        {
+            return this.goPlayersHandCards[player].ElementAt(handIndex);
+        }
+
+        internal void RemoveCardAtOfPlayerHand(int player, int handIndex)
+        {
+            this.goPlayersHandCards[player].RemoveAt(handIndex);
         }
     }
 }
