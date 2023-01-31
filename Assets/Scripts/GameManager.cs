@@ -137,7 +137,9 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
             var player = 0;
-            this.MoveFocusToNextCard(
+            Commands.MoveFocusToNextCard.DoIt(
+                gameModelBuffer: gameModelBuffer,
+                gameViewModel: gameViewModel,
                 player: player,
                 direction: 1,
                 indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
@@ -150,7 +152,9 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
             var player = 0;
-            this.MoveFocusToNextCard(
+            Commands.MoveFocusToNextCard.DoIt(
+                gameModelBuffer: gameModelBuffer,
+                gameViewModel: gameViewModel,
                 player: player,
                 direction: 0,
                 indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
@@ -185,7 +189,9 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
             var player = 1;
-            this.MoveFocusToNextCard(
+            Commands.MoveFocusToNextCard.DoIt(
+                gameModelBuffer: gameModelBuffer,
+                gameViewModel: gameViewModel,
                 player: player,
                 direction: 1,
                 indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
@@ -198,7 +204,9 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
             var player = 1;
-            this.MoveFocusToNextCard(
+            Commands.MoveFocusToNextCard.DoIt(
+                gameModelBuffer: gameModelBuffer,
+                gameViewModel: gameViewModel,
                 player: player,
                 direction: 0,
                 indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
@@ -236,7 +244,9 @@ public class GameManager : MonoBehaviour
         // １プレイヤーの先頭のカードへフォーカスを移します
         {
             var player = 0;
-            this.MoveFocusToNextCard(
+            Commands.MoveFocusToNextCard.DoIt(
+                gameModelBuffer: gameModelBuffer,
+                gameViewModel: gameViewModel,
                 player: player,
                 direction: 0,
                 indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
@@ -248,7 +258,9 @@ public class GameManager : MonoBehaviour
         // ２プレイヤーの先頭のカードへフォーカスを移します
         {
             var player = 1;
-            this.MoveFocusToNextCard(
+            Commands.MoveFocusToNextCard.DoIt(
+                gameModelBuffer: gameModelBuffer,
+                gameViewModel: gameViewModel,
                 player: player,
                 direction: 0,
                 indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
@@ -282,8 +294,10 @@ public class GameManager : MonoBehaviour
             // １プレイヤーの右隣のカードへフォーカスを移します
             {
                 var player = 0;
-                this.MoveFocusToNextCard(
-                    player: player,
+                Commands.MoveFocusToNextCard.DoIt(
+                    gameModelBuffer: gameModelBuffer,
+                    gameViewModel: gameViewModel,
+                        player: player,
                     direction: 0,
                     indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
                     setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -295,8 +309,10 @@ public class GameManager : MonoBehaviour
             // ２プレイヤーの右隣のカードへフォーカスを移します
             {
                 var player = 1;
-                this.MoveFocusToNextCard(
-                    player: player,
+                Commands.MoveFocusToNextCard.DoIt(
+                    gameModelBuffer: gameModelBuffer,
+                    gameViewModel: gameViewModel,
+                        player: player,
                     direction: 0,
                     indexOfFocusedHandCard: gameModelBuffer.IndexOfFocusedCardOfPlayers[player],
                     setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -376,71 +392,6 @@ public class GameManager : MonoBehaviour
             this.gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
             this.gameViewModel.SetPosRot(idOfCard, this.gameViewModel.pileCardsX[player], this.gameViewModel.pileCardsY[player], this.gameViewModel.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
             this.gameViewModel.pileCardsY[player] += 0.2f;
-        }
-    }
-
-    /// <summary>
-    /// 隣のカードへフォーカスを移します
-    /// </summary>
-    /// <param name="player"></param>
-    /// <param name="direction">後ろ:0, 前:1</param>
-    internal void MoveFocusToNextCard(int player, int direction, int indexOfFocusedHandCard, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
-    {
-        int current;
-        var length = gameModel.GetLengthOfPlayerHandCards(player);
-
-        if (length < 1)
-        {
-            // 場札が無いなら、何もピックアップされていません
-            current = -1;
-        }
-        else
-        {
-            switch (direction)
-            {
-                // 後ろへ
-                case 0:
-                    if (indexOfFocusedHandCard == -1 || length <= indexOfFocusedHandCard + 1)
-                    {
-                        // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
-                        current = 0;
-                    }
-                    else
-                    {
-                        current = indexOfFocusedHandCard + 1;
-                    }
-                    break;
-
-                // 前へ
-                case 1:
-                    if (indexOfFocusedHandCard == -1 || indexOfFocusedHandCard - 1 < 0)
-                    {
-                        // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
-                        current = length - 1;
-                    }
-                    else
-                    {
-                        current = indexOfFocusedHandCard - 1;
-                    }
-                    break;
-
-                default:
-                    throw new Exception();
-            }
-        }
-
-        setIndexOfNextFocusedHandCard(current);
-
-        if (0 <= indexOfFocusedHandCard && indexOfFocusedHandCard < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
-        {
-            // 前にフォーカスしていたカードを、盤に下ろす
-            this.gameViewModel.ResetFocusCardOfPlayerHand(gameModel, player, indexOfFocusedHandCard);
-        }
-
-        if (0 <= current && current < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
-        {
-            // 今回フォーカスするカードを持ち上げる
-            this.gameViewModel.SetFocusCardOfPlayerHand(gameModel, player, current);
         }
     }
 }
