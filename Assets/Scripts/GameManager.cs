@@ -1,8 +1,5 @@
 ﻿using Assets.Scripts;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -23,23 +20,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameViewModel = new GameViewModel();
-        gameViewModel.Init();
-
-        const int right = 0;// 台札の右
-        // const int left = 1;// 台札の左
-
-        // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
-        while (0 < gameViewModel.GetLengthOfCenterStackCards(right))
-        {
-            MoveCardsToPileFromCenterStacks(right);
-        }
-
-        // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
         int player0HandIndex = playsersFocusedCardIndex[0]; // 何枚目の場札をピックアップしているか
-        gameViewModel.MoveCardsToHandFromPile(player: 0, numberOfCards: 5, indexOfFocusedHandCard: player0HandIndex);
         int player1HandIndex = playsersFocusedCardIndex[1]; // 何枚目の場札をピックアップしているか
-        gameViewModel.MoveCardsToHandFromPile(player: 1, numberOfCards: 5, indexOfFocusedHandCard: player1HandIndex);
+
+        gameViewModel = new GameViewModel();
+        gameViewModel.Init(
+            player0HandIndex: player0HandIndex,
+            player1HandIndex: player1HandIndex);
 
         StartCoroutine("DoDemo");
     }
@@ -70,12 +57,28 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
-            MoveFocusToNextCard(0, 1);
+            var player = 0;
+            gameViewModel.MoveFocusToNextCard(
+                player: player,
+                direction: 1,
+                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                {
+                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                });
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
-            MoveFocusToNextCard(0, 0);
+            var player = 0;
+            gameViewModel.MoveFocusToNextCard(
+                player: player,
+                direction: 0,
+                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                {
+                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                });
         }
 
         // ２プレイヤー
@@ -98,12 +101,28 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.A))
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
-            MoveFocusToNextCard(1, 1);
+            var player = 1;
+            gameViewModel.MoveFocusToNextCard(
+                player: player,
+                direction: 1,
+                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                {
+                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                });
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
-            MoveFocusToNextCard(1, 0);
+            var player = 1;
+            gameViewModel.MoveFocusToNextCard(
+                player: player,
+                direction: 0,
+                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                {
+                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                });
         }
 
         // デバッグ用
@@ -129,9 +148,29 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
 
         // １プレイヤーの先頭のカードへフォーカスを移します
-        MoveFocusToNextCard(player: 0, direction: 0);
+        {
+            var player = 0;
+            gameViewModel.MoveFocusToNextCard(
+                player: player,
+                direction: 0,
+                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                {
+                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                });
+        }
         // ２プレイヤーの先頭のカードへフォーカスを移します
-        MoveFocusToNextCard(player: 1, direction: 0);
+        {
+            var player = 1;
+            gameViewModel.MoveFocusToNextCard(
+                player: player,
+                direction: 0,
+                indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                {
+                    playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                });
+        }
         yield return new WaitForSeconds(seconds);
 
         // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
@@ -151,9 +190,30 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             // １プレイヤーの右隣のカードへフォーカスを移します
-            MoveFocusToNextCard(0, 0);
+            {
+                var player = 0;
+                gameViewModel.MoveFocusToNextCard(
+                    player: player,
+                    direction: 0,
+                    indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                    setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                    {
+                        playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                    });
+            }
+
             // ２プレイヤーの右隣のカードへフォーカスを移します
-            MoveFocusToNextCard(1, 0);
+            {
+                var player = 1;
+                gameViewModel.MoveFocusToNextCard(
+                    player: player,
+                    direction: 0,
+                    indexOfFocusedHandCard: playsersFocusedCardIndex[player],
+                    setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                    {
+                        playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard;     // 更新
+                    });
+            }
             yield return new WaitForSeconds(seconds);
         }
 
@@ -172,80 +232,11 @@ public class GameManager : MonoBehaviour
 
         // １プレイヤーは手札から３枚抜いて、場札として置く
         int player0HandIndex = playsersFocusedCardIndex[0]; // 何枚目の場札をピックアップしているか
-        gameViewModel.MoveCardsToHandFromPile(player:0, numberOfCards:3, indexOfFocusedHandCard:player0HandIndex);
+        gameViewModel.MoveCardsToHandFromPile(player: 0, numberOfCards: 3, indexOfFocusedHandCard: player0HandIndex);
         // ２プレイヤーは手札から３枚抜いて、場札として置く
         int player1fHandIndex = playsersFocusedCardIndex[1]; // 何枚目の場札をピックアップしているか
-        gameViewModel.MoveCardsToHandFromPile(player:1, numberOfCards:3, indexOfFocusedHandCard:player1fHandIndex);
+        gameViewModel.MoveCardsToHandFromPile(player: 1, numberOfCards: 3, indexOfFocusedHandCard: player1fHandIndex);
         yield return new WaitForSeconds(seconds);
-    }
-
-    /// <summary>
-    /// 台札を、手札へ移動する
-    /// </summary>
-    /// <param name="place">右:0, 左:1</param>
-    void MoveCardsToPileFromCenterStacks(int place)
-    {
-        // 台札の一番上（一番後ろ）のカードを１枚抜く
-        var numberOfCards = 1;
-        var length = gameViewModel.GetLengthOfCenterStackCards(place); // 台札の枚数
-        if (1 <= length)
-        {
-            var startIndex = length - numberOfCards;
-            var goCard = gameViewModel.GetCardOfCenterStack(place, startIndex);
-            gameViewModel.RemoveCardAtOfCenterStack(place, startIndex);
-
-            // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
-            int player;
-            float angleY;
-            if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
-            {
-                player = 0;
-                angleY = 180.0f;
-            }
-            else if (goCard.name.StartsWith("Diamonds") || goCard.name.StartsWith("Hearts"))
-            {
-                player = 1;
-                angleY = 0.0f;
-            }
-            else
-            {
-                throw new Exception();
-            }
-
-            // プレイヤーの手札を積み上げる
-            gameViewModel.AddCardOfPlayersPile(player, goCard);
-            gameViewModel.SetPosRot(goCard, gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
-            gameViewModel.pileCardsY[player] += 0.2f;
-        }
-    }
-
-    /// <summary>
-    /// ぴったり積むと不自然だから、X と Z を少しずらすための仕組み
-    /// 
-    /// - １プレイヤー、２プレイヤーのどちらも右利きと仮定
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
-    (float, float, float) MakeShakeForCenterStack(int player)
-    {
-        // １プレイヤーから見て。左上にずれていくだろう
-        var left = -1.5f;
-        var right = 0.5f;
-        var bottom = -0.5f;
-        var top = 1.5f;
-        var angleY = UnityEngine.Random.Range(-10, 40); // 反時計回りに大きく捻りそう
-
-        switch (player)
-        {
-            case 0:
-                return (UnityEngine.Random.Range(left, right), UnityEngine.Random.Range(bottom, top), angleY);
-
-            case 1:
-                return (UnityEngine.Random.Range(-right, -left), UnityEngine.Random.Range(-top, -bottom), angleY);
-
-            default:
-                throw new Exception();
-        }
     }
 
     /// <summary>
@@ -257,11 +248,17 @@ public class GameManager : MonoBehaviour
     {
         // ピックアップしているカードがあるか？
         GetIndexOfFocusedHandCard(
-            player:player,
-            (handIndex) =>
+            player: player,
+            (indexOfFocusedHandCard) =>
             {
-                var goCard = RemoveAtOfHandCard(player, handIndex);
-                AddCardOfCenterStack2(goCard, place); // 台札
+                gameViewModel.RemoveAtOfHandCard(
+                    player: player,
+                    place: place,
+                    indexOfFocusedHandCard: indexOfFocusedHandCard,
+                    setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                    {
+                        playsersFocusedCardIndex[player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
+                    });
             });
     }
 
@@ -274,123 +271,5 @@ public class GameManager : MonoBehaviour
         }
 
         setIndex(handIndex);
-    }
-
-    private GameObject RemoveAtOfHandCard(int player, int handIndex)
-    {
-        var goCard = gameViewModel.GetCardAtOfPlayerHand(player, handIndex); // 場札を１枚抜いて
-        gameViewModel.RemoveCardAtOfPlayerHand(player, handIndex);
-
-        if (handIndex < 0 && 0 < gameViewModel.GetLengthOfPlayerHandCards(player))
-        {
-            handIndex = 0;
-        }
-        else if (gameViewModel.GetLengthOfPlayerHandCards(player) <= handIndex) // 範囲外アクセス防止対応
-        {
-            // 一旦、最後尾へ
-            handIndex = gameViewModel.GetLengthOfPlayerHandCards(player) - 1;
-        }
-        // それでも範囲外なら、負の数
-        playsersFocusedCardIndex[player] = handIndex; // 更新：何枚目の場札をピックアップしているか
-
-        // 場札の位置調整
-        gameViewModel.ArrangeHandCards(player, handIndex);
-
-        return goCard;
-    }
-
-    private void AddCardOfCenterStack2(GameObject goCard, int place)
-    {
-        // 手ぶれ
-        var (shakeX, shakeZ, shakeAngleY) = MakeShakeForCenterStack(place);
-
-        // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
-        var (nextTopX, nextTopZ) = gameViewModel.GetXZOfNextCenterStackCard(place);
-
-        // 台札の捻り
-        float nextAngleY = goCard.transform.rotation.eulerAngles.y;
-        var length = gameViewModel.GetLengthOfCenterStackCards(place);
-        if (length < 1)
-        {
-        }
-        else
-        {
-            nextAngleY += shakeAngleY;
-        }
-
-        gameViewModel.AddCardOfCenterStack(place, goCard); // 台札として置く
-
-        // 台札の位置をセット
-        gameViewModel.SetPosRot(goCard, nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
-
-        // 次に台札に積むカードの高さ
-        gameViewModel.centerStacksY[place] += 0.2f;
-    }
-
-    /// <summary>
-    /// 隣のカードへフォーカスを移します
-    /// </summary>
-    /// <param name="player"></param>
-    /// <param name="direction">後ろ:0, 前:1</param>
-    void MoveFocusToNextCard(int player, int direction)
-    {
-        int previous = playsersFocusedCardIndex[player];
-        int current;
-        var length = gameViewModel.GetLengthOfPlayerHandCards(player);
-
-        if (length < 1)
-        {
-            // 場札が無いなら、何もピックアップされていません
-            current = -1;
-        }
-        else
-        {
-            switch (direction)
-            {
-                // 後ろへ
-                case 0:
-                    if (previous == -1 || length <= previous + 1)
-                    {
-                        // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
-                        current = 0;
-                    }
-                    else
-                    {
-                        current = previous + 1;
-                    }
-                    break;
-
-                // 前へ
-                case 1:
-                    if (previous == -1 || previous - 1 < 0)
-                    {
-                        // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
-                        current = length - 1;
-                    }
-                    else
-                    {
-                        current = previous - 1;
-                    }
-                    break;
-
-                default:
-                    throw new Exception();
-            }
-        }
-
-        // 更新
-        playsersFocusedCardIndex[player] = current;
-
-        if (0 <= previous && previous < gameViewModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
-        {
-            // 前にフォーカスしていたカードを、盤に下ろす
-            gameViewModel.ResetFocusCardOfPlayerHand(player, previous);
-        }
-
-        if (0 <= current && current < gameViewModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
-        {
-            // 今回フォーカスするカードを持ち上げる
-            gameViewModel.SetFocusCardOfPlayerHand(player, current);
-        }
     }
 }

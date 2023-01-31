@@ -14,7 +14,7 @@
     {
         // - 初期化系
 
-        internal void Init()
+        internal void Init(int player0HandIndex, int player1HandIndex)
         {
             // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
             const int right = 0;// 台札の右
@@ -30,6 +30,16 @@
 
             // 右の台札をシャッフル
             this.goCenterStacksCards[right] = this.goCenterStacksCards[right].OrderBy(i => Guid.NewGuid()).ToList();
+
+            // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
+            while (0 < this.GetLengthOfCenterStackCards(right))
+            {
+                this.MoveCardsToPileFromCenterStacks(right);
+            }
+
+            // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
+            this.MoveCardsToHandFromPile(player: 0, numberOfCards: 5, indexOfFocusedHandCard: player0HandIndex);
+            this.MoveCardsToHandFromPile(player: 1, numberOfCards: 5, indexOfFocusedHandCard: player1HandIndex);
         }
 
         // - プロパティー
@@ -371,6 +381,209 @@
             card.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);
 
             card.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
+        }
+
+        /// <summary>
+        /// 台札を抜く
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="indexOfFocusedHandCard"></param>
+        /// <param name="setIndexOfNextFocusedHandCard"></param>
+        internal void RemoveAtOfHandCard(int player, int place, int indexOfFocusedHandCard, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        {
+            // 抜く前の場札の数
+            var lengthBeforeRemove = this.GetLengthOfPlayerHandCards(player);
+            if (indexOfFocusedHandCard < 0 || lengthBeforeRemove <= indexOfFocusedHandCard)
+            {
+                // 抜くのに失敗
+                return;
+            }
+
+            // 抜いた後の場札の数
+            var lengthAfterRemove = lengthBeforeRemove - 1;
+
+            // 抜いた後の次のピックアップするカードが先頭から何枚目か、先に算出
+            if (indexOfFocusedHandCard < 0 && 0 < lengthAfterRemove)
+            {
+                indexOfFocusedHandCard = 0;
+            }
+            else if (lengthAfterRemove <= indexOfFocusedHandCard) // 範囲外アクセス防止対応
+            {
+                // 一旦、最後尾へ
+                indexOfFocusedHandCard = lengthAfterRemove - 1;
+            }
+            // それでも範囲外なら、負の数
+
+            var goCard = this.GetCardAtOfPlayerHand(player, indexOfFocusedHandCard); // 場札を１枚抜いて
+            this.RemoveCardAtOfPlayerHand(player, indexOfFocusedHandCard);
+
+            // 場札の位置調整
+            this.ArrangeHandCards(player, indexOfFocusedHandCard);
+
+            this.AddCardOfCenterStack2(goCard, place); // 台札
+            setIndexOfNextFocusedHandCard(indexOfFocusedHandCard);
+        }
+
+        /// <summary>
+        /// ぴったり積むと不自然だから、X と Z を少しずらすための仕組み
+        /// 
+        /// - １プレイヤー、２プレイヤーのどちらも右利きと仮定
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        internal (float, float, float) MakeShakeForCenterStack(int player)
+        {
+            // １プレイヤーから見て。左上にずれていくだろう
+            var left = -1.5f;
+            var right = 0.5f;
+            var bottom = -0.5f;
+            var top = 1.5f;
+            var angleY = UnityEngine.Random.Range(-10, 40); // 反時計回りに大きく捻りそう
+
+            switch (player)
+            {
+                case 0:
+                    return (UnityEngine.Random.Range(left, right), UnityEngine.Random.Range(bottom, top), angleY);
+
+                case 1:
+                    return (UnityEngine.Random.Range(-right, -left), UnityEngine.Random.Range(-top, -bottom), angleY);
+
+                default:
+                    throw new Exception();
+            }
+        }
+
+        internal void AddCardOfCenterStack2(GameObject goCard, int place)
+        {
+            // 手ぶれ
+            var (shakeX, shakeZ, shakeAngleY) = this.MakeShakeForCenterStack(place);
+
+            // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
+            var (nextTopX, nextTopZ) = this.GetXZOfNextCenterStackCard(place);
+
+            // 台札の捻り
+            float nextAngleY = goCard.transform.rotation.eulerAngles.y;
+            var length = this.GetLengthOfCenterStackCards(place);
+            if (length < 1)
+            {
+            }
+            else
+            {
+                nextAngleY += shakeAngleY;
+            }
+
+            this.AddCardOfCenterStack(place, goCard); // 台札として置く
+
+            // 台札の位置をセット
+            this.SetPosRot(goCard, nextTopX + shakeX, this.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
+
+            // 次に台札に積むカードの高さ
+            this.centerStacksY[place] += 0.2f;
+        }
+
+        /// <summary>
+        /// 隣のカードへフォーカスを移します
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="direction">後ろ:0, 前:1</param>
+        internal void MoveFocusToNextCard(int player, int direction, int indexOfFocusedHandCard, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        {
+            int current;
+            var length = this.GetLengthOfPlayerHandCards(player);
+
+            if (length < 1)
+            {
+                // 場札が無いなら、何もピックアップされていません
+                current = -1;
+            }
+            else
+            {
+                switch (direction)
+                {
+                    // 後ろへ
+                    case 0:
+                        if (indexOfFocusedHandCard == -1 || length <= indexOfFocusedHandCard + 1)
+                        {
+                            // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
+                            current = 0;
+                        }
+                        else
+                        {
+                            current = indexOfFocusedHandCard + 1;
+                        }
+                        break;
+
+                    // 前へ
+                    case 1:
+                        if (indexOfFocusedHandCard == -1 || indexOfFocusedHandCard - 1 < 0)
+                        {
+                            // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
+                            current = length - 1;
+                        }
+                        else
+                        {
+                            current = indexOfFocusedHandCard - 1;
+                        }
+                        break;
+
+                    default:
+                        throw new Exception();
+                }
+            }
+
+            setIndexOfNextFocusedHandCard(current);
+
+            if (0 <= indexOfFocusedHandCard && indexOfFocusedHandCard < this.GetLengthOfPlayerHandCards(player)) // 範囲内なら
+            {
+                // 前にフォーカスしていたカードを、盤に下ろす
+                this.ResetFocusCardOfPlayerHand(player, indexOfFocusedHandCard);
+            }
+
+            if (0 <= current && current < this.GetLengthOfPlayerHandCards(player)) // 範囲内なら
+            {
+                // 今回フォーカスするカードを持ち上げる
+                this.SetFocusCardOfPlayerHand(player, current);
+            }
+        }
+
+        /// <summary>
+        /// 台札を、手札へ移動する
+        /// </summary>
+        /// <param name="place">右:0, 左:1</param>
+        internal void MoveCardsToPileFromCenterStacks(int place)
+        {
+            // 台札の一番上（一番後ろ）のカードを１枚抜く
+            var numberOfCards = 1;
+            var length = this.GetLengthOfCenterStackCards(place); // 台札の枚数
+            if (1 <= length)
+            {
+                var startIndex = length - numberOfCards;
+                var goCard = this.GetCardOfCenterStack(place, startIndex);
+                this.RemoveCardAtOfCenterStack(place, startIndex);
+
+                // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
+                int player;
+                float angleY;
+                if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
+                {
+                    player = 0;
+                    angleY = 180.0f;
+                }
+                else if (goCard.name.StartsWith("Diamonds") || goCard.name.StartsWith("Hearts"))
+                {
+                    player = 1;
+                    angleY = 0.0f;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                // プレイヤーの手札を積み上げる
+                this.AddCardOfPlayersPile(player, goCard);
+                this.SetPosRot(goCard, this.pileCardsX[player], this.pileCardsY[player], this.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
+                this.pileCardsY[player] += 0.2f;
+            }
         }
     }
 }
