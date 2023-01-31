@@ -18,7 +18,7 @@ namespace Assets.Scripts.Models
 
         internal IdOfPlayingCards GetCardOfCenterStack(int place, int startIndex)
         {
-            return this.gameModelBuffer.goCenterStacksCards[place][startIndex];
+            return this.gameModelBuffer.IdOfCardsOfCenterStacks[place][startIndex];
         }
 
         /// <summary>
@@ -43,42 +43,12 @@ namespace Assets.Scripts.Models
         }
 
         /// <summary>
-        /// 手札
-        /// 0: １プレイヤー（黒色）
-        /// 1: ２プレイヤー（黒色）
-        /// </summary>
-        internal IdOfPlayingCards GetPlayersPileCard(int player, int indexOfCard)
-        {
-            return this.gameModelBuffer.goPlayersPileCards[player][indexOfCard];
-        }
-
-        /// <summary>
-        /// 場札（プレイヤー側でオープンしている札）
-        /// 0: １プレイヤー（黒色）
-        /// 1: ２プレイヤー（黒色）
-        /// </summary>
-        internal IdOfPlayingCards GetPlayersHandCard(int player, int indexOfCard)
-        {
-            return this.gameModelBuffer.goPlayersHandCards[player][indexOfCard];
-        }
-
-        /// <summary>
-        /// 台札（画面中央に積んでいる札）
-        /// 0: 右
-        /// 1: 左
-        /// </summary>
-        internal IdOfPlayingCards GetCenterStacksCards(int player, int indexOfCard)
-        {
-            return this.gameModelBuffer.goCenterStacksCards[player][indexOfCard];
-        }
-
-        /// <summary>
         /// 台札の枚数
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
         internal int GetLengthOfCenterStackCards(int place)
         {
-            return this.gameModelBuffer.goCenterStacksCards[place].Count;
+            return this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count;
         }
 
         /// <summary>
@@ -87,12 +57,7 @@ namespace Assets.Scripts.Models
         /// <returns></returns>
         internal int GetLengthOfPlayerPileCards(int player)
         {
-            return this.gameModelBuffer.goPlayersPileCards[player].Count;
-        }
-
-        internal List<IdOfPlayingCards> GetRangeCardsOfPlayerPile(int player, int startIndex, int numberOfCards)
-        {
-            return this.gameModelBuffer.goPlayersPileCards[player].GetRange(startIndex, numberOfCards);
+            return this.gameModelBuffer.IdOfCardsOfPlayersPile[player].Count;
         }
 
         /// <summary>
@@ -101,17 +66,17 @@ namespace Assets.Scripts.Models
         /// <returns></returns>
         internal int GetLengthOfPlayerHandCards(int player)
         {
-            return this.gameModelBuffer.goPlayersHandCards[player].Count;
+            return this.gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
         }
 
         internal List<IdOfPlayingCards> GetCardsOfPlayerHand(int player)
         {
-            return this.gameModelBuffer.goPlayersHandCards[player];
+            return this.gameModelBuffer.IdOfCardsOfPlayersHand[player];
         }
 
         internal IdOfPlayingCards GetCardAtOfPlayerHand(int player, int handIndex)
         {
-            return this.gameModelBuffer.goPlayersHandCards[player][handIndex];
+            return this.gameModelBuffer.IdOfCardsOfPlayersHand[player][handIndex];
         }
     }
 }
