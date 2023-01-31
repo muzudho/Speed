@@ -1,5 +1,7 @@
 ﻿namespace Assets.Scripts
 {
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -15,6 +17,63 @@
 
         internal void Init(GameModel gameModel)
         {
+            // 全てのカードのゲーム・オブジェクトを、IDに紐づける
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs1, GameObject.Find($"Clubs 1"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs2, GameObject.Find($"Clubs 2"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs3, GameObject.Find($"Clubs 3"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs4, GameObject.Find($"Clubs 4"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs5, GameObject.Find($"Clubs 5"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs6, GameObject.Find($"Clubs 6"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs7, GameObject.Find($"Clubs 7"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs8, GameObject.Find($"Clubs 8"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs9, GameObject.Find($"Clubs 9"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs10, GameObject.Find($"Clubs 10"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs11, GameObject.Find($"Clubs 11"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs12, GameObject.Find($"Clubs 12"));
+            PlayingCardsViewMapping.Add(PlayingCards.Clubs13, GameObject.Find($"Clubs 13"));
+
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds1, GameObject.Find($"Diamonds 1"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds2, GameObject.Find($"Diamonds 2"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds3, GameObject.Find($"Diamonds 3"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds4, GameObject.Find($"Diamonds 4"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds5, GameObject.Find($"Diamonds 5"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds6, GameObject.Find($"Diamonds 6"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds7, GameObject.Find($"Diamonds 7"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds8, GameObject.Find($"Diamonds 8"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds9, GameObject.Find($"Diamonds 9"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds10, GameObject.Find($"Diamonds 10"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds11, GameObject.Find($"Diamonds 11"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds12, GameObject.Find($"Diamonds 12"));
+            PlayingCardsViewMapping.Add(PlayingCards.Diamonds13, GameObject.Find($"Diamonds 13"));
+
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts1, GameObject.Find($"Hearts 1"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts2, GameObject.Find($"Hearts 2"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts3, GameObject.Find($"Hearts 3"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts4, GameObject.Find($"Hearts 4"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts5, GameObject.Find($"Hearts 5"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts6, GameObject.Find($"Hearts 6"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts7, GameObject.Find($"Hearts 7"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts8, GameObject.Find($"Hearts 8"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts9, GameObject.Find($"Hearts 9"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts10, GameObject.Find($"Hearts 10"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts11, GameObject.Find($"Hearts 11"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts12, GameObject.Find($"Hearts 12"));
+            PlayingCardsViewMapping.Add(PlayingCards.Hearts13, GameObject.Find($"Hearts 13"));
+
+            PlayingCardsViewMapping.Add(PlayingCards.Spades1, GameObject.Find($"Spades 1"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades2, GameObject.Find($"Spades 2"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades3, GameObject.Find($"Spades 3"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades4, GameObject.Find($"Spades 4"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades5, GameObject.Find($"Spades 5"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades6, GameObject.Find($"Spades 6"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades7, GameObject.Find($"Spades 7"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades8, GameObject.Find($"Spades 8"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades9, GameObject.Find($"Spades 9"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades10, GameObject.Find($"Spades 10"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades11, GameObject.Find($"Spades 11"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades12, GameObject.Find($"Spades 12"));
+            PlayingCardsViewMapping.Add(PlayingCards.Spades13, GameObject.Find($"Spades 13"));
+
             // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
             const int right = 0;// 台札の右
             // const int left = 1;// 台札の左
@@ -43,14 +102,7 @@
 
         // - プロパティー
 
-        /// <summary>
-        /// 底端
-        /// 
-        /// - `0.0f` は盤
-        /// </summary>
-        internal readonly float minY = 0.5f;
-
-        internal readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
+        // TODO カードのID と、ゲーム・オブジェクトのマッピングを持ちたい
 
         /// <summary>
         /// 手札
@@ -58,11 +110,6 @@
         /// 1: ２プレイヤー（黒色）
         /// </summary>
         internal List<List<GameObject>> goPlayersPileCards = new() { new(), new() };
-
-        // 手札（プレイヤー側で伏せて積んでる札）
-        internal readonly float[] pileCardsX = new[] { 40.0f, -40.0f }; // 端っこは 62.0f, -62.0f
-        internal readonly float[] pileCardsY = new[] { 0.5f, 0.5f };
-        internal readonly float[] pileCardsZ = new[] { -6.5f, 16.0f };
 
         /// <summary>
         /// 場札（プレイヤー側でオープンしている札）
@@ -77,6 +124,20 @@
         /// 1: 左
         /// </summary>
         internal List<List<GameObject>> goCenterStacksCards = new() { new(), new() };
+
+        /// <summary>
+        /// 底端
+        /// 
+        /// - `0.0f` は盤
+        /// </summary>
+        internal readonly float minY = 0.5f;
+
+        internal readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
+
+        // 手札（プレイヤー側で伏せて積んでる札）
+        internal readonly float[] pileCardsX = new[] { 40.0f, -40.0f }; // 端っこは 62.0f, -62.0f
+        internal readonly float[] pileCardsY = new[] { 0.5f, 0.5f };
+        internal readonly float[] pileCardsZ = new[] { -6.5f, 16.0f };
 
         // 台札
         internal float[] centerStacksX = { 15.0f, -15.0f };
