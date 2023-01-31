@@ -306,8 +306,7 @@ public class GameManager : MonoBehaviour
         if (0 <= handIndex && handIndex < gameViewModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
         {
             // 抜いたカードの右隣のカードを（有れば）ピックアップする
-            var goNewPickupCard = gameViewModel.GetCardAtOfPlayerHand(player, handIndex);
-            SetFocusHand(goNewPickupCard);
+            gameViewModel.SetFocusCardOfPlayerHand(player, handIndex);
         }
     }
 
@@ -348,7 +347,7 @@ public class GameManager : MonoBehaviour
     private void MoveCardToCenterStackFromHand(int player, int place)
     {
         int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
-        if (handIndex < 0 || gameViewModel.goPlayersHandCards[player].Count <= handIndex) // 範囲外は無視
+        if (handIndex < 0 || gameViewModel.GetLengthOfPlayerHandCards(player) <= handIndex) // 範囲外は無視
         {
             return;
         }
@@ -367,52 +366,42 @@ public class GameManager : MonoBehaviour
         // それでも範囲外なら、負の数
         playsersFocusedCardIndex[player] = handIndex; // 更新：何枚目の場札をピックアップしているか
 
-        // 台札の一番上（一番後ろ）のカードの中心座標 X, Z
-        float nextTopX;
-        float nextTopZ;
-        float nextAngleY = goCard.transform.rotation.eulerAngles.y;
 
-        var (shakeX, shakeZ, shakeAngleY) = MakeShakeForCenterStack(place);
 
-        var length = gameViewModel.GetLengthOfCenterStackCards(place);
-        if (length < 1)
-        {
-            nextTopX = gameViewModel.centerStacksX[place];
-            nextTopZ = gameViewModel.centerStacksZ[place];
-        }
-        else
-        {
-            var goLastCard = gameViewModel.GetCardOfCenterStack(place, length - 1); // 最後のカード
-            nextTopX = (gameViewModel.centerStacksX[place] - goLastCard.transform.position.x) / 2 + gameViewModel.centerStacksX[place];
-            nextTopZ = (gameViewModel.centerStacksZ[place] - goLastCard.transform.position.z) / 2 + gameViewModel.centerStacksZ[place];
-            nextAngleY += shakeAngleY;
-        }
 
-        gameViewModel.AddCardOfCenterStack(place, goCard); // 台札として置く
+        AddCardOfCenterStack2(goCard, place); // 台札
 
-        // カードの位置をセット
-        SetPosRot(goCard, nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
-
-        // 次に台札に積むカードの高さ
-        gameViewModel.centerStacksY[place] += 0.2f;
 
         // 場札の位置調整
         ArrangeHandCards(player);
     }
 
-    /// <summary>
-    /// 場札を取得
-    /// </summary>
-    /// <param name="player">何番目のプレイヤー</param>
-    /// <param name="cardIndex">何枚目のカード</param>
-    /// <param name="setCard">カードをセットする関数</param>
-    private void GetCardOfHand(int player, int cardIndex, LazyArgs.SetValue<GameObject> setCard)
+    private void AddCardOfCenterStack2(GameObject goCard, int place)
     {
-        if (cardIndex < gameViewModel.GetLengthOfPlayerHandCards(player))
+        // 手ぶれ
+        var (shakeX, shakeZ, shakeAngleY) = MakeShakeForCenterStack(place);
+
+        // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
+        var (nextTopX, nextTopZ) = gameViewModel.GetXZOfNextCenterStackCard(place);
+
+        // 台札の捻り
+        float nextAngleY = goCard.transform.rotation.eulerAngles.y;
+        var length = gameViewModel.GetLengthOfCenterStackCards(place);
+        if (length < 1)
         {
-            var goCard = gameViewModel.GetCardAtOfPlayerHand(player, cardIndex);
-            setCard(goCard);
         }
+        else
+        {
+            nextAngleY += shakeAngleY;
+        }
+
+        gameViewModel.AddCardOfCenterStack(place, goCard); // 台札として置く
+
+        // 台札の位置をセット
+        SetPosRot(goCard, nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
+
+        // 次に台札に積むカードの高さ
+        gameViewModel.centerStacksY[place] += 0.2f;
     }
 
     /// <summary>
@@ -432,39 +421,6 @@ public class GameManager : MonoBehaviour
         card.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);
 
         card.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
-    }
-
-    /// <summary>
-    /// 場札カードを持ち上げる
-    /// </summary>
-    /// <param name="card"></param>
-    private void SetFocusHand(GameObject card)
-    {
-        var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
-        var rotateY = -5; // -5°傾ける
-        var rotateZ = -5; // -5°傾ける
-
-        card.transform.position = new Vector3(card.transform.position.x, card.transform.position.y + liftY, card.transform.position.z);
-        card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
-    }
-
-    /// <summary>
-    /// 持ち上げたカードを場に戻す
-    /// </summary>
-    /// <param name="card"></param>
-    private void ResetFocusHand(GameObject card)
-    {
-        var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
-        var rotateY = -5; // -5°傾ける
-        var rotateZ = -5; // -5°傾ける
-
-        // 逆をする
-        liftY = -liftY;
-        rotateY = -rotateY;
-        rotateZ = -rotateZ;
-
-        card.transform.position = new Vector3(card.transform.position.x, card.transform.position.y + liftY, card.transform.position.z);
-        card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
     }
 
     /// <summary>
@@ -524,15 +480,13 @@ public class GameManager : MonoBehaviour
         if (0 <= previous && previous < gameViewModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
         {
             // 前にフォーカスしていたカードを、盤に下ろす
-            var goPreviousCard = gameViewModel.GetCardAtOfPlayerHand(player, previous);
-            ResetFocusHand(goPreviousCard);
+            gameViewModel.ResetFocusCardOfPlayerHand(player, previous);
         }
 
         if (0 <= current && current < gameViewModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
         {
             // 今回フォーカスするカードを持ち上げる
-            var goCurrentCard = gameViewModel.GetCardAtOfPlayerHand(player, current);
-            SetFocusHand(goCurrentCard);
+            gameViewModel.SetFocusCardOfPlayerHand(player, current);
         }
     }
 }

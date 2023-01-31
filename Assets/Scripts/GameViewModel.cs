@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
+    using UnityEngine.UIElements;
 
     /// <summary>
     /// 西端: -62.0f
@@ -96,6 +97,17 @@
             return this.goCenterStacksCards[place].ElementAt(startIndex);
         }
 
+        /// <summary>
+        /// 天辺の台札
+        /// </summary>
+        /// <param name="place"></param>
+        /// <returns></returns>
+        internal GameObject GetLastCardOfCenterStack(int place)
+        {
+            var length = this.GetLengthOfCenterStackCards(place);
+            return this.GetCardOfCenterStack(place, length - 1); // 最後のカード
+        }
+
         internal void RemoveCardAtOfCenterStack(int place, int startIndex)
         {
             this.goCenterStacksCards[place].RemoveAt(startIndex);
@@ -104,6 +116,29 @@
         internal void AddCardOfCenterStack(int place, GameObject goCard)
         {
             this.goCenterStacksCards[place].Add(goCard);
+        }
+
+        /// <summary>
+        /// 台札の次の天辺の位置
+        /// </summary>
+        /// <param name="place"></param>
+        /// <returns></returns>
+        internal (float, float) GetXZOfNextCenterStackCard(int place)
+        {
+            var length = this.GetLengthOfCenterStackCards(place);
+            if (length < 1)
+            {
+                // 床上
+                var nextTopX2 = this.centerStacksX[place];
+                var nextTopZ2 = this.centerStacksZ[place];
+                return (nextTopX2, nextTopZ2);
+            }
+
+            // 台札の次の天辺の位置
+            var goLastCard = this.GetLastCardOfCenterStack(place); // 天辺（最後）のカード
+            var nextTopX = (this.centerStacksX[place] - goLastCard.transform.position.x) / 2 + this.centerStacksX[place];
+            var nextTopZ = (this.centerStacksZ[place] - goLastCard.transform.position.z) / 2 + this.centerStacksZ[place];
+            return (nextTopX, nextTopZ);
         }
 
         /// <summary>
@@ -168,5 +203,61 @@
         {
             this.goPlayersHandCards[player].RemoveAt(handIndex);
         }
+
+        /// <summary>
+        /// 今回フォーカスするカードを持ち上げる
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="handIndesx"></param>
+        internal void SetFocusCardOfPlayerHand(int player, int handIndesx)
+        {
+            var goCurrentCard = this.GetCardAtOfPlayerHand(player, handIndesx);
+            this.SetFocusHand(goCurrentCard);
+        }
+
+        /// <summary>
+        /// 前にフォーカスしていたカードを、盤に下ろす
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="handIndex"></param>
+        internal void ResetFocusCardOfPlayerHand(int player, int handIndex)
+        {
+            var goPreviousCard = this.GetCardAtOfPlayerHand(player, handIndex);
+            this.ResetFocusHand(goPreviousCard);
+        }
+
+        /// <summary>
+        /// 場札カードを持ち上げる
+        /// </summary>
+        /// <param name="card"></param>
+        void SetFocusHand(GameObject card)
+        {
+            var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
+            var rotateY = -5; // -5°傾ける
+            var rotateZ = -5; // -5°傾ける
+
+            card.transform.position = new Vector3(card.transform.position.x, card.transform.position.y + liftY, card.transform.position.z);
+            card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
+        }
+
+        /// <summary>
+        /// 持ち上げたカードを場に戻す
+        /// </summary>
+        /// <param name="card"></param>
+        void ResetFocusHand(GameObject card)
+        {
+            var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
+            var rotateY = -5; // -5°傾ける
+            var rotateZ = -5; // -5°傾ける
+
+            // 逆をする
+            liftY = -liftY;
+            rotateY = -rotateY;
+            rotateZ = -rotateZ;
+
+            card.transform.position = new Vector3(card.transform.position.x, card.transform.position.y + liftY, card.transform.position.z);
+            card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
+        }
+
     }
 }
