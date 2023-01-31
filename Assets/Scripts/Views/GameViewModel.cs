@@ -1,7 +1,6 @@
-﻿namespace Assets.Scripts
+﻿namespace Assets.Scripts.Views
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Views;
     using System;
     using UnityEngine;
 
@@ -66,49 +65,31 @@
         }
 
         /// <summary>
-        /// 今回フォーカスするカードを持ち上げる
+        /// 場札を持ち上げる
         /// </summary>
         /// <param name="player"></param>
         /// <param name="handIndesx"></param>
-        internal void SetFocusCardOfPlayerHand(GameModel gameModel, int player, int handIndesx)
+        internal void PickupCardOfHand(GameModel gameModel, int player, int handIndesx)
         {
             var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndesx);
-            Debug.Log($"[GameViewModel SetFocusCardOfPlayerHand] idOfFocusedHandCard:{idOfFocusedHandCard}");
-            this.SetFocusHand(idOfFocusedHandCard);
-        }
 
-        /// <summary>
-        /// 前にフォーカスしていたカードを、盤に下ろす
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="handIndex"></param>
-        internal void ResetFocusCardOfPlayerHand(GameModel gameModel, int player, int handIndex)
-        {
-            var goPreviousCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
-            this.ResetFocusHand(goPreviousCard);
-        }
-
-        /// <summary>
-        /// 場札カードを持ち上げる
-        /// </summary>
-        /// <param name="card"></param>
-        void SetFocusHand(IdOfPlayingCards idOfCard)
-        {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
             var rotateZ = -5; // -5°傾ける
 
-            var goCard = ViewStorage.PlayingCards[idOfCard];
+            var goCard = ViewStorage.PlayingCards[idOfFocusedHandCard];
             goCard.transform.position = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
             goCard.transform.rotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
         }
 
         /// <summary>
-        /// 持ち上げたカードを場に戻す
+        /// ピックアップしているカードを場に戻す
         /// </summary>
         /// <param name="card"></param>
-        void ResetFocusHand(IdOfPlayingCards idOfCard)
+        internal void PutDownCardOfHand(GameModel gameModel, int player, int handIndex)
         {
+            var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
+
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
             var rotateZ = -5; // -5°傾ける
@@ -121,20 +102,6 @@
             var goCard = ViewStorage.PlayingCards[idOfCard];
             goCard.transform.position = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
             goCard.transform.rotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
-        }
-
-        /// <summary>
-        /// 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
-        /// </summary>
-        internal void ResumeCardPickup(GameModel gameModel, int player)
-        {
-            int handIndex = gameModel.GetIndexOfFocusedCardOfPlayer(player);
-
-            if (0 <= handIndex && handIndex < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
-            {
-                // 抜いたカードの右隣のカードを（有れば）ピックアップする
-                this.SetFocusCardOfPlayerHand(gameModel, player, handIndex);
-            }
         }
 
         /// <summary>
@@ -200,6 +167,20 @@
 
             // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
             this.ResumeCardPickup(gameModel, player);
+        }
+
+        /// <summary>
+        /// 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
+        /// </summary>
+        private void ResumeCardPickup(GameModel gameModel, int player)
+        {
+            int handIndex = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+
+            if (0 <= handIndex && handIndex < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
+            {
+                // 抜いたカードの右隣のカードを（有れば）ピックアップする
+                this.PickupCardOfHand(gameModel, player, handIndex);
+            }
         }
 
         /// <summary>

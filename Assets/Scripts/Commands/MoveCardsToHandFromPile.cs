@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Commands
 {
     using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
 
     static class MoveCardsToHandFromPile
     {

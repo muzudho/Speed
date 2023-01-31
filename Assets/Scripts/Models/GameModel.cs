@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Assets.Scripts.Models
+﻿namespace Assets.Scripts.Models
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// ゲーム・モデル
     /// 
@@ -49,15 +49,6 @@ namespace Assets.Scripts.Models
         internal int GetLengthOfCenterStackCards(int place)
         {
             return this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count;
-        }
-
-        /// <summary>
-        /// 手札の枚数
-        /// </summary>
-        /// <returns></returns>
-        internal int GetLengthOfPlayerPileCards(int player)
-        {
-            return this.gameModelBuffer.IdOfCardsOfPlayersPile[player].Count;
         }
 
         /// <summary>

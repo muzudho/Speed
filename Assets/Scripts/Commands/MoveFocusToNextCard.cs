@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Commands
 {
     using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
     using System;
 
     static class MoveFocusToNextCard
@@ -62,13 +63,13 @@
             if (0 <= indexOfFocusedHandCard && indexOfFocusedHandCard < gameModelBuffer.IdOfCardsOfPlayersHand[player].Count) // 範囲内なら
             {
                 // 前にフォーカスしていたカードを、盤に下ろす
-                gameViewModel.ResetFocusCardOfPlayerHand(gameModel, player, indexOfFocusedHandCard);
+                gameViewModel.PutDownCardOfHand(gameModel, player, indexOfFocusedHandCard);
             }
 
             if (0 <= current && current < gameModelBuffer.IdOfCardsOfPlayersHand[player].Count) // 範囲内なら
             {
                 // 今回フォーカスするカードを持ち上げる
-                gameViewModel.SetFocusCardOfPlayerHand(gameModel, player, current);
+                gameViewModel.PickupCardOfHand(gameModel, player, current);
             }
         }
     }
