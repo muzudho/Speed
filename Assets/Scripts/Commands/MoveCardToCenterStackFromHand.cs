@@ -1,13 +1,8 @@
-﻿using Assets.Scripts.Models;
-using Assets.Scripts.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets.Scripts.Commands
+﻿namespace Assets.Scripts.Commands
 {
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
+
     static class MoveCardToCenterStackFromHand
     {
         /// <summary>

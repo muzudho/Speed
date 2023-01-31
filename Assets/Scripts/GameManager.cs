@@ -96,7 +96,10 @@ public class GameManager : MonoBehaviour
         // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
         while (0 < gameModel.GetLengthOfCenterStackCards(right))
         {
-            this.MoveCardsToPileFromCenterStacks(right);
+            Commands.MoveCardsToPileFromCenterStacks.DoIt(
+                gameModelBuffer: gameModelBuffer,
+                gameViewModel: gameViewModel,
+                place: right);
         }
 
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
@@ -352,46 +355,5 @@ public class GameManager : MonoBehaviour
             gameViewModel: gameViewModel,
             player: 1, numberOfCards: 3);
         yield return new WaitForSeconds(seconds);
-    }
-
-    /// <summary>
-    /// 台札を、手札へ移動する
-    /// </summary>
-    /// <param name="place">右:0, 左:1</param>
-    internal void MoveCardsToPileFromCenterStacks(int place)
-    {
-        // 台札の一番上（一番後ろ）のカードを１枚抜く
-        var numberOfCards = 1;
-        var length = gameModel.GetLengthOfCenterStackCards(place); // 台札の枚数
-        if (1 <= length)
-        {
-            var startIndex = length - numberOfCards;
-            var idOfCard = gameModel.GetCardOfCenterStack(place, startIndex);
-            this.gameModelBuffer.RemoveCardAtOfCenterStack(place, startIndex);
-
-            // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
-            int player;
-            float angleY;
-            var goCard = ViewStorage.PlayingCards[idOfCard];
-            if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
-            {
-                player = 0;
-                angleY = 180.0f;
-            }
-            else if (goCard.name.StartsWith("Diamonds") || goCard.name.StartsWith("Hearts"))
-            {
-                player = 1;
-                angleY = 0.0f;
-            }
-            else
-            {
-                throw new Exception();
-            }
-
-            // プレイヤーの手札を積み上げる
-            this.gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
-            this.gameViewModel.SetPosRot(idOfCard, this.gameViewModel.pileCardsX[player], this.gameViewModel.pileCardsY[player], this.gameViewModel.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
-            this.gameViewModel.pileCardsY[player] += 0.2f;
-        }
     }
 }
