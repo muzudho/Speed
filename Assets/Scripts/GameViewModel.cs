@@ -259,5 +259,118 @@
             card.transform.rotation = Quaternion.Euler(card.transform.rotation.eulerAngles.x, card.transform.rotation.eulerAngles.y + rotateY, card.transform.eulerAngles.z + rotateZ);
         }
 
+        /// <summary>
+        /// 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
+        /// </summary>
+        internal void ResumeCardPickup(int player, int handIndex)
+        {
+            if (0 <= handIndex && handIndex < this.GetLengthOfPlayerHandCards(player)) // 範囲内なら
+            {
+                // 抜いたカードの右隣のカードを（有れば）ピックアップする
+                this.SetFocusCardOfPlayerHand(player, handIndex);
+            }
+        }
+
+        /// <summary>
+        /// 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
+        /// 
+        /// - 画面上の場札は位置調整される
+        /// </summary>
+        internal void MoveCardsToHandFromPile(int player, int numberOfCards, int indexOfFocusedHandCard)
+        {
+            // 手札の上の方からｎ枚抜いて、場札へ移動する
+            var length = this.GetLengthOfPlayerPileCards(player); // 手札の枚数
+            if (numberOfCards <= length)
+            {
+                var startIndex = length - numberOfCards;
+                var goCards = this.GetRangeCardsOfPlayerPile(player, startIndex, numberOfCards);
+                this.RemoveRangeCardsOfPlayerPile(player, startIndex, numberOfCards);
+                this.AddRangeCardsOfPlayerHand(player, goCards);
+
+                ArrangeHandCards(player, indexOfFocusedHandCard);
+            }
+        }
+
+        /// <summary>
+        /// 場札を並べる
+        /// 
+        /// - 左端は角度で言うと 112.0f
+        /// </summary>
+        internal void ArrangeHandCards(int player, int handIndex)
+        {
+            // 25枚の場札が並べるように調整してある
+
+            int numberOfCards = this.GetLengthOfPlayerHandCards(player); // 場札の枚数
+            if (numberOfCards < 1)
+            {
+                return; // 何もしない
+            }
+
+            float cardAngleZ = -5; // カードの少しの傾き
+
+            int range = 200; // 半径。大きな円にするので、中心を遠くに離したい
+            int offsetCircleCenterZ; // 中心位置の調整
+
+            float angleY;
+            float playerTheta;
+            float angleStep = -1.83f;
+            float startTheta = (numberOfCards * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
+            float thetaStep = angleStep * Mathf.Deg2Rad; ; // 時計回り
+
+            float ox = 0.0f;
+            float oz = this.handCardsZ[player];
+
+            switch (player)
+            {
+                case 0:
+                    // １プレイヤー
+                    angleY = 180.0f;
+                    playerTheta = 0;
+                    offsetCircleCenterZ = -190;
+                    break;
+
+                case 1:
+                    // ２プレイヤー
+                    angleY = 0.0f;
+                    playerTheta = 180 * Mathf.Deg2Rad;
+                    offsetCircleCenterZ = 188;  // カメラのパースペクティブが付いているから、目視で調整
+                    break;
+
+                default:
+                    throw new Exception();
+            }
+
+            float theta = startTheta;
+            foreach (var goCard in this.GetCardsOfPlayerHand(player))
+            {
+                float x = range * Mathf.Cos(theta + playerTheta) + ox;
+                float z = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
+
+                SetPosRot(goCard, x, this.minY, z, angleY: angleY, angleZ: cardAngleZ);
+                theta += thetaStep;
+            }
+
+            // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
+            this.ResumeCardPickup(player, handIndex);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="angleY"></param>
+        /// <param name="angleZ"></param>
+        /// <param name="motionProgress">Update関数の中でないと役に立たない</param>
+        internal void SetPosRot(GameObject card, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
+        {
+            var beginPos = card.transform.position;
+            var endPos = new Vector3(x, y, z);
+            card.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);
+
+            card.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
+        }
     }
 }

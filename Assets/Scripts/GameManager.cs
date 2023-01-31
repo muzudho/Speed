@@ -36,8 +36,10 @@ public class GameManager : MonoBehaviour
         }
 
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
-        MoveCardsToHandFromPile(player: 0, numberOfCards: 5);
-        MoveCardsToHandFromPile(player: 1, numberOfCards: 5);
+        int player0HandIndex = playsersFocusedCardIndex[0]; // 何枚目の場札をピックアップしているか
+        gameViewModel.MoveCardsToHandFromPile(player: 0, numberOfCards: 5, indexOfFocusedHandCard: player0HandIndex);
+        int player1HandIndex = playsersFocusedCardIndex[1]; // 何枚目の場札をピックアップしているか
+        gameViewModel.MoveCardsToHandFromPile(player: 1, numberOfCards: 5, indexOfFocusedHandCard: player1HandIndex);
 
         StartCoroutine("DoDemo");
     }
@@ -110,7 +112,9 @@ public class GameManager : MonoBehaviour
             // 両プレイヤーは手札から１枚抜いて、場札として置く
             for (var player = 0; player < 2; player++)
             {
-                MoveCardsToHandFromPile(player, 1);
+                // 場札を並べる
+                int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
+                gameViewModel.MoveCardsToHandFromPile(player, 1, handIndex);
             }
         }
     }
@@ -167,9 +171,11 @@ public class GameManager : MonoBehaviour
         }
 
         // １プレイヤーは手札から３枚抜いて、場札として置く
-        MoveCardsToHandFromPile(0, 3);
+        int player0HandIndex = playsersFocusedCardIndex[0]; // 何枚目の場札をピックアップしているか
+        gameViewModel.MoveCardsToHandFromPile(player:0, numberOfCards:3, indexOfFocusedHandCard:player0HandIndex);
         // ２プレイヤーは手札から３枚抜いて、場札として置く
-        MoveCardsToHandFromPile(1, 3);
+        int player1fHandIndex = playsersFocusedCardIndex[1]; // 何枚目の場札をピックアップしているか
+        gameViewModel.MoveCardsToHandFromPile(player:1, numberOfCards:3, indexOfFocusedHandCard:player1fHandIndex);
         yield return new WaitForSeconds(seconds);
     }
 
@@ -208,105 +214,8 @@ public class GameManager : MonoBehaviour
 
             // プレイヤーの手札を積み上げる
             gameViewModel.AddCardOfPlayersPile(player, goCard);
-            SetPosRot(goCard, gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
+            gameViewModel.SetPosRot(goCard, gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
             gameViewModel.pileCardsY[player] += 0.2f;
-        }
-    }
-
-    /// <summary>
-    /// 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
-    /// 
-    /// - 画面上の場札は位置調整される
-    /// </summary>
-    void MoveCardsToHandFromPile(int player, int numberOfCards)
-    {
-        // 手札の上の方からｎ枚抜いて、場札へ移動する
-        var length = gameViewModel.GetLengthOfPlayerPileCards(player); // 手札の枚数
-        if (numberOfCards <= length)
-        {
-            var startIndex = length - numberOfCards;
-            var goCards = gameViewModel.GetRangeCardsOfPlayerPile(player, startIndex, numberOfCards);
-            gameViewModel.RemoveRangeCardsOfPlayerPile(player, startIndex, numberOfCards);
-            gameViewModel.AddRangeCardsOfPlayerHand(player, goCards);
-
-            // 場札を並べる
-            ArrangeHandCards(player);
-        }
-    }
-
-    /// <summary>
-    /// 場札を並べる
-    /// </summary>
-    void ArrangeHandCards(int player)
-    {
-        // 25枚の場札が並べるように調整してある
-
-        int numberOfCards = gameViewModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
-        if (numberOfCards < 1)
-        {
-            return; // 何もしない
-        }
-
-        float cardAngleZ = -5; // カードの少しの傾き
-
-        int range = 200; // 半径。大きな円にするので、中心を遠くに離したい
-        int offsetCircleCenterZ; // 中心位置の調整
-
-        float angleY;
-        float playerTheta;
-        // float leftestAngle = 112.0f;
-        float angleStep = -1.83f;
-        float startTheta = (numberOfCards * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
-        float thetaStep = angleStep * Mathf.Deg2Rad; ; // 時計回り
-
-        float ox = 0.0f;
-        float oz = gameViewModel.handCardsZ[player];
-
-
-        switch (player)
-        {
-            case 0:
-                // １プレイヤー
-                angleY = 180.0f;
-                playerTheta = 0;
-                offsetCircleCenterZ = -190;
-                break;
-
-            case 1:
-                // ２プレイヤー
-                angleY = 0.0f;
-                playerTheta = 180 * Mathf.Deg2Rad;
-                offsetCircleCenterZ = 188;  // カメラのパースペクティブが付いているから、目視で調整
-                break;
-
-            default:
-                throw new Exception();
-        }
-
-        float theta = startTheta;
-        foreach (var goCard in gameViewModel.GetCardsOfPlayerHand(player))
-        {
-            float x = range * Mathf.Cos(theta + playerTheta) + ox;
-            float z = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
-
-            SetPosRot(goCard, x, gameViewModel.minY, z, angleY: angleY, angleZ: cardAngleZ);
-            theta += thetaStep;
-        }
-
-        // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
-        ResumeCardPickup(player);
-    }
-
-    /// <summary>
-    /// 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
-    /// </summary>
-    void ResumeCardPickup(int player)
-    {
-        int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
-        if (0 <= handIndex && handIndex < gameViewModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
-        {
-            // 抜いたカードの右隣のカードを（有れば）ピックアップする
-            gameViewModel.SetFocusCardOfPlayerHand(player, handIndex);
         }
     }
 
@@ -346,14 +255,32 @@ public class GameManager : MonoBehaviour
     /// <param name="place">右なら0、左なら1</param>
     private void MoveCardToCenterStackFromHand(int player, int place)
     {
+        // ピックアップしているカードがあるか？
+        GetIndexOfFocusedHandCard(
+            player:player,
+            (handIndex) =>
+            {
+                var goCard = RemoveAtOfHandCard(player, handIndex);
+                AddCardOfCenterStack2(goCard, place); // 台札
+            });
+    }
+
+    private void GetIndexOfFocusedHandCard(int player, LazyArgs.SetValue<int> setIndex)
+    {
         int handIndex = playsersFocusedCardIndex[player]; // 何枚目の場札をピックアップしているか
         if (handIndex < 0 || gameViewModel.GetLengthOfPlayerHandCards(player) <= handIndex) // 範囲外は無視
         {
             return;
         }
 
+        setIndex(handIndex);
+    }
+
+    private GameObject RemoveAtOfHandCard(int player, int handIndex)
+    {
         var goCard = gameViewModel.GetCardAtOfPlayerHand(player, handIndex); // 場札を１枚抜いて
         gameViewModel.RemoveCardAtOfPlayerHand(player, handIndex);
+
         if (handIndex < 0 && 0 < gameViewModel.GetLengthOfPlayerHandCards(player))
         {
             handIndex = 0;
@@ -366,14 +293,10 @@ public class GameManager : MonoBehaviour
         // それでも範囲外なら、負の数
         playsersFocusedCardIndex[player] = handIndex; // 更新：何枚目の場札をピックアップしているか
 
-
-
-
-        AddCardOfCenterStack2(goCard, place); // 台札
-
-
         // 場札の位置調整
-        ArrangeHandCards(player);
+        gameViewModel.ArrangeHandCards(player, handIndex);
+
+        return goCard;
     }
 
     private void AddCardOfCenterStack2(GameObject goCard, int place)
@@ -398,29 +321,10 @@ public class GameManager : MonoBehaviour
         gameViewModel.AddCardOfCenterStack(place, goCard); // 台札として置く
 
         // 台札の位置をセット
-        SetPosRot(goCard, nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
+        gameViewModel.SetPosRot(goCard, nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
 
         // 次に台札に積むカードの高さ
         gameViewModel.centerStacksY[place] += 0.2f;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="card"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <param name="angleY"></param>
-    /// <param name="angleZ"></param>
-    /// <param name="motionProgress">Update関数の中でないと役に立たない</param>
-    private void SetPosRot(GameObject card, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
-    {
-        var beginPos = card.transform.position;
-        var endPos = new Vector3(x, y, z);
-        card.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);
-
-        card.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
     }
 
     /// <summary>
