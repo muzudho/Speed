@@ -29,20 +29,32 @@
         }
 
         /// <summary>
-        /// コマンドを１個取り出して実行
-        /// 
-        /// TODO ★ currentSeconds
+        /// コマンドを消化
         /// </summary>
+        /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
         /// <param name="gameModelBuffer"></param>
         /// <param name="gameViewModel"></param>
-        internal void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        internal void DoIt(float elapsedSeconds, GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             if (0 < timedCommands.Count)
             {
-                var timedCommandToRemove = timedCommands[0];
-                timedCommands.RemoveAt(0);
+                TimedCommand timedCommand = timedCommands[0];
 
-                timedCommandToRemove.Command.DoIt(gameModelBuffer, gameViewModel);
+                while (timedCommand.Seconds <= elapsedSeconds)
+                {
+                    // 消化
+                    timedCommands.RemoveAt(0);
+                    timedCommand.Command.DoIt(gameModelBuffer, gameViewModel);
+
+                    if (0 < timedCommands.Count)
+                    {
+                        timedCommand = timedCommands[0];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
         }
     }

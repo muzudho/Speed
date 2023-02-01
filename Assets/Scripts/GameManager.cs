@@ -19,6 +19,11 @@ public class GameManager : MonoBehaviour
     GameModel gameModel;
     GameViewModel gameViewModel;
 
+    // ゲーム内単位時間
+    float unitSeconds = 1.0f / 60.0f;
+    // ゲーム内経過時間
+    float elapsedSeconds = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -111,8 +116,8 @@ public class GameManager : MonoBehaviour
         // 以下、デモ・プレイを登録
         SetupDemo();
 
-        // OnTick を 1.0 秒後に呼び出し、以降は 1 秒毎に実行
-        InvokeRepeating(nameof(OnTick), 1.0f, 1.0f);
+        // OnTick を 1.0 秒後に呼び出し、以降は unitSeconds 秒毎に実行
+        InvokeRepeating(nameof(OnTick), 1.0f, unitSeconds);
     }
 
     // Update is called once per frame
@@ -128,7 +133,9 @@ public class GameManager : MonoBehaviour
     void OnTick()
     {
         // コマンドを１個取り出して実行
-        this.commandStorage.DoIt(gameModelBuffer, gameViewModel);
+        this.commandStorage.DoIt(elapsedSeconds, gameModelBuffer, gameViewModel);
+
+        elapsedSeconds += unitSeconds;
     }
 
     /// <summary>
@@ -136,7 +143,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void UpdateInput()
     {
-        var time = 0.0f;
         const int right = 0;// 台札の右
         const int left = 1;// 台札の左
 
@@ -144,7 +150,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-            this.commandStorage.Add(time, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 0, // １プレイヤーが
                 place: left // 左の
                 ));
@@ -152,7 +158,7 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-            this.commandStorage.Add(time, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 0, // １プレイヤーが
                 place: right // 右の
                 ));
@@ -161,7 +167,7 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
             var player = 0;
-            this.commandStorage.Add(time, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 1,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -173,7 +179,7 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
             var player = 0;
-            this.commandStorage.Add(time, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 0,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -186,7 +192,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-            this.commandStorage.Add(time, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 1, // ２プレイヤーが
                 place: right // 右の
                 ));
@@ -194,7 +200,7 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.S))
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-            this.commandStorage.Add(time, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 1, // ２プレイヤーが
                 place: left // 左の
                 ));
@@ -203,7 +209,7 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
             var player = 1;
-            this.commandStorage.Add(time, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 1,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -215,7 +221,7 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
             var player = 1;
-            this.commandStorage.Add(time, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 0,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -231,7 +237,7 @@ public class GameManager : MonoBehaviour
             for (var player = 0; player < 2; player++)
             {
                 // 場札を並べる
-                this.commandStorage.Add(time, new Commands.MoveCardsToHandFromPile(
+                this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardsToHandFromPile(
                     player: player,
                     numberOfCards: 1));
             }
@@ -244,14 +250,14 @@ public class GameManager : MonoBehaviour
         const int right = 0;// 台札の右
         const int left = 1;// 台札の左
 
-        float time = 3.0f;
+        float scheduleSeconds = 1.0f;
         float oneSecond = 1.0f;
 
         // 登録：何もしない（間）
         {
             var entanglement = new List<ICommand>();
-            this.commandStorage.Add(time, new DoingSimultaneously(entanglement));
-            time += oneSecond;
+            this.commandStorage.Add(scheduleSeconds, new DoingSimultaneously(entanglement));
+            scheduleSeconds += oneSecond;
         }
         // 登録：場札の先頭をピックアップ
         {
@@ -279,8 +285,8 @@ public class GameManager : MonoBehaviour
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     }));
             }
-            this.commandStorage.Add(time, new DoingSimultaneously(entanglement));
-            time += oneSecond;
+            this.commandStorage.Add(scheduleSeconds, new DoingSimultaneously(entanglement));
+            scheduleSeconds += oneSecond;
         }
         // 登録：ピックアップ場札を、台札へ積み上げる
         {
@@ -295,8 +301,8 @@ public class GameManager : MonoBehaviour
                 player: 1, // ２プレイヤーが
                 place: left // 左の
                 ));
-            this.commandStorage.Add(time, new DoingSimultaneously(entanglement));
-            time += oneSecond;
+            this.commandStorage.Add(scheduleSeconds, new DoingSimultaneously(entanglement));
+            scheduleSeconds += oneSecond;
         }
 
         // ゲーム・デモ開始
@@ -331,8 +337,8 @@ public class GameManager : MonoBehaviour
                         }));
                 }
 
-                this.commandStorage.Add(time, new DoingSimultaneously(entanglement));
-                time += oneSecond;
+                this.commandStorage.Add(scheduleSeconds, new DoingSimultaneously(entanglement));
+                scheduleSeconds += oneSecond;
             }
         }
 
@@ -349,8 +355,8 @@ public class GameManager : MonoBehaviour
                 place: 0 // 右の台札
                 ));
 
-            this.commandStorage.Add(time, new DoingSimultaneously(entanglement));
-            time += oneSecond;
+            this.commandStorage.Add(scheduleSeconds, new DoingSimultaneously(entanglement));
+            scheduleSeconds += oneSecond;
         }
         // 登録：手札から１枚引く
         {
@@ -365,8 +371,8 @@ public class GameManager : MonoBehaviour
                 player: 1,
                 numberOfCards: 1));
 
-            this.commandStorage.Add(time, new DoingSimultaneously(entanglement));
-            time += oneSecond;
+            this.commandStorage.Add(scheduleSeconds, new DoingSimultaneously(entanglement));
+            scheduleSeconds += oneSecond;
         }
     }
 }
