@@ -108,11 +108,7 @@ public class GameManager : MonoBehaviour
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
         this.commandStorage.Add(new Commands.MoveCardsToHandFromPile(player: 0, numberOfCards: 5));
         this.commandStorage.Add(new Commands.MoveCardsToHandFromPile(player: 1, numberOfCards: 5));
-        this.commandStorage.Flush(gameModelBuffer, gameViewModel,
-            afterStep: () =>
-            {
-
-            });
+        this.commandStorage.Flush(gameModelBuffer, gameViewModel);
 
         StartCoroutine("DoDemo");
     }
@@ -131,11 +127,7 @@ public class GameManager : MonoBehaviour
                 player: 0, // １プレイヤーが
                 place: left // 左の
                 ));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel,
-                afterStep: () =>
-                {
-
-                });
+            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -144,11 +136,7 @@ public class GameManager : MonoBehaviour
                 player: 0, // １プレイヤーが
                 place: right // 右の
                 ));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel,
-                afterStep: () =>
-                {
-
-                });
+            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -161,11 +149,7 @@ public class GameManager : MonoBehaviour
                 {
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 }));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel,
-                afterStep: () =>
-                {
-
-                });
+            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -178,11 +162,7 @@ public class GameManager : MonoBehaviour
                 {
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 }));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel,
-                afterStep: () =>
-                {
-
-                });
+            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
 
         // ２プレイヤー
@@ -193,11 +173,7 @@ public class GameManager : MonoBehaviour
                 player: 1, // ２プレイヤーが
                 place: right // 右の
                 ));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel,
-                afterStep: () =>
-                {
-
-                });
+            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
@@ -206,11 +182,7 @@ public class GameManager : MonoBehaviour
                 player: 1, // ２プレイヤーが
                 place: left // 左の
                 ));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel,
-                afterStep: () =>
-                {
-
-                });
+            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
@@ -223,11 +195,7 @@ public class GameManager : MonoBehaviour
                 {
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 }));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel,
-                afterStep: () =>
-                {
-
-                });
+            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
@@ -240,11 +208,7 @@ public class GameManager : MonoBehaviour
                 {
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 }));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel,
-                afterStep: () =>
-                {
-
-                });
+            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
 
         // デバッグ用
@@ -258,11 +222,7 @@ public class GameManager : MonoBehaviour
                     player: player,
                     numberOfCards: 1));
             }
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel,
-                afterStep: () =>
-                {
-
-                });
+            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
     }
 

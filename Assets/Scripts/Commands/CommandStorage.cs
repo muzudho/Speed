@@ -28,12 +28,11 @@
             this.Commands.Clear();
         }
 
-        internal void Flush(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel, LazyArgs.Action afterStep)
+        internal void Flush(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             foreach (var command in this.Commands)
             {
                 command.DoIt(gameModelBuffer, gameViewModel);
-                afterStep();
             }
             this.Commands.Clear();
         }
