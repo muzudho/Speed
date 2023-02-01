@@ -4,6 +4,9 @@
     using Assets.Scripts.Views;
     using System;
 
+    /// <summary>
+    /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
+    /// </summary>
     class MoveFocusToNextCard : ICommand
     {
         // - 生成
@@ -24,7 +27,7 @@
         // - メソッド
 
         /// <summary>
-        /// 隣のカードへフォーカスを移します
+        /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
         /// </summary>
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>

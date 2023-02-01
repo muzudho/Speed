@@ -3,10 +3,18 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
 
+    /// <summary>
+    /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
+    /// </summary>
     class MoveCardsToHandFromPile : ICommand
     {
         // - その他（生成）
 
+        /// <summary>
+        /// 生成
+        /// </summary>
+        /// <param name="player">ｎプレイヤー</param>
+        /// <param name="numberOfCards">カードがｍ枚</param>
         internal MoveCardsToHandFromPile(int player, int numberOfCards)
         {
             Player = player;

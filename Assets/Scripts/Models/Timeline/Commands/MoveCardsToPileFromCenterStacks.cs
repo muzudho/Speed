@@ -4,6 +4,9 @@
     using Assets.Scripts.Views;
     using System;
 
+    /// <summary>
+    /// 右（または左）側の台札１枚を、手札へ移動する
+    /// </summary>
     class MoveCardsToPileFromCenterStacks : ICommand
     {
         // - 生成

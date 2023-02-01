@@ -3,6 +3,9 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
 
+    /// <summary>
+    /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
+    /// </summary>
     class MoveCardToCenterStackFromHand : ICommand
     {
         // - 生成
@@ -21,7 +24,7 @@
         // - メソッド
 
         /// <summary>
-        /// 場札の好きなところから１枚抜いて、台札を１枚置く
+        /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
         /// </summary>
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>

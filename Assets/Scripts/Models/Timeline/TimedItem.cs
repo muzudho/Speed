@@ -2,6 +2,9 @@
 {
     using Assets.Scripts.Models.Timeline.Commands;
 
+    /// <summary>
+    /// 指定した時間と、そのとき実行されるコマンドのペア
+    /// </summary>
     class TimedItem
     {
         // - その他（生成）
