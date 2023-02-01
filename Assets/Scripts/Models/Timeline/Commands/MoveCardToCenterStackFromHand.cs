@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Commands
+﻿namespace Assets.Scripts.Models.Timeline.Commands
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
@@ -115,7 +115,7 @@
             var (nextTopX, nextTopZ) = gameViewModel.GetXZOfNextCenterStackCard(gameModel, place);
 
             // 台札の捻り
-            var goCard = ViewStorage.PlayingCards[idOfCard];
+            var goCard = GameObjectStorage.PlayingCards[idOfCard];
             float nextAngleY = goCard.transform.rotation.eulerAngles.y;
             var length = gameModel.GetLengthOfCenterStackCards(place);
             if (length < 1)

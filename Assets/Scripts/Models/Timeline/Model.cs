@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Models.Timeline
 {
-    using Assets.Scripts.Commands;
     using Assets.Scripts.Models;
+    using Assets.Scripts.Models.Timeline.Commands;
     using Assets.Scripts.Views;
     using System.Collections.Generic;
 

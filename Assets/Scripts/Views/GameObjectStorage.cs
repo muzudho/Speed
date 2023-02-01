@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    internal static class ViewStorage
+    static class GameObjectStorage
     {
         internal static Dictionary<IdOfPlayingCards, GameObject> PlayingCards { get; private set; } =  new();
 

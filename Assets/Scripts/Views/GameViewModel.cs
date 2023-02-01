@@ -58,7 +58,7 @@
 
             // 台札の次の天辺の位置
             var idOfLastCard = gameModel.GetLastCardOfCenterStack(place); // 天辺（最後）のカード
-            var goLastCard = ViewStorage.PlayingCards[idOfLastCard];
+            var goLastCard = GameObjectStorage.PlayingCards[idOfLastCard];
             var nextTopX = (this.centerStacksX[place] - goLastCard.transform.position.x) / 2 + this.centerStacksX[place];
             var nextTopZ = (this.centerStacksZ[place] - goLastCard.transform.position.z) / 2 + this.centerStacksZ[place];
             return (nextTopX, nextTopZ);
@@ -77,7 +77,7 @@
             var rotateY = -5; // -5°傾ける
             var rotateZ = -5; // -5°傾ける
 
-            var goCard = ViewStorage.PlayingCards[idOfFocusedHandCard];
+            var goCard = GameObjectStorage.PlayingCards[idOfFocusedHandCard];
             goCard.transform.position = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
             goCard.transform.rotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
         }
@@ -99,7 +99,7 @@
             rotateY = -rotateY;
             rotateZ = -rotateZ;
 
-            var goCard = ViewStorage.PlayingCards[idOfCard];
+            var goCard = GameObjectStorage.PlayingCards[idOfCard];
             goCard.transform.position = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
             goCard.transform.rotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
         }
@@ -195,7 +195,7 @@
         /// <param name="motionProgress">Update関数の中でないと役に立たない</param>
         internal void SetPosRot(IdOfPlayingCards idOfCard, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
         {
-            var goCard = ViewStorage.PlayingCards[idOfCard];
+            var goCard = GameObjectStorage.PlayingCards[idOfCard];
             var beginPos = goCard.transform.position;
             var endPos = new Vector3(x, y, z);
             goCard.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);

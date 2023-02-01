@@ -1,10 +1,10 @@
 ﻿using Assets.Scripts.Models;
-using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
 using Assets.Scripts.Views;
 using System;
 using System.Linq;
 using UnityEngine;
-using Commands = Assets.Scripts.Commands;
+using Commands = Assets.Scripts.Models.Timeline.Commands;
+using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
 
 /// <summary>
 /// 日本と海外で　ルールとプレイング・スタイルに違いがあるので
@@ -26,61 +26,61 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // 全てのカードのゲーム・オブジェクトを、IDに紐づける
-        ViewStorage.Add(IdOfPlayingCards.Clubs1, GameObject.Find($"Clubs 1"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs2, GameObject.Find($"Clubs 2"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs3, GameObject.Find($"Clubs 3"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs4, GameObject.Find($"Clubs 4"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs5, GameObject.Find($"Clubs 5"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs6, GameObject.Find($"Clubs 6"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs7, GameObject.Find($"Clubs 7"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs8, GameObject.Find($"Clubs 8"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs9, GameObject.Find($"Clubs 9"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs10, GameObject.Find($"Clubs 10"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs11, GameObject.Find($"Clubs 11"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs12, GameObject.Find($"Clubs 12"));
-        ViewStorage.Add(IdOfPlayingCards.Clubs13, GameObject.Find($"Clubs 13"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs1, GameObject.Find($"Clubs 1"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs2, GameObject.Find($"Clubs 2"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs3, GameObject.Find($"Clubs 3"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs4, GameObject.Find($"Clubs 4"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs5, GameObject.Find($"Clubs 5"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs6, GameObject.Find($"Clubs 6"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs7, GameObject.Find($"Clubs 7"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs8, GameObject.Find($"Clubs 8"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs9, GameObject.Find($"Clubs 9"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs10, GameObject.Find($"Clubs 10"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs11, GameObject.Find($"Clubs 11"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs12, GameObject.Find($"Clubs 12"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs13, GameObject.Find($"Clubs 13"));
 
-        ViewStorage.Add(IdOfPlayingCards.Diamonds1, GameObject.Find($"Diamonds 1"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds2, GameObject.Find($"Diamonds 2"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds3, GameObject.Find($"Diamonds 3"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds4, GameObject.Find($"Diamonds 4"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds5, GameObject.Find($"Diamonds 5"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds6, GameObject.Find($"Diamonds 6"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds7, GameObject.Find($"Diamonds 7"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds8, GameObject.Find($"Diamonds 8"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds9, GameObject.Find($"Diamonds 9"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds10, GameObject.Find($"Diamonds 10"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds11, GameObject.Find($"Diamonds 11"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds12, GameObject.Find($"Diamonds 12"));
-        ViewStorage.Add(IdOfPlayingCards.Diamonds13, GameObject.Find($"Diamonds 13"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds1, GameObject.Find($"Diamonds 1"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds2, GameObject.Find($"Diamonds 2"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds3, GameObject.Find($"Diamonds 3"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds4, GameObject.Find($"Diamonds 4"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds5, GameObject.Find($"Diamonds 5"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds6, GameObject.Find($"Diamonds 6"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds7, GameObject.Find($"Diamonds 7"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds8, GameObject.Find($"Diamonds 8"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds9, GameObject.Find($"Diamonds 9"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds10, GameObject.Find($"Diamonds 10"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds11, GameObject.Find($"Diamonds 11"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds12, GameObject.Find($"Diamonds 12"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds13, GameObject.Find($"Diamonds 13"));
 
-        ViewStorage.Add(IdOfPlayingCards.Hearts1, GameObject.Find($"Hearts 1"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts2, GameObject.Find($"Hearts 2"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts3, GameObject.Find($"Hearts 3"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts4, GameObject.Find($"Hearts 4"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts5, GameObject.Find($"Hearts 5"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts6, GameObject.Find($"Hearts 6"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts7, GameObject.Find($"Hearts 7"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts8, GameObject.Find($"Hearts 8"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts9, GameObject.Find($"Hearts 9"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts10, GameObject.Find($"Hearts 10"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts11, GameObject.Find($"Hearts 11"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts12, GameObject.Find($"Hearts 12"));
-        ViewStorage.Add(IdOfPlayingCards.Hearts13, GameObject.Find($"Hearts 13"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts1, GameObject.Find($"Hearts 1"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts2, GameObject.Find($"Hearts 2"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts3, GameObject.Find($"Hearts 3"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts4, GameObject.Find($"Hearts 4"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts5, GameObject.Find($"Hearts 5"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts6, GameObject.Find($"Hearts 6"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts7, GameObject.Find($"Hearts 7"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts8, GameObject.Find($"Hearts 8"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts9, GameObject.Find($"Hearts 9"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts10, GameObject.Find($"Hearts 10"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts11, GameObject.Find($"Hearts 11"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts12, GameObject.Find($"Hearts 12"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts13, GameObject.Find($"Hearts 13"));
 
-        ViewStorage.Add(IdOfPlayingCards.Spades1, GameObject.Find($"Spades 1"));
-        ViewStorage.Add(IdOfPlayingCards.Spades2, GameObject.Find($"Spades 2"));
-        ViewStorage.Add(IdOfPlayingCards.Spades3, GameObject.Find($"Spades 3"));
-        ViewStorage.Add(IdOfPlayingCards.Spades4, GameObject.Find($"Spades 4"));
-        ViewStorage.Add(IdOfPlayingCards.Spades5, GameObject.Find($"Spades 5"));
-        ViewStorage.Add(IdOfPlayingCards.Spades6, GameObject.Find($"Spades 6"));
-        ViewStorage.Add(IdOfPlayingCards.Spades7, GameObject.Find($"Spades 7"));
-        ViewStorage.Add(IdOfPlayingCards.Spades8, GameObject.Find($"Spades 8"));
-        ViewStorage.Add(IdOfPlayingCards.Spades9, GameObject.Find($"Spades 9"));
-        ViewStorage.Add(IdOfPlayingCards.Spades10, GameObject.Find($"Spades 10"));
-        ViewStorage.Add(IdOfPlayingCards.Spades11, GameObject.Find($"Spades 11"));
-        ViewStorage.Add(IdOfPlayingCards.Spades12, GameObject.Find($"Spades 12"));
-        ViewStorage.Add(IdOfPlayingCards.Spades13, GameObject.Find($"Spades 13"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades1, GameObject.Find($"Spades 1"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades2, GameObject.Find($"Spades 2"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades3, GameObject.Find($"Spades 3"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades4, GameObject.Find($"Spades 4"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades5, GameObject.Find($"Spades 5"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades6, GameObject.Find($"Spades 6"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades7, GameObject.Find($"Spades 7"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades8, GameObject.Find($"Spades 8"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades9, GameObject.Find($"Spades 9"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades10, GameObject.Find($"Spades 10"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades11, GameObject.Find($"Spades 11"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades12, GameObject.Find($"Spades 12"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades13, GameObject.Find($"Spades 13"));
 
         commandStorage = new ModelsOfTimeline.Model();
         gameModelBuffer = new GameModelBuffer();
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
         // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
         const int right = 0;// 台札の右
                             // const int left = 1;// 台札の左
-        foreach (var idOfCard in ViewStorage.PlayingCards.Keys)
+        foreach (var idOfCard in GameObjectStorage.PlayingCards.Keys)
         {
             // 右の台札
             gameModelBuffer.IdOfCardsOfCenterStacks[right].Add(idOfCard);

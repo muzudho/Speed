@@ -14,13 +14,15 @@ public class PlayingCard : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// マウスボタン押下時
-    /// </summary>
-    private void OnMouseDown()
-    {
-        // 裏返します
-        var oldZ = transform.rotation.eulerAngles.z; // 度数法
-        transform.rotation = Quaternion.Euler(0, 0, oldZ + 180); // 180°回転
-    }
+    // 今回は使わない
+    //
+    ///// <summary>
+    ///// マウスボタン押下時
+    ///// </summary>
+    //private void OnMouseDown()
+    //{
+    //    // 裏返します
+    //    var oldZ = transform.rotation.eulerAngles.z; // 度数法
+    //    transform.rotation = Quaternion.Euler(0, 0, oldZ + 180); // 180°回転
+    //}
 }

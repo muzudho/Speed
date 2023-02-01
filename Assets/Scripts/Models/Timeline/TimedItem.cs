@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Models.Timeline
 {
-    using Assets.Scripts.Commands;
+    using Assets.Scripts.Models.Timeline.Commands;
 
     class TimedItem
     {

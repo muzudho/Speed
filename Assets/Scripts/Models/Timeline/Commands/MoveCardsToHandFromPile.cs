@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Commands
+﻿namespace Assets.Scripts.Models.Timeline.Commands
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;

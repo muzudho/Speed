@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Commands
+﻿namespace Assets.Scripts.Models.Timeline.Commands
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
@@ -39,7 +39,7 @@
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 int player;
                 float angleY;
-                var goCard = ViewStorage.PlayingCards[idOfCard];
+                var goCard = GameObjectStorage.PlayingCards[idOfCard];
                 if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
                 {
                     player = 0;
