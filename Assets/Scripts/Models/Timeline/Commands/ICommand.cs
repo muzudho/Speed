@@ -14,5 +14,12 @@
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
         void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel);
+
+        void Leap(float elapsedSeconds);
+
+        /// <summary>
+        /// 持続時間が切れたとき
+        /// </summary>
+        void OnLeave();
     }
 }

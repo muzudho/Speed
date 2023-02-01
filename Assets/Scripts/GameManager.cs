@@ -23,6 +23,13 @@ public class GameManager : MonoBehaviour
     // ゲーム内経過時間
     float elapsedSeconds = 0.0f;
 
+    /// <summary>
+    /// 持続時間
+    /// 
+    /// - 隣のカードをピックアップする
+    /// </summary>
+    float durationOfMoveFocusToNextCard = 0.15f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -214,7 +221,7 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
             var player = 0;
-            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, durationOfMoveFocusToNextCard, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 1,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -226,7 +233,7 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
             var player = 0;
-            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, durationOfMoveFocusToNextCard, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 0,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -244,7 +251,7 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
             var player = 1;
-            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, durationOfMoveFocusToNextCard, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 1,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -256,7 +263,7 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
             var player = 1;
-            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, durationOfMoveFocusToNextCard, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 0,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -319,7 +326,7 @@ public class GameManager : MonoBehaviour
                 // １プレイヤーの右隣のカードへフォーカスを移します
                 {
                     var player = 0;
-                    this.commandStorage.Add(scheduleSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
+                    this.commandStorage.Add(scheduleSeconds, durationOfMoveFocusToNextCard, new Commands.MoveFocusToNextCard(
                         player: player,
                         direction: 0,
                         setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -331,7 +338,7 @@ public class GameManager : MonoBehaviour
                 // ２プレイヤーの右隣のカードへフォーカスを移します
                 {
                     var player = 1;
-                    this.commandStorage.Add(scheduleSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
+                    this.commandStorage.Add(scheduleSeconds, durationOfMoveFocusToNextCard, new Commands.MoveFocusToNextCard(
                         player: player,
                         direction: 0,
                         setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>

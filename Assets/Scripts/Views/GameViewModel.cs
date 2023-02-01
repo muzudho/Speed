@@ -70,10 +70,10 @@
         /// 場札を持ち上げる
         /// </summary>
         /// <param name="player"></param>
-        /// <param name="handIndesx"></param>
-        internal void PickupCardOfHand(GameModel gameModel, int player, int handIndesx)
+        /// <param name="handIndex"></param>
+        internal void PickupCardOfHand(GameModel gameModel, int player, int handIndex, LazyArgs.SetValue<(Vector3,Vector3,Quaternion,Quaternion, GameObject)> setResults)
         {
-            var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndesx);
+            var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
 
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
@@ -93,9 +93,12 @@
                 goCard.transform.rotation.eulerAngles.y + rotateY,
                 goCard.transform.eulerAngles.z + rotateZ);
 
-            // TODO ★ セットせず、 Leap したい
-            goCard.transform.position = endPosition;
-            goCard.transform.rotation = endRotation;
+            setResults((
+                beginPosition,
+                endPosition,
+                beginRotation,
+                endRotation,
+                goCard));
         }
 
         /// <summary>
@@ -186,7 +189,22 @@
                 if (0 <= handIndex && handIndex < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
                 {
                     // 抜いたカードの右隣のカードを（有れば）ピックアップする
-                    this.PickupCardOfHand(gameModel, player, handIndex);
+                    this.PickupCardOfHand(
+                        gameModel: gameModel,
+                        player: player,
+                        handIndex: handIndex,
+                        setResults: (results) =>
+                        {
+                            // beginPosition,
+                            // endPosition,
+                            // beginRotation,
+                            // endRotation,
+                            // goCard
+
+                            // TODO ★ セットせず、 Leap したい
+                            results.Item5.transform.position = results.Item2;
+                            results.Item5.transform.rotation = results.Item4;
+                        });
                 }
             }
         }

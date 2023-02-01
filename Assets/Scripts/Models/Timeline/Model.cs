@@ -103,6 +103,8 @@
                     // 期限切れ
                     if (ongoingItem.EndSeconds <= elapsedSeconds)
                     {
+                        ongoingItem.OnLeave();
+
                         // 削除
                         ongoingItems.RemoveAt(i);
                         continue;

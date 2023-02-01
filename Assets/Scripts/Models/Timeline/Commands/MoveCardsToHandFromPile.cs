@@ -54,10 +54,5 @@
                 gameViewModel.ArrangeHandCards(gameModel, Player);
             }
         }
-
-        public override void Leap()
-        {
-
-        }
     }
 }

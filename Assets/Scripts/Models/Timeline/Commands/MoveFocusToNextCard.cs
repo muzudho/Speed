@@ -3,6 +3,7 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
     using System;
+    using UnityEngine;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
@@ -23,6 +24,12 @@
         int Player { get; set; }
         int Direction { get; set; }
         LazyArgs.SetValue<int> SetIndexOfNextFocusedHandCard { get; set; }
+
+        Vector3 BeginPosition { get; set; }
+        Vector3 EndPosition { get; set; }
+        Quaternion BeginRotation { get; set; }
+        Quaternion EndRotation { get; set; }
+        GameObject GoCard { get; set; }
 
         // - メソッド
 
@@ -90,13 +97,42 @@
             if (0 <= current && current < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
             {
                 // 今回フォーカスするカードを持ち上げる
-                gameViewModel.PickupCardOfHand(gameModel, Player, current);
+                gameViewModel.PickupCardOfHand(
+                    gameModel: gameModel,
+                    player: Player,
+                    handIndex: current,
+                    setResults: (results) =>
+                    {
+                        // beginPosition,
+                        // endPosition,
+                        // beginRotation,
+                        // endRotation,
+                        // goCard
+
+                        // TODO ★ セットせず、 Leap したい
+                        this.BeginPosition = results.Item1;
+                        this.EndPosition = results.Item2;
+                        this.BeginRotation = results.Item3;
+                        this.EndRotation = results.Item4;
+                        this.GoCard = results.Item5;
+                    });
             }
         }
 
-        public override void Leap()
+        public override void Leap(float progress)
         {
-            base.Leap();
+            base.Leap(progress);
+
+            this.GoCard.transform.position = Vector3.Lerp(this.BeginPosition, this.EndPosition, progress);
+            this.GoCard.transform.rotation = Quaternion.Lerp(this.BeginRotation, this.EndRotation, progress);
+        }
+
+        public override void OnLeave()
+        {
+            base.OnLeave();
+
+            this.GoCard.transform.position = this.EndPosition;
+            this.GoCard.transform.rotation = this.EndRotation;
         }
     }
 }

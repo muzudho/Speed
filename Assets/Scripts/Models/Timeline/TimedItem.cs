@@ -51,7 +51,14 @@
 
         internal void Leap(float elapsedSeconds)
         {
+            float progress = (elapsedSeconds - this.StartSeconds) / this.Duration;
 
+            this.Command.Leap(progress);
+        }
+
+        internal void OnLeave()
+        {
+            this.Command.OnLeave();
         }
     }
 }

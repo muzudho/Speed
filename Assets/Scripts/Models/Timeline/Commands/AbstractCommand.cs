@@ -6,7 +6,15 @@
     {
         abstract public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel);
 
-        virtual public void Leap()
+        virtual public void Leap(float progress)
+        {
+
+        }
+
+        /// <summary>
+        /// 持続時間が切れたとき
+        /// </summary>
+        virtual public void OnLeave()
         {
 
         }
