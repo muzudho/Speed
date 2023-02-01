@@ -4,7 +4,7 @@
     using Assets.Scripts.Views;
     using System;
 
-    class MoveCardsToPileFromCenterStacks
+    class MoveCardsToPileFromCenterStacks : ICommand
     {
         // - 生成
 
@@ -25,7 +25,7 @@
         /// - ゲーム開始時に使う
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        internal void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;

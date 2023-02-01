@@ -3,7 +3,7 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
 
-    class MoveCardToCenterStackFromHand
+    class MoveCardToCenterStackFromHand : ICommand
     {
         // - 生成
 
@@ -25,7 +25,7 @@
         /// </summary>
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
-        internal void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 

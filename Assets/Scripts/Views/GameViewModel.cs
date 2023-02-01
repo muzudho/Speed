@@ -8,7 +8,7 @@
     /// 西端: -62.0f
     /// 東端: 62.0f
     /// </summary>
-    class GameViewModel
+    public class GameViewModel
     {
         // - プロパティー
 

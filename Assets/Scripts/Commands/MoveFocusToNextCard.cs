@@ -4,7 +4,7 @@
     using Assets.Scripts.Views;
     using System;
 
-    class MoveFocusToNextCard
+    class MoveFocusToNextCard : ICommand
     {
         // - 生成
 
@@ -30,7 +30,7 @@
         /// </summary>
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
-        internal void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
 

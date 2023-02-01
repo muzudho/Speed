@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    class GameModelBuffer
+    public class GameModelBuffer
     {
         // - プロパティ
 
