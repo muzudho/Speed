@@ -5,6 +5,7 @@
     /// </summary>
     internal class LazyArgs
     {
+        public delegate void Action();
         public delegate void SetValue<T>(T value);
     }
 }
