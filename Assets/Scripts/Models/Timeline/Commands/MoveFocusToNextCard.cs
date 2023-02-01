@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Models.Timeline.Commands
 {
     using Assets.Scripts.Models;
+    using Assets.Scripts.Models.Timeline.Motions;
     using Assets.Scripts.Views;
     using System;
     using UnityEngine;
@@ -25,11 +26,17 @@
         int Direction { get; set; }
         LazyArgs.SetValue<int> SetIndexOfNextFocusedHandCard { get; set; }
 
-        Vector3 BeginPosition { get; set; }
-        Vector3 EndPosition { get; set; }
-        Quaternion BeginRotation { get; set; }
-        Quaternion EndRotation { get; set; }
-        GameObject GoCard { get; set; }
+        #region Leapに使うもの
+        /// <summary>
+        /// カードを持ち上げる動き
+        /// </summary>
+        CardMovement CardUp { get; set; }
+
+        /// <summary>
+        /// カードを置く動き
+        /// </summary>
+        CardMovement CardDown { get; set; }
+        #endregion
 
         // - メソッド
 
@@ -91,7 +98,19 @@
             if (0 <= indexOfFocusedHandCard && indexOfFocusedHandCard < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
             {
                 // 前にフォーカスしていたカードを、盤に下ろす
-                gameViewModel.PutDownCardOfHand(gameModel, Player, indexOfFocusedHandCard);
+                gameViewModel.PutDownCardOfHand(
+                    gameModel: gameModel,
+                    player: Player,
+                    handIndex: indexOfFocusedHandCard,
+                    setResults: (results) =>
+                    {
+                        this.CardDown = new CardMovement(
+                            beginPosition: results.Item1,
+                            endPosition: results.Item2,
+                            beginRotation: results.Item3,
+                            endRotation: results.Item4,
+                            goCard: results.Item5);
+                    });
             }
 
             if (0 <= current && current < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
@@ -103,18 +122,12 @@
                     handIndex: current,
                     setResults: (results) =>
                     {
-                        // beginPosition,
-                        // endPosition,
-                        // beginRotation,
-                        // endRotation,
-                        // goCard
-
-                        // TODO ★ セットせず、 Leap したい
-                        this.BeginPosition = results.Item1;
-                        this.EndPosition = results.Item2;
-                        this.BeginRotation = results.Item3;
-                        this.EndRotation = results.Item4;
-                        this.GoCard = results.Item5;
+                        this.CardUp = new CardMovement(
+                            beginPosition: results.Item1,
+                            endPosition: results.Item2,
+                            beginRotation: results.Item3,
+                            endRotation: results.Item4,
+                            goCard: results.Item5);
                     });
             }
         }
@@ -123,16 +136,28 @@
         {
             base.Leap(progress);
 
-            this.GoCard.transform.position = Vector3.Lerp(this.BeginPosition, this.EndPosition, progress);
-            this.GoCard.transform.rotation = Quaternion.Lerp(this.BeginRotation, this.EndRotation, progress);
+            // カードを置く動き
+            this.CardDown.GoCard.transform.position = Vector3.Lerp(this.CardDown.BeginPosition, this.CardDown.EndPosition, progress);
+            this.CardDown.GoCard.transform.rotation = Quaternion.Lerp(this.CardDown.BeginRotation, this.CardDown.EndRotation, progress);
+
+            // カードを持ち上げる動き
+            this.CardUp.GoCard.transform.position = Vector3.Lerp(this.CardUp.BeginPosition, this.CardUp.EndPosition, progress);
+            this.CardUp.GoCard.transform.rotation = Quaternion.Lerp(this.CardUp.BeginRotation, this.CardUp.EndRotation, progress);
         }
 
         public override void OnLeave()
         {
             base.OnLeave();
 
-            this.GoCard.transform.position = this.EndPosition;
-            this.GoCard.transform.rotation = this.EndRotation;
+            // TODO ★★ 動作が完了する前に、次の動作を行うと、カードがどんどん沈んでいく、といったことが起こる。連打スパム対策が必要
+
+            // カードを置く動き（完了）
+            this.CardDown.GoCard.transform.position = this.CardDown.EndPosition;
+            this.CardDown.GoCard.transform.rotation = this.CardDown.EndRotation;
+
+            // カードを持ち上げる動き（完了）
+            this.CardUp.GoCard.transform.position = this.CardUp.EndPosition;
+            this.CardUp.GoCard.transform.rotation = this.CardUp.EndRotation;
         }
     }
 }

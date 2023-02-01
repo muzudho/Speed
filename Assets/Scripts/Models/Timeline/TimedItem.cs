@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Models.Timeline
 {
     using Assets.Scripts.Models.Timeline.Commands;
+    using UnityEngine;
 
     /// <summary>
     /// 指定した時間と、そのとき実行されるコマンドのペア
@@ -52,6 +53,15 @@
         internal void Leap(float elapsedSeconds)
         {
             float progress = (elapsedSeconds - this.StartSeconds) / this.Duration;
+            
+
+            // 超えることがある
+            if (1.0f < progress)
+            {
+                // 1.0 を超えるのもよくない
+                Debug.Log($"[Leap] progress:{progress} (Over 1.0)");
+                progress = 1.0f;
+            }
 
             this.Command.Leap(progress);
         }

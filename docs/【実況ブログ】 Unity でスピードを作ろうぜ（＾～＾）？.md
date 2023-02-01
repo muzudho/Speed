@@ -4346,4 +4346,92 @@ public class GameManager : MonoBehaviour
 
 📅2023-02-01 sat 22:24  
 
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　`Leap` （リープ） を使うと、モーションを補間できるんじゃないの？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　やってみるかだぜ」  
+
+📄 `Assets/Scripts/GameManager.cs` file:  
+
+```csharp
+        /// <summary>
+        /// 場札を持ち上げる
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="handIndesx"></param>
+        internal void PickupCardOfHand(GameModel gameModel, int player, int handIndesx)
+        {
+            var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndesx);
+
+            var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
+            var rotateY = -5; // -5°傾ける
+            var rotateZ = -5; // -5°傾ける
+
+            var goCard = GameObjectStorage.PlayingCards[idOfFocusedHandCard];
+            goCard.transform.position = new Vector3(
+                goCard.transform.position.x,
+                goCard.transform.position.y + liftY,
+                goCard.transform.position.z);
+            goCard.transform.rotation = Quaternion.Euler(
+                goCard.transform.rotation.eulerAngles.x,
+                goCard.transform.rotation.eulerAngles.y + rotateY,
+                goCard.transform.eulerAngles.z + rotateZ);
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　例えば、場札を持ち上げるのは、　`position` や `rotation` を上書きしていたが、  
+これをやめて、  
+持ち上げる前の `position` と `rotation` 、
+持ち上げた後の `position` と `rotation` を持てばいいわけだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　それを覚えておいて、 `Update` メソッドで `Leap()` すればいいわけだぜ」  
+
+```csharp
+        /// <summary>
+        /// 場札を持ち上げる
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="handIndesx"></param>
+        internal void PickupCardOfHand(GameModel gameModel, int player, int handIndesx)
+        {
+            var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndesx);
+
+            var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
+            var rotateY = -5; // -5°傾ける
+            var rotateZ = -5; // -5°傾ける
+
+            var goCard = GameObjectStorage.PlayingCards[idOfFocusedHandCard];
+
+            var beginPosition = goCard.transform.position;
+            var endPosition = new Vector3(
+                goCard.transform.position.x,
+                goCard.transform.position.y + liftY,
+                goCard.transform.position.z);
+
+            var beginRotation = goCard.transform.rotation;
+            var endRotation = Quaternion.Euler(
+                goCard.transform.rotation.eulerAngles.x,
+                goCard.transform.rotation.eulerAngles.y + rotateY,
+                goCard.transform.eulerAngles.z + rotateZ);
+
+            // TODO ★ セットせず、 Leap したい
+            goCard.transform.position = endPosition;
+            goCard.transform.rotation = endRotation;
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　この `beginPosition`、 `endPosition`、 `beginRotation`、 `endRotation` を  
+呼出し元へ　さかのぼって持っていけばいいのか、大変だな」  
+
+📺 [開発中画面](https://twitter.com/muzudho1/status/1620798276151971840?s=20&t=y59Zxexg9CNQelCbIjaJFA)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　今日は　ここまでだぜ」  
+
+📅 2023-02-01 sat 23:58  
+
 # // 書きかけ

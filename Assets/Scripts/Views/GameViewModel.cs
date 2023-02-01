@@ -105,7 +105,7 @@
         /// ピックアップしているカードを場に戻す
         /// </summary>
         /// <param name="card"></param>
-        internal void PutDownCardOfHand(GameModel gameModel, int player, int handIndex)
+        internal void PutDownCardOfHand(GameModel gameModel, int player, int handIndex, LazyArgs.SetValue<(Vector3,Vector3,Quaternion,Quaternion,GameObject)> setResults)
         {
             var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
 
@@ -119,8 +119,21 @@
             rotateZ = -rotateZ;
 
             var goCard = GameObjectStorage.PlayingCards[idOfCard];
-            goCard.transform.position = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
-            goCard.transform.rotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
+            var beginPosition = goCard.transform.position;
+            var endPosition = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
+            var beginRotation = goCard.transform.rotation;
+            var endRotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
+
+            setResults((
+                beginPosition,
+                endPosition,
+                beginRotation,
+                endRotation,
+                goCard));
+
+            // TODO ★ 消す
+            //goCard.transform.position = endPosition;
+            //goCard.transform.rotation = endRotation;
         }
 
         /// <summary>

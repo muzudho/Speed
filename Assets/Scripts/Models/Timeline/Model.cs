@@ -97,9 +97,6 @@
                 {
                     var ongoingItem = ongoingItems[i];
 
-                    // TODO 持続中のコマンドの補間
-                    ongoingItem.Leap(elapsedSeconds);
-
                     // 期限切れ
                     if (ongoingItem.EndSeconds <= elapsedSeconds)
                     {
@@ -109,6 +106,9 @@
                         ongoingItems.RemoveAt(i);
                         continue;
                     }
+
+                    // TODO 持続中のコマンドの補間
+                    ongoingItem.Leap(elapsedSeconds);
                 }
             }
         }
