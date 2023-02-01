@@ -3,25 +3,40 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
 
-    static class MoveCardsToHandFromPile
+    class MoveCardsToHandFromPile
     {
+        // - その他（生成）
+
+        internal MoveCardsToHandFromPile(int player, int numberOfCards)
+        {
+            Player = player;
+            NumberOfCards = numberOfCards;
+        }
+
+        // - プロパティ
+
+        int Player { get; set; }
+        int NumberOfCards { get; set; }
+
+        // - メソッド
+
         /// <summary>
         /// 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
         /// 
         /// - 画面上の場札は位置調整される
         /// </summary>
-        internal static void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel, int player, int numberOfCards)
+        internal void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             // 手札の上の方からｎ枚抜いて、場札へ移動する
-            var length = gameModelBuffer.IdOfCardsOfPlayersPile[player].Count; // 手札の枚数
-            if (numberOfCards <= length)
+            var length = gameModelBuffer.IdOfCardsOfPlayersPile[Player].Count; // 手札の枚数
+            if (NumberOfCards <= length)
             {
                 GameModel gameModel = new GameModel(gameModelBuffer);
-                var startIndex = length - numberOfCards;
+                var startIndex = length - NumberOfCards;
 
-                gameModelBuffer.MoveCardsToHandFromPile(player, startIndex, numberOfCards);
+                gameModelBuffer.MoveCardsToHandFromPile(Player, startIndex, NumberOfCards);
 
-                gameViewModel.ArrangeHandCards(gameModel, player);
+                gameViewModel.ArrangeHandCards(gameModel, Player);
             }
         }
     }

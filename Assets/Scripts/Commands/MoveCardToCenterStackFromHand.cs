@@ -3,37 +3,52 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
 
-    static class MoveCardToCenterStackFromHand
+    class MoveCardToCenterStackFromHand
     {
+        // - 生成
+
+        internal MoveCardToCenterStackFromHand(int player, int place)
+        {
+            this.Player = player;
+            this.Place = place;
+        }
+
+        // - プロパティ
+
+        int Player { get; set; }
+        int Place { get; set; }
+
+        // - メソッド
+
         /// <summary>
         /// 場札の好きなところから１枚抜いて、台札を１枚置く
         /// </summary>
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
-        internal static void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel, int player, int place)
+        internal void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
             // ピックアップしているカードがあるか？
             GetIndexOfFocusedHandCard(
                 gameModelBuffer: gameModelBuffer,
-                player: player,
+                player: Player,
                 (indexOfFocusedHandCard) =>
                 {
                     RemoveAtOfHandCard(
                         gameModelBuffer: gameModelBuffer,
                         gameViewModel: gameViewModel,
-                        player: player,
-                        place: place,
+                        player: Player,
+                        place: Place,
                         indexOfHandCardToRemove: indexOfFocusedHandCard,
                         setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                         {
-                            gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
+                            gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
 
                             // 場札の位置調整
                             gameViewModel.ArrangeHandCards(
                                 gameModel: gameModel,
-                                player: player);
+                                player: Player);
                         });
                 });
         }

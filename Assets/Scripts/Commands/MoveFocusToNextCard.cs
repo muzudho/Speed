@@ -4,19 +4,38 @@
     using Assets.Scripts.Views;
     using System;
 
-    static class MoveFocusToNextCard
+    class MoveFocusToNextCard
     {
+        // - 生成
+
+        internal MoveFocusToNextCard(int player, int direction, int indexOfFocusedHandCard, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        {
+            this.Player = player;
+            this.Direction = direction;
+            this.IndexOfFocusedHandCard = indexOfFocusedHandCard;
+            this.SetIndexOfNextFocusedHandCard = setIndexOfNextFocusedHandCard;
+        }
+
+        // - プロパティ
+
+        int Player { get; set; }
+        int Direction { get; set; }
+        int IndexOfFocusedHandCard { get; set; }
+        LazyArgs.SetValue<int> SetIndexOfNextFocusedHandCard { get; set; }
+
+        // - メソッド
+
         /// <summary>
         /// 隣のカードへフォーカスを移します
         /// </summary>
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
-        internal static void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel, int player, int direction, int indexOfFocusedHandCard, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        internal void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
 
             int current;
-            var length = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
+            var length = gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count;
 
             if (length < 1)
             {
@@ -25,31 +44,31 @@
             }
             else
             {
-                switch (direction)
+                switch (Direction)
                 {
                     // 後ろへ
                     case 0:
-                        if (indexOfFocusedHandCard == -1 || length <= indexOfFocusedHandCard + 1)
+                        if (IndexOfFocusedHandCard == -1 || length <= IndexOfFocusedHandCard + 1)
                         {
                             // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
                             current = 0;
                         }
                         else
                         {
-                            current = indexOfFocusedHandCard + 1;
+                            current = IndexOfFocusedHandCard + 1;
                         }
                         break;
 
                     // 前へ
                     case 1:
-                        if (indexOfFocusedHandCard == -1 || indexOfFocusedHandCard - 1 < 0)
+                        if (IndexOfFocusedHandCard == -1 || IndexOfFocusedHandCard - 1 < 0)
                         {
                             // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
                             current = length - 1;
                         }
                         else
                         {
-                            current = indexOfFocusedHandCard - 1;
+                            current = IndexOfFocusedHandCard - 1;
                         }
                         break;
 
@@ -58,18 +77,18 @@
                 }
             }
 
-            setIndexOfNextFocusedHandCard(current);
+            SetIndexOfNextFocusedHandCard(current);
 
-            if (0 <= indexOfFocusedHandCard && indexOfFocusedHandCard < gameModelBuffer.IdOfCardsOfPlayersHand[player].Count) // 範囲内なら
+            if (0 <= IndexOfFocusedHandCard && IndexOfFocusedHandCard < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
             {
                 // 前にフォーカスしていたカードを、盤に下ろす
-                gameViewModel.PutDownCardOfHand(gameModel, player, indexOfFocusedHandCard);
+                gameViewModel.PutDownCardOfHand(gameModel, Player, IndexOfFocusedHandCard);
             }
 
-            if (0 <= current && current < gameModelBuffer.IdOfCardsOfPlayersHand[player].Count) // 範囲内なら
+            if (0 <= current && current < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
             {
                 // 今回フォーカスするカードを持ち上げる
-                gameViewModel.PickupCardOfHand(gameModel, player, current);
+                gameViewModel.PickupCardOfHand(gameModel, Player, current);
             }
         }
     }

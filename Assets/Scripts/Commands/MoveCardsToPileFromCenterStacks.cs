@@ -4,24 +4,37 @@
     using Assets.Scripts.Views;
     using System;
 
-    static class MoveCardsToPileFromCenterStacks
+    class MoveCardsToPileFromCenterStacks
     {
+        // - 生成
+
+        internal MoveCardsToPileFromCenterStacks(int place)
+        {
+            this.Place = place;
+        }
+
+        // - プロパティ
+
+        int Place { get; set; }
+
+        // - メソッド
+
         /// <summary>
         /// 台札を、手札へ移動する
         /// 
         /// - ゲーム開始時に使う
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        internal static void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel, int place)
+        internal void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
-            var length = gameModelBuffer.IdOfCardsOfCenterStacks[place].Count; // 台札の枚数
+            var length = gameModelBuffer.IdOfCardsOfCenterStacks[Place].Count; // 台札の枚数
             if (1 <= length)
             {
                 var startIndex = length - numberOfCards;
-                var idOfCard = gameModelBuffer.IdOfCardsOfCenterStacks[place][startIndex];
-                gameModelBuffer.RemoveCardAtOfCenterStack(place, startIndex);
+                var idOfCard = gameModelBuffer.IdOfCardsOfCenterStacks[Place][startIndex];
+                gameModelBuffer.RemoveCardAtOfCenterStack(Place, startIndex);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 int player;
