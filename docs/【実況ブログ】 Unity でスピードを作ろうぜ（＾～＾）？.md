@@ -2738,4 +2738,879 @@ PNG画像が RGB 形式で、データが　不透明度を表す A チャンネ
 
 📅2023-02-01 sat 03:54 end  
 
+# 📅2023-02-01 mon 21:04
+
+![202302_unity_01-2123--explorer.png](https://crieit.now.sh/upload_images/25b899318fe0de3300f6a947f55ecf8d63da5a0216a70.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　大改造した」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　いっぱい増えてるぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　会社でやってはいけないことの１つが　大改造よ。  
+コード・レビュー受け付けられないから　没になるのよ」  
+
+![202302_unity_01-2127--timeline.png](https://crieit.now.sh/upload_images/ffc55cad2e3f7d0e7e7b80fe9d9b2b7a63da5aaeb2c58.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　Unity に　ゲームの基本機能が　足りな過ぎるので　タイムライン機能を自作した」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　Unity にも　あるかも知らんのに」  
+
+![202302_unity_01-2129--command.png](https://crieit.now.sh/upload_images/afa48d3d58dac5034c9bb9608797750163da5b2a18750.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`Command` （コマンド）というのは、プレイヤーができる操作だな。  
+中を見てみよう」  
+
+📄 `Assets/Scripts/Models/Timeline/Commands/ICommand.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models.Timeline.Commands
+{
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
+
+    /// <summary>
+    /// コマンド
+    /// </summary>
+    interface ICommand
+    {
+        /// <summary>
+        /// コマンド実行
+        /// </summary>
+        /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
+        /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
+        void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel);
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　『コマンドを実行すると、　**ゲームの内部状態**　と、　**画面表示の状態**　が変わる』、ということを書いている」  
+
+📄 `Assets/Scripts/Models/Timeline/Commands/MoveCardsToHandFromPile.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models.Timeline.Commands
+{
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
+
+    /// <summary>
+    /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
+    /// </summary>
+    class MoveCardsToHandFromPile : ICommand
+    {
+        // - その他（生成）
+
+        /// <summary>
+        /// 生成
+        /// </summary>
+        /// <param name="player">ｎプレイヤー</param>
+        /// <param name="numberOfCards">カードがｍ枚</param>
+        internal MoveCardsToHandFromPile(int player, int numberOfCards)
+        {
+            Player = player;
+            NumberOfCards = numberOfCards;
+        }
+
+        // - プロパティ
+
+        int Player { get; set; }
+        int NumberOfCards { get; set; }
+
+        // - メソッド
+
+        /// <summary>
+        /// 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
+        /// 
+        /// - 画面上の場札は位置調整される
+        /// </summary>
+        public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        {
+            // 手札の上の方からｎ枚抜いて、場札へ移動する
+            var length = gameModelBuffer.IdOfCardsOfPlayersPile[Player].Count; // 手札の枚数
+            if (NumberOfCards <= length)
+            {
+                // もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
+                if (gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] == -1)
+                {
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = 0;
+                }
+
+                GameModel gameModel = new GameModel(gameModelBuffer);
+                var startIndex = length - NumberOfCards;
+
+                gameModelBuffer.MoveCardsToHandFromPile(Player, startIndex, NumberOfCards);
+
+                gameViewModel.ArrangeHandCards(gameModel, Player);
+            }
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　コマンドの中身は　こんな感じだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　さっぱり分からん」  
+
+📄 `Assets/Scripts/Models/Timeline/Commands/MoveCardsToPileFromCenterStacks.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models.Timeline.Commands
+{
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
+    using System;
+
+    /// <summary>
+    /// 右（または左）側の台札１枚を、手札へ移動する
+    /// </summary>
+    class MoveCardsToPileFromCenterStacks : ICommand
+    {
+        // - 生成
+
+        internal MoveCardsToPileFromCenterStacks(int place)
+        {
+            this.Place = place;
+        }
+
+        // - プロパティ
+
+        int Place { get; set; }
+
+        // - メソッド
+
+        /// <summary>
+        /// 台札を、手札へ移動する
+        /// 
+        /// - ゲーム開始時に使う
+        /// </summary>
+        /// <param name="place">右:0, 左:1</param>
+        public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        {
+            // 台札の一番上（一番後ろ）のカードを１枚抜く
+            var numberOfCards = 1;
+            var length = gameModelBuffer.IdOfCardsOfCenterStacks[Place].Count; // 台札の枚数
+            if (1 <= length)
+            {
+                var startIndex = length - numberOfCards;
+                var idOfCard = gameModelBuffer.IdOfCardsOfCenterStacks[Place][startIndex];
+                gameModelBuffer.RemoveCardAtOfCenterStack(Place, startIndex);
+
+                // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
+                int player;
+                float angleY;
+                var goCard = GameObjectStorage.PlayingCards[idOfCard];
+                if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
+                {
+                    player = 0;
+                    angleY = 180.0f;
+                }
+                else if (goCard.name.StartsWith("Diamonds") || goCard.name.StartsWith("Hearts"))
+                {
+                    player = 1;
+                    angleY = 0.0f;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                // プレイヤーの手札を積み上げる
+                gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
+                gameViewModel.SetPosRot(idOfCard, gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
+                gameViewModel.pileCardsY[player] += 0.2f;
+            }
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　説明するの　めんどくさいんで　感じろだぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　わらう」  
+
+📄 `Assets/Scripts/Models/Timeline/Commands/MoveCardToCenterStackFromHand.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models.Timeline.Commands
+{
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
+
+    /// <summary>
+    /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
+    /// </summary>
+    class MoveCardToCenterStackFromHand : ICommand
+    {
+        // - 生成
+
+        internal MoveCardToCenterStackFromHand(int player, int place)
+        {
+            this.Player = player;
+            this.Place = place;
+        }
+
+        // - プロパティ
+
+        int Player { get; set; }
+        int Place { get; set; }
+
+        // - メソッド
+
+        /// <summary>
+        /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
+        /// </summary>
+        /// <param name="player">何番目のプレイヤー</param>
+        /// <param name="place">右なら0、左なら1</param>
+        public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        {
+            var gameModel = new GameModel(gameModelBuffer);
+
+            // ピックアップしているカードがあるか？
+            GetIndexOfFocusedHandCard(
+                gameModelBuffer: gameModelBuffer,
+                player: Player,
+                (indexOfFocusedHandCard) =>
+                {
+                    RemoveAtOfHandCard(
+                        gameModelBuffer: gameModelBuffer,
+                        gameViewModel: gameViewModel,
+                        player: Player,
+                        place: Place,
+                        indexOfHandCardToRemove: indexOfFocusedHandCard,
+                        setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                        {
+                            gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
+
+                            // 場札の位置調整
+                            gameViewModel.ArrangeHandCards(
+                                gameModel: gameModel,
+                                player: Player);
+                        });
+                });
+        }
+
+        private static void GetIndexOfFocusedHandCard(GameModelBuffer gameModelBuffer, int player, LazyArgs.SetValue<int> setIndex)
+        {
+            int handIndex = gameModelBuffer.IndexOfFocusedCardOfPlayers[player]; // 何枚目の場札をピックアップしているか
+            if (handIndex < 0 || gameModelBuffer.IdOfCardsOfPlayersHand[player].Count <= handIndex) // 範囲外は無視
+            {
+                return;
+            }
+
+            setIndex(handIndex);
+        }
+
+
+        /// <summary>
+        /// 台札を抜く
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="indexOfHandCardToRemove"></param>
+        /// <param name="setIndexOfNextFocusedHandCard"></param>
+        private static void RemoveAtOfHandCard(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel, int player, int place, int indexOfHandCardToRemove, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        {
+            // 抜く前の場札の数
+            var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
+            if (indexOfHandCardToRemove < 0 || lengthBeforeRemove <= indexOfHandCardToRemove)
+            {
+                // 抜くのに失敗
+                return;
+            }
+
+            // 抜いた後の場札の数
+            var lengthAfterRemove = lengthBeforeRemove - 1;
+
+            // 抜いた後の次のピックアップするカードが先頭から何枚目か、先に算出
+            int indexOfNextFocusedHandCard;
+            if (lengthAfterRemove <= indexOfHandCardToRemove) // 範囲外アクセス防止対応
+            {
+                // 一旦、最後尾へ
+                indexOfNextFocusedHandCard = lengthAfterRemove - 1;
+            }
+            else
+            {
+                // そのまま
+                indexOfNextFocusedHandCard = indexOfHandCardToRemove;
+            }
+
+            var goCard = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexOfHandCardToRemove]; // 場札を１枚抜いて
+            gameModelBuffer.RemoveCardAtOfPlayerHand(player, indexOfHandCardToRemove);
+
+            AddCardOfCenterStack2(gameModelBuffer, gameViewModel, goCard, place); // 台札
+            setIndexOfNextFocusedHandCard(indexOfNextFocusedHandCard);
+        }
+
+        private static void AddCardOfCenterStack2(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel, IdOfPlayingCards idOfCard, int place)
+        {
+            var gameModel = new GameModel(gameModelBuffer);
+
+            // 手ぶれ
+            var (shakeX, shakeZ, shakeAngleY) = gameViewModel.MakeShakeForCenterStack(place);
+
+            // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
+            var (nextTopX, nextTopZ) = gameViewModel.GetXZOfNextCenterStackCard(gameModel, place);
+
+            // 台札の捻り
+            var goCard = GameObjectStorage.PlayingCards[idOfCard];
+            float nextAngleY = goCard.transform.rotation.eulerAngles.y;
+            var length = gameModel.GetLengthOfCenterStackCards(place);
+            if (length < 1)
+            {
+            }
+            else
+            {
+                nextAngleY += shakeAngleY;
+            }
+
+            gameModelBuffer.AddCardOfCenterStack(place, idOfCard); // 台札として置く
+
+            // 台札の位置をセット
+            gameViewModel.SetPosRot(idOfCard, nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
+
+            // 次に台札に積むカードの高さ
+            gameViewModel.centerStacksY[place] += 0.2f;
+        }
+    }
+}
+```
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　👆　説明がないのなら　コードも貼らなくていいのでは？」  
+
+📄 `Assets/Scripts/Models/Timeline/Commands/MoveFocusToNextCard.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models.Timeline.Commands
+{
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
+    using System;
+
+    /// <summary>
+    /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
+    /// </summary>
+    class MoveFocusToNextCard : ICommand
+    {
+        // - 生成
+
+        internal MoveFocusToNextCard(int player, int direction, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        {
+            this.Player = player;
+            this.Direction = direction;
+            this.SetIndexOfNextFocusedHandCard = setIndexOfNextFocusedHandCard;
+        }
+
+        // - プロパティ
+
+        int Player { get; set; }
+        int Direction { get; set; }
+        LazyArgs.SetValue<int> SetIndexOfNextFocusedHandCard { get; set; }
+
+        // - メソッド
+
+        /// <summary>
+        /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="direction">後ろ:0, 前:1</param>
+        public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        {
+            GameModel gameModel = new GameModel(gameModelBuffer);
+            int indexOfFocusedHandCard = gameModelBuffer.IndexOfFocusedCardOfPlayers[Player];
+
+            int current;
+            var length = gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count;
+
+            if (length < 1)
+            {
+                // 場札が無いなら、何もピックアップされていません
+                current = -1;
+            }
+            else
+            {
+                switch (Direction)
+                {
+                    // 後ろへ
+                    case 0:
+                        if (indexOfFocusedHandCard == -1 || length <= indexOfFocusedHandCard + 1)
+                        {
+                            // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
+                            current = 0;
+                        }
+                        else
+                        {
+                            current = indexOfFocusedHandCard + 1;
+                        }
+                        break;
+
+                    // 前へ
+                    case 1:
+                        if (indexOfFocusedHandCard == -1 || indexOfFocusedHandCard - 1 < 0)
+                        {
+                            // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
+                            current = length - 1;
+                        }
+                        else
+                        {
+                            current = indexOfFocusedHandCard - 1;
+                        }
+                        break;
+
+                    default:
+                        throw new Exception();
+                }
+            }
+
+            SetIndexOfNextFocusedHandCard(current);
+
+            if (0 <= indexOfFocusedHandCard && indexOfFocusedHandCard < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
+            {
+                // 前にフォーカスしていたカードを、盤に下ろす
+                gameViewModel.PutDownCardOfHand(gameModel, Player, indexOfFocusedHandCard);
+            }
+
+            if (0 <= current && current < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
+            {
+                // 今回フォーカスするカードを持ち上げる
+                gameViewModel.PickupCardOfHand(gameModel, Player, current);
+            }
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　まあ、　だから　ゲームの状態と、　画面の表示を　変更するのが　コマンドだぜ」  
+
+![202302_unity_01-2144--timeline-1.png](https://crieit.now.sh/upload_images/b79e7864c7f7f432b4845dc43339ede663da5eed893ed.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　そして　コマンドに　時間を付けて、　時限式で　実行すりゃいいんだぜ。  
+ソースを見てみよう」  
+
+📄 `Assets/Scripts/Models/Timeline/TimedItem.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models.Timeline
+{
+    using Assets.Scripts.Models.Timeline.Commands;
+
+    /// <summary>
+    /// 指定した時間と、そのとき実行されるコマンドのペア
+    /// </summary>
+    class TimedItem
+    {
+        // - その他（生成）
+
+        internal TimedItem(float seconds, ICommand command)
+        {
+            this.Seconds = seconds;
+            this.Command = command;
+        }
+
+        // - プロパティ
+
+        internal float Seconds { get; private set; }
+        internal ICommand Command { get; private set; }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　タイムラインの上に置いてあるコマンドだぜ。  
+『音符』みたいなもんだぜ。　感じろ」  
+
+📄 `Assets/Scripts/Models/Timeline/Model.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models.Timeline
+{
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Models.Timeline.Commands;
+    using Assets.Scripts.Views;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// タイムライン・モデル
+    /// </summary>
+    internal class Model
+    {
+        // - プロパティ
+
+        List<TimedItem> timedItems = new();
+
+        internal List<TimedItem> TimedItems
+        {
+            get
+            {
+                return this.timedItems;
+            }
+        }
+
+        // - メソッド
+
+        /// <summary>
+        /// 追加
+        /// </summary>
+        /// <param name="seconds">実行される時間（秒）</param>
+        /// <param name="command">コマンド</param>
+        internal void Add(float seconds, ICommand command)
+        {
+            this.TimedItems.Add(new TimedItem(seconds,command));
+        }
+
+        /// <summary>
+        /// コマンドを消化
+        /// </summary>
+        /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
+        /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
+        /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
+        internal void DoIt(float elapsedSeconds, GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        {
+            if (0 < timedItems.Count)
+            {
+                var timedCommand = timedItems[0];
+
+                while (timedCommand.Seconds <= elapsedSeconds)
+                {
+                    // 消化
+                    timedItems.RemoveAt(0);
+                    timedCommand.Command.DoIt(gameModelBuffer, gameViewModel);
+
+                    if (0 < timedItems.Count)
+                    {
+                        timedCommand = timedItems[0];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　タイムラインは、『音符』のようなものが記憶されていて、時間が来たら実行される。  
+『楽譜』みたいなもんだぜ。　感じろ」  
+
+![202302_unity_01-2151--game-model-1.png](https://crieit.now.sh/upload_images/aff31060ad1af05bf580697fae24b5c563da609270f07.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　ゲームの状態を記憶しているのは、 `GameModelBuffer` インスタンスだぜ。  
+`GameModel` は、読み取り専用の `GameModelBuffer` だぜ」  
+
+📄 `Assets/Scripts/Models/GameModel.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models
+{
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// ゲーム・モデル
+    /// 
+    /// - 読み取り専用。(Immutable)
+    /// </summary>
+    class GameModel
+    {
+        GameModelBuffer gameModelBuffer;
+
+        public GameModel(GameModelBuffer gameModel)
+        {
+            this.gameModelBuffer = gameModel;
+        }
+
+        /// <summary>
+        /// 右（または左）の天辺の台札
+        /// </summary>
+        /// <param name="place">右:0, 左:1</param>
+        /// <returns></returns>
+        internal IdOfPlayingCards GetLastCardOfCenterStack(int place)
+        {
+            var length = this.GetLengthOfCenterStackCards(place);
+            var startIndex = length - 1;
+            return this.gameModelBuffer.IdOfCardsOfCenterStacks[place][startIndex]; // 最後のカード
+        }
+
+        /// <summary>
+        /// ｎプレイヤーが選択している場札は、先頭から何枚目
+        /// 
+        /// - 選択中の場札が無いなら、-1
+        /// </summary>
+        /// <param name="player">プレイヤー</param>
+        internal int GetIndexOfFocusedCardOfPlayer(int player)
+        {
+            return this.gameModelBuffer.IndexOfFocusedCardOfPlayers[player];
+        }
+
+        /// <summary>
+        /// 右（または左）の台札の枚数
+        /// </summary>
+        /// <param name="place">右:0, 左:1</param>
+        internal int GetLengthOfCenterStackCards(int place)
+        {
+            return this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count;
+        }
+
+        /// <summary>
+        /// ｎプレイヤーの、場札の枚数
+        /// </summary>
+        /// <param name="player">プレイヤー</param>
+        /// <returns></returns>
+        internal int GetLengthOfPlayerHandCards(int player)
+        {
+            return this.gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
+        }
+
+        /// <summary>
+        /// ｎプレイヤーの、場札をリストで取得
+        /// </summary>
+        /// <param name="player">プレイヤー</param>
+        /// <returns></returns>
+        internal List<IdOfPlayingCards> GetCardsOfPlayerHand(int player)
+        {
+            return this.gameModelBuffer.IdOfCardsOfPlayersHand[player];
+        }
+
+        /// <summary>
+        /// ｎプレイヤーの、ｍ枚目の場札を取得
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="handIndex"></param>
+        /// <returns></returns>
+        internal IdOfPlayingCards GetCardAtOfPlayerHand(int player, int handIndex)
+        {
+            return this.gameModelBuffer.IdOfCardsOfPlayersHand[player][handIndex];
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`GameModel` は、`GameModelBuffer` を包んでるわけだな」  
+
+📄 `Assets/Scripts/Models/GameModelBuffer.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models
+{
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// ゲームの状態
+    /// 
+    /// - 編集可能
+    /// </summary>
+    public class GameModelBuffer
+    {
+        // - プロパティ
+
+        /// <summary>
+        /// ｎプレイヤーが選択している場札は、先頭から何枚目
+        /// 
+        /// - 選択中の場札が無いなら、-1
+        /// </summary>
+        internal int[] IndexOfFocusedCardOfPlayers { get; set; } = { -1, -1 };
+
+        /// <summary>
+        /// 手札
+        /// 
+        /// - プレイヤー側で積んでる札
+        /// - 0: １プレイヤー（黒色）
+        /// - 1: ２プレイヤー（黒色）
+        /// </summary>
+        internal List<List<IdOfPlayingCards>> IdOfCardsOfPlayersPile { get; set; } = new() { new(), new() };
+
+        /// <summary>
+        /// 場札
+        /// 
+        /// - プレイヤー側でオープンしている札
+        /// - 0: １プレイヤー（黒色）
+        /// - 1: ２プレイヤー（黒色）
+        /// </summary>
+        internal List<List<IdOfPlayingCards>> IdOfCardsOfPlayersHand { get; set; } = new() { new(), new() };
+
+        /// <summary>
+        /// 台札
+        /// 
+        /// - 画面中央に積んでいる札
+        /// - 0: 右
+        /// - 1: 左
+        /// </summary>
+        internal List<List<IdOfPlayingCards>> IdOfCardsOfCenterStacks { get; set; } = new() { new(), new() };
+
+        /// <summary>
+        /// 台札を削除
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="startIndex"></param>
+        internal void RemoveCardAtOfCenterStack(int place, int startIndex)
+        {
+            this.IdOfCardsOfCenterStacks[place].RemoveAt(startIndex);
+        }
+
+        /// <summary>
+        /// 台札を追加
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="idOfCard"></param>
+        internal void AddCardOfCenterStack(int place, IdOfPlayingCards idOfCard)
+        {
+            this.IdOfCardsOfCenterStacks[place].Add(idOfCard);
+        }
+
+        /// <summary>
+        /// 手札を追加
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="idOfCard"></param>
+        internal void AddCardOfPlayersPile(int player, IdOfPlayingCards idOfCard)
+        {
+            this.IdOfCardsOfPlayersPile[player].Add(idOfCard);
+        }
+
+        /// <summary>
+        /// 手札を削除
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="numberOfCards"></param>
+        internal void RemoveRangeCardsOfPlayerPile(int player, int startIndex, int numberOfCards)
+        {
+            this.IdOfCardsOfPlayersPile[player].RemoveRange(startIndex, numberOfCards);
+        }
+
+        /// <summary>
+        /// 場札を追加
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="idOfCards"></param>
+        internal void AddRangeCardsOfPlayerHand(int player, List<IdOfPlayingCards> idOfCards)
+        {
+            this.IdOfCardsOfPlayersHand[player].AddRange(idOfCards);
+        }
+
+        /// <summary>
+        /// 場札を削除
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="handIndex"></param>
+        internal void RemoveCardAtOfPlayerHand(int player, int handIndex)
+        {
+            this.IdOfCardsOfPlayersHand[player].RemoveAt(handIndex);
+        }
+
+        /// <summary>
+        /// 手札から場札へ移動
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="numberOfCards"></param>
+        internal void MoveCardsToHandFromPile(int player, int startIndex, int numberOfCards)
+        {
+            var idOfCards = this.IdOfCardsOfPlayersPile[player].GetRange(startIndex, numberOfCards);
+
+            this.RemoveRangeCardsOfPlayerPile(player, startIndex, numberOfCards);
+            this.AddRangeCardsOfPlayerHand(player, idOfCards);
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`GameModelBuffer` は、ゲームを時間で切った断面図みたいなもんだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　じゃあ　スナップショットか？」  
+
+📄 `Assets/Scripts/Models/IdOfPlayingCards.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models
+{
+    /// <summary>
+    /// トランプのカード
+    /// 
+    /// - ジョーカーを除く
+    /// </summary>
+    internal enum IdOfPlayingCards
+    {
+        Clubs1,
+        Clubs2,
+        Clubs3,
+        Clubs4,
+        Clubs5,
+        Clubs6,
+        Clubs7,
+        Clubs8,
+        Clubs9,
+        Clubs10,
+        Clubs11,
+        Clubs12,
+        Clubs13,
+
+        Diamonds1,
+        Diamonds2,
+        Diamonds3,
+        Diamonds4,
+        Diamonds5,
+        Diamonds6,
+        Diamonds7,
+        Diamonds8,
+        Diamonds9,
+        Diamonds10,
+        Diamonds11,
+        Diamonds12,
+        Diamonds13,
+
+        Hearts1,
+        Hearts2,
+        Hearts3,
+        Hearts4,
+        Hearts5,
+        Hearts6,
+        Hearts7,
+        Hearts8,
+        Hearts9,
+        Hearts10,
+        Hearts11,
+        Hearts12,
+        Hearts13,
+
+        Spades1,
+        Spades2,
+        Spades3,
+        Spades4,
+        Spades5,
+        Spades6,
+        Spades7,
+        Spades8,
+        Spades9,
+        Spades10,
+        Spades11,
+        Spades12,
+        Spades13,
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　トランプのカードの Id を、 enum型で作っておくぜ」  
+
+📅2023-02-01 sat 22:04  
+
 # // 書きかけ
