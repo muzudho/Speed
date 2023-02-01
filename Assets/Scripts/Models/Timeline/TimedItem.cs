@@ -1,12 +1,12 @@
-﻿namespace Assets.Scripts.Models.Commands
+﻿namespace Assets.Scripts.Models.Timeline
 {
     using Assets.Scripts.Commands;
 
-    class TimedCommand
+    class TimedItem
     {
         // - その他（生成）
 
-        internal TimedCommand(float seconds, ICommand command)
+        internal TimedItem(float seconds, ICommand command)
         {
             this.Seconds = seconds;
             this.Command = command;

@@ -1,9 +1,7 @@
-﻿using Assets.Scripts.Commands;
-using Assets.Scripts.Models;
-using Assets.Scripts.Models.Commands;
+﻿using Assets.Scripts.Models;
+using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
 using Assets.Scripts.Views;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Commands = Assets.Scripts.Commands;
@@ -14,7 +12,7 @@ using Commands = Assets.Scripts.Commands;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    CommandTimeline commandStorage;
+    ModelsOfTimeline.Model commandStorage;
     GameModelBuffer gameModelBuffer;
     GameModel gameModel;
     GameViewModel gameViewModel;
@@ -84,7 +82,7 @@ public class GameManager : MonoBehaviour
         ViewStorage.Add(IdOfPlayingCards.Spades12, GameObject.Find($"Spades 12"));
         ViewStorage.Add(IdOfPlayingCards.Spades13, GameObject.Find($"Spades 13"));
 
-        commandStorage = new CommandTimeline();
+        commandStorage = new ModelsOfTimeline.Model();
         gameModelBuffer = new GameModelBuffer();
         gameModel = new GameModel(gameModelBuffer);
         gameViewModel = new GameViewModel();

@@ -1,23 +1,23 @@
-﻿namespace Assets.Scripts.Models.Commands
+﻿namespace Assets.Scripts.Models.Timeline
 {
     using Assets.Scripts.Commands;
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
     using System.Collections.Generic;
 
-    internal class CommandTimeline
+    internal class Model
     {
         // - プロパティ
 
         float CurrentSeconds { get; set; }
 
-        List<TimedCommand> timedCommands = new List<TimedCommand>();
+        List<TimedItem> timedItems = new();
 
-        internal List<TimedCommand> TimedCommands
+        internal List<TimedItem> TimedItems
         {
             get
             {
-                return this.timedCommands;
+                return this.timedItems;
             }
         }
 
@@ -25,7 +25,7 @@
 
         internal void Add(float seconds, ICommand command)
         {
-            this.TimedCommands.Add(new TimedCommand(seconds,command));
+            this.TimedItems.Add(new TimedItem(seconds,command));
         }
 
         /// <summary>
@@ -36,19 +36,19 @@
         /// <param name="gameViewModel"></param>
         internal void DoIt(float elapsedSeconds, GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
-            if (0 < timedCommands.Count)
+            if (0 < timedItems.Count)
             {
-                TimedCommand timedCommand = timedCommands[0];
+                var timedCommand = timedItems[0];
 
                 while (timedCommand.Seconds <= elapsedSeconds)
                 {
                     // 消化
-                    timedCommands.RemoveAt(0);
+                    timedItems.RemoveAt(0);
                     timedCommand.Command.DoIt(gameModelBuffer, gameViewModel);
 
-                    if (0 < timedCommands.Count)
+                    if (0 < timedItems.Count)
                     {
-                        timedCommand = timedCommands[0];
+                        timedCommand = timedItems[0];
                     }
                     else
                     {
