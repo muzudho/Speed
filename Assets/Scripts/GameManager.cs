@@ -110,11 +110,33 @@ public class GameManager : MonoBehaviour
         this.commandStorage.Add(new Commands.MoveCardsToHandFromPile(player: 1, numberOfCards: 5));
         this.commandStorage.Flush(gameModelBuffer, gameViewModel);
 
-        StartCoroutine("DoDemo");
+        // 以下、デモ・プレイを登録
+        SetupDemo();
+
+        // OnTick を 2.5 秒後に呼び出し、以降は 1 秒毎に実行
+        InvokeRepeating(nameof(OnTick), 2.5f, 1.0f);
     }
 
     // Update is called once per frame
     void Update()
+    {
+        // 入力をコマンドとして登録
+        UpdateInput();
+    }
+
+    /// <summary>
+    /// 一定間隔で呼び出される
+    /// </summary>
+    void OnTick()
+    {
+        // コマンドを１個取り出して実行
+        this.commandStorage.DoIt(gameModelBuffer, gameViewModel);
+    }
+
+    /// <summary>
+    /// 入力を、コマンドに変換します
+    /// </summary>
+    private void UpdateInput()
     {
         const int right = 0;// 台札の右
         const int left = 1;// 台札の左
@@ -127,7 +149,6 @@ public class GameManager : MonoBehaviour
                 player: 0, // １プレイヤーが
                 place: left // 左の
                 ));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -136,7 +157,6 @@ public class GameManager : MonoBehaviour
                 player: 0, // １プレイヤーが
                 place: right // 右の
                 ));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -149,7 +169,6 @@ public class GameManager : MonoBehaviour
                 {
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 }));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -162,7 +181,6 @@ public class GameManager : MonoBehaviour
                 {
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 }));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
 
         // ２プレイヤー
@@ -173,7 +191,6 @@ public class GameManager : MonoBehaviour
                 player: 1, // ２プレイヤーが
                 place: right // 右の
                 ));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
@@ -182,7 +199,6 @@ public class GameManager : MonoBehaviour
                 player: 1, // ２プレイヤーが
                 place: left // 左の
                 ));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
@@ -195,7 +211,6 @@ public class GameManager : MonoBehaviour
                 {
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 }));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
@@ -208,7 +223,6 @@ public class GameManager : MonoBehaviour
                 {
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                 }));
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
 
         // デバッグ用
@@ -222,11 +236,10 @@ public class GameManager : MonoBehaviour
                     player: player,
                     numberOfCards: 1));
             }
-            this.commandStorage.Flush(gameModelBuffer, gameViewModel);
         }
     }
 
-    IEnumerator DoDemo()
+    void SetupDemo()
     {
         // 卓準備
         const int right = 0;// 台札の右
@@ -349,12 +362,13 @@ public class GameManager : MonoBehaviour
             this.commandStorage.Add(new DoingSimultaneously(entanglement));
         }
 
-        // 実行
-        foreach (var command in this.commandStorage.Commands)
-        {
-            command.DoIt(gameModelBuffer, gameViewModel);
-            yield return new WaitForSeconds(seconds);
-        }
-        this.commandStorage.Clear();
+        // TODO ★ 消す
+        //// 実行
+        //foreach (var command in this.commandStorage.Commands)
+        //{
+        //    command.DoIt(gameModelBuffer, gameViewModel);
+        //    yield return new WaitForSeconds(seconds);
+        //}
+        //this.commandStorage.Clear();
     }
 }
