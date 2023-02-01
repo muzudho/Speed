@@ -7,7 +7,7 @@
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>
-    class MoveFocusToNextCard : ICommand
+    class MoveFocusToNextCard : AbstractCommand
     {
         // - 生成
 
@@ -31,7 +31,7 @@
         /// </summary>
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
-        public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
             int indexOfFocusedHandCard = gameModelBuffer.IndexOfFocusedCardOfPlayers[Player];
@@ -92,6 +92,11 @@
                 // 今回フォーカスするカードを持ち上げる
                 gameViewModel.PickupCardOfHand(gameModel, Player, current);
             }
+        }
+
+        public override void Leap()
+        {
+            base.Leap();
         }
     }
 }

@@ -4,6 +4,7 @@
     using Assets.Scripts.Models.Timeline.Commands;
     using Assets.Scripts.Views;
     using System.Collections.Generic;
+    using UnityEngine;
 
     /// <summary>
     /// タイムライン・モデル
@@ -12,7 +13,20 @@
     {
         // - プロパティ
 
+        /// <summary>
+        /// スケジュールに登録されている残りの項目
+        /// 
+        /// - 実行されると、 `ongoingItems` へ移動する
+        /// </summary>
+
         List<TimedItem> timedItems = new();
+
+        /// <summary>
+        /// 補間を実行中の項目
+        /// 
+        /// - 持続時間が切れると、消えていく
+        /// </summary>
+        List<TimedItem> ongoingItems = new();
 
         internal List<TimedItem> TimedItems
         {
@@ -28,10 +42,11 @@
         /// 追加
         /// </summary>
         /// <param name="seconds">実行される時間（秒）</param>
+        /// <param name="duration">持続時間（秒）</param>
         /// <param name="command">コマンド</param>
-        internal void Add(float seconds, ICommand command)
+        internal void Add(float seconds, float duration, ICommand command)
         {
-            this.TimedItems.Add(new TimedItem(seconds,command));
+            this.TimedItems.Add(new TimedItem(seconds, duration, command));
         }
 
         /// <summary>
@@ -44,17 +59,22 @@
         {
             if (0 < timedItems.Count)
             {
-                var timedCommand = timedItems[0];
+                var timedItem = timedItems[0];
 
-                while (timedCommand.Seconds <= elapsedSeconds)
+                while (timedItem.StartSeconds <= elapsedSeconds)
                 {
-                    // 消化
+                    // 持続中のコマンドへ移行したい
+                    ongoingItems.Add(timedItem);
+
+                    // スケジュールから消化
                     timedItems.RemoveAt(0);
-                    timedCommand.Command.DoIt(gameModelBuffer, gameViewModel);
+
+                    // 初回実行
+                    timedItem.Command.DoIt(gameModelBuffer, gameViewModel);
 
                     if (0 < timedItems.Count)
                     {
-                        timedCommand = timedItems[0];
+                        timedItem = timedItems[0];
                     }
                     else
                     {
@@ -62,6 +82,38 @@
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// モーションの補間
+        /// </summary>
+        /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
+        internal void Leap(float elapsedSeconds)
+        {
+            if (0 < ongoingItems.Count)
+            {
+                // 削除も行うので、逆順で
+                for (int i = ongoingItems.Count - 1; 0 <= i; i--)
+                {
+                    var ongoingItem = ongoingItems[i];
+
+                    // TODO 持続中のコマンドの補間
+                    ongoingItem.Leap(elapsedSeconds);
+
+                    // 期限切れ
+                    if (ongoingItem.EndSeconds <= elapsedSeconds)
+                    {
+                        // 削除
+                        ongoingItems.RemoveAt(i);
+                        continue;
+                    }
+                }
+            }
+        }
+
+        internal void DebugWrite()
+        {
+            Debug.Log($"[Assets.Scripts.Models.Timeline.Model DebugWrite] timedItems.Count:{timedItems.Count} ongoingItems.Count:{ongoingItems.Count}");
         }
     }
 }

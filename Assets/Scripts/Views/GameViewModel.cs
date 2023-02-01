@@ -80,8 +80,22 @@
             var rotateZ = -5; // -5°傾ける
 
             var goCard = GameObjectStorage.PlayingCards[idOfFocusedHandCard];
-            goCard.transform.position = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
-            goCard.transform.rotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
+
+            var beginPosition = goCard.transform.position;
+            var endPosition = new Vector3(
+                goCard.transform.position.x,
+                goCard.transform.position.y + liftY,
+                goCard.transform.position.z);
+
+            var beginRotation = goCard.transform.rotation;
+            var endRotation = Quaternion.Euler(
+                goCard.transform.rotation.eulerAngles.x,
+                goCard.transform.rotation.eulerAngles.y + rotateY,
+                goCard.transform.eulerAngles.z + rotateZ);
+
+            // TODO ★ セットせず、 Leap したい
+            goCard.transform.position = endPosition;
+            goCard.transform.rotation = endRotation;
         }
 
         /// <summary>
@@ -113,8 +127,6 @@
         /// </summary>
         internal void ArrangeHandCards(GameModel gameModel, int player)
         {
-            int handIndex = gameModel.GetIndexOfFocusedCardOfPlayer(player);
-
             // 25枚の場札が並べるように調整してある
 
             int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
@@ -168,20 +180,14 @@
             }
 
             // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
-            this.ResumeCardPickup(gameModel, player);
-        }
-
-        /// <summary>
-        /// 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
-        /// </summary>
-        private void ResumeCardPickup(GameModel gameModel, int player)
-        {
-            int handIndex = gameModel.GetIndexOfFocusedCardOfPlayer(player);
-
-            if (0 <= handIndex && handIndex < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
             {
-                // 抜いたカードの右隣のカードを（有れば）ピックアップする
-                this.PickupCardOfHand(gameModel, player, handIndex);
+                int handIndex = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+
+                if (0 <= handIndex && handIndex < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
+                {
+                    // 抜いたカードの右隣のカードを（有れば）ピックアップする
+                    this.PickupCardOfHand(gameModel, player, handIndex);
+                }
             }
         }
 

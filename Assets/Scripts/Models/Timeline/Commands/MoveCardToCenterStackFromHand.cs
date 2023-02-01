@@ -6,7 +6,7 @@
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
     /// </summary>
-    class MoveCardToCenterStackFromHand : ICommand
+    class MoveCardToCenterStackFromHand : AbstractCommand
     {
         // - 生成
 
@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
-        public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 

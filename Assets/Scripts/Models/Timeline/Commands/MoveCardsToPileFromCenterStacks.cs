@@ -7,7 +7,7 @@
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    class MoveCardsToPileFromCenterStacks : ICommand
+    class MoveCardsToPileFromCenterStacks : AbstractCommand
     {
         // - 生成
 
@@ -28,7 +28,7 @@
         /// - ゲーム開始時に使う
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;

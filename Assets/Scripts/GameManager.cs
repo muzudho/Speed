@@ -109,8 +109,8 @@ public class GameManager : MonoBehaviour
 
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
         var time = 0.0f;
-        this.commandStorage.Add(time, new Commands.MoveCardsToHandFromPile(player: 0, numberOfCards: 5));
-        this.commandStorage.Add(time, new Commands.MoveCardsToHandFromPile(player: 1, numberOfCards: 5));
+        this.commandStorage.Add(time, unitSeconds, new Commands.MoveCardsToHandFromPile(player: 0, numberOfCards: 5));
+        this.commandStorage.Add(time, unitSeconds, new Commands.MoveCardsToHandFromPile(player: 1, numberOfCards: 5));
 
         // 以下、デモ・プレイを登録
         SetupDemo();
@@ -134,6 +134,11 @@ public class GameManager : MonoBehaviour
         // 時限式で、コマンドを消化
         this.commandStorage.DoIt(elapsedSeconds, gameModelBuffer, gameViewModel);
 
+        // モーションの補間
+        this.commandStorage.Leap(elapsedSeconds);
+
+        this.commandStorage.DebugWrite(); // TODO ★ 消す
+
         elapsedSeconds += unitSeconds;
     }
 
@@ -155,7 +160,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 0, // １プレイヤーが
                 place: right // 右の
                 ));
@@ -165,7 +170,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 1, // ２プレイヤーが
                 place: right // 右の
                 ));
@@ -179,7 +184,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 1, // ２プレイヤーが
                 place: left // 左の
                 ));
@@ -190,7 +195,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 0, // １プレイヤーが
                 place: left // 左の
                 ));
@@ -209,7 +214,7 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
             var player = 0;
-            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 1,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -221,7 +226,7 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
             var player = 0;
-            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 0,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -239,7 +244,7 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
             var player = 1;
-            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 1,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -251,7 +256,7 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
             var player = 1;
-            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
+            this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
                 player: player,
                 direction: 0,
                 setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -267,7 +272,7 @@ public class GameManager : MonoBehaviour
             for (var player = 0; player < 2; player++)
             {
                 // 場札を並べる
-                this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardsToHandFromPile(
+                this.commandStorage.Add(elapsedSeconds, unitSeconds, new Commands.MoveCardsToHandFromPile(
                     player: player,
                     numberOfCards: 1));
             }
@@ -291,13 +296,13 @@ public class GameManager : MonoBehaviour
         // 登録：ピックアップ場札を、台札へ積み上げる
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
-            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(scheduleSeconds, unitSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 0, // １プレイヤーが
                 place: right // 右の
                 ));
 
             // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
-            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(scheduleSeconds, unitSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 1, // ２プレイヤーが
                 place: left // 左の
                 ));
@@ -314,7 +319,7 @@ public class GameManager : MonoBehaviour
                 // １プレイヤーの右隣のカードへフォーカスを移します
                 {
                     var player = 0;
-                    this.commandStorage.Add(scheduleSeconds, new Commands.MoveFocusToNextCard(
+                    this.commandStorage.Add(scheduleSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
                         player: player,
                         direction: 0,
                         setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -326,7 +331,7 @@ public class GameManager : MonoBehaviour
                 // ２プレイヤーの右隣のカードへフォーカスを移します
                 {
                     var player = 1;
-                    this.commandStorage.Add(scheduleSeconds, new Commands.MoveFocusToNextCard(
+                    this.commandStorage.Add(scheduleSeconds, unitSeconds, new Commands.MoveFocusToNextCard(
                         player: player,
                         direction: 0,
                         setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
@@ -341,12 +346,12 @@ public class GameManager : MonoBehaviour
 
         // 登録：台札を積み上げる
         {
-            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(scheduleSeconds, unitSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 0, // １プレイヤーが
                 place: 1 // 左の台札
                 ));
 
-            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardToCenterStackFromHand(
+            this.commandStorage.Add(scheduleSeconds, unitSeconds, new Commands.MoveCardToCenterStackFromHand(
                 player: 1, // ２プレイヤーが
                 place: 0 // 右の台札
                 ));
@@ -356,12 +361,12 @@ public class GameManager : MonoBehaviour
         // 登録：手札から１枚引く
         {
             // １プレイヤーは手札から１枚抜いて、場札として置く
-            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardsToHandFromPile(
+            this.commandStorage.Add(scheduleSeconds, unitSeconds, new Commands.MoveCardsToHandFromPile(
                 player: 0,
                 numberOfCards: 1));
 
             // ２プレイヤーは手札から１枚抜いて、場札として置く
-            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardsToHandFromPile(
+            this.commandStorage.Add(scheduleSeconds, unitSeconds, new Commands.MoveCardsToHandFromPile(
                 player: 1,
                 numberOfCards: 1));
 
