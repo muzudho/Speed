@@ -5,6 +5,8 @@
     using UnityEngine;
 
     /// <summary>
+    /// 画面表示関連
+    /// 
     /// 西端: -62.0f
     /// 東端: 62.0f
     /// </summary>
@@ -184,7 +186,7 @@
         }
 
         /// <summary>
-        /// 
+        /// カードの位置と　捻りの設定
         /// </summary>
         /// <param name="card"></param>
         /// <param name="x"></param>

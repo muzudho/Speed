@@ -7,8 +7,9 @@ using Commands = Assets.Scripts.Models.Timeline.Commands;
 using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
 
 /// <summary>
-/// 日本と海外で　ルールとプレイング・スタイルに違いがあるので
-/// 用語に統一感はない
+/// ゲーム・マネージャー
+/// 
+/// - スピードは、日本と海外で　ルールとプレイング・スタイルに違いがあるので、用語に統一感はない
 /// </summary>
 public class GameManager : MonoBehaviour
 {
@@ -130,14 +131,14 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void OnTick()
     {
-        // コマンドを１個取り出して実行
+        // 時限式で、コマンドを消化
         this.commandStorage.DoIt(elapsedSeconds, gameModelBuffer, gameViewModel);
 
         elapsedSeconds += unitSeconds;
     }
 
     /// <summary>
-    /// 入力を、コマンドに変換します
+    /// 入力を、コマンドに変換して、タイムラインへ登録します
     /// </summary>
     private void UpdateInput()
     {
@@ -273,6 +274,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// タイムライン作成
+    /// 
+    /// - デモ
+    /// </summary>
     void SetupDemo()
     {
         // 卓準備

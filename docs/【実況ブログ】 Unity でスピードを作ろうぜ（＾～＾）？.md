@@ -3613,4 +3613,737 @@ namespace Assets.Scripts.Models
 
 📅2023-02-01 sat 22:04  
 
+![202302_unity_01-2210--view-1.png](https://crieit.now.sh/upload_images/6d9d89cdd24a2d5e55270c4e5208ad2e63da64fcd5564.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　ビューは　画面表示関連だぜ」  
+
+📄 `Assets/Scripts/Views/GameObjectStorage.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Views
+{
+    using Assets.Scripts.Models;
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    /// <summary>
+    /// ゲーム・オブジェクトと、その Id の紐づけ
+    /// </summary>
+    static class GameObjectStorage
+    {
+        internal static Dictionary<IdOfPlayingCards, GameObject> PlayingCards { get; private set; } =  new();
+
+        internal static void Add(IdOfPlayingCards cardId, GameObject goCard)
+        {
+            PlayingCards.Add(cardId, goCard);
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　ゲーム・オブジェクトを、 Id で　すぐ取り出せる仕組みを作っておくぜ。  
+`GameObject.Find( ... )` は　処理が重たいらしいしな」  
+
+📄 `Assets/Scripts/Views/GameViewModel.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Views
+{
+    using Assets.Scripts.Models;
+    using System;
+    using UnityEngine;
+
+    /// <summary>
+    /// 画面表示関連
+    /// 
+    /// 西端: -62.0f
+    /// 東端: 62.0f
+    /// </summary>
+    public class GameViewModel
+    {
+        // - プロパティー
+
+        /// <summary>
+        /// 底端
+        /// 
+        /// - `0.0f` は盤
+        /// </summary>
+        internal readonly float minY = 0.5f;
+
+        internal readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
+
+        // 手札（プレイヤー側で伏せて積んでる札）
+        internal readonly float[] pileCardsX = new[] { 40.0f, -40.0f }; // 端っこは 62.0f, -62.0f
+        internal readonly float[] pileCardsY = new[] { 0.5f, 0.5f };
+        internal readonly float[] pileCardsZ = new[] { -6.5f, 16.0f };
+
+        // 台札
+        internal float[] centerStacksX = { 15.0f, -15.0f };
+
+        /// <summary>
+        /// 台札のY座標
+        /// 
+        /// - 右が 0、左が 1
+        /// - 0.0f は盤なので、それより上にある
+        /// </summary>
+        internal float[] centerStacksY = { 0.5f, 0.5f };
+        internal float[] centerStacksZ = { 2.5f, 9.0f };
+
+        // - メソッド
+
+        /// <summary>
+        /// 台札の次の天辺の位置
+        /// </summary>
+        /// <param name="place"></param>
+        /// <returns></returns>
+        internal (float, float) GetXZOfNextCenterStackCard(GameModel gameModel, int place)
+        {
+            var length = gameModel.GetLengthOfCenterStackCards(place);
+            if (length < 1)
+            {
+                // 床上
+                var nextTopX2 = this.centerStacksX[place];
+                var nextTopZ2 = this.centerStacksZ[place];
+                return (nextTopX2, nextTopZ2);
+            }
+
+            // 台札の次の天辺の位置
+            var idOfLastCard = gameModel.GetLastCardOfCenterStack(place); // 天辺（最後）のカード
+            var goLastCard = GameObjectStorage.PlayingCards[idOfLastCard];
+            var nextTopX = (this.centerStacksX[place] - goLastCard.transform.position.x) / 2 + this.centerStacksX[place];
+            var nextTopZ = (this.centerStacksZ[place] - goLastCard.transform.position.z) / 2 + this.centerStacksZ[place];
+            return (nextTopX, nextTopZ);
+        }
+
+        /// <summary>
+        /// 場札を持ち上げる
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="handIndesx"></param>
+        internal void PickupCardOfHand(GameModel gameModel, int player, int handIndesx)
+        {
+            var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndesx);
+
+            var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
+            var rotateY = -5; // -5°傾ける
+            var rotateZ = -5; // -5°傾ける
+
+            var goCard = GameObjectStorage.PlayingCards[idOfFocusedHandCard];
+            goCard.transform.position = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
+            goCard.transform.rotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
+        }
+
+        /// <summary>
+        /// ピックアップしているカードを場に戻す
+        /// </summary>
+        /// <param name="card"></param>
+        internal void PutDownCardOfHand(GameModel gameModel, int player, int handIndex)
+        {
+            var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
+
+            var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
+            var rotateY = -5; // -5°傾ける
+            var rotateZ = -5; // -5°傾ける
+
+            // 逆をする
+            liftY = -liftY;
+            rotateY = -rotateY;
+            rotateZ = -rotateZ;
+
+            var goCard = GameObjectStorage.PlayingCards[idOfCard];
+            goCard.transform.position = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
+            goCard.transform.rotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
+        }
+
+        /// <summary>
+        /// 場札を並べる
+        /// 
+        /// - 左端は角度で言うと 112.0f
+        /// </summary>
+        internal void ArrangeHandCards(GameModel gameModel, int player)
+        {
+            int handIndex = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+
+            // 25枚の場札が並べるように調整してある
+
+            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
+            if (numberOfCards < 1)
+            {
+                return; // 何もしない
+            }
+
+            float cardAngleZ = -5; // カードの少しの傾き
+
+            int range = 200; // 半径。大きな円にするので、中心を遠くに離したい
+            int offsetCircleCenterZ; // 中心位置の調整
+
+            float angleY;
+            float playerTheta;
+            float angleStep = -1.83f;
+            float startTheta = (numberOfCards * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
+            float thetaStep = angleStep * Mathf.Deg2Rad; ; // 時計回り
+
+            float ox = 0.0f;
+            float oz = this.handCardsZ[player];
+
+            switch (player)
+            {
+                case 0:
+                    // １プレイヤー
+                    angleY = 180.0f;
+                    playerTheta = 0;
+                    offsetCircleCenterZ = -190;
+                    break;
+
+                case 1:
+                    // ２プレイヤー
+                    angleY = 0.0f;
+                    playerTheta = 180 * Mathf.Deg2Rad;
+                    offsetCircleCenterZ = 188;  // カメラのパースペクティブが付いているから、目視で調整
+                    break;
+
+                default:
+                    throw new Exception();
+            }
+
+            float theta = startTheta;
+            foreach (var goCard in gameModel.GetCardsOfPlayerHand(player))
+            {
+                float x = range * Mathf.Cos(theta + playerTheta) + ox;
+                float z = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
+
+                SetPosRot(goCard, x, this.minY, z, angleY: angleY, angleZ: cardAngleZ);
+                theta += thetaStep;
+            }
+
+            // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
+            this.ResumeCardPickup(gameModel, player);
+        }
+
+        /// <summary>
+        /// 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
+        /// </summary>
+        private void ResumeCardPickup(GameModel gameModel, int player)
+        {
+            int handIndex = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+
+            if (0 <= handIndex && handIndex < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
+            {
+                // 抜いたカードの右隣のカードを（有れば）ピックアップする
+                this.PickupCardOfHand(gameModel, player, handIndex);
+            }
+        }
+
+        /// <summary>
+        /// カードの位置と　捻りの設定
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="angleY"></param>
+        /// <param name="angleZ"></param>
+        /// <param name="motionProgress">Update関数の中でないと役に立たない</param>
+        internal void SetPosRot(IdOfPlayingCards idOfCard, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
+        {
+            var goCard = GameObjectStorage.PlayingCards[idOfCard];
+            var beginPos = goCard.transform.position;
+            var endPos = new Vector3(x, y, z);
+            goCard.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);
+
+            goCard.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
+        }
+
+        /// <summary>
+        /// ぴったり積むと不自然だから、X と Z を少しずらすための仕組み
+        /// 
+        /// - １プレイヤー、２プレイヤーのどちらも右利きと仮定
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        internal (float, float, float) MakeShakeForCenterStack(int player)
+        {
+            // １プレイヤーから見て。左上にずれていくだろう
+            var left = -1.5f;
+            var right = 0.5f;
+            var bottom = -0.5f;
+            var top = 1.5f;
+            var angleY = UnityEngine.Random.Range(-10, 40); // 反時計回りに大きく捻りそう
+
+            switch (player)
+            {
+                case 0:
+                    return (UnityEngine.Random.Range(left, right), UnityEngine.Random.Range(bottom, top), angleY);
+
+                case 1:
+                    return (UnityEngine.Random.Range(-right, -left), UnityEngine.Random.Range(-top, -bottom), angleY);
+
+                default:
+                    throw new Exception();
+            }
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　ゲーム・ビュー・モデルは　画面の表示が　どんな感じになってるか記憶したり、編集したりしているな」  
+
+![202302_unity_01-2216--game-manager-1.png](https://crieit.now.sh/upload_images/bde2a0ff8832ed5f511872b547efed2563da664376b74.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　一番上の階層のスクリプトは、整理できてないものが残っている」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　目立つんだから、重要なものを置けだぜ」  
+
+📄 `Assets/Scripts/PlayingCard.cs` file:  
+
+```csharp
+using UnityEngine;
+
+public class PlayingCard : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    // 今回は使わない
+    //
+    ///// <summary>
+    ///// マウスボタン押下時
+    ///// </summary>
+    //private void OnMouseDown()
+    //{
+    //    // 裏返します
+    //    var oldZ = transform.rotation.eulerAngles.z; // 度数法
+    //    transform.rotation = Quaternion.Euler(0, 0, oldZ + 180); // 180°回転
+    //}
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`PlayingCard.cs` は、神経衰弱ゲームのとき使っていたが、スピードでは使っていないぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　じゃあ　消しなさいよ！」  
+
+📄 `Assets/Scripts/LazyArgs.cs` file:  
+
+```csharp
+namespace Assets.Scripts
+{
+    /// <summary>
+    /// コーディングのテクニックのための仕込み
+    /// </summary>
+    internal class LazyArgs
+    {
+        public delegate void Action();
+        public delegate void SetValue<T>(T value);
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`LazyArgs.cs` は、コードを上手く書くテクニックに使うだけなんで、気にしなくていい」  
+
+📄 `Assets/Scripts/GameManager.cs` file:  
+
+```csharp
+using Assets.Scripts.Models;
+using Assets.Scripts.Views;
+using System;
+using System.Linq;
+using UnityEngine;
+using Commands = Assets.Scripts.Models.Timeline.Commands;
+using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
+
+/// <summary>
+/// ゲーム・マネージャー
+/// 
+/// - スピードは、日本と海外で　ルールとプレイング・スタイルに違いがあるので、用語に統一感はない
+/// </summary>
+public class GameManager : MonoBehaviour
+{
+    ModelsOfTimeline.Model commandStorage;
+    GameModelBuffer gameModelBuffer;
+    GameModel gameModel;
+    GameViewModel gameViewModel;
+
+    // ゲーム内単位時間
+    float unitSeconds = 1.0f / 60.0f;
+    // ゲーム内経過時間
+    float elapsedSeconds = 0.0f;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // 全てのカードのゲーム・オブジェクトを、IDに紐づける
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs1, GameObject.Find($"Clubs 1"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs2, GameObject.Find($"Clubs 2"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs3, GameObject.Find($"Clubs 3"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs4, GameObject.Find($"Clubs 4"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs5, GameObject.Find($"Clubs 5"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs6, GameObject.Find($"Clubs 6"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs7, GameObject.Find($"Clubs 7"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs8, GameObject.Find($"Clubs 8"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs9, GameObject.Find($"Clubs 9"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs10, GameObject.Find($"Clubs 10"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs11, GameObject.Find($"Clubs 11"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs12, GameObject.Find($"Clubs 12"));
+        GameObjectStorage.Add(IdOfPlayingCards.Clubs13, GameObject.Find($"Clubs 13"));
+
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds1, GameObject.Find($"Diamonds 1"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds2, GameObject.Find($"Diamonds 2"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds3, GameObject.Find($"Diamonds 3"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds4, GameObject.Find($"Diamonds 4"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds5, GameObject.Find($"Diamonds 5"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds6, GameObject.Find($"Diamonds 6"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds7, GameObject.Find($"Diamonds 7"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds8, GameObject.Find($"Diamonds 8"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds9, GameObject.Find($"Diamonds 9"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds10, GameObject.Find($"Diamonds 10"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds11, GameObject.Find($"Diamonds 11"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds12, GameObject.Find($"Diamonds 12"));
+        GameObjectStorage.Add(IdOfPlayingCards.Diamonds13, GameObject.Find($"Diamonds 13"));
+
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts1, GameObject.Find($"Hearts 1"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts2, GameObject.Find($"Hearts 2"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts3, GameObject.Find($"Hearts 3"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts4, GameObject.Find($"Hearts 4"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts5, GameObject.Find($"Hearts 5"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts6, GameObject.Find($"Hearts 6"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts7, GameObject.Find($"Hearts 7"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts8, GameObject.Find($"Hearts 8"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts9, GameObject.Find($"Hearts 9"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts10, GameObject.Find($"Hearts 10"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts11, GameObject.Find($"Hearts 11"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts12, GameObject.Find($"Hearts 12"));
+        GameObjectStorage.Add(IdOfPlayingCards.Hearts13, GameObject.Find($"Hearts 13"));
+
+        GameObjectStorage.Add(IdOfPlayingCards.Spades1, GameObject.Find($"Spades 1"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades2, GameObject.Find($"Spades 2"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades3, GameObject.Find($"Spades 3"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades4, GameObject.Find($"Spades 4"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades5, GameObject.Find($"Spades 5"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades6, GameObject.Find($"Spades 6"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades7, GameObject.Find($"Spades 7"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades8, GameObject.Find($"Spades 8"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades9, GameObject.Find($"Spades 9"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades10, GameObject.Find($"Spades 10"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades11, GameObject.Find($"Spades 11"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades12, GameObject.Find($"Spades 12"));
+        GameObjectStorage.Add(IdOfPlayingCards.Spades13, GameObject.Find($"Spades 13"));
+
+        commandStorage = new ModelsOfTimeline.Model();
+        gameModelBuffer = new GameModelBuffer();
+        gameModel = new GameModel(gameModelBuffer);
+        gameViewModel = new GameViewModel();
+
+        // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
+        const int right = 0;// 台札の右
+                            // const int left = 1;// 台札の左
+        foreach (var idOfCard in GameObjectStorage.PlayingCards.Keys)
+        {
+            // 右の台札
+            gameModelBuffer.IdOfCardsOfCenterStacks[right].Add(idOfCard);
+        }
+
+        // 右の台札をシャッフル
+        gameModelBuffer.IdOfCardsOfCenterStacks[right] = gameModelBuffer.IdOfCardsOfCenterStacks[right].OrderBy(i => Guid.NewGuid()).ToList();
+
+        // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
+        while (0 < gameModel.GetLengthOfCenterStackCards(right))
+        {
+            // 即実行
+            new Commands.MoveCardsToPileFromCenterStacks(place: right).DoIt(gameModelBuffer, gameViewModel);
+        }
+
+        // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
+        var time = 0.0f;
+        this.commandStorage.Add(time, new Commands.MoveCardsToHandFromPile(player: 0, numberOfCards: 5));
+        this.commandStorage.Add(time, new Commands.MoveCardsToHandFromPile(player: 1, numberOfCards: 5));
+
+        // 以下、デモ・プレイを登録
+        SetupDemo();
+
+        // OnTick を 1.0 秒後に呼び出し、以降は unitSeconds 秒毎に実行
+        InvokeRepeating(nameof(OnTick), 1.0f, unitSeconds);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // 入力をコマンドとして登録
+        UpdateInput();
+    }
+
+    /// <summary>
+    /// 一定間隔で呼び出される
+    /// </summary>
+    void OnTick()
+    {
+        // 時限式で、コマンドを消化
+        this.commandStorage.DoIt(elapsedSeconds, gameModelBuffer, gameViewModel);
+
+        elapsedSeconds += unitSeconds;
+    }
+
+    /// <summary>
+    /// 入力を、コマンドに変換して、タイムラインへ登録します
+    /// </summary>
+    private void UpdateInput()
+    {
+        const int right = 0;// 台札の右
+        const int left = 1;// 台札の左
+        bool handled1player = false;
+        bool handled2player = false;
+
+        // 先に登録したコマンドの方が早く実行される
+
+        // （ボタン押下が同時なら）右の台札は１プレイヤー優先
+        // ==================================================
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
+                player: 0, // １プレイヤーが
+                place: right // 右の
+                ));
+            handled1player = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
+                player: 1, // ２プレイヤーが
+                place: right // 右の
+                ));
+            handled2player = true;
+        }
+
+        // （ボタン押下が同時なら）左の台札は２プレイヤー優先
+        // ==================================================
+
+        // ２プレイヤー
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
+                player: 1, // ２プレイヤーが
+                place: left // 左の
+                ));
+            handled2player = true;
+        }
+
+        // １プレイヤー
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardToCenterStackFromHand(
+                player: 0, // １プレイヤーが
+                place: left // 左の
+                ));
+            handled1player = true;
+        }
+
+        // それ以外のキー入力は、同時でも勝敗に関係しない
+        // ==============================================
+
+        // １プレイヤー
+        if(handled1player)
+        {
+
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
+            var player = 0;
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
+                player: player,
+                direction: 1,
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                {
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                }));
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
+            var player = 0;
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
+                player: player,
+                direction: 0,
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                {
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                }));
+        }
+
+        // ２プレイヤー
+        if(handled2player)
+        {
+
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
+            var player = 1;
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
+                player: player,
+                direction: 1,
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                {
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                }));
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
+            var player = 1;
+            this.commandStorage.Add(elapsedSeconds, new Commands.MoveFocusToNextCard(
+                player: player,
+                direction: 0,
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                {
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                }));
+        }
+
+        // デバッグ用
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // 両プレイヤーは手札から１枚抜いて、場札として置く
+            for (var player = 0; player < 2; player++)
+            {
+                // 場札を並べる
+                this.commandStorage.Add(elapsedSeconds, new Commands.MoveCardsToHandFromPile(
+                    player: player,
+                    numberOfCards: 1));
+            }
+        }
+    }
+
+    /// <summary>
+    /// タイムライン作成
+    /// 
+    /// - デモ
+    /// </summary>
+    void SetupDemo()
+    {
+        // 卓準備
+        const int right = 0;// 台札の右
+        const int left = 1;// 台札の左
+
+        float scheduleSeconds = 1.0f;
+        float oneSecond = 1.0f;
+
+        // 登録：ピックアップ場札を、台札へ積み上げる
+        {
+            // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
+            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardToCenterStackFromHand(
+                player: 0, // １プレイヤーが
+                place: right // 右の
+                ));
+
+            // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
+            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardToCenterStackFromHand(
+                player: 1, // ２プレイヤーが
+                place: left // 左の
+                ));
+
+            scheduleSeconds += oneSecond;
+        }
+
+        // ゲーム・デモ開始
+
+        // 登録：カード選択
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                // １プレイヤーの右隣のカードへフォーカスを移します
+                {
+                    var player = 0;
+                    this.commandStorage.Add(scheduleSeconds, new Commands.MoveFocusToNextCard(
+                        player: player,
+                        direction: 0,
+                        setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                        {
+                            gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                        }));
+                }
+
+                // ２プレイヤーの右隣のカードへフォーカスを移します
+                {
+                    var player = 1;
+                    this.commandStorage.Add(scheduleSeconds, new Commands.MoveFocusToNextCard(
+                        player: player,
+                        direction: 0,
+                        setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                        {
+                            gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                        }));
+                }
+
+                scheduleSeconds += oneSecond;
+            }
+        }
+
+        // 登録：台札を積み上げる
+        {
+            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardToCenterStackFromHand(
+                player: 0, // １プレイヤーが
+                place: 1 // 左の台札
+                ));
+
+            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardToCenterStackFromHand(
+                player: 1, // ２プレイヤーが
+                place: 0 // 右の台札
+                ));
+
+            scheduleSeconds += oneSecond;
+        }
+        // 登録：手札から１枚引く
+        {
+            // １プレイヤーは手札から１枚抜いて、場札として置く
+            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardsToHandFromPile(
+                player: 0,
+                numberOfCards: 1));
+
+            // ２プレイヤーは手札から１枚抜いて、場札として置く
+            this.commandStorage.Add(scheduleSeconds, new Commands.MoveCardsToHandFromPile(
+                player: 1,
+                numberOfCards: 1));
+
+            scheduleSeconds += oneSecond;
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　キー入力しても、コマンドは　ただちに実行せず、  
+いったん　タイムラインに登録するというのが、  
+ビューと　モデルを分離した工夫だぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　最初から　そうしろだぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　Unity の開発経験が　短いからね」  
+
+📅2023-02-01 sat 22:24  
+
 # // 書きかけ
