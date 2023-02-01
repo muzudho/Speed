@@ -284,33 +284,6 @@ public class GameManager : MonoBehaviour
         float scheduleSeconds = 1.0f;
         float oneSecond = 1.0f;
 
-        // 登録：場札の先頭をピックアップ
-        {
-            // １プレイヤーの先頭のカードへフォーカスを移します
-            {
-                var player = 0;
-                this.commandStorage.Add(scheduleSeconds, new Commands.MoveFocusToNextCard(
-                    player: player,
-                    direction: 0,
-                    setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                    {
-                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
-                    }));
-            }
-            // ２プレイヤーの先頭のカードへフォーカスを移します
-            {
-                var player = 1;
-                this.commandStorage.Add(scheduleSeconds, new Commands.MoveFocusToNextCard(
-                    player: player,
-                    direction: 0,
-                    setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                    {
-                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
-                    }));
-            }
-
-            scheduleSeconds += oneSecond;
-        }
         // 登録：ピックアップ場札を、台札へ積み上げる
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる

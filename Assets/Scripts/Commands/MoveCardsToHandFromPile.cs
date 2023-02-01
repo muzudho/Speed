@@ -31,6 +31,12 @@
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[Player].Count; // 手札の枚数
             if (NumberOfCards <= length)
             {
+                // もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
+                if (gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] == -1)
+                {
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = 0;
+                }
+
                 GameModel gameModel = new GameModel(gameModelBuffer);
                 var startIndex = length - NumberOfCards;
 
