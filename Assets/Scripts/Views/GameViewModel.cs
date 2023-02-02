@@ -153,13 +153,13 @@
 
                 if (0 <= handIndex && handIndex < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
                 {
+                    var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex); // ピックアップしている場札
+
                     // 抜いたカードの右隣のカードを（有れば）ピックアップする
                     setCardMovementModel(MovementGenerator.PickupCardOfHand(
                         startSeconds: startSeconds + duration1,
                         duration: duration2,
-                        gameModel: gameModel,
-                        player: player,
-                        handIndex: handIndex));
+                        idOfCard: idOfCard));
                 }
             }
         }

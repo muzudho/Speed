@@ -95,13 +95,13 @@
 
             if (0 <= indexOfPrevious && indexOfPrevious < length) // 範囲内なら
             {
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(Player, indexOfPrevious); // ピックアップしている場札
+
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setCardMovementModel(MovementGenerator.PutDownCardOfHand(
                     startSeconds: this.StartSeconds,
                     duration: this.Duration,
-                    gameModel: gameModel,
-                    player: Player,
-                    handIndex: indexOfPrevious));
+                    idOfCard: idOfCard));
             }
 
             // （状態変更）ピックアップしている場札の、インデックス更新
@@ -109,13 +109,13 @@
 
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(Player, indexOfCurrent); // ピックアップしている場札
+
                 // 今回フォーカスするカードを持ち上げる
                 setCardMovementModel(MovementGenerator.PickupCardOfHand(
                     startSeconds: this.StartSeconds,
                     duration: this.Duration,
-                    gameModel: gameModel,
-                    player: Player,
-                    handIndex: indexOfCurrent));
+                    idOfCard: idOfCard));
             }
         }
     }

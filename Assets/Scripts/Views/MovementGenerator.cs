@@ -11,13 +11,10 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
-        /// <param name="player"></param>
-        /// <param name="handIndex"></param>
+        /// <param name="idOfCard">カードId</param>
         internal static CardMovementModel PickupCardOfHand(
-            float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
+            float startSeconds, float duration, IdOfPlayingCards idOfCard)
         {
-            var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex); // ピックアップしている場札
-
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
             var rotateZ = -5; // -5°傾ける
@@ -44,11 +41,9 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
-        /// <param name="card"></param>
-        internal static CardMovementModel PutDownCardOfHand(float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
+        /// <param name="idOfCard">カードId</param>
+        internal static CardMovementModel PutDownCardOfHand(float startSeconds, float duration, IdOfPlayingCards idOfCard)
         {
-            var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex); // ピックアップしている場札
-
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
             var rotateZ = -5; // -5°傾ける
