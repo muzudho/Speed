@@ -3,6 +3,7 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
     using System;
+    using UnityEngine;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
@@ -59,8 +60,18 @@
                 }
 
                 // プレイヤーの手札を積み上げる
+                float motionProgress = 1.0f;
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
-                gameViewModel.SetPosRot(idOfCard, gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player], angleY: angleY, angleZ: 180.0f);
+                var  movement = new Movement(
+                    beginPosition: goCard.transform.position,
+                    endPosition: new Vector3(gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player]),
+                    beginRotation: goCard.transform.rotation,
+                    endRotation: Quaternion.Euler(0, angleY, 180.0f),
+                    gameObject: goCard);
+                movement.GameObject.transform.position = Vector3.Lerp(movement.BeginPosition, movement.EndPosition, motionProgress);
+                movement.GameObject.transform.rotation = Quaternion.Lerp(movement.BeginRotation, movement.EndRotation, motionProgress);
+
+                // 更新
                 gameViewModel.pileCardsY[player] += 0.2f;
             }
         }

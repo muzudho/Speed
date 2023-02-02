@@ -187,12 +187,25 @@
             }
 
             float theta = startTheta;
-            foreach (var goCard in gameModel.GetCardsOfPlayerHand(player))
+            foreach (var idOfCard in gameModel.GetCardsOfPlayerHand(player))
             {
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
                 float z = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
 
-                SetPosRot(goCard, x, this.minY, z, angleY: angleY, angleZ: cardAngleZ);
+
+                float motionProgress = 1.0f;
+                var goCard = GameObjectStorage.PlayingCards[idOfCard];
+                var movement = new Movement(
+                    beginPosition: goCard.transform.position,
+                    endPosition: new Vector3(x, this.minY, z),
+                    beginRotation: goCard.transform.rotation,
+                    endRotation: Quaternion.Euler(0, angleY, cardAngleZ),
+                    gameObject: goCard);
+                movement.GameObject.transform.position = Vector3.Lerp(movement.BeginPosition, movement.EndPosition, motionProgress);
+                movement.GameObject.transform.rotation = Quaternion.Lerp(movement.BeginRotation, movement.EndRotation, motionProgress);
+
+
+                // 更新
                 theta += thetaStep;
             }
 
@@ -221,30 +234,6 @@
                         });
                 }
             }
-        }
-
-        /// <summary>
-        /// カードの位置と　捻りの設定
-        /// </summary>
-        /// <param name="card"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        /// <param name="angleY"></param>
-        /// <param name="angleZ"></param>
-        /// <param name="motionProgress">Update関数の中でないと役に立たない</param>
-        internal void SetPosRot(IdOfPlayingCards idOfCard, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
-        {
-            var goCard = GameObjectStorage.PlayingCards[idOfCard];
-            var movement = new Movement(
-                beginPosition: goCard.transform.position,
-                endPosition: new Vector3(x, y, z),
-                beginRotation: goCard.transform.rotation,
-                endRotation: Quaternion.Euler(0, angleY, angleZ),
-                gameObject: goCard);
-
-            goCard.transform.position = Vector3.Lerp(movement.BeginPosition, movement.EndPosition, motionProgress);
-            goCard.transform.rotation = Quaternion.Lerp(movement.BeginRotation, movement.EndRotation, motionProgress);
         }
 
         /// <summary>

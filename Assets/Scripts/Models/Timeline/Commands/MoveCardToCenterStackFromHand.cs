@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
+    using UnityEngine;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
@@ -132,7 +133,15 @@
             gameModelBuffer.AddCardOfCenterStack(place, idOfCard); // 台札として置く
 
             // 台札の位置をセット
-            gameViewModel.SetPosRot(idOfCard, nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ, angleY: nextAngleY);
+            float motionProgress = 1.0f;
+            var movement = new Movement(
+                beginPosition: goCard.transform.position,
+                endPosition: new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),
+                beginRotation: goCard.transform.rotation,
+                endRotation: Quaternion.Euler(0, nextAngleY, 0.0f),
+                gameObject: goCard);
+            movement.GameObject.transform.position = Vector3.Lerp(movement.BeginPosition, movement.EndPosition, motionProgress);
+            movement.GameObject.transform.rotation = Quaternion.Lerp(movement.BeginRotation, movement.EndRotation, motionProgress);
 
             // 次に台札に積むカードの高さ
             gameViewModel.centerStacksY[place] += 0.2f;
