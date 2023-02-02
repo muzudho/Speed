@@ -107,7 +107,7 @@
             if (0 <= indexOfFocusedHandCard && indexOfFocusedHandCard < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
             {
                 // 前にフォーカスしていたカードを、盤に下ろす
-                this.CardDown = gameViewModel.PutDownCardOfHand(
+                this.CardDown = MovementGenerator.PutDownCardOfHand(
                     startSeconds: this.StartSeconds,
                     duration: this.Duration,
                     gameModel: gameModel,
@@ -118,7 +118,7 @@
             if (0 <= current && current < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
             {
                 // 今回フォーカスするカードを持ち上げる
-                this.CardUp = gameViewModel.PickupCardOfHand(
+                this.CardUp = MovementGenerator.PickupCardOfHand(
                     startSeconds: this.StartSeconds,
                     duration: this.Duration,
                     gameModel: gameModel,
