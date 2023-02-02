@@ -107,41 +107,23 @@
             if (0 <= indexOfFocusedHandCard && indexOfFocusedHandCard < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
             {
                 // 前にフォーカスしていたカードを、盤に下ろす
-                gameViewModel.PutDownCardOfHand(
+                this.CardDown = gameViewModel.PutDownCardOfHand(
+                    startSeconds: this.StartSeconds,
+                    duration: this.Duration,
                     gameModel: gameModel,
                     player: Player,
-                    handIndex: indexOfFocusedHandCard,
-                    setResults: (results) =>
-                    {
-                        this.CardDown = new Movement(
-                            startSeconds: this.StartSeconds,
-                            duration: this.Duration,
-                            beginPosition: results.Item1,
-                            endPosition: results.Item2,
-                            beginRotation: results.Item3,
-                            endRotation: results.Item4,
-                            gameObject: results.Item5);
-                    });
+                    handIndex: indexOfFocusedHandCard);
             }
 
             if (0 <= current && current < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
             {
                 // 今回フォーカスするカードを持ち上げる
-                gameViewModel.PickupCardOfHand(
+                this.CardUp = gameViewModel.PickupCardOfHand(
+                    startSeconds: this.StartSeconds,
+                    duration: this.Duration,
                     gameModel: gameModel,
                     player: Player,
-                    handIndex: current,
-                    setResults: (results) =>
-                    {
-                        this.CardUp = new Movement(
-                            startSeconds: this.StartSeconds,
-                            duration: this.Duration,
-                            beginPosition: results.Item1,
-                            endPosition: results.Item2,
-                            beginRotation: results.Item3,
-                            endRotation: results.Item4,
-                            gameObject: results.Item5);
-                    });
+                    handIndex: current);
             }
         }
 

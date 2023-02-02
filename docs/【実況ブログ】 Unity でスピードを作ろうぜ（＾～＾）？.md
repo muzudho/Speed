@@ -4347,7 +4347,7 @@ public class GameManager : MonoBehaviour
 📅2023-02-01 sat 22:24  
 
 ![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
-「　`Leap` （リープ） を使うと、モーションを補間できるんじゃないの？」  
+「　`Lerp` （リープ） を使うと、モーションを補間できるんじゃないの？」  
 
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　やってみるかだぜ」  
@@ -4387,7 +4387,7 @@ public class GameManager : MonoBehaviour
 持ち上げた後の `position` と `rotation` を持てばいいわけだぜ」  
 
 ![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
-「　それを覚えておいて、 `Update` メソッドで `Leap()` すればいいわけだぜ」  
+「　それを覚えておいて、 `Update` メソッドで `Lerp()` すればいいわけだぜ」  
 
 ```csharp
         /// <summary>
@@ -4417,7 +4417,7 @@ public class GameManager : MonoBehaviour
                 goCard.transform.rotation.eulerAngles.y + rotateY,
                 goCard.transform.eulerAngles.z + rotateZ);
 
-            // TODO ★ セットせず、 Leap したい
+            // TODO ★ セットせず、 Lerp したい
             goCard.transform.position = endPosition;
             goCard.transform.rotation = endRotation;
         }
@@ -4432,6 +4432,219 @@ public class GameManager : MonoBehaviour
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　今日は　ここまでだぜ」  
 
-📅 2023-02-01 sat 23:58  
+📅 2023-02-01 sat 23:58 end  
+
+# 📅2023-02-02 thu 18:44
+
+📺 [作業用BGM](https://www.youtube.com/watch?v=betM4QG_DgQ&list=PLhaEhzBcQGjAF8nu1ze2lSxC5MyGXE1oc&index=10)  
+
+![202302_unity_02-1844--movement-1.png](https://crieit.now.sh/upload_images/807a266506e3b2be5f200d022f65c3b263db8796798d4.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　とりあえず、 `Movement` というクラスを作ろうぜ」  
+
+`Assets/Scripts/Models/Timeline/Movement.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models.Timeline
+{
+    using UnityEngine;
+
+    /// <summary>
+    /// ゲーム・オブジェクトの動き
+    /// 
+    /// - Lerpに使うもの
+    /// </summary>
+    internal class Movement
+    {
+        // - その他（生成）
+
+        /// <summary>
+        /// 生成
+        /// </summary>
+        /// <param name="beginPosition">開始位置</param>
+        /// <param name="endPosition">終了位置</param>
+        /// <param name="beginRotation">開始回転</param>
+        /// <param name="endRotation">終了回転</param>
+        /// <param name="gameObject">ゲーム・オブジェクト</param>
+        public Movement(
+            Vector3 beginPosition,
+            Vector3 endPosition,
+            Quaternion beginRotation,
+            Quaternion endRotation,
+            GameObject gameObject)
+        {
+            this.BeginPosition = beginPosition;
+            this.EndPosition = endPosition;
+            this.BeginRotation = beginRotation;
+            this.EndRotation = endRotation;
+            this.GameObject = gameObject;
+        }
+
+        // - プロパティ
+
+        internal Vector3 BeginPosition { get; private set; }
+        internal Vector3 EndPosition { get; private set; }
+        internal Quaternion BeginRotation { get; private set; }
+        internal Quaternion EndRotation { get; private set; }
+        internal GameObject GameObject { get; private set; }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`Lerp` に使うデータを　持っておくクラスだな」  
+
+書き直す前のソース:  
+
+```csharp
+        /// <summary>
+        /// カードの位置と　捻りの設定
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="angleY"></param>
+        /// <param name="angleZ"></param>
+        /// <param name="motionProgress">Update関数の中でないと役に立たない</param>
+        internal void SetPosRot(IdOfPlayingCards idOfCard, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
+        {
+            var goCard = GameObjectStorage.PlayingCards[idOfCard];
+            var beginPos = goCard.transform.position;
+            var endPos = new Vector3(x, y, z);
+
+            goCard.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);
+            goCard.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
+        }
+```
+
+書き直した後のソース:  
+
+```csharp
+        /// <summary>
+        /// カードの位置と　捻りの設定
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="angleY"></param>
+        /// <param name="angleZ"></param>
+        /// <param name="motionProgress">Update関数の中でないと役に立たない</param>
+        internal void SetPosRot(IdOfPlayingCards idOfCard, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
+        {
+            var goCard = GameObjectStorage.PlayingCards[idOfCard];
+            var movement = new Movement(
+                beginPosition: goCard.transform.position,
+                endPosition: new Vector3(x, y, z),
+                beginRotation: goCard.transform.rotation,
+                endRotation: Quaternion.Euler(0, angleY, angleZ),
+                gameObject: goCard);
+
+            goCard.transform.position = Vector3.Lerp(movement.BeginPosition, movement.EndPosition, motionProgress);
+            goCard.transform.rotation = Quaternion.Lerp(movement.BeginRotation, movement.EndRotation, motionProgress);
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　動作が変わるんで　リファクタリング　ではなくて　仕様変更だが、  
+どんどん　`Lerp`　するコードを　関数の外側に出すための　仕込みをしていこう」  
+
+![202302_unity_02-1927--unwrapped-1.png](https://crieit.now.sh/upload_images/621dd5a817a3a1f6113dd6cac51b5f8763db9034de7c1.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`SetPosRot` という関数そのものが　よくないので、この関数は削除して  
+呼出し側に　ベタ書き　するように変えていこう」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　最大２５枚の場札を　円弧上に　揃えて並べていく処理よ　それ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　じゃあ、タイムラインには　コマンドだけではなくて、  
+`Movement`　も置けた方がいいのか」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　`ICommand` と、 `Movement` を、１本化しろだぜ」  
+
+`Assets/Scripts/Models/Timeline/Commands/ICommand.cs` file:  
+
+書き直す前のソース:  
+
+```csharp
+namespace Assets.Scripts.Models.Timeline.Commands
+{
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
+
+    /// <summary>
+    /// コマンド
+    /// </summary>
+    interface ICommand
+    {
+        /// <summary>
+        /// コマンド実行
+        /// </summary>
+        /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
+        /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
+        void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel);
+
+        void Lerp(float progress);
+
+        /// <summary>
+        /// 持続時間が切れたとき
+        /// </summary>
+        void OnLeave();
+    }
+}
+```
+
+書き直した後のソース:  
+
+```csharp
+namespace Assets.Scripts.Models.Timeline.Commands
+{
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Views;
+
+    /// <summary>
+    /// コマンド
+    /// </summary>
+    interface ICommand
+    {
+        /// <summary>
+        /// 開始時
+        /// </summary>
+        /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
+        /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
+        void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel);
+
+        /// <summary>
+        /// 持続中
+        /// </summary>
+        /// <param name="progress">進捗 0.0 ～ 1.0</param>
+        void Lerp(float progress);
+
+        /// <summary>
+        /// 持続時間が切れたとき
+        /// </summary>
+        void OnLeave();
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`DoIt` を、 `OnEnter` に書き直すだけでも　一貫性が出てきそうだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　コマンドに　開始時間と　持続時間　を持たせてしまえば　どうだぜ？
+名前を　`TimeSpan`　にでも変えて、　コマンドはその特殊なケースにしろだぜ」  
+
+![202302_unity_02-2041--time-span-1.png](https://crieit.now.sh/upload_images/9ffbcaec6153684ab19ecb7f7cd811d063dba250f263d.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`TimedItem`　と、　`Command`　と、　`Movement`　は、　`TimeSpan`　という枠組みで１本化したぜ」  
+
+📅 2023-02-01 sat 20:46 end  
 
 # // 書きかけ

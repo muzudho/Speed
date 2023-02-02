@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.Views
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Models.Timeline.Spans;
     using System;
     using UnityEngine;
@@ -71,43 +70,42 @@
         /// <summary>
         /// 場札を持ち上げる
         /// </summary>
+        /// <param name="startSeconds">ゲーム内時間（秒）</param>
+        /// <param name="duration">持続時間（秒）</param>
         /// <param name="player"></param>
         /// <param name="handIndex"></param>
-        internal void PickupCardOfHand(GameModel gameModel, int player, int handIndex, LazyArgs.SetValue<(Vector3, Vector3, Quaternion, Quaternion, GameObject)> setResults)
+        internal Movement PickupCardOfHand(float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
         {
             var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
 
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
             var rotateZ = -5; // -5°傾ける
-
             var goCard = GameObjectStorage.PlayingCards[idOfFocusedHandCard];
 
-            var beginPosition = goCard.transform.position;
-            var endPosition = new Vector3(
-                goCard.transform.position.x,
-                goCard.transform.position.y + liftY,
-                goCard.transform.position.z);
-
-            var beginRotation = goCard.transform.rotation;
-            var endRotation = Quaternion.Euler(
-                goCard.transform.rotation.eulerAngles.x,
-                goCard.transform.rotation.eulerAngles.y + rotateY,
-                goCard.transform.eulerAngles.z + rotateZ);
-
-            setResults((
-                beginPosition,
-                endPosition,
-                beginRotation,
-                endRotation,
-                goCard));
+            return new Movement(
+                startSeconds: startSeconds,
+                duration: duration,
+                beginPosition: goCard.transform.position,
+                endPosition: new Vector3(
+                    goCard.transform.position.x,
+                    goCard.transform.position.y + liftY,
+                    goCard.transform.position.z),
+                beginRotation: goCard.transform.rotation,
+                endRotation: Quaternion.Euler(
+                    goCard.transform.rotation.eulerAngles.x,
+                    goCard.transform.rotation.eulerAngles.y + rotateY,
+                    goCard.transform.eulerAngles.z + rotateZ),
+                gameObject: goCard);
         }
 
         /// <summary>
         /// ピックアップしているカードを場に戻す
         /// </summary>
+        /// <param name="startSeconds">ゲーム内時間（秒）</param>
+        /// <param name="duration">持続時間（秒）</param>
         /// <param name="card"></param>
-        internal void PutDownCardOfHand(GameModel gameModel, int player, int handIndex, LazyArgs.SetValue<(Vector3, Vector3, Quaternion, Quaternion, GameObject)> setResults)
+        internal Movement PutDownCardOfHand(float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
         {
             var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
 
@@ -119,23 +117,16 @@
             liftY = -liftY;
             rotateY = -rotateY;
             rotateZ = -rotateZ;
-
             var goCard = GameObjectStorage.PlayingCards[idOfCard];
-            var beginPosition = goCard.transform.position;
-            var endPosition = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
-            var beginRotation = goCard.transform.rotation;
-            var endRotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
 
-            setResults((
-                beginPosition,
-                endPosition,
-                beginRotation,
-                endRotation,
-                goCard));
-
-            // TODO ★ 消す
-            //goCard.transform.position = endPosition;
-            //goCard.transform.rotation = endRotation;
+            return new Movement(
+                startSeconds: startSeconds,
+                duration: duration,
+                beginPosition: goCard.transform.position,
+                endPosition: new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
+                beginRotation: goCard.transform.rotation,
+                endRotation: Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ),
+                gameObject: goCard);
         }
 
         /// <summary>
@@ -203,7 +194,8 @@
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, cardAngleZ),
                     gameObject: goCard);
-                movement.Lerp(progress: 1.0f);
+                var progress = 1.0f; // TODO
+                movement.Lerp(progress);
 
 
                 // 更新
@@ -217,22 +209,16 @@
                 if (0 <= handIndex && handIndex < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
                 {
                     // 抜いたカードの右隣のカードを（有れば）ピックアップする
-                    this.PickupCardOfHand(
+                    var movement = this.PickupCardOfHand(
+                        startSeconds: 0.0f, // TODO
+                        duration: 0.15f, // TODO
                         gameModel: gameModel,
                         player: player,
-                        handIndex: handIndex,
-                        setResults: (results) =>
-                        {
-                            // beginPosition,
-                            // endPosition,
-                            // beginRotation,
-                            // endRotation,
-                            // goCard
+                        handIndex: handIndex);
 
-                            // TODO ★ セットせず、 Lerp したい
-                            results.Item5.transform.position = results.Item2;
-                            results.Item5.transform.rotation = results.Item4;
-                        });
+                    // TODO ★ セットせず、 Lerp したい
+                    var progress = 1.0f; // TODO
+                    movement.Lerp(progress);
                 }
             }
         }
