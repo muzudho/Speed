@@ -39,12 +39,12 @@
         /// <summary>
         /// カードを持ち上げる動き
         /// </summary>
-        Movement CardUp { get; set; }
+        CardMovementModel CardUp { get; set; }
 
         /// <summary>
         /// カードを置く動き
         /// </summary>
-        Movement CardDown { get; set; }
+        CardMovementModel CardDown { get; set; }
         #endregion
 
         // - メソッド

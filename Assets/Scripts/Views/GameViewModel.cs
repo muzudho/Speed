@@ -124,7 +124,7 @@
 
 
                 var goCard = GameObjectStorage.PlayingCards[idOfCard];
-                var movement = new Movement(
+                var movement = new CardMovementModel(
                     startSeconds: 0.0f, // TODO 要確認
                     duration: 0.15f, // TODO 要確認
                     beginPosition: goCard.transform.position,

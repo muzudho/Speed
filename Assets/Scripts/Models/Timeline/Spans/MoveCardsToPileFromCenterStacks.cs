@@ -68,7 +68,7 @@
 
                 // プレイヤーの手札を積み上げる
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
-                var  movement = new Movement(
+                var  movement = new CardMovementModel(
                     startSeconds: this.StartSeconds,
                     duration: this.Duration,
                     beginPosition: goCard.transform.position,

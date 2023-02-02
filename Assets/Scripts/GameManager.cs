@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
 using Spans = Assets.Scripts.Models.Timeline.Spans;
+using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 
 /// <summary>
 /// ゲーム・マネージャー
@@ -14,6 +15,7 @@ using Spans = Assets.Scripts.Models.Timeline.Spans;
 public class GameManager : MonoBehaviour
 {
     ModelsOfTimeline.Model timelineModel;
+    ViewsOfTimeline.View timelineView;
     GameModelBuffer gameModelBuffer;
     GameModel gameModel;
     GameViewModel gameViewModel;
@@ -91,6 +93,7 @@ public class GameManager : MonoBehaviour
         GameObjectStorage.Add(IdOfPlayingCards.Spades13, GameObject.Find($"Spades 13"));
 
         timelineModel = new ModelsOfTimeline.Model();
+        timelineView = new ViewsOfTimeline.View(timelineModel);
         gameModelBuffer = new GameModelBuffer();
         gameModel = new GameModel(gameModelBuffer);
         gameViewModel = new GameViewModel();
@@ -144,8 +147,10 @@ public class GameManager : MonoBehaviour
         // 時限式で、コマンドを消化
         this.timelineModel.OnEnter(elapsedSeconds, gameModelBuffer, gameViewModel);
 
+        // TODO ★ モデルからビューへデータを引き継ぎたい
+
         // モーションの補間
-        this.timelineModel.Lerp(elapsedSeconds);
+        this.timelineView.Lerp(elapsedSeconds);
 
         this.timelineModel.DebugWrite(); // TODO ★ 消す
 

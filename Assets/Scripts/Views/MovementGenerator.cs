@@ -13,7 +13,7 @@
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="player"></param>
         /// <param name="handIndex"></param>
-        internal static Movement PickupCardOfHand(float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
+        internal static CardMovementModel PickupCardOfHand(float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
         {
             var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
 
@@ -22,7 +22,7 @@
             var rotateZ = -5; // -5°傾ける
             var goCard = GameObjectStorage.PlayingCards[idOfFocusedHandCard];
 
-            return new Movement(
+            return new CardMovementModel(
                 startSeconds: startSeconds,
                 duration: duration,
                 beginPosition: goCard.transform.position,
@@ -44,7 +44,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="card"></param>
-        internal static Movement PutDownCardOfHand(float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
+        internal static CardMovementModel PutDownCardOfHand(float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
         {
             var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
 
@@ -58,7 +58,7 @@
             rotateZ = -rotateZ;
             var goCard = GameObjectStorage.PlayingCards[idOfCard];
 
-            return new Movement(
+            return new CardMovementModel(
                 startSeconds: startSeconds,
                 duration: duration,
                 beginPosition: goCard.transform.position,

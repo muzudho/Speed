@@ -7,7 +7,7 @@
     /// 
     /// - Lerpに使うもの
     /// </summary>
-    internal class Movement : AbstractSpan
+    internal class CardMovementModel : AbstractSpan
     {
         // - その他（生成）
 
@@ -21,7 +21,7 @@
         /// <param name="beginRotation">開始回転</param>
         /// <param name="endRotation">終了回転</param>
         /// <param name="gameObject">ゲーム・オブジェクト</param>
-        public Movement(
+        public CardMovementModel(
             float startSeconds,
             float duration,
             Vector3 beginPosition,

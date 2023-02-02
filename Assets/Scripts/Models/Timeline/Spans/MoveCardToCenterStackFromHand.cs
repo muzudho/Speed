@@ -141,7 +141,7 @@
             gameModelBuffer.AddCardOfCenterStack(place, idOfCard); // 台札として置く
 
             // 台札の位置をセット
-            var movement = new Movement(
+            var movement = new CardMovementModel(
                 startSeconds: this.StartSeconds,
                 duration: this.Duration,
                 beginPosition: goCard.transform.position,
