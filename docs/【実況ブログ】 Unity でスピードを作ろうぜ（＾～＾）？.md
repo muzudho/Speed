@@ -4647,4 +4647,137 @@ namespace Assets.Scripts.Models.Timeline.Commands
 
 📅 2023-02-01 sat 20:46 end  
 
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　どんどん `Lerp` を使える形に変えていこう」  
+
+📅 2023-02-01 sat 21:02  
+
+![202302_unity_02-2100--put-down-card-of-hand-1.png](https://crieit.now.sh/upload_images/07038993315917412365e7a8ed30b72163dba65c59e89.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　例えば　`PutDownCardOfHand` メソッドは、単に `Movement` インスタンスを作るだけのメソッドだと分かった」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　頭の中が整理されてきたのね」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　頭を整理してから　プログラミングしてくれだぜ」  
+
+```csharp
+        /// <summary>
+        /// 場札を並べる
+        /// 
+        /// - 左端は角度で言うと 112.0f
+        /// </summary>
+        internal void ArrangeHandCards(GameModel gameModel, int player, LazyArgs.SetValue<List<ISpan>> setSpans)
+        { // ...
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　例えば　`ArrangeHandCards` メソッドは、単に `Movement` インスタンスを複数、作るだけのメソッドだと分かった」  
+
+![202302_unity_02-2123--bug.png](https://crieit.now.sh/upload_images/9da5cce608656a39afd64d10d82c062c63dbab5320059.png)  
+
+📅 2023-02-01 sat 21:24    
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　あっ、バグった！」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　表現しづらいバグを起こすなあ。  
+持ち上げるカードを　間違えているんだぜ　なぜか」  
+
+![202302_unity_02-2132--fixme-code-1.png](https://crieit.now.sh/upload_images/5df83fbc29ac83b16423729685df063f63dbadb60f858.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　タイム・スパンの　インスタンスの中で　即実行　するコードがあると　タイミングが狂ってる感じがするぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　`OnEnter` メソッドの中ではなく、 `Lerp` メソッドの中に書けば　いいんじゃない？」  
+
+```csharp
+        List<ISpan> SubSpans { get; set; }
+
+        // - メソッド
+
+        public override void Lerp(float progress)
+        {
+            base.Lerp(progress);
+
+            if (this.SubSpans!=null)
+            {
+                foreach (var span in this.SubSpans)
+                {
+                    span.Lerp(progress);
+                }
+            }
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　なるほど」  
+
+![202302_unity_02-2139--sub-spans.png](https://crieit.now.sh/upload_images/75824c81f812608ff3c9af799de7db5163dbaf0883524.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　ダメだぜ。持ち上げるカードを間違えているぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　コマンドのタイム・スパンの寿命と、  
+場札の位置調整をしたいタイム・スパンの寿命は　別物だからでは？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　じゃあ　タイム・スパンを新しく　スポーン（Spawn；生成）しなくちゃ　いけないのよ」  
+
+![202302_unity_02-2143--timeline-model-1.png](https://crieit.now.sh/upload_images/3a672258c6245ea0984fcbf08fe7462363dbb0278046d.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　タイムライン・モデルは　ゲーム・モデルの外側にあるし、　ゲーム・ビュー・モデルの外側でもあるぜ。  
+タイムライン・モデルは　**モデル**　なのだろうか？　**ビュー**　なのだろうか？」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　画面に表示されてないから、モデルだろ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　モデルのくせに、ゲーム・オブジェクトを持ってるのは　良くない」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　タイムライン・モデルの　**モデルとビューの分離**　を先に行っておくべきだったんじゃない？」  
+
+![202302_unity_02-2148--discard.png](https://crieit.now.sh/upload_images/e7a86a76e31094d3827cc96a5faee2a463dbb116f3de9.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　今なら　Discard（ディスカード；更新の破棄）しても　ダメージは３０分レベルで軽微だから　ロールバック（Rollback；巻き戻し）するかだぜ」  
+
+📅 2023-02-01 sat 21:49  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　巻き戻した」  
+
+![202302_unity_02-2154--model-1.png](https://crieit.now.sh/upload_images/d1e912417499780590344d3d7876e4b663dbb2aa21421.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　モデルが　ビューを持ってると　良くないんだぜ」  
+
+![202302_unity_02-2159--lerp-1.png](https://crieit.now.sh/upload_images/e1894933fdbf99e422b4c700276d2c9a63dbb3e1e0787.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　じゃあ　`Lerp` メソッドのような、ビュー　に属するものを　タイムライン・モデルが　持っていては  
+いけなくないかだぜ？」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　そりゃそうだぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　**TimelineView** のようなものが　要るのかしら？」  
+
+![202302_unity_02-2216--model-view-1.png](https://crieit.now.sh/upload_images/a763038bbe98f909c90c48e982e3405163dbb82a57a01.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`OnEnter` メソッドは　モデルを扱い、  
+`Lerp` メソッドは　ビューを扱うというように　ぱっきり　分かれているので、  
+`TimeSpan` も　モデルとビューに分けられないかだぜ？」  
+
+📅 2023-02-01 sat 22:20  
+
 # // 書きかけ

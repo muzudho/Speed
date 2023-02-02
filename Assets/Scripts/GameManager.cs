@@ -13,7 +13,7 @@ using Spans = Assets.Scripts.Models.Timeline.Spans;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    ModelsOfTimeline.Model commandStorage;
+    ModelsOfTimeline.Model timelineModel;
     GameModelBuffer gameModelBuffer;
     GameModel gameModel;
     GameViewModel gameViewModel;
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
         GameObjectStorage.Add(IdOfPlayingCards.Spades12, GameObject.Find($"Spades 12"));
         GameObjectStorage.Add(IdOfPlayingCards.Spades13, GameObject.Find($"Spades 13"));
 
-        commandStorage = new ModelsOfTimeline.Model();
+        timelineModel = new ModelsOfTimeline.Model();
         gameModelBuffer = new GameModelBuffer();
         gameModel = new GameModel(gameModelBuffer);
         gameViewModel = new GameViewModel();
@@ -119,8 +119,8 @@ public class GameManager : MonoBehaviour
         }
 
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
-        this.commandStorage.Add( new Spans.MoveCardsToHandFromPile(time, unitSeconds, player: 0, numberOfCards: 5));
-        this.commandStorage.Add( new Spans.MoveCardsToHandFromPile(time, unitSeconds, player: 1, numberOfCards: 5));
+        this.timelineModel.Add( new Spans.MoveCardsToHandFromPile(time, unitSeconds, player: 0, numberOfCards: 5));
+        this.timelineModel.Add( new Spans.MoveCardsToHandFromPile(time, unitSeconds, player: 1, numberOfCards: 5));
 
         // 以下、デモ・プレイを登録
         SetupDemo();
@@ -142,12 +142,12 @@ public class GameManager : MonoBehaviour
     void OnTick()
     {
         // 時限式で、コマンドを消化
-        this.commandStorage.DoIt(elapsedSeconds, gameModelBuffer, gameViewModel);
+        this.timelineModel.OnEnter(elapsedSeconds, gameModelBuffer, gameViewModel);
 
         // モーションの補間
-        this.commandStorage.Lerp(elapsedSeconds);
+        this.timelineModel.Lerp(elapsedSeconds);
 
-        this.commandStorage.DebugWrite(); // TODO ★ 消す
+        this.timelineModel.DebugWrite(); // TODO ★ 消す
 
         elapsedSeconds += unitSeconds;
     }
@@ -170,7 +170,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-            this.commandStorage.Add( new Spans.MoveCardToCenterStackFromHand(
+            this.timelineModel.Add( new Spans.MoveCardToCenterStackFromHand(
                 elapsedSeconds,
                 unitSeconds,
                 player: 0, // １プレイヤーが
@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-            this.commandStorage.Add( new Spans.MoveCardToCenterStackFromHand(
+            this.timelineModel.Add( new Spans.MoveCardToCenterStackFromHand(
                 elapsedSeconds, 
                 unitSeconds,
                 player: 1, // ２プレイヤーが
@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-            this.commandStorage.Add( new Spans.MoveCardToCenterStackFromHand(
+            this.timelineModel.Add( new Spans.MoveCardToCenterStackFromHand(
                 elapsedSeconds,
                 unitSeconds,
                 player: 1, // ２プレイヤーが
@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-            this.commandStorage.Add( new Spans.MoveCardToCenterStackFromHand(
+            this.timelineModel.Add( new Spans.MoveCardToCenterStackFromHand(
                 elapsedSeconds,
                 unitSeconds,
                 player: 0, // １プレイヤーが
@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
             var player = 0;
-            this.commandStorage.Add(new Spans.MoveFocusToNextCard(
+            this.timelineModel.Add(new Spans.MoveFocusToNextCard(
                 startSeconds: elapsedSeconds,
                 duration: durationOfMoveFocusToNextCard,
                 player: player,
@@ -246,7 +246,7 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
             var player = 0;
-            this.commandStorage.Add( new Spans.MoveFocusToNextCard(
+            this.timelineModel.Add( new Spans.MoveFocusToNextCard(
                 elapsedSeconds,
                 durationOfMoveFocusToNextCard,
                 player: player,
@@ -266,7 +266,7 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
             var player = 1;
-            this.commandStorage.Add( new Spans.MoveFocusToNextCard(
+            this.timelineModel.Add( new Spans.MoveFocusToNextCard(
                 elapsedSeconds,
                 durationOfMoveFocusToNextCard,
                 player: player,
@@ -280,7 +280,7 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
             var player = 1;
-            this.commandStorage.Add( new Spans.MoveFocusToNextCard(
+            this.timelineModel.Add( new Spans.MoveFocusToNextCard(
                 elapsedSeconds,
                 durationOfMoveFocusToNextCard,
                 player: player,
@@ -298,7 +298,7 @@ public class GameManager : MonoBehaviour
             for (var player = 0; player < 2; player++)
             {
                 // 場札を並べる
-                this.commandStorage.Add( new Spans.MoveCardsToHandFromPile(
+                this.timelineModel.Add( new Spans.MoveCardsToHandFromPile(
                     elapsedSeconds,
                     unitSeconds,
                     player: player,
@@ -324,7 +324,7 @@ public class GameManager : MonoBehaviour
         // 登録：ピックアップ場札を、台札へ積み上げる
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
-            this.commandStorage.Add( new Spans.MoveCardToCenterStackFromHand(
+            this.timelineModel.Add( new Spans.MoveCardToCenterStackFromHand(
                 scheduleSeconds,
                 unitSeconds,
                 player: 0, // １プレイヤーが
@@ -332,7 +332,7 @@ public class GameManager : MonoBehaviour
                 ));
 
             // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
-            this.commandStorage.Add( new Spans.MoveCardToCenterStackFromHand(
+            this.timelineModel.Add( new Spans.MoveCardToCenterStackFromHand(
                 scheduleSeconds,
                 unitSeconds,
                 player: 1, // ２プレイヤーが
@@ -351,7 +351,7 @@ public class GameManager : MonoBehaviour
                 // １プレイヤーの右隣のカードへフォーカスを移します
                 {
                     var player = 0;
-                    this.commandStorage.Add( new Spans.MoveFocusToNextCard(
+                    this.timelineModel.Add( new Spans.MoveFocusToNextCard(
                         scheduleSeconds,
                         durationOfMoveFocusToNextCard,
                         player: player,
@@ -365,7 +365,7 @@ public class GameManager : MonoBehaviour
                 // ２プレイヤーの右隣のカードへフォーカスを移します
                 {
                     var player = 1;
-                    this.commandStorage.Add( new Spans.MoveFocusToNextCard(
+                    this.timelineModel.Add( new Spans.MoveFocusToNextCard(
                         scheduleSeconds,
                         durationOfMoveFocusToNextCard,
                         player: player,
@@ -382,14 +382,14 @@ public class GameManager : MonoBehaviour
 
         // 登録：台札を積み上げる
         {
-            this.commandStorage.Add( new Spans.MoveCardToCenterStackFromHand(
+            this.timelineModel.Add( new Spans.MoveCardToCenterStackFromHand(
                 scheduleSeconds, 
                 unitSeconds,
                 player: 0, // １プレイヤーが
                 place: 1 // 左の台札
                 ));
 
-            this.commandStorage.Add( new Spans.MoveCardToCenterStackFromHand(
+            this.timelineModel.Add( new Spans.MoveCardToCenterStackFromHand(
                 scheduleSeconds, 
                 unitSeconds,
                 player: 1, // ２プレイヤーが
@@ -401,14 +401,14 @@ public class GameManager : MonoBehaviour
         // 登録：手札から１枚引く
         {
             // １プレイヤーは手札から１枚抜いて、場札として置く
-            this.commandStorage.Add( new Spans.MoveCardsToHandFromPile(
+            this.timelineModel.Add( new Spans.MoveCardsToHandFromPile(
                 scheduleSeconds,
                 unitSeconds,
                 player: 0,
                 numberOfCards: 1));
 
             // ２プレイヤーは手札から１枚抜いて、場札として置く
-            this.commandStorage.Add( new Spans.MoveCardsToHandFromPile(
+            this.timelineModel.Add( new Spans.MoveCardsToHandFromPile(
                 scheduleSeconds,
                 unitSeconds,
                 player: 1,

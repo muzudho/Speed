@@ -18,7 +18,7 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<ISpan> timedItems = new();
+        List<ISpan> scheduledItems = new();
 
         /// <summary>
         /// 補間を実行中の項目
@@ -27,11 +27,11 @@
         /// </summary>
         List<ISpan> ongoingItems = new();
 
-        internal List<ISpan> TimedItems
+        internal List<ISpan> ScheduledItems
         {
             get
             {
-                return this.timedItems;
+                return this.scheduledItems;
             }
         }
 
@@ -43,7 +43,7 @@
         /// <param name="span">タイム・スパン</param>
         internal void Add(ISpan span)
         {
-            this.TimedItems.Add(span);
+            this.ScheduledItems.Add(span);
         }
 
         /// <summary>
@@ -52,11 +52,11 @@
         /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
-        internal void DoIt(float elapsedSeconds, GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        internal void OnEnter(float elapsedSeconds, GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
-            if (0 < timedItems.Count)
+            if (0 < this.ScheduledItems.Count)
             {
-                var span = timedItems[0];
+                var span = this.ScheduledItems[0];
 
                 while (span.StartSeconds <= elapsedSeconds)
                 {
@@ -64,14 +64,14 @@
                     ongoingItems.Add(span);
 
                     // スケジュールから消化
-                    timedItems.RemoveAt(0);
+                    this.ScheduledItems.RemoveAt(0);
 
                     // 初回実行
                     span.OnEnter(gameModelBuffer, gameViewModel);
 
-                    if (0 < timedItems.Count)
+                    if (0 < this.ScheduledItems.Count)
                     {
-                        span = timedItems[0];
+                        span = this.ScheduledItems[0];
                     }
                     else
                     {
@@ -121,7 +121,7 @@
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Models.Timeline.Model DebugWrite] timedItems.Count:{timedItems.Count} ongoingItems.Count:{ongoingItems.Count}");
+            Debug.Log($"[Assets.Scripts.Models.Timeline.Model DebugWrite] timedItems.Count:{scheduledItems.Count} ongoingItems.Count:{ongoingItems.Count}");
         }
     }
 }
