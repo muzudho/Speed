@@ -67,7 +67,7 @@
 
                 // 起動
                 // ----
-                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行");
+                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{span.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
 
                 // スケジュールから除去
                 this.ScheduledItems.RemoveAt(i);

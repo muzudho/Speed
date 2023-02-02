@@ -62,6 +62,12 @@
                         {
                             gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
 
+                            //// もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
+                            //if (gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] == -1)
+                            //{
+                            //    gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = 0;
+                            //}
+
                             // 場札の位置調整（をしないと歯抜けになる）
                             gameViewModel.ArrangeHandCards(
                                 startSeconds: this.StartSeconds,

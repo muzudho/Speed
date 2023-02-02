@@ -18,6 +18,8 @@
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
             var rotateZ = -5; // -5°傾ける
+
+            // TODO ★★ 登録時点の座標ではなく、実行時のその時点の座標を起点にしたい
             var goCard = GameObjectStorage.PlayingCards[idOfCard];
 
             return new CardMovementModel(
