@@ -127,8 +127,18 @@ public class GameManager : MonoBehaviour
         }
 
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
-        this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(time, unitSeconds, player: 0, numberOfCards: 5));
-        this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(time, unitSeconds, player: 1, numberOfCards: 5));
+        this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(
+            startSeconds: time,
+            duration1: 0.15f,
+            duration2: durationOfMoveFocusToNextCard,
+            player: 0,
+            numberOfCards: 5));
+        this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(
+            startSeconds: time,
+            duration1: 0.15f,
+            duration2: durationOfMoveFocusToNextCard,
+            player: 1,
+            numberOfCards: 5));
 
         // 以下、デモ・プレイを登録
         SetupDemo();
@@ -190,8 +200,9 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
             this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
-                this.gameModelBuffer.ElapsedSeconds,
-                0.15f,
+                startSeconds: this.gameModelBuffer.ElapsedSeconds,
+                duration1: 0.15f,
+                duration2: durationOfMoveFocusToNextCard,
                 player: 0, // １プレイヤーが
                 place: right // 右の
                 ));
@@ -202,8 +213,9 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
             this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
-                this.gameModelBuffer.ElapsedSeconds,
-                0.15f,
+                startSeconds: this.gameModelBuffer.ElapsedSeconds,
+                duration1: 0.15f,
+                duration2: durationOfMoveFocusToNextCard,
                 player: 1, // ２プレイヤーが
                 place: right // 右の
                 ));
@@ -218,8 +230,9 @@ public class GameManager : MonoBehaviour
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
             this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
-                this.gameModelBuffer.ElapsedSeconds,
-                0.15f,
+                startSeconds: this.gameModelBuffer.ElapsedSeconds,
+                duration1: 0.15f,
+                duration2: durationOfMoveFocusToNextCard,
                 player: 1, // ２プレイヤーが
                 place: left // 左の
                 ));
@@ -231,8 +244,9 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
             this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
-                this.gameModelBuffer.ElapsedSeconds,
-                0.15f,
+                startSeconds: this.gameModelBuffer.ElapsedSeconds,
+                duration1: 0.15f,
+                duration2: durationOfMoveFocusToNextCard,
                 player: 0, // １プレイヤーが
                 place: left // 左の
                 ));
@@ -318,8 +332,9 @@ public class GameManager : MonoBehaviour
             {
                 // 場札を並べる
                 this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(
-                    this.gameModelBuffer.ElapsedSeconds,
-                    0.15f,
+                    startSeconds: this.gameModelBuffer.ElapsedSeconds,
+                    duration1: 0.15f,
+                    duration2: durationOfMoveFocusToNextCard,
                     player: player,
                     numberOfCards: 1));
             }
@@ -344,16 +359,18 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
             this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
-                scheduleSeconds,
-                0.15f,
+                startSeconds: scheduleSeconds,
+                duration1: 0.15f,
+                duration2: durationOfMoveFocusToNextCard,
                 player: 0, // １プレイヤーが
                 place: right // 右の
                 ));
 
             // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
             this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
-                scheduleSeconds,
-                0.15f,
+                startSeconds: scheduleSeconds,
+                duration1: 0.15f,
+                duration2: durationOfMoveFocusToNextCard,
                 player: 1, // ２プレイヤーが
                 place: left // 左の
                 ));
@@ -402,15 +419,17 @@ public class GameManager : MonoBehaviour
         // 登録：台札を積み上げる
         {
             this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
-                scheduleSeconds,
-                0.15f,
+                startSeconds: scheduleSeconds,
+                duration1: 0.15f,
+                duration2: durationOfMoveFocusToNextCard,
                 player: 0, // １プレイヤーが
                 place: 1 // 左の台札
                 ));
 
             this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
-                scheduleSeconds,
-                0.15f,
+                startSeconds: scheduleSeconds,
+                duration1: 0.15f,
+                duration2: durationOfMoveFocusToNextCard,
                 player: 1, // ２プレイヤーが
                 place: 0 // 右の台札
                 ));
@@ -421,15 +440,17 @@ public class GameManager : MonoBehaviour
         {
             // １プレイヤーは手札から１枚抜いて、場札として置く
             this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(
-                scheduleSeconds,
-                0.15f,
+                startSeconds: scheduleSeconds,
+                duration1: 0.15f,
+                duration2: durationOfMoveFocusToNextCard,
                 player: 0,
                 numberOfCards: 1));
 
             // ２プレイヤーは手札から１枚抜いて、場札として置く
             this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(
-                scheduleSeconds,
-                0.15f,
+                startSeconds: scheduleSeconds,
+                duration1: 0.15f,
+                duration2: durationOfMoveFocusToNextCard,
                 player: 1,
                 numberOfCards: 1));
 

@@ -70,9 +70,15 @@
         /// <summary>
         /// 場札を並べる
         /// 
+        /// - ２段階モーション
+        ///     - １段階目：全ての場札を、少し扇状にカーブさせて整列させる
+        ///     - ２段階目：ピックアップしていた場札を下ろしてしまっているので、ピックアップし直す
         /// - 左端は角度で言うと 112.0f
         /// </summary>
         internal void ArrangeHandCards(
+            float startSeconds,
+            float duration1,
+            float duration2,
             GameModel gameModel,
             int player,
             LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
@@ -128,8 +134,8 @@
 
                 var goCard = GameObjectStorage.PlayingCards[idOfCard];
                 setCardMovementModel(new CardMovementModel(
-                    startSeconds: 0.0f, // TODO 要確認
-                    duration: 0.15f, // TODO 要確認
+                    startSeconds: startSeconds,
+                    duration: duration1,
                     beginPosition: goCard.transform.position,
                     endPosition: new Vector3(x, this.minY, z),
                     beginRotation: goCard.transform.rotation,
@@ -149,8 +155,8 @@
                 {
                     // 抜いたカードの右隣のカードを（有れば）ピックアップする
                     setCardMovementModel(MovementGenerator.PickupCardOfHand(
-                        startSeconds: 0.0f, // TODO
-                        duration: 0.15f, // TODO
+                        startSeconds: startSeconds + duration1,
+                        duration: duration2,
                         gameModel: gameModel,
                         player: player,
                         handIndex: handIndex));

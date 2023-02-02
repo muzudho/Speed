@@ -104,7 +104,7 @@
                     handIndex: indexOfPrevious));
             }
 
-            // ピックアップしている場札の、インデックス更新
+            // （状態変更）ピックアップしている場札の、インデックス更新
             SetIndexOfNextFocusedHandCard(indexOfCurrent);
 
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら

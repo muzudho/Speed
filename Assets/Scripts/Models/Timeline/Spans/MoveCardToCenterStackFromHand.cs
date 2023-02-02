@@ -15,11 +15,12 @@
         /// 
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="duration">持続時間（秒）</param>
+        /// <param name="duration1">持続時間（秒）　２段階モーションの１段目</param>
+        /// <param name="duration2">持続時間（秒）　２段階モーションの２段目</param>
         /// <param name="player"></param>
         /// <param name="place"></param>
-        internal MoveCardToCenterStackFromHand(float startSeconds, float duration, int player, int place)
-            : base(startSeconds, duration)
+        internal MoveCardToCenterStackFromHand(float startSeconds, float duration1, float duration2, int player, int place)
+            : base(startSeconds, duration1)
         {
             this.Player = player;
             this.Place = place;
@@ -27,6 +28,7 @@
 
         // - プロパティ
 
+        float Duration2 { get; set; }
         int Player { get; set; }
         int Place { get; set; }
 
@@ -62,6 +64,9 @@
 
                             // 場札の位置調整（をしないと歯抜けになる）
                             gameViewModel.ArrangeHandCards(
+                                startSeconds: this.StartSeconds,
+                                duration1: this.Duration,
+                                duration2: this.Duration2,
                                 gameModel: gameModel,
                                 player: Player,
                                 setCardMovementModel: setCardMovementModel); // 場札
