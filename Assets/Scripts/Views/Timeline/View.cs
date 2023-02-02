@@ -44,42 +44,33 @@
                 ongoingCardMovementViews.Add(new CardMovementView(cardMovementModel));
             }
 
-            Debug.Log($"[Assets.Scripts.Views.Timeline.View Lerp] リープ ongoingCardMovementViews count:{ongoingCardMovementViews.Count}");
+            // Debug.Log($"[Assets.Scripts.Views.Timeline.View Lerp] リープ ongoingCardMovementViews count:{ongoingCardMovementViews.Count}");
 
-            //// TODO ★ スレッド・セーフにしたい
-            //// キューに溜まっている分を全て消化
-            //int i = 0;
-            //while (i < this.ScheduledItems.Count)
-            //{
-
-            //}
-
-
-            if (0 < ongoingCardMovementViews.Count)
+            // TODO ★ スレッド・セーフにしたい
+            // キューに溜まっている分を全て消化
+            int i = 0;
+            while (i < this.ongoingCardMovementViews.Count)
             {
-                // 削除も行うので、逆順で
-                for (int i = ongoingCardMovementViews.Count - 1; 0 <= i; i--)
+                var ongoingCardMovementView = ongoingCardMovementViews[i];
+
+                // 期限切れ
+                if (ongoingCardMovementView.Model.EndSeconds <= elapsedSeconds)
                 {
-                    var ongoingCardMovementView = ongoingCardMovementViews[i];
+                    // TODO ★★ 動作が完了する前に、次の動作を行うと、カードがどんどん沈んでいく、といったことが起こる。連打スパム対策が必要
+                    // 動作完了
+                    ongoingCardMovementView.Lerp(1.0f);
 
-                    // 期限切れ
-                    if (ongoingCardMovementView.Model.EndSeconds <= elapsedSeconds)
-                    {
-                        // TODO ★★ 動作が完了する前に、次の動作を行うと、カードがどんどん沈んでいく、といったことが起こる。連打スパム対策が必要
-                        // 動作完了
-                        ongoingCardMovementView.Lerp(1.0f);
-
-
-                        // 削除
-                        ongoingCardMovementViews.RemoveAt(i);
-                        continue;
-                    }
-
-                    // TODO 持続中のコマンドの補間
-                    float progress = (elapsedSeconds - ongoingCardMovementView.Model.StartSeconds) / ongoingCardMovementView.Model.Duration;
-
-                    ongoingCardMovementView.Lerp(progress);
+                    // リストから除去
+                    ongoingCardMovementViews.RemoveAt(i);
+                    continue;
                 }
+
+                // 進捗 0.0 ～ 1.0
+                float progress = (elapsedSeconds - ongoingCardMovementView.Model.StartSeconds) / ongoingCardMovementView.Model.Duration;
+                // 補間
+                ongoingCardMovementView.Lerp(progress);
+
+                i++;
             }
         }
 
