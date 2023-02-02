@@ -12,7 +12,14 @@
     {
         // - 生成
 
-        internal MoveCardsToPileFromCenterStacks(int place)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startSeconds">ゲーム内時間（秒）</param>
+        /// <param name="duration">持続時間（秒）</param>
+        /// <param name="place"></param>
+        internal MoveCardsToPileFromCenterStacks(float startSeconds, float duration, int place)
+            :base(startSeconds, duration)
         {
             this.Place = place;
         }
@@ -62,6 +69,8 @@
                 // プレイヤーの手札を積み上げる
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
                 var  movement = new Movement(
+                    startSeconds: this.StartSeconds,
+                    duration: this.Duration,
                     beginPosition: goCard.transform.position,
                     endPosition: new Vector3(gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player]),
                     beginRotation: goCard.transform.rotation,

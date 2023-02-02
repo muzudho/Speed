@@ -13,7 +13,16 @@
     {
         // - 生成
 
-        internal MoveFocusToNextCard(int player, int direction, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startSeconds">ゲーム内時間（秒）</param>
+        /// <param name="duration">持続時間（秒）</param>
+        /// <param name="player"></param>
+        /// <param name="direction"></param>
+        /// <param name="setIndexOfNextFocusedHandCard"></param>
+        internal MoveFocusToNextCard(float startSeconds, float duration, int player, int direction, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+            : base(startSeconds, duration)
         {
             this.Player = player;
             this.Direction = direction;
@@ -105,6 +114,8 @@
                     setResults: (results) =>
                     {
                         this.CardDown = new Movement(
+                            startSeconds: this.StartSeconds,
+                            duration: this.Duration,
                             beginPosition: results.Item1,
                             endPosition: results.Item2,
                             beginRotation: results.Item3,
@@ -123,6 +134,8 @@
                     setResults: (results) =>
                     {
                         this.CardUp = new Movement(
+                            startSeconds: this.StartSeconds,
+                            duration: this.Duration,
                             beginPosition: results.Item1,
                             endPosition: results.Item2,
                             beginRotation: results.Item3,

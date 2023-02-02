@@ -10,6 +10,25 @@
     /// </summary>
     interface ISpan
     {
+        // - プロパティ
+
+        /// <summary>
+        /// 開始時間（秒）
+        /// </summary>
+        float StartSeconds { get; }
+
+        /// <summary>
+        /// 持続時間（秒）
+        /// </summary>
+        float Duration { get; }
+
+        /// <summary>
+        /// 終了時間（秒）
+        /// </summary>
+        float EndSeconds { get; }
+
+        // - メソッド
+
         /// <summary>
         /// 開始時
         /// </summary>

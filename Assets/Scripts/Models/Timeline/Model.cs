@@ -18,16 +18,16 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<TimedItem> timedItems = new();
+        List<ISpan> timedItems = new();
 
         /// <summary>
         /// 補間を実行中の項目
         /// 
         /// - 持続時間が切れると、消えていく
         /// </summary>
-        List<TimedItem> ongoingItems = new();
+        List<ISpan> ongoingItems = new();
 
-        internal List<TimedItem> TimedItems
+        internal List<ISpan> TimedItems
         {
             get
             {
@@ -40,12 +40,10 @@
         /// <summary>
         /// 追加
         /// </summary>
-        /// <param name="seconds">実行される時間（秒）</param>
-        /// <param name="duration">持続時間（秒）</param>
-        /// <param name="command">コマンド</param>
-        internal void Add(float seconds, float duration, ISpan command)
+        /// <param name="span">タイム・スパン</param>
+        internal void Add(ISpan span)
         {
-            this.TimedItems.Add(new TimedItem(seconds, duration, command));
+            this.TimedItems.Add(span);
         }
 
         /// <summary>
@@ -58,22 +56,22 @@
         {
             if (0 < timedItems.Count)
             {
-                var timedItem = timedItems[0];
+                var span = timedItems[0];
 
-                while (timedItem.StartSeconds <= elapsedSeconds)
+                while (span.StartSeconds <= elapsedSeconds)
                 {
                     // 持続中のコマンドへ移行したい
-                    ongoingItems.Add(timedItem);
+                    ongoingItems.Add(span);
 
                     // スケジュールから消化
                     timedItems.RemoveAt(0);
 
                     // 初回実行
-                    timedItem.Command.OnEnter(gameModelBuffer, gameViewModel);
+                    span.OnEnter(gameModelBuffer, gameViewModel);
 
                     if (0 < timedItems.Count)
                     {
-                        timedItem = timedItems[0];
+                        span = timedItems[0];
                     }
                     else
                     {

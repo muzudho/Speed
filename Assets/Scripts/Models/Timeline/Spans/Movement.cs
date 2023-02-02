@@ -14,17 +14,22 @@
         /// <summary>
         /// 生成
         /// </summary>
+        /// <param name="startSeconds">ゲーム内時間（秒）</param>
+        /// <param name="duration">持続時間（秒）</param>
         /// <param name="beginPosition">開始位置</param>
         /// <param name="endPosition">終了位置</param>
         /// <param name="beginRotation">開始回転</param>
         /// <param name="endRotation">終了回転</param>
         /// <param name="gameObject">ゲーム・オブジェクト</param>
         public Movement(
+            float startSeconds,
+            float duration,
             Vector3 beginPosition,
             Vector3 endPosition,
             Quaternion beginRotation,
             Quaternion endRotation,
             GameObject gameObject)
+            : base(startSeconds, duration)
         {
             this.BeginPosition = beginPosition;
             this.EndPosition = endPosition;

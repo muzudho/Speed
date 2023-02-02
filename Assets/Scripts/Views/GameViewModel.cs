@@ -196,6 +196,8 @@
 
                 var goCard = GameObjectStorage.PlayingCards[idOfCard];
                 var movement = new Movement(
+                    startSeconds: 0.0f, // TODO 要確認
+                    duration: 0.15f, // TODO 要確認
                     beginPosition: goCard.transform.position,
                     endPosition: new Vector3(x, this.minY, z),
                     beginRotation: goCard.transform.rotation,

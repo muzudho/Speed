@@ -13,9 +13,12 @@
         /// <summary>
         /// 生成
         /// </summary>
+        /// <param name="startSeconds">ゲーム内時間（秒）</param>
+        /// <param name="duration">持続時間（秒）</param>
         /// <param name="player">ｎプレイヤー</param>
         /// <param name="numberOfCards">カードがｍ枚</param>
-        internal MoveCardsToHandFromPile(int player, int numberOfCards)
+        internal MoveCardsToHandFromPile(float startSeconds, float duration, int player, int numberOfCards)
+            : base(startSeconds, duration)
         {
             Player = player;
             NumberOfCards = numberOfCards;
