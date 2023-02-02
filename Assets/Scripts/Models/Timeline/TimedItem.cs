@@ -49,19 +49,8 @@
 
         // - メソッド
 
-        internal void Lerp(float elapsedSeconds)
+        internal void Lerp(float progress)
         {
-            float progress = (elapsedSeconds - this.StartSeconds) / this.Duration;
-            
-
-            // 超えることがある
-            if (1.0f < progress)
-            {
-                // 1.0 を超えるのもよくない
-                Debug.Log($"[Lerp] progress:{progress} (Over 1.0)");
-                progress = 1.0f;
-            }
-
             this.Command.Lerp(progress);
         }
 

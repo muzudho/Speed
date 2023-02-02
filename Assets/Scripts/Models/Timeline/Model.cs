@@ -107,7 +107,16 @@
                     }
 
                     // TODO 持続中のコマンドの補間
-                    ongoingItem.Lerp(elapsedSeconds);
+                    float progress = (elapsedSeconds - ongoingItem.StartSeconds) / ongoingItem.Duration;
+                    //// 超えることがある
+                    //if (1.0f < progress)
+                    //{
+                    //    // 1.0 を超えるのもよくない
+                    //    Debug.Log($"[Lerp] progress:{progress} (Over 1.0)");
+                    //    progress = 1.0f;
+                    //}
+
+                    ongoingItem.Lerp(progress);
                 }
             }
         }
