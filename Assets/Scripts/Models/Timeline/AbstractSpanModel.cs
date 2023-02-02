@@ -37,30 +37,14 @@
         /// <summary>
         /// 終了時間（秒）
         /// </summary>
-        public float EndSeconds
-        {
-            get
-            {
-                return StartSeconds + Duration;
-            }
-        }
+        public float EndSeconds =>StartSeconds + Duration;
 
         // - メソッド
 
-        virtual public void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
-        {
-            // Ignored
-        }
-
-        virtual public void Lerp(float progress)
-        {
-            // Ignored
-        }
-
-        /// <summary>
-        /// 持続時間が切れたとき
-        /// </summary>
-        virtual public void OnLeave()
+        virtual public void OnEnter(
+            GameModelBuffer gameModelBuffer,
+            GameViewModel gameViewModel,
+            LazyArgs.SetValue<CardMovementModel> setLaunchedSpanModel)
         {
             // Ignored
         }

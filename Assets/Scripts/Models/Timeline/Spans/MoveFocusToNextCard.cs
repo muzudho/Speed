@@ -4,7 +4,6 @@
     using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views;
     using System;
-    using UnityEngine;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
@@ -54,7 +53,10 @@
         /// </summary>
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
-        public override void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void OnEnter(
+            GameModelBuffer gameModelBuffer,
+            GameViewModel gameViewModel,
+            LazyArgs.SetValue<CardMovementModel> setLaunchedSpanModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
             int indexOfFocusedHandCard = gameModelBuffer.IndexOfFocusedCardOfPlayers[Player];
@@ -125,34 +127,6 @@
                     player: Player,
                     handIndex: current);
             }
-        }
-
-        public override void Lerp(float progress)
-        {
-            base.Lerp(progress);
-
-            // カードを置く動き
-            this.CardDown.GameObject.transform.position = Vector3.Lerp(this.CardDown.BeginPosition, this.CardDown.EndPosition, progress);
-            this.CardDown.GameObject.transform.rotation = Quaternion.Lerp(this.CardDown.BeginRotation, this.CardDown.EndRotation, progress);
-
-            // カードを持ち上げる動き
-            this.CardUp.GameObject.transform.position = Vector3.Lerp(this.CardUp.BeginPosition, this.CardUp.EndPosition, progress);
-            this.CardUp.GameObject.transform.rotation = Quaternion.Lerp(this.CardUp.BeginRotation, this.CardUp.EndRotation, progress);
-        }
-
-        public override void OnLeave()
-        {
-            base.OnLeave();
-
-            // TODO ★★ 動作が完了する前に、次の動作を行うと、カードがどんどん沈んでいく、といったことが起こる。連打スパム対策が必要
-
-            // カードを置く動き（完了）
-            this.CardDown.GameObject.transform.position = this.CardDown.EndPosition;
-            this.CardDown.GameObject.transform.rotation = this.CardDown.EndRotation;
-
-            // カードを持ち上げる動き（完了）
-            this.CardUp.GameObject.transform.position = this.CardUp.EndPosition;
-            this.CardUp.GameObject.transform.rotation = this.CardUp.EndRotation;
         }
     }
 }

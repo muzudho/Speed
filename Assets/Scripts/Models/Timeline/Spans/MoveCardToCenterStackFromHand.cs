@@ -37,7 +37,10 @@
         /// </summary>
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
-        public override void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void OnEnter(
+            GameModelBuffer gameModelBuffer,
+            GameViewModel gameViewModel,
+            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
@@ -60,7 +63,13 @@
                             // 場札の位置調整（をしないと歯抜けになる）
                             gameViewModel.ArrangeHandCards(
                                 gameModel: gameModel,
-                                player: Player);
+                                player: Player,
+                                setCardMovementModel: setCardMovementModel);
+                        },
+                        setMovementModel: (movementModel) =>
+                        {
+                            setCardMovementModel(movementModel);
+
                         });
                 });
         }
@@ -83,7 +92,14 @@
         /// <param name="player"></param>
         /// <param name="indexOfHandCardToRemove"></param>
         /// <param name="setIndexOfNextFocusedHandCard"></param>
-        private void RemoveAtOfHandCard(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel, int player, int place, int indexOfHandCardToRemove, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        private void RemoveAtOfHandCard(
+            GameModelBuffer gameModelBuffer,
+            GameViewModel gameViewModel,
+            int player,
+            int place,
+            int indexOfHandCardToRemove,
+            LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard,
+            LazyArgs.SetValue<CardMovementModel> setMovementModel)
         {
             // 抜く前の場札の数
             var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
@@ -112,11 +128,17 @@
             var goCard = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexOfHandCardToRemove]; // 場札を１枚抜いて
             gameModelBuffer.RemoveCardAtOfPlayerHand(player, indexOfHandCardToRemove);
 
-            AddCardOfCenterStack2(gameModelBuffer, gameViewModel, goCard, place); // 台札
+            AddCardOfCenterStack2(gameModelBuffer, gameViewModel, goCard, place,
+                setMovementModel: setMovementModel); // 台札
             setIndexOfNextFocusedHandCard(indexOfNextFocusedHandCard);
         }
 
-        private void AddCardOfCenterStack2(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel, IdOfPlayingCards idOfCard, int place)
+        private void AddCardOfCenterStack2(
+            GameModelBuffer gameModelBuffer,
+            GameViewModel gameViewModel,
+            IdOfPlayingCards idOfCard,
+            int place,
+            LazyArgs.SetValue<CardMovementModel> setMovementModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
@@ -148,8 +170,8 @@
                 endPosition: new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),
                 beginRotation: goCard.transform.rotation,
                 endRotation: Quaternion.Euler(0, nextAngleY, 0.0f),
-                gameObject: goCard);
-            movement.Lerp(progress: 1.0f);
+                idOfCard: idOfCard);
+            setMovementModel(movement);
 
             // 次に台札に積むカードの高さ
             gameViewModel.centerStacksY[place] += 0.2f;

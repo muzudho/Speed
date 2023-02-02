@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Views
 {
     using Assets.Scripts.Models;
+    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Models.Timeline.Spans;
     using System;
     using UnityEngine;
@@ -72,7 +73,10 @@
         /// 
         /// - 左端は角度で言うと 112.0f
         /// </summary>
-        internal void ArrangeHandCards(GameModel gameModel, int player)
+        internal void ArrangeHandCards(
+            GameModel gameModel,
+            int player,
+            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
         {
             // 25枚の場札が並べるように調整してある
 
@@ -131,9 +135,8 @@
                     endPosition: new Vector3(x, this.minY, z),
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, cardAngleZ),
-                    gameObject: goCard);
-                var progress = 1.0f; // TODO
-                movement.Lerp(progress);
+                    idOfCard: idOfCard);
+                setCardMovementModel(movement);
 
 
                 // 更新
@@ -154,9 +157,7 @@
                         player: player,
                         handIndex: handIndex);
 
-                    // TODO ★ セットせず、 Lerp したい
-                    var progress = 1.0f; // TODO
-                    movement.Lerp(progress);
+                    setCardMovementModel(movement);
                 }
             }
         }

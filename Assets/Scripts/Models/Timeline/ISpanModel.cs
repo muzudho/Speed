@@ -34,17 +34,9 @@
         /// </summary>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
-        void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel);
-
-        /// <summary>
-        /// 持続中
-        /// </summary>
-        /// <param name="progress">進捗 0.0 ～ 1.0</param>
-        void Lerp(float progress);
-
-        /// <summary>
-        /// 持続時間が切れたとき
-        /// </summary>
-        void OnLeave();
+        void OnEnter(
+            GameModelBuffer gameModelBuffer,
+            GameViewModel gameViewModel,
+            LazyArgs.SetValue<CardMovementModel> setLaunchedSpanModel);
     }
 }

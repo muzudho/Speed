@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Models;
+using Assets.Scripts.Models.Timeline;
 using Assets.Scripts.Views;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
@@ -118,7 +120,12 @@ public class GameManager : MonoBehaviour
             new Spans.MoveCardsToPileFromCenterStacks(
                 startSeconds: time,
                 duration: unitSeconds,
-                place: right).OnEnter(gameModelBuffer, gameViewModel);
+                place: right).OnEnter(gameModelBuffer, gameViewModel,
+                    setLaunchedSpanModel: (cardMovementModel) =>
+                    {
+                        var cardMovementView = new CardMovementView(cardMovementModel);
+                        cardMovementView.Lerp(1.0f);
+                    });
         }
 
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
@@ -144,13 +151,21 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void OnTick()
     {
-        // 時限式で、コマンドを消化
-        this.timelineModel.OnEnter(elapsedSeconds, gameModelBuffer, gameViewModel);
+        // モデルからビューへ、起動したタイム・スパンを引き継ぎたい
+        var launchedSpanModels = new List<CardMovementModel>();
 
-        // TODO ★ モデルからビューへデータを引き継ぎたい
+        // 時限式で、コマンドを消化
+        this.timelineModel.OnEnter(
+            elapsedSeconds,
+            gameModelBuffer, 
+            gameViewModel,
+            setCardMovementModel: (cardMovementModel) =>
+            {
+                launchedSpanModels.Add(cardMovementModel);
+            });
 
         // モーションの補間
-        this.timelineView.Lerp(elapsedSeconds);
+        this.timelineView.Lerp(elapsedSeconds, launchedSpanModels);
 
         this.timelineModel.DebugWrite(); // TODO ★ 消す
 

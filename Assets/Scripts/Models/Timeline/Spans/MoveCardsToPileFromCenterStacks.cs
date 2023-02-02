@@ -36,7 +36,10 @@
         /// - ゲーム開始時に使う
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        public override void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void OnEnter(
+            GameModelBuffer gameModelBuffer,
+            GameViewModel gameViewModel,
+            LazyArgs.SetValue<CardMovementModel> setLaunchedSpanModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
@@ -75,8 +78,8 @@
                     endPosition: new Vector3(gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player]),
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, 180.0f),
-                    gameObject: goCard);
-                movement.Lerp(progress: 1.0f);
+                    idOfCard: idOfCard);
+                setLaunchedSpanModel(movement);
 
                 // 更新
                 gameViewModel.pileCardsY[player] += 0.2f;

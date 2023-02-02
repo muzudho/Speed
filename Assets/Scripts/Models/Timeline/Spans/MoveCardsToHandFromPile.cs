@@ -36,7 +36,10 @@
         /// 
         /// - 画面上の場札は位置調整される
         /// </summary>
-        public override void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void OnEnter(
+            GameModelBuffer gameModelBuffer,
+            GameViewModel gameViewModel,
+            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
         {
             // 手札の上の方からｎ枚抜いて、場札へ移動する
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[Player].Count; // 手札の枚数
@@ -54,7 +57,7 @@
                 gameModelBuffer.MoveCardsToHandFromPile(Player, startIndex, NumberOfCards);
 
                 // 場札の位置の再調整（をしないと、手札から移動しない）
-                gameViewModel.ArrangeHandCards(gameModel, Player);
+                gameViewModel.ArrangeHandCards(gameModel, Player, setCardMovementModel);
             }
         }
     }

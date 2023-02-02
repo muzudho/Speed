@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Views
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline.Spans;
+    using Assets.Scripts.Models.Timeline;
     using UnityEngine;
 
     internal static class MovementGenerator
@@ -13,7 +13,8 @@
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="player"></param>
         /// <param name="handIndex"></param>
-        internal static CardMovementModel PickupCardOfHand(float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
+        internal static CardMovementModel PickupCardOfHand(
+            float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
         {
             var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
 
@@ -35,7 +36,7 @@
                     goCard.transform.rotation.eulerAngles.x,
                     goCard.transform.rotation.eulerAngles.y + rotateY,
                     goCard.transform.eulerAngles.z + rotateZ),
-                gameObject: goCard);
+                idOfCard: idOfFocusedHandCard);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@
                 endPosition: new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
                 beginRotation: goCard.transform.rotation,
                 endRotation: Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ),
-                gameObject: goCard);
+                idOfCard: idOfCard);
         }
     }
 }
