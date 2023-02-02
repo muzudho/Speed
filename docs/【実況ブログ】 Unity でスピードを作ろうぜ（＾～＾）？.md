@@ -4773,11 +4773,132 @@ namespace Assets.Scripts.Models.Timeline.Commands
 
 ![202302_unity_02-2216--model-view-1.png](https://crieit.now.sh/upload_images/a763038bbe98f909c90c48e982e3405163dbb82a57a01.png)  
 
+📅 2023-02-02 sat 22:20  
+
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　`OnEnter` メソッドは　モデルを扱い、  
 `Lerp` メソッドは　ビューを扱うというように　ぱっきり　分かれているので、  
 `TimeSpan` も　モデルとビューに分けられないかだぜ？」  
 
-📅 2023-02-01 sat 22:20  
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　あっ、トランプの絵柄を取得できるメソッドが欲しいぜ」  
+
+`Assets/Scripts/Models/IdOfCardSuits.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models
+{
+    /// <summary>
+    /// カードのスート（絵柄）
+    /// </summary>
+    internal enum IdOfCardSuits
+    {
+        None,
+
+        Clubs,
+
+        Diamonds,
+
+        Hearts,
+
+        Spades,
+    }
+}
+```
+
+`Assets/Scripts/Models/IdOfCardSuits.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Models
+{
+    using System;
+
+    /// <summary>
+    /// トランプのカード
+    /// 
+    /// - ジョーカーを除く
+    /// </summary>
+    internal enum IdOfPlayingCards
+    {
+        // ... 中略 ...
+    }
+
+    static class IdOfPlayingCardsExtensions
+    {
+        public static IdOfCardSuits Suit(this IdOfPlayingCards idOfCard)
+        {
+            switch (idOfCard)
+            {
+                case IdOfPlayingCards.Clubs1: 
+                case IdOfPlayingCards.Clubs2: 
+                case IdOfPlayingCards.Clubs3: 
+                case IdOfPlayingCards.Clubs4: 
+                case IdOfPlayingCards.Clubs5: 
+                case IdOfPlayingCards.Clubs6: 
+                case IdOfPlayingCards.Clubs7: 
+                case IdOfPlayingCards.Clubs8: 
+                case IdOfPlayingCards.Clubs9: 
+                case IdOfPlayingCards.Clubs10: 
+                case IdOfPlayingCards.Clubs11: 
+                case IdOfPlayingCards.Clubs12: 
+                case IdOfPlayingCards.Clubs13:
+                    return IdOfCardSuits.Clubs;
+
+                case IdOfPlayingCards.Diamonds1:
+                case IdOfPlayingCards.Diamonds2:
+                case IdOfPlayingCards.Diamonds3:
+                case IdOfPlayingCards.Diamonds4:
+                case IdOfPlayingCards.Diamonds5:
+                case IdOfPlayingCards.Diamonds6:
+                case IdOfPlayingCards.Diamonds7:
+                case IdOfPlayingCards.Diamonds8:
+                case IdOfPlayingCards.Diamonds9:
+                case IdOfPlayingCards.Diamonds10:
+                case IdOfPlayingCards.Diamonds11:
+                case IdOfPlayingCards.Diamonds12:
+                case IdOfPlayingCards.Diamonds13:
+                    return IdOfCardSuits.Diamonds;
+
+                case IdOfPlayingCards.Hearts1:
+                case IdOfPlayingCards.Hearts2:
+                case IdOfPlayingCards.Hearts3:
+                case IdOfPlayingCards.Hearts4:
+                case IdOfPlayingCards.Hearts5:
+                case IdOfPlayingCards.Hearts6:
+                case IdOfPlayingCards.Hearts7:
+                case IdOfPlayingCards.Hearts8:
+                case IdOfPlayingCards.Hearts9:
+                case IdOfPlayingCards.Hearts10:
+                case IdOfPlayingCards.Hearts11:
+                case IdOfPlayingCards.Hearts12:
+                case IdOfPlayingCards.Hearts13:
+                    return IdOfCardSuits.Hearts;
+
+                case IdOfPlayingCards.Spades1:
+                case IdOfPlayingCards.Spades2:
+                case IdOfPlayingCards.Spades3:
+                case IdOfPlayingCards.Spades4:
+                case IdOfPlayingCards.Spades5:
+                case IdOfPlayingCards.Spades6:
+                case IdOfPlayingCards.Spades7:
+                case IdOfPlayingCards.Spades8:
+                case IdOfPlayingCards.Spades9:
+                case IdOfPlayingCards.Spades10:
+                case IdOfPlayingCards.Spades11:
+                case IdOfPlayingCards.Spades12:
+                case IdOfPlayingCards.Spades13:
+                    return IdOfCardSuits.Spades;
+
+                default: throw new ArgumentOutOfRangeException("idOfCard");
+            }
+        }
+    }
+}
+```
+
+📅 2023-02-03 sat 00:12  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　作った」  
 
 # // 書きかけ

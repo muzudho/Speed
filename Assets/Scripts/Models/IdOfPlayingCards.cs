@@ -1,5 +1,7 @@
 ﻿namespace Assets.Scripts.Models
 {
+    using System;
+
     /// <summary>
     /// トランプのカード
     /// 
@@ -62,5 +64,76 @@
         Spades11,
         Spades12,
         Spades13,
+    }
+
+    static class IdOfPlayingCardsExtensions
+    {
+        public static IdOfCardSuits Suit(this IdOfPlayingCards idOfCard)
+        {
+            switch (idOfCard)
+            {
+                case IdOfPlayingCards.Clubs1: 
+                case IdOfPlayingCards.Clubs2: 
+                case IdOfPlayingCards.Clubs3: 
+                case IdOfPlayingCards.Clubs4: 
+                case IdOfPlayingCards.Clubs5: 
+                case IdOfPlayingCards.Clubs6: 
+                case IdOfPlayingCards.Clubs7: 
+                case IdOfPlayingCards.Clubs8: 
+                case IdOfPlayingCards.Clubs9: 
+                case IdOfPlayingCards.Clubs10: 
+                case IdOfPlayingCards.Clubs11: 
+                case IdOfPlayingCards.Clubs12: 
+                case IdOfPlayingCards.Clubs13:
+                    return IdOfCardSuits.Clubs;
+
+                case IdOfPlayingCards.Diamonds1:
+                case IdOfPlayingCards.Diamonds2:
+                case IdOfPlayingCards.Diamonds3:
+                case IdOfPlayingCards.Diamonds4:
+                case IdOfPlayingCards.Diamonds5:
+                case IdOfPlayingCards.Diamonds6:
+                case IdOfPlayingCards.Diamonds7:
+                case IdOfPlayingCards.Diamonds8:
+                case IdOfPlayingCards.Diamonds9:
+                case IdOfPlayingCards.Diamonds10:
+                case IdOfPlayingCards.Diamonds11:
+                case IdOfPlayingCards.Diamonds12:
+                case IdOfPlayingCards.Diamonds13:
+                    return IdOfCardSuits.Diamonds;
+
+                case IdOfPlayingCards.Hearts1:
+                case IdOfPlayingCards.Hearts2:
+                case IdOfPlayingCards.Hearts3:
+                case IdOfPlayingCards.Hearts4:
+                case IdOfPlayingCards.Hearts5:
+                case IdOfPlayingCards.Hearts6:
+                case IdOfPlayingCards.Hearts7:
+                case IdOfPlayingCards.Hearts8:
+                case IdOfPlayingCards.Hearts9:
+                case IdOfPlayingCards.Hearts10:
+                case IdOfPlayingCards.Hearts11:
+                case IdOfPlayingCards.Hearts12:
+                case IdOfPlayingCards.Hearts13:
+                    return IdOfCardSuits.Hearts;
+
+                case IdOfPlayingCards.Spades1:
+                case IdOfPlayingCards.Spades2:
+                case IdOfPlayingCards.Spades3:
+                case IdOfPlayingCards.Spades4:
+                case IdOfPlayingCards.Spades5:
+                case IdOfPlayingCards.Spades6:
+                case IdOfPlayingCards.Spades7:
+                case IdOfPlayingCards.Spades8:
+                case IdOfPlayingCards.Spades9:
+                case IdOfPlayingCards.Spades10:
+                case IdOfPlayingCards.Spades11:
+                case IdOfPlayingCards.Spades12:
+                case IdOfPlayingCards.Spades13:
+                    return IdOfCardSuits.Spades;
+
+                default: throw new ArgumentOutOfRangeException("idOfCard");
+            }
+        }
     }
 }

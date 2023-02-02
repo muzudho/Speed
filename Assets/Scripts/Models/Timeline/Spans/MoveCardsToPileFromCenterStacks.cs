@@ -39,7 +39,7 @@
         public override void OnEnter(
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementModel> setLaunchedSpanModel)
+            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
@@ -53,33 +53,37 @@
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 int player;
                 float angleY;
-                var goCard = GameObjectStorage.PlayingCards[idOfCard];
-                if (goCard.name.StartsWith("Clubs") || goCard.name.StartsWith("Spades"))
+                var suit = idOfCard.Suit();
+                switch (suit)
                 {
-                    player = 0;
-                    angleY = 180.0f;
-                }
-                else if (goCard.name.StartsWith("Diamonds") || goCard.name.StartsWith("Hearts"))
-                {
-                    player = 1;
-                    angleY = 0.0f;
-                }
-                else
-                {
-                    throw new Exception();
+                    case IdOfCardSuits.Clubs:
+                    case IdOfCardSuits.Spades:
+                        player = 0;
+                        angleY = 180.0f;
+                        break;
+
+                    case IdOfCardSuits.Diamonds:
+                    case IdOfCardSuits.Hearts:
+                        player = 1;
+                        angleY = 0.0f;
+                        break;
+
+                    default:
+                        throw new Exception();
                 }
 
                 // プレイヤーの手札を積み上げる
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
-                var  movement = new CardMovementModel(
+
+                var goCard = GameObjectStorage.PlayingCards[idOfCard]; // TODO ビューから座標を取るしかない？
+                setCardMovementModel(new CardMovementModel(
                     startSeconds: this.StartSeconds,
                     duration: this.Duration,
                     beginPosition: goCard.transform.position,
                     endPosition: new Vector3(gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player]),
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, 180.0f),
-                    idOfCard: idOfCard);
-                setLaunchedSpanModel(movement);
+                    idOfCard: idOfCard));
 
                 // 更新
                 gameViewModel.pileCardsY[player] += 0.2f;
