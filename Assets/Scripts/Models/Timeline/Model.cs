@@ -51,34 +51,32 @@
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
         {
-            if (0 < this.ScheduledItems.Count)
+            // TODO ★ スレッド・セーフにしたい
+            // キューに溜まっている分を全て消化
+            int i = 0;
+            while (i < this.ScheduledItems.Count)
             {
-                var span = this.ScheduledItems[0];
+                var span = this.ScheduledItems[i];
 
-                while (span.StartSeconds <= elapsedSeconds)
+                // まだ
+                if (elapsedSeconds < span.StartSeconds)
                 {
-                    // TODO ★ 消す
-                    // 持続中のコマンドへ移行したい
-                    // setLaunchedSpanModel(span);
-
-                    // スケジュールから消化
-                    this.ScheduledItems.RemoveAt(0);
-
-                    // 初回実行
-                    span.OnEnter(
-                        gameModelBuffer,
-                        gameViewModel,
-                        setLaunchedSpanModel: setCardMovementModel);
-
-                    if (0 < this.ScheduledItems.Count)
-                    {
-                        span = this.ScheduledItems[0];
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    i++;
+                    continue;
                 }
+
+                // 起動
+                // ----
+                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行");
+
+                // スケジュールから除去
+                this.ScheduledItems.RemoveAt(i);
+
+                // 実行
+                span.OnEnter(
+                    gameModelBuffer,
+                    gameViewModel,
+                    setLaunchedSpanModel: setCardMovementModel);
             }
         }
 

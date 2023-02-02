@@ -64,7 +64,9 @@
                     startSeconds: this.StartSeconds,
                     duration1: this.Duration,
                     duration2: this.Duration2,
-                    gameModel, Player, setCardMovementModel);
+                    gameModel: gameModel,
+                    player: Player,
+                    setCardMovementModel: setCardMovementModel);
             }
         }
     }

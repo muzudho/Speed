@@ -44,6 +44,17 @@
                 ongoingCardMovementViews.Add(new CardMovementView(cardMovementModel));
             }
 
+            Debug.Log($"[Assets.Scripts.Views.Timeline.View Lerp] リープ ongoingCardMovementViews count:{ongoingCardMovementViews.Count}");
+
+            //// TODO ★ スレッド・セーフにしたい
+            //// キューに溜まっている分を全て消化
+            //int i = 0;
+            //while (i < this.ScheduledItems.Count)
+            //{
+
+            //}
+
+
             if (0 < ongoingCardMovementViews.Count)
             {
                 // 削除も行うので、逆順で

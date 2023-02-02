@@ -91,6 +91,9 @@
                 return; // 何もしない
             }
 
+            // ピックアップしている場札は何番目
+            int indexOfPickup = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+
             float cardAngleZ = -5; // カードの少しの傾き
 
             int range = 200; // 半径。大きな円にするので、中心を遠くに離したい
@@ -149,11 +152,11 @@
 
             // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
             {
-                int handIndex = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+                Debug.Log($"[ArrangeHandCards] 再度持上げ handIndex:{indexOfPickup}");
 
-                if (0 <= handIndex && handIndex < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
+                if (0 <= indexOfPickup && indexOfPickup < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
                 {
-                    var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex); // ピックアップしている場札
+                    var idOfCard = gameModel.GetCardAtOfPlayerHand(player, indexOfPickup); // ピックアップしている場札
 
                     // 抜いたカードの右隣のカードを（有れば）ピックアップする
                     setCardMovementModel(MovementGenerator.PickupCardOfHand(

@@ -355,6 +355,7 @@ public class GameManager : MonoBehaviour
         float scheduleSeconds = 1.0f;
         float oneSecond = 1.0f;
 
+        /*
         // 登録：ピックアップ場札を、台札へ積み上げる
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
@@ -380,81 +381,82 @@ public class GameManager : MonoBehaviour
 
         // ゲーム・デモ開始
 
-        // 登録：カード選択
+// 登録：カード選択
+{
+    for (int i = 0; i < 2; i++)
+    {
+        // １プレイヤーの右隣のカードへフォーカスを移します
         {
-            for (int i = 0; i < 2; i++)
-            {
-                // １プレイヤーの右隣のカードへフォーカスを移します
+            var player = 0;
+            this.timelineModel.Add(new Spans.MoveFocusToNextCard(
+                scheduleSeconds,
+                durationOfMoveFocusToNextCard,
+                player: player,
+                direction: 0,
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                 {
-                    var player = 0;
-                    this.timelineModel.Add(new Spans.MoveFocusToNextCard(
-                        scheduleSeconds,
-                        durationOfMoveFocusToNextCard,
-                        player: player,
-                        direction: 0,
-                        setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                        {
-                            gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
-                        }));
-                }
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                }));
+        }
 
-                // ２プレイヤーの右隣のカードへフォーカスを移します
+        // ２プレイヤーの右隣のカードへフォーカスを移します
+        {
+            var player = 1;
+            this.timelineModel.Add(new Spans.MoveFocusToNextCard(
+                scheduleSeconds,
+                durationOfMoveFocusToNextCard,
+                player: player,
+                direction: 0,
+                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                 {
-                    var player = 1;
-                    this.timelineModel.Add(new Spans.MoveFocusToNextCard(
-                        scheduleSeconds,
-                        durationOfMoveFocusToNextCard,
-                        player: player,
-                        direction: 0,
-                        setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                        {
-                            gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
-                        }));
-                }
-
-                scheduleSeconds += oneSecond;
-            }
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                }));
         }
 
-        // 登録：台札を積み上げる
-        {
-            this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
-                startSeconds: scheduleSeconds,
-                duration1: 0.15f,
-                duration2: durationOfMoveFocusToNextCard,
-                player: 0, // １プレイヤーが
-                place: 1 // 左の台札
-                ));
+        scheduleSeconds += oneSecond;
+    }
+}
 
-            this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
-                startSeconds: scheduleSeconds,
-                duration1: 0.15f,
-                duration2: durationOfMoveFocusToNextCard,
-                player: 1, // ２プレイヤーが
-                place: 0 // 右の台札
-                ));
+// 登録：台札を積み上げる
+{
+    this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
+        startSeconds: scheduleSeconds,
+        duration1: 0.15f,
+        duration2: durationOfMoveFocusToNextCard,
+        player: 0, // １プレイヤーが
+        place: 1 // 左の台札
+        ));
 
-            scheduleSeconds += oneSecond;
-        }
-        // 登録：手札から１枚引く
-        {
-            // １プレイヤーは手札から１枚抜いて、場札として置く
-            this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(
-                startSeconds: scheduleSeconds,
-                duration1: 0.15f,
-                duration2: durationOfMoveFocusToNextCard,
-                player: 0,
-                numberOfCards: 1));
+    this.timelineModel.Add(new Spans.MoveCardToCenterStackFromHand(
+        startSeconds: scheduleSeconds,
+        duration1: 0.15f,
+        duration2: durationOfMoveFocusToNextCard,
+        player: 1, // ２プレイヤーが
+        place: 0 // 右の台札
+        ));
 
-            // ２プレイヤーは手札から１枚抜いて、場札として置く
-            this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(
-                startSeconds: scheduleSeconds,
-                duration1: 0.15f,
-                duration2: durationOfMoveFocusToNextCard,
-                player: 1,
-                numberOfCards: 1));
+    scheduleSeconds += oneSecond;
+}
+// 登録：手札から１枚引く
+{
+    // １プレイヤーは手札から１枚抜いて、場札として置く
+    this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(
+        startSeconds: scheduleSeconds,
+        duration1: 0.15f,
+        duration2: durationOfMoveFocusToNextCard,
+        player: 0,
+        numberOfCards: 1));
 
-            scheduleSeconds += oneSecond;
-        }
+    // ２プレイヤーは手札から１枚抜いて、場札として置く
+    this.timelineModel.Add(new Spans.MoveCardsToHandFromPile(
+        startSeconds: scheduleSeconds,
+        duration1: 0.15f,
+        duration2: durationOfMoveFocusToNextCard,
+        player: 1,
+        numberOfCards: 1));
+
+    scheduleSeconds += oneSecond;
+}
+// */
     }
 }
