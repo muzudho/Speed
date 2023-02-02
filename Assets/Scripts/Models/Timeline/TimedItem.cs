@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Models.Timeline
 {
-    using Assets.Scripts.Models.Timeline.Commands;
     using UnityEngine;
 
     /// <summary>
@@ -16,7 +15,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="command">コマンド</param>
-        internal TimedItem(float startSeconds, float duration, ICommand command)
+        internal TimedItem(float startSeconds, float duration, ISpan command)
         {
             this.StartSeconds = startSeconds;
             this.Duration = duration;
@@ -46,7 +45,7 @@
             }
         }
 
-        internal ICommand Command { get; private set; }
+        internal ISpan Command { get; private set; }
 
         // - メソッド
 

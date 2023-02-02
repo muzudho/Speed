@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.Models.Timeline
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline.Commands;
     using Assets.Scripts.Views;
     using System.Collections.Generic;
     using UnityEngine;
@@ -44,7 +43,7 @@
         /// <param name="seconds">実行される時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="command">コマンド</param>
-        internal void Add(float seconds, float duration, ICommand command)
+        internal void Add(float seconds, float duration, ISpan command)
         {
             this.TimedItems.Add(new TimedItem(seconds, duration, command));
         }
@@ -70,7 +69,7 @@
                     timedItems.RemoveAt(0);
 
                     // 初回実行
-                    timedItem.Command.DoIt(gameModelBuffer, gameViewModel);
+                    timedItem.Command.OnEnter(gameModelBuffer, gameViewModel);
 
                     if (0 < timedItems.Count)
                     {

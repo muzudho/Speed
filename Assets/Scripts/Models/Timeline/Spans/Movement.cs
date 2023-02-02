@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Models.Timeline
+﻿namespace Assets.Scripts.Models.Timeline.Spans
 {
     using UnityEngine;
 
@@ -7,7 +7,7 @@
     /// 
     /// - Lerpに使うもの
     /// </summary>
-    internal class Movement
+    internal class Movement : AbstractSpan
     {
         // - その他（生成）
 
@@ -40,5 +40,17 @@
         internal Quaternion BeginRotation { get; private set; }
         internal Quaternion EndRotation { get; private set; }
         internal GameObject GameObject { get; private set; }
+
+        // - メソッド
+
+        /// <summary>
+        /// 持続中
+        /// </summary>
+        /// <param name="progress">進捗 0.0 ～ 1.0</param>
+        public override void Lerp(float progress)
+        {
+            this.GameObject.transform.position = Vector3.Lerp(this.BeginPosition, this.EndPosition, progress);
+            this.GameObject.transform.rotation = Quaternion.Lerp(this.BeginRotation, this.EndRotation, progress);
+        }
     }
 }

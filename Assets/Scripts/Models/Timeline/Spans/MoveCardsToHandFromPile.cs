@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Models.Timeline.Commands
+﻿namespace Assets.Scripts.Models.Timeline.Spans
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
@@ -6,7 +6,7 @@
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    class MoveCardsToHandFromPile : AbstractCommand
+    class MoveCardsToHandFromPile : AbstractSpan
     {
         // - その他（生成）
 
@@ -33,7 +33,7 @@
         /// 
         /// - 画面上の場札は位置調整される
         /// </summary>
-        public override void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             // 手札の上の方からｎ枚抜いて、場札へ移動する
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[Player].Count; // 手札の枚数
@@ -50,6 +50,7 @@
 
                 gameModelBuffer.MoveCardsToHandFromPile(Player, startIndex, NumberOfCards);
 
+                // 場札の位置の再調整（をしないと、手札から移動しない）
                 gameViewModel.ArrangeHandCards(gameModel, Player);
             }
         }

@@ -1,21 +1,27 @@
-﻿namespace Assets.Scripts.Models.Timeline.Commands
+﻿namespace Assets.Scripts.Models.Timeline
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
 
     /// <summary>
-    /// コマンド
+    /// タイム・スパン
+    /// 
+    /// - タイムライン上に配置されたもの
     /// </summary>
-    interface ICommand
+    interface ISpan
     {
         /// <summary>
-        /// コマンド実行
+        /// 開始時
         /// </summary>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
-        void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel);
+        void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel);
 
-        void Lerp(float elapsedSeconds);
+        /// <summary>
+        /// 持続中
+        /// </summary>
+        /// <param name="progress">進捗 0.0 ～ 1.0</param>
+        void Lerp(float progress);
 
         /// <summary>
         /// 持続時間が切れたとき

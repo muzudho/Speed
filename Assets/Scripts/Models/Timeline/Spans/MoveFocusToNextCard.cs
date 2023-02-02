@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Models.Timeline.Commands
+﻿namespace Assets.Scripts.Models.Timeline.Spans
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline;
@@ -9,7 +9,7 @@
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>
-    class MoveFocusToNextCard : AbstractCommand
+    class MoveFocusToNextCard : AbstractSpan
     {
         // - 生成
 
@@ -45,7 +45,7 @@
         /// </summary>
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
-        public override void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
             int indexOfFocusedHandCard = gameModelBuffer.IndexOfFocusedCardOfPlayers[Player];

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Models.Timeline.Commands
+﻿namespace Assets.Scripts.Models.Timeline.Spans
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
@@ -8,7 +8,7 @@
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    class MoveCardsToPileFromCenterStacks : AbstractCommand
+    class MoveCardsToPileFromCenterStacks : AbstractSpan
     {
         // - 生成
 
@@ -29,7 +29,7 @@
         /// - ゲーム開始時に使う
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        public override void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
@@ -60,7 +60,6 @@
                 }
 
                 // プレイヤーの手札を積み上げる
-                float motionProgress = 1.0f;
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
                 var  movement = new Movement(
                     beginPosition: goCard.transform.position,
@@ -68,8 +67,7 @@
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, 180.0f),
                     gameObject: goCard);
-                movement.GameObject.transform.position = Vector3.Lerp(movement.BeginPosition, movement.EndPosition, motionProgress);
-                movement.GameObject.transform.rotation = Quaternion.Lerp(movement.BeginRotation, movement.EndRotation, motionProgress);
+                movement.Lerp(progress: 1.0f);
 
                 // 更新
                 gameViewModel.pileCardsY[player] += 0.2f;

@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Models.Timeline.Spans;
     using System;
     using UnityEngine;
 
@@ -193,7 +194,6 @@
                 float z = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
 
 
-                float motionProgress = 1.0f;
                 var goCard = GameObjectStorage.PlayingCards[idOfCard];
                 var movement = new Movement(
                     beginPosition: goCard.transform.position,
@@ -201,8 +201,7 @@
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, cardAngleZ),
                     gameObject: goCard);
-                movement.GameObject.transform.position = Vector3.Lerp(movement.BeginPosition, movement.EndPosition, motionProgress);
-                movement.GameObject.transform.rotation = Quaternion.Lerp(movement.BeginRotation, movement.EndRotation, motionProgress);
+                movement.Lerp(progress: 1.0f);
 
 
                 // 更新

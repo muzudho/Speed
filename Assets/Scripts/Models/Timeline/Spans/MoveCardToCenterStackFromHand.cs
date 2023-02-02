@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Models.Timeline.Commands
+﻿namespace Assets.Scripts.Models.Timeline.Spans
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
@@ -7,7 +7,7 @@
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
     /// </summary>
-    class MoveCardToCenterStackFromHand : AbstractCommand
+    class MoveCardToCenterStackFromHand : AbstractSpan
     {
         // - 生成
 
@@ -29,7 +29,7 @@
         /// </summary>
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
-        public override void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
+        public override void OnEnter(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
@@ -49,7 +49,7 @@
                         {
                             gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
 
-                            // 場札の位置調整
+                            // 場札の位置調整（をしないと歯抜けになる）
                             gameViewModel.ArrangeHandCards(
                                 gameModel: gameModel,
                                 player: Player);
@@ -133,15 +133,13 @@
             gameModelBuffer.AddCardOfCenterStack(place, idOfCard); // 台札として置く
 
             // 台札の位置をセット
-            float motionProgress = 1.0f;
             var movement = new Movement(
                 beginPosition: goCard.transform.position,
                 endPosition: new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),
                 beginRotation: goCard.transform.rotation,
                 endRotation: Quaternion.Euler(0, nextAngleY, 0.0f),
                 gameObject: goCard);
-            movement.GameObject.transform.position = Vector3.Lerp(movement.BeginPosition, movement.EndPosition, motionProgress);
-            movement.GameObject.transform.rotation = Quaternion.Lerp(movement.BeginRotation, movement.EndRotation, motionProgress);
+            movement.Lerp(progress: 1.0f);
 
             // 次に台札に積むカードの高さ
             gameViewModel.centerStacksY[place] += 0.2f;
