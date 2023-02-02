@@ -18,20 +18,20 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<ISpan> scheduledItems = new();
+        List<ISpanModel> scheduledItemModels = new();
 
         /// <summary>
         /// 補間を実行中の項目
         /// 
         /// - 持続時間が切れると、消えていく
         /// </summary>
-        List<ISpan> ongoingItems = new();
+        List<ISpanModel> ongoingItems = new();
 
-        internal List<ISpan> ScheduledItems
+        internal List<ISpanModel> ScheduledItems
         {
             get
             {
-                return this.scheduledItems;
+                return this.scheduledItemModels;
             }
         }
 
@@ -40,10 +40,10 @@
         /// <summary>
         /// 追加
         /// </summary>
-        /// <param name="span">タイム・スパン</param>
-        internal void Add(ISpan span)
+        /// <param name="spanModel">タイム・スパン</param>
+        internal void Add(ISpanModel spanModel)
         {
-            this.ScheduledItems.Add(span);
+            this.ScheduledItems.Add(spanModel);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Models.Timeline.Model DebugWrite] timedItems.Count:{scheduledItems.Count} ongoingItems.Count:{ongoingItems.Count}");
+            Debug.Log($"[Assets.Scripts.Models.Timeline.Model DebugWrite] timedItems.Count:{scheduledItemModels.Count} ongoingItems.Count:{ongoingItems.Count}");
         }
     }
 }

@@ -8,7 +8,7 @@
     /// 
     /// - タイムライン上に配置されたもの
     /// </summary>
-    interface ISpan
+    interface ISpanModel
     {
         // - プロパティ
 

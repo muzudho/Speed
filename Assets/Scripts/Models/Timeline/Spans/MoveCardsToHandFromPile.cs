@@ -6,7 +6,7 @@
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    class MoveCardsToHandFromPile : AbstractSpan
+    class MoveCardsToHandFromPile : AbstractSpanModel
     {
         // - その他（生成）
 

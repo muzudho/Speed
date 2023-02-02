@@ -7,7 +7,7 @@
     /// 
     /// - 指定した時間と、そのとき実行されるコマンドのペア
     /// </summary>
-    internal abstract class AbstractSpan : ISpan
+    internal abstract class AbstractSpanModel : ISpanModel
     {
         // - その他（生成）
 
@@ -16,7 +16,7 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
-        public AbstractSpan(float startSeconds, float duration)
+        public AbstractSpanModel(float startSeconds, float duration)
         {
             this.StartSeconds = startSeconds;
             this.Duration = duration;

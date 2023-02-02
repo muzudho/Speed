@@ -7,7 +7,7 @@
     /// 
     /// - Lerpに使うもの
     /// </summary>
-    internal class CardMovementModel : AbstractSpan
+    internal class CardMovementModel : AbstractSpanModel
     {
         // - その他（生成）
 
