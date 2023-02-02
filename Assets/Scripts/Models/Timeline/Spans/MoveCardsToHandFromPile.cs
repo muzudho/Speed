@@ -43,6 +43,7 @@
         {
             // 手札の上の方からｎ枚抜いて、場札へ移動する
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[Player].Count; // 手札の枚数
+
             if (NumberOfCards <= length)
             {
                 // もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
@@ -51,12 +52,12 @@
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = 0;
                 }
 
-                GameModel gameModel = new GameModel(gameModelBuffer);
                 var startIndex = length - NumberOfCards;
 
                 gameModelBuffer.MoveCardsToHandFromPile(Player, startIndex, NumberOfCards);
 
                 // 場札の位置の再調整（をしないと、手札から移動しない）
+                GameModel gameModel = new GameModel(gameModelBuffer);
                 gameViewModel.ArrangeHandCards(gameModel, Player, setCardMovementModel);
             }
         }

@@ -11,6 +11,9 @@
     {
         // - プロパティ
 
+        // ゲーム内経過時間
+        internal float ElapsedSeconds { get; set; } = 0.0f;
+
         /// <summary>
         /// ｎプレイヤーが選択している場札は、先頭から何枚目
         /// 

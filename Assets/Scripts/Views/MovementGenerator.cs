@@ -16,12 +16,12 @@
         internal static CardMovementModel PickupCardOfHand(
             float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
         {
-            var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
+            var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex); // ピックアップしている場札
 
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
             var rotateZ = -5; // -5°傾ける
-            var goCard = GameObjectStorage.PlayingCards[idOfFocusedHandCard];
+            var goCard = GameObjectStorage.PlayingCards[idOfCard];
 
             return new CardMovementModel(
                 startSeconds: startSeconds,
@@ -36,18 +36,18 @@
                     goCard.transform.rotation.eulerAngles.x,
                     goCard.transform.rotation.eulerAngles.y + rotateY,
                     goCard.transform.eulerAngles.z + rotateZ),
-                idOfCard: idOfFocusedHandCard);
+                idOfCard: idOfCard);
         }
 
         /// <summary>
-        /// ピックアップしているカードを場に戻す
+        /// ピックアップしている場札を下ろす
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="card"></param>
         internal static CardMovementModel PutDownCardOfHand(float startSeconds, float duration, GameModel gameModel, int player, int handIndex)
         {
-            var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
+            var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex); // ピックアップしている場札
 
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける

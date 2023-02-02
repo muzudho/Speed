@@ -2,7 +2,6 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline;
-    using Assets.Scripts.Models.Timeline.Spans;
     using System;
     using UnityEngine;
 
@@ -128,15 +127,14 @@
 
 
                 var goCard = GameObjectStorage.PlayingCards[idOfCard];
-                var movement = new CardMovementModel(
+                setCardMovementModel(new CardMovementModel(
                     startSeconds: 0.0f, // TODO 要確認
                     duration: 0.15f, // TODO 要確認
                     beginPosition: goCard.transform.position,
                     endPosition: new Vector3(x, this.minY, z),
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, cardAngleZ),
-                    idOfCard: idOfCard);
-                setCardMovementModel(movement);
+                    idOfCard: idOfCard));
 
 
                 // 更新
@@ -150,14 +148,12 @@
                 if (0 <= handIndex && handIndex < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
                 {
                     // 抜いたカードの右隣のカードを（有れば）ピックアップする
-                    var movement = MovementGenerator.PickupCardOfHand(
+                    setCardMovementModel(MovementGenerator.PickupCardOfHand(
                         startSeconds: 0.0f, // TODO
                         duration: 0.15f, // TODO
                         gameModel: gameModel,
                         player: player,
-                        handIndex: handIndex);
-
-                    setCardMovementModel(movement);
+                        handIndex: handIndex));
                 }
             }
         }
