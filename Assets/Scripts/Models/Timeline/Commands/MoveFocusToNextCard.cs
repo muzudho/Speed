@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Models.Timeline.Commands
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline.Motions;
+    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views;
     using System;
     using UnityEngine;
@@ -26,16 +26,16 @@
         int Direction { get; set; }
         LazyArgs.SetValue<int> SetIndexOfNextFocusedHandCard { get; set; }
 
-        #region Leapに使うもの
+        #region Lerpに使うもの
         /// <summary>
         /// カードを持ち上げる動き
         /// </summary>
-        CardMovement CardUp { get; set; }
+        Movement CardUp { get; set; }
 
         /// <summary>
         /// カードを置く動き
         /// </summary>
-        CardMovement CardDown { get; set; }
+        Movement CardDown { get; set; }
         #endregion
 
         // - メソッド
@@ -104,12 +104,12 @@
                     handIndex: indexOfFocusedHandCard,
                     setResults: (results) =>
                     {
-                        this.CardDown = new CardMovement(
+                        this.CardDown = new Movement(
                             beginPosition: results.Item1,
                             endPosition: results.Item2,
                             beginRotation: results.Item3,
                             endRotation: results.Item4,
-                            goCard: results.Item5);
+                            gameObject: results.Item5);
                     });
             }
 
@@ -122,27 +122,27 @@
                     handIndex: current,
                     setResults: (results) =>
                     {
-                        this.CardUp = new CardMovement(
+                        this.CardUp = new Movement(
                             beginPosition: results.Item1,
                             endPosition: results.Item2,
                             beginRotation: results.Item3,
                             endRotation: results.Item4,
-                            goCard: results.Item5);
+                            gameObject: results.Item5);
                     });
             }
         }
 
-        public override void Leap(float progress)
+        public override void Lerp(float progress)
         {
-            base.Leap(progress);
+            base.Lerp(progress);
 
             // カードを置く動き
-            this.CardDown.GoCard.transform.position = Vector3.Lerp(this.CardDown.BeginPosition, this.CardDown.EndPosition, progress);
-            this.CardDown.GoCard.transform.rotation = Quaternion.Lerp(this.CardDown.BeginRotation, this.CardDown.EndRotation, progress);
+            this.CardDown.GameObject.transform.position = Vector3.Lerp(this.CardDown.BeginPosition, this.CardDown.EndPosition, progress);
+            this.CardDown.GameObject.transform.rotation = Quaternion.Lerp(this.CardDown.BeginRotation, this.CardDown.EndRotation, progress);
 
             // カードを持ち上げる動き
-            this.CardUp.GoCard.transform.position = Vector3.Lerp(this.CardUp.BeginPosition, this.CardUp.EndPosition, progress);
-            this.CardUp.GoCard.transform.rotation = Quaternion.Lerp(this.CardUp.BeginRotation, this.CardUp.EndRotation, progress);
+            this.CardUp.GameObject.transform.position = Vector3.Lerp(this.CardUp.BeginPosition, this.CardUp.EndPosition, progress);
+            this.CardUp.GameObject.transform.rotation = Quaternion.Lerp(this.CardUp.BeginRotation, this.CardUp.EndRotation, progress);
         }
 
         public override void OnLeave()
@@ -152,12 +152,12 @@
             // TODO ★★ 動作が完了する前に、次の動作を行うと、カードがどんどん沈んでいく、といったことが起こる。連打スパム対策が必要
 
             // カードを置く動き（完了）
-            this.CardDown.GoCard.transform.position = this.CardDown.EndPosition;
-            this.CardDown.GoCard.transform.rotation = this.CardDown.EndRotation;
+            this.CardDown.GameObject.transform.position = this.CardDown.EndPosition;
+            this.CardDown.GameObject.transform.rotation = this.CardDown.EndRotation;
 
             // カードを持ち上げる動き（完了）
-            this.CardUp.GoCard.transform.position = this.CardUp.EndPosition;
-            this.CardUp.GoCard.transform.rotation = this.CardUp.EndRotation;
+            this.CardUp.GameObject.transform.position = this.CardUp.EndPosition;
+            this.CardUp.GameObject.transform.rotation = this.CardUp.EndRotation;
         }
     }
 }

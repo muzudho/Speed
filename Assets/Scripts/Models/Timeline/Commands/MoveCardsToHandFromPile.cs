@@ -2,7 +2,6 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
-    using UnityEngine.SocialPlatforms.Impl;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動

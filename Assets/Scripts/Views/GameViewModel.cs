@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Views
 {
     using Assets.Scripts.Models;
+    using Assets.Scripts.Models.Timeline;
     using System;
     using UnityEngine;
 
@@ -71,7 +72,7 @@
         /// </summary>
         /// <param name="player"></param>
         /// <param name="handIndex"></param>
-        internal void PickupCardOfHand(GameModel gameModel, int player, int handIndex, LazyArgs.SetValue<(Vector3,Vector3,Quaternion,Quaternion, GameObject)> setResults)
+        internal void PickupCardOfHand(GameModel gameModel, int player, int handIndex, LazyArgs.SetValue<(Vector3, Vector3, Quaternion, Quaternion, GameObject)> setResults)
         {
             var idOfFocusedHandCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
 
@@ -105,7 +106,7 @@
         /// ピックアップしているカードを場に戻す
         /// </summary>
         /// <param name="card"></param>
-        internal void PutDownCardOfHand(GameModel gameModel, int player, int handIndex, LazyArgs.SetValue<(Vector3,Vector3,Quaternion,Quaternion,GameObject)> setResults)
+        internal void PutDownCardOfHand(GameModel gameModel, int player, int handIndex, LazyArgs.SetValue<(Vector3, Vector3, Quaternion, Quaternion, GameObject)> setResults)
         {
             var idOfCard = gameModel.GetCardAtOfPlayerHand(player, handIndex);
 
@@ -214,7 +215,7 @@
                             // endRotation,
                             // goCard
 
-                            // TODO ★ セットせず、 Leap したい
+                            // TODO ★ セットせず、 Lerp したい
                             results.Item5.transform.position = results.Item2;
                             results.Item5.transform.rotation = results.Item4;
                         });
@@ -235,11 +236,15 @@
         internal void SetPosRot(IdOfPlayingCards idOfCard, float x, float y, float z, float angleY = 180.0f, float angleZ = 0.0f, float motionProgress = 1.0f)
         {
             var goCard = GameObjectStorage.PlayingCards[idOfCard];
-            var beginPos = goCard.transform.position;
-            var endPos = new Vector3(x, y, z);
-            goCard.transform.position = Vector3.Lerp(beginPos, endPos, motionProgress);
+            var movement = new Movement(
+                beginPosition: goCard.transform.position,
+                endPosition: new Vector3(x, y, z),
+                beginRotation: goCard.transform.rotation,
+                endRotation: Quaternion.Euler(0, angleY, angleZ),
+                gameObject: goCard);
 
-            goCard.transform.rotation = Quaternion.Euler(0, angleY, angleZ);
+            goCard.transform.position = Vector3.Lerp(movement.BeginPosition, movement.EndPosition, motionProgress);
+            goCard.transform.rotation = Quaternion.Lerp(movement.BeginRotation, movement.EndRotation, motionProgress);
         }
 
         /// <summary>

@@ -88,7 +88,7 @@
         /// モーションの補間
         /// </summary>
         /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
-        internal void Leap(float elapsedSeconds)
+        internal void Lerp(float elapsedSeconds)
         {
             if (0 < ongoingItems.Count)
             {
@@ -108,7 +108,7 @@
                     }
 
                     // TODO 持続中のコマンドの補間
-                    ongoingItem.Leap(elapsedSeconds);
+                    ongoingItem.Lerp(elapsedSeconds);
                 }
             }
         }

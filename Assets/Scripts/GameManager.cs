@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
         this.commandStorage.DoIt(elapsedSeconds, gameModelBuffer, gameViewModel);
 
         // モーションの補間
-        this.commandStorage.Leap(elapsedSeconds);
+        this.commandStorage.Lerp(elapsedSeconds);
 
         this.commandStorage.DebugWrite(); // TODO ★ 消す
 

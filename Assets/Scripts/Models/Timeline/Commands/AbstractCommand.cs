@@ -6,7 +6,7 @@
     {
         abstract public void DoIt(GameModelBuffer gameModelBuffer, GameViewModel gameViewModel);
 
-        virtual public void Leap(float progress)
+        virtual public void Lerp(float progress)
         {
 
         }
