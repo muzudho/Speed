@@ -19,7 +19,7 @@
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="player"></param>
         /// <param name="direction"></param>
-        /// <param name="setIndexOfNextFocusedHandCard"></param>
+        /// <param name="setIndexOfNextFocusedHandCard">次にピックアップする場札は何番目</param>
         internal MoveFocusToNextCard(float startSeconds, float duration, int player, int direction, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
             : base(startSeconds, duration)
         {
@@ -34,18 +34,6 @@
         int Direction { get; set; }
         LazyArgs.SetValue<int> SetIndexOfNextFocusedHandCard { get; set; }
 
-        #region Lerpに使うもの
-        /// <summary>
-        /// カードを持ち上げる動き
-        /// </summary>
-        CardMovementModel CardUp { get; set; }
-
-        /// <summary>
-        /// カードを置く動き
-        /// </summary>
-        CardMovementModel CardDown { get; set; }
-        #endregion
-
         // - メソッド
 
         /// <summary>
@@ -56,7 +44,7 @@
         public override void OnEnter(
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementModel> setLaunchedSpanModel)
+            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
             int indexOfFocusedHandCard = gameModelBuffer.IndexOfFocusedCardOfPlayers[Player];
@@ -109,23 +97,23 @@
             if (0 <= indexOfFocusedHandCard && indexOfFocusedHandCard < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
             {
                 // 前にフォーカスしていたカードを、盤に下ろす
-                this.CardDown = MovementGenerator.PutDownCardOfHand(
+                setCardMovementModel(MovementGenerator.PutDownCardOfHand(
                     startSeconds: this.StartSeconds,
                     duration: this.Duration,
                     gameModel: gameModel,
                     player: Player,
-                    handIndex: indexOfFocusedHandCard);
+                    handIndex: indexOfFocusedHandCard));
             }
 
             if (0 <= current && current < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
             {
                 // 今回フォーカスするカードを持ち上げる
-                this.CardUp = MovementGenerator.PickupCardOfHand(
+                setCardMovementModel(MovementGenerator.PickupCardOfHand(
                     startSeconds: this.StartSeconds,
                     duration: this.Duration,
                     gameModel: gameModel,
                     player: Player,
-                    handIndex: current);
+                    handIndex: current));
             }
         }
     }
