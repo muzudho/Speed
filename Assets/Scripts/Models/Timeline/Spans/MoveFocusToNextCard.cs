@@ -47,15 +47,15 @@
             LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
-            int indexOfFocusedHandCard = gameModelBuffer.IndexOfFocusedCardOfPlayers[Player];
+            int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[Player]; // 下ろす場札
 
-            int current;
+            int indexOfCurrent; // ピックアップする場札
             var length = gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count;
 
             if (length < 1)
             {
                 // 場札が無いなら、何もピックアップされていません
-                current = -1;
+                indexOfCurrent = -1;
             }
             else
             {
@@ -63,27 +63,27 @@
                 {
                     // 後ろへ
                     case 0:
-                        if (indexOfFocusedHandCard == -1 || length <= indexOfFocusedHandCard + 1)
+                        if (indexOfPrevious == -1 || length <= indexOfPrevious + 1)
                         {
                             // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
-                            current = 0;
+                            indexOfCurrent = 0;
                         }
                         else
                         {
-                            current = indexOfFocusedHandCard + 1;
+                            indexOfCurrent = indexOfPrevious + 1;
                         }
                         break;
 
                     // 前へ
                     case 1:
-                        if (indexOfFocusedHandCard == -1 || indexOfFocusedHandCard - 1 < 0)
+                        if (indexOfPrevious - 1 < 0)
                         {
                             // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
-                            current = length - 1;
+                            indexOfCurrent = length - 1;
                         }
                         else
                         {
-                            current = indexOfFocusedHandCard - 1;
+                            indexOfCurrent = indexOfPrevious - 1;
                         }
                         break;
 
@@ -92,9 +92,8 @@
                 }
             }
 
-            SetIndexOfNextFocusedHandCard(current);
 
-            if (0 <= indexOfFocusedHandCard && indexOfFocusedHandCard < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
+            if (0 <= indexOfPrevious && indexOfPrevious < length) // 範囲内なら
             {
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setCardMovementModel(MovementGenerator.PutDownCardOfHand(
@@ -102,10 +101,13 @@
                     duration: this.Duration,
                     gameModel: gameModel,
                     player: Player,
-                    handIndex: indexOfFocusedHandCard));
+                    handIndex: indexOfPrevious));
             }
 
-            if (0 <= current && current < gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count) // 範囲内なら
+            // ピックアップしている場札の、インデックス更新
+            SetIndexOfNextFocusedHandCard(indexOfCurrent);
+
+            if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {
                 // 今回フォーカスするカードを持ち上げる
                 setCardMovementModel(MovementGenerator.PickupCardOfHand(
@@ -113,7 +115,7 @@
                     duration: this.Duration,
                     gameModel: gameModel,
                     player: Player,
-                    handIndex: current));
+                    handIndex: indexOfCurrent));
             }
         }
     }
