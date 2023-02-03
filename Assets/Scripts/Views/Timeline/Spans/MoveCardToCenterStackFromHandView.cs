@@ -191,7 +191,7 @@
                 startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                 duration: timeSpan.Duration / 2.0f,
                 getBeginPosition: ()=>goCard.transform.position,
-                endPosition: new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),
+                getEndPosition:()=> new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),
                 beginRotation: goCard.transform.rotation,
                 endRotation: Quaternion.Euler(0, nextAngleY, 0.0f),
                 idOfGameObject: idOfGo));
