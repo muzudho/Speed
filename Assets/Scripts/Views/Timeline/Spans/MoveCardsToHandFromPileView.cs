@@ -72,7 +72,7 @@
             int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); 
             if (0 < numberOfCards)
             {
-                gameViewModel.ArrangeHandCards(
+                MovementGenerator.ArrangeHandCards(
                     startSeconds: timeSpan.StartSeconds,
                     duration1: timeSpan.Duration / 2.0f,
                     duration2: timeSpan.Duration / 2.0f,
@@ -80,6 +80,8 @@
                     numberOfHandCards: gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
                     indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(player),
                     idOfHands: gameModel.GetCardsOfPlayerHand(player),
+                    handCardMinY: gameViewModel.minY,
+                    handCardsOriginZ: gameViewModel.handCardsZ[player],
                     setCardMovementModel: setMovementViewModel);
             }
         }
