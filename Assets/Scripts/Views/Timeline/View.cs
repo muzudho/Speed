@@ -1,10 +1,9 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
-    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views;
     using System.Collections.Generic;
     using UnityEngine;
-    using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// タイムライン・ビュー
@@ -15,14 +14,14 @@
     {
         // - その他（生成）
 
-        public View(ModelsOfTimeline.Model model)
+        public View(SimulatorsOfTimeline.Simulator simulator)
         {
-            this.Model = model;
+            this.Simulator = simulator;
         }
 
         // - プロパティ
 
-        internal ModelsOfTimeline.Model Model { get; private set; }
+        internal SimulatorsOfTimeline.Simulator Simulator { get; private set; }
 
         /// <summary>
         /// 補間を実行中の項目

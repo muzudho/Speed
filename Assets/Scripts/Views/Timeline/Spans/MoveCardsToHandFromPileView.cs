@@ -42,7 +42,6 @@
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
         {
-            // 手札の上の方からｎ枚抜いて、場札へ移動する
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[this.Model.Player].Count; // 手札の枚数
 
             if (this.Model.NumberOfCards <= length)
