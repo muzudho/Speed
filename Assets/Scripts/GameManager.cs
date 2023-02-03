@@ -402,12 +402,13 @@ public class GameManager : MonoBehaviour
         const int right = 0;// 台札の右
         const int left = 1;// 台札の左
 
-        float oneSecond = 1.0f;
+        // 間
+        float interval = 0.85f;
 
-        // 一息置く
+        // 間
+        for (int player = 0; player < 2; player++)
         {
-            this.timelineView.Simulator.AddScheduleSeconds(player: 0, seconds: oneSecond);
-            this.timelineView.Simulator.AddScheduleSeconds(player: 1, seconds: oneSecond);
+            this.timelineView.Simulator.AddScheduleSeconds(player: player, seconds: interval);
         }
 
         // 登録：ピックアップ場札を、台札へ積み上げる
@@ -440,6 +441,12 @@ public class GameManager : MonoBehaviour
                     ));
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
+        }
+
+        // 間
+        for (int player = 0; player < 2; player++)
+        {
+            this.timelineView.Simulator.AddScheduleSeconds(player: player, seconds: interval);
         }
 
         // ゲーム・デモ開始
@@ -485,6 +492,12 @@ public class GameManager : MonoBehaviour
                         ));
                     this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
                 }
+
+                // 間
+                for (int player = 0; player < 2; player++)
+                {
+                    this.timelineView.Simulator.AddScheduleSeconds(player: player, seconds: interval);
+                }
             }
         }
 
@@ -517,6 +530,13 @@ public class GameManager : MonoBehaviour
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
         }
+
+        // 間
+        for (int player = 0; player < 2; player++)
+        {
+            this.timelineView.Simulator.AddScheduleSeconds(player: player, seconds: interval);
+        }
+
         // 登録：手札から１枚引く
         {
             {
