@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views.Timeline;
     using UnityEngine;
 
@@ -13,7 +14,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="idOfCard">カードId</param>
-        internal static CardMovementViewModel PickupCardOfHand(
+        internal static MovementViewModel PickupCardOfHand(
             float startSeconds, float duration, IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
@@ -21,9 +22,10 @@
             var rotateZ = -5; // -5°傾ける
 
             // TODO ★★ 登録時点の座標ではなく、実行時のその時点の座標を起点にしたい
-            var goCard = GameObjectStorage.PlayingCards[idOfCard];
+            var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+            var goCard = GameObjectStorage.Items[idOfGo];
 
-            return new CardMovementViewModel(
+            return new MovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
                 beginPosition: goCard.transform.position,
@@ -36,7 +38,7 @@
                     goCard.transform.rotation.eulerAngles.x,
                     goCard.transform.rotation.eulerAngles.y + rotateY,
                     goCard.transform.eulerAngles.z + rotateZ),
-                idOfCard: idOfCard);
+                idOfGameObject: idOfGo);
         }
 
         /// <summary>
@@ -45,7 +47,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="idOfCard">カードId</param>
-        internal static CardMovementViewModel PutDownCardOfHand(float startSeconds, float duration, IdOfPlayingCards idOfCard)
+        internal static MovementViewModel PutDownCardOfHand(float startSeconds, float duration, IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
@@ -55,16 +57,17 @@
             liftY = -liftY;
             rotateY = -rotateY;
             rotateZ = -rotateZ;
-            var goCard = GameObjectStorage.PlayingCards[idOfCard];
+            var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+            var goCard = GameObjectStorage.Items[idOfGo];
 
-            return new CardMovementViewModel(
+            return new MovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
                 beginPosition: goCard.transform.position,
                 endPosition: new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
                 beginRotation: goCard.transform.rotation,
                 endRotation: Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ),
-                idOfCard: idOfCard);
+                idOfGameObject: idOfGo);
         }
     }
 }

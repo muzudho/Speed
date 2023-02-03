@@ -6,6 +6,7 @@
     using ViewsOfTimeline =  Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;
+    using Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
@@ -54,7 +55,7 @@
             ViewsOfTimeline.TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementViewModel)
+            LazyArgs.SetValue<MovementViewModel> setCardMovementViewModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
@@ -90,15 +91,16 @@
                 // プレイヤーの手札を積み上げる
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
 
-                var goCard = GameObjectStorage.PlayingCards[idOfCard]; // TODO ビューから座標を取るしかない？
-                setCardMovementViewModel(new CardMovementViewModel(
+                var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+                var goCard = GameObjectStorage.Items[idOfGo]; // TODO ビューから座標を取るしかない？
+                setCardMovementViewModel(new MovementViewModel(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     beginPosition: goCard.transform.position,
                     endPosition: new Vector3(gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player]),
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, 180.0f),
-                    idOfCard: idOfCard));
+                    idOfGameObject: idOfGo));
 
                 // 更新
                 gameViewModel.pileCardsY[player] += 0.2f;

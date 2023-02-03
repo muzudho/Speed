@@ -52,7 +52,7 @@
             ViewsOfTimeline.TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementViewModel)
+            LazyArgs.SetValue<MovementViewModel> setCardMovementViewModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
             int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[this.Model.Player]; // 下ろす場札

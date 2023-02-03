@@ -45,7 +45,7 @@
             float elapsedSeconds,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementViewModel)
+            LazyArgs.SetValue<MovementViewModel> setCardMovementViewModel)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化

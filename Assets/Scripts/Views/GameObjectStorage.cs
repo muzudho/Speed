@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Views
 {
-    using Assets.Scripts.Models;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -9,11 +8,11 @@
     /// </summary>
     static class GameObjectStorage
     {
-        internal static Dictionary<IdOfPlayingCards, GameObject> PlayingCards { get; private set; } =  new();
+        internal static Dictionary<IdOfGameObjects, GameObject> Items { get; private set; } =  new();
 
-        internal static void Add(IdOfPlayingCards cardId, GameObject goCard)
+        internal static void Add(IdOfGameObjects id, GameObject gameObject)
         {
-            PlayingCards.Add(cardId, goCard);
+            Items.Add(id, gameObject);
         }
     }
 }

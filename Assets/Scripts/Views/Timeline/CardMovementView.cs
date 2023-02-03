@@ -12,14 +12,14 @@
 
         // - その他（生成）
 
-        public CardMovementView(CardMovementViewModel cardMovementModel)
+        public CardMovementView(MovementViewModel cardMovementModel)
         {
             this.Model = cardMovementModel;
         }
 
         // - プロパティ
 
-        public CardMovementViewModel Model { get; private set; }
+        public MovementViewModel Model { get; private set; }
 
         // - メソッド
 
@@ -29,7 +29,7 @@
         /// <param name="progress">進捗 0.0 ～ 1.0</param>
         public void Lerp(float progress)
         {
-            var gameObject = GameObjectStorage.PlayingCards[this.Model.IdOfCard];
+            var gameObject = GameObjectStorage.Items[this.Model.IdOfGameObject];
 
             gameObject.transform.position = Vector3.Lerp(this.Model.BeginPosition, this.Model.EndPosition, progress);
             gameObject.transform.rotation = Quaternion.Lerp(this.Model.BeginRotation, this.Model.EndRotation, progress);

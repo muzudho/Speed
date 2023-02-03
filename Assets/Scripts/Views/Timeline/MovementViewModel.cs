@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
-    using Assets.Scripts.Models;
     using UnityEngine;
 
     /// <summary>
@@ -8,7 +7,7 @@
     /// 
     /// - Lerpに使うもの
     /// </summary>
-    internal class CardMovementViewModel
+    internal class MovementViewModel
     {
         // - その他（生成）
 
@@ -21,15 +20,15 @@
         /// <param name="endPosition">終了位置</param>
         /// <param name="beginRotation">開始回転</param>
         /// <param name="endRotation">終了回転</param>
-        /// <param name="idOfCard">カードId</param>
-        public CardMovementViewModel(
+        /// <param name="idOfGameObject">Id</param>
+        public MovementViewModel(
             float startSeconds,
             float duration,
             Vector3 beginPosition,
             Vector3 endPosition,
             Quaternion beginRotation,
             Quaternion endRotation,
-            IdOfPlayingCards idOfCard)
+            IdOfGameObjects idOfGameObject)
         {
             this.StartSeconds = startSeconds;
             this.Duration = duration;
@@ -37,7 +36,7 @@
             this.EndPosition = endPosition;
             this.BeginRotation = beginRotation;
             this.EndRotation = endRotation;
-            this.IdOfCard = idOfCard;
+            this.IdOfGameObject = idOfGameObject;
         }
 
         // - プロパティ
@@ -58,6 +57,6 @@
         internal Vector3 EndPosition { get; private set; }
         internal Quaternion BeginRotation { get; private set; }
         internal Quaternion EndRotation { get; private set; }
-        internal IdOfPlayingCards IdOfCard { get; private set; }
+        internal IdOfGameObjects IdOfGameObject { get; private set; }
     }
 }

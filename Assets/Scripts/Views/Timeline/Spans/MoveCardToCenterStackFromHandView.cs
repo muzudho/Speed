@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline.Spans;
+    using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views;
     using UnityEngine;
     using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
@@ -52,7 +53,7 @@
             TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementViewModel)
+            LazyArgs.SetValue<MovementViewModel> setCardMovementViewModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
@@ -122,7 +123,7 @@
             int place,
             int indexOfHandCardToRemove,
             LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
+            LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
         {
             // 抜く前の場札の数
             var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
@@ -162,7 +163,7 @@
             GameViewModel gameViewModel,
             IdOfPlayingCards idOfCard,
             int place,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
+            LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
@@ -173,7 +174,7 @@
             var (nextTopX, nextTopZ) = gameViewModel.GetXZOfNextCenterStackCard(gameModel, place);
 
             // 台札の捻り
-            var goCard = GameObjectStorage.PlayingCards[idOfCard]; // TODO ビューが必要？
+            var goCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfCard)]; // TODO ビューが必要？
             float nextAngleY = goCard.transform.rotation.eulerAngles.y;
             var length = gameModel.GetLengthOfCenterStackCards(place);
             if (length < 1)
@@ -187,14 +188,15 @@
             gameModelBuffer.AddCardOfCenterStack(place, idOfCard); // 台札として置く
 
             // 台札の位置をセット
-            setCardMovementModel(new CardMovementViewModel(
+            var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+            setCardMovementModel(new MovementViewModel(
                 startSeconds: timeSpan.StartSeconds + this.TimeSpan.Duration / 2.0f,
                 duration: timeSpan.Duration / 2.0f,
                 beginPosition: goCard.transform.position,
                 endPosition: new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),
                 beginRotation: goCard.transform.rotation,
                 endRotation: Quaternion.Euler(0, nextAngleY, 0.0f),
-                idOfCard: idOfCard));
+                idOfGameObject: idOfGo));
 
             // 次に台札に積むカードの高さ
             gameViewModel.centerStacksY[place] += 0.2f;

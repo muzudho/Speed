@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;
@@ -62,7 +63,7 @@
 
             // 台札の次の天辺の位置
             var idOfLastCard = gameModel.GetLastCardOfCenterStack(place); // 天辺（最後）のカード
-            var goLastCard = GameObjectStorage.PlayingCards[idOfLastCard];
+            var goLastCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfLastCard)];
             var nextTopX = (this.centerStacksX[place] - goLastCard.transform.position.x) / 2 + this.centerStacksX[place];
             var nextTopZ = (this.centerStacksZ[place] - goLastCard.transform.position.z) / 2 + this.centerStacksZ[place];
             return (nextTopX, nextTopZ);
@@ -82,7 +83,7 @@
             float duration2,
             GameModel gameModel,
             int player,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
+            LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
         {
             // 25枚の場札が並べるように調整してある
 
@@ -135,16 +136,16 @@
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
                 float z = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
 
-
-                var goCard = GameObjectStorage.PlayingCards[idOfCard];
-                setCardMovementModel(new CardMovementViewModel(
+                var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+                var goCard = GameObjectStorage.Items[idOfGo];
+                setCardMovementModel(new MovementViewModel(
                     startSeconds: startSeconds,
                     duration: duration1,
                     beginPosition: goCard.transform.position,
                     endPosition: new Vector3(x, this.minY, z),
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, cardAngleZ),
-                    idOfCard: idOfCard));
+                    idOfGameObject: idOfGo));
 
 
                 // 更新

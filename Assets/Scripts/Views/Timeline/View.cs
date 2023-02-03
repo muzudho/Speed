@@ -36,7 +36,7 @@
         /// モーションの補間
         /// </summary>
         /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
-        internal void Lerp(float elapsedSeconds, List<CardMovementViewModel> launchedCardMovementModels)
+        internal void Lerp(float elapsedSeconds, List<MovementViewModel> launchedCardMovementModels)
         {
             foreach (var cardMovementModel in launchedCardMovementModels)
             {

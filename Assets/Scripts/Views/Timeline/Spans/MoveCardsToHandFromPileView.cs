@@ -50,7 +50,7 @@
             TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementViewModel)
+            LazyArgs.SetValue<MovementViewModel> setCardMovementViewModel)
         {
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[this.Model.Player].Count; // 手札の枚数
 
