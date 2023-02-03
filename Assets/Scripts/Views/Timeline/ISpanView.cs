@@ -25,6 +25,7 @@
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
         void OnEnter(
+            TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setLaunchedSpanModel);

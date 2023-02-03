@@ -37,6 +37,7 @@
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
         public override void OnEnter(
+            ViewsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)

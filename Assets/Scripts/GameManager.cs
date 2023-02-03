@@ -125,13 +125,14 @@ public class GameManager : MonoBehaviour
         while (0 < gameModel.GetLengthOfCenterStackCards(right))
         {
             // 即実行
-            new Spans.MoveCardsToPileFromCenterStacksView(
-                new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: 0.0f,
-                    duration: Specification.GetDurationBy(typeof(MoveCardsToPileFromCenterStacksModel))),
+                    duration: Specification.GetDurationBy(typeof(MoveCardsToPileFromCenterStacksModel)));
+            new Spans.MoveCardsToPileFromCenterStacksView(
+                timeSpan,
                 model: new MoveCardsToPileFromCenterStacksModel(
                     place: right
-                    )).OnEnter(gameModelBuffer, gameViewModel,
+                    )).OnEnter(timeSpan, gameModelBuffer, gameViewModel,
                         setCardMovementModel: (cardMovementModel) =>
                         {
                             var cardMovementView = new CardMovementView(cardMovementModel);

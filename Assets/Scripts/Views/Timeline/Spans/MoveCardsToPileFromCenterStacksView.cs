@@ -38,6 +38,7 @@
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
         public override void OnEnter(
+            ViewsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
@@ -78,8 +79,8 @@
 
                 var goCard = GameObjectStorage.PlayingCards[idOfCard]; // TODO ビューから座標を取るしかない？
                 setCardMovementModel(new CardMovementViewModel(
-                    startSeconds: this.TimeSpan.StartSeconds,
-                    duration: this.TimeSpan.Duration,
+                    startSeconds: timeSpan.StartSeconds,
+                    duration: timeSpan.Duration,
                     beginPosition: goCard.transform.position,
                     endPosition: new Vector3(gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player]),
                     beginRotation: goCard.transform.rotation,

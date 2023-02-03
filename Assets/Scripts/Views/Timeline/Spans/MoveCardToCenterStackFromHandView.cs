@@ -36,6 +36,7 @@
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
         public override void OnEnter(
+            TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
@@ -49,6 +50,7 @@
                 (indexOfFocusedHandCard) =>
                 {
                     RemoveAtOfHandCard(
+                        timeSpan: timeSpan,
                         gameModelBuffer: gameModelBuffer,
                         gameViewModel: gameViewModel,
                         player: this.Model.Player,
@@ -66,9 +68,9 @@
 
                             // 場札の位置調整（をしないと歯抜けになる）
                             gameViewModel.ArrangeHandCards(
-                                startSeconds: this.TimeSpan.StartSeconds,
-                                duration1: this.TimeSpan.Duration / 4.0f,
-                                duration2: this.TimeSpan.Duration / 4.0f,
+                                startSeconds: timeSpan.StartSeconds,
+                                duration1: timeSpan.Duration / 4.0f,
+                                duration2: timeSpan.Duration / 4.0f,
                                 gameModel: gameModel,
                                 player: this.Model.Player,
                                 setCardMovementModel: setCardMovementModel); // 場札
@@ -100,6 +102,7 @@
         /// <param name="indexOfHandCardToRemove"></param>
         /// <param name="setIndexOfNextFocusedHandCard"></param>
         private void RemoveAtOfHandCard(
+            TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             int player,
@@ -135,12 +138,13 @@
             var goCard = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexOfHandCardToRemove]; // 場札を１枚抜いて
             gameModelBuffer.RemoveCardAtOfPlayerHand(player, indexOfHandCardToRemove);
 
-            AddCardOfCenterStack2(gameModelBuffer, gameViewModel, goCard, place,
+            AddCardOfCenterStack2(timeSpan, gameModelBuffer, gameViewModel, goCard, place,
                 setCardMovementModel: setCardMovementModel); // 台札
             setIndexOfNextFocusedHandCard(indexOfNextFocusedHandCard);
         }
 
         private void AddCardOfCenterStack2(
+            TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             IdOfPlayingCards idOfCard,
@@ -171,8 +175,8 @@
 
             // 台札の位置をセット
             setCardMovementModel(new CardMovementViewModel(
-                startSeconds: this.TimeSpan.StartSeconds + this.TimeSpan.Duration / 2.0f,
-                duration: this.TimeSpan.Duration / 2.0f,
+                startSeconds: timeSpan.StartSeconds + this.TimeSpan.Duration / 2.0f,
+                duration: timeSpan.Duration / 2.0f,
                 beginPosition: goCard.transform.position,
                 endPosition: new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),
                 beginRotation: goCard.transform.rotation,

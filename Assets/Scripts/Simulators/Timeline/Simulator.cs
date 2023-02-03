@@ -42,10 +42,10 @@
             int i = 0;
             while (i < this.Model.GetCountItems())
             {
-                var span = this.Model.GetItemAt(i);
+                var spanView = this.Model.GetItemAt(i);
 
                 // まだ
-                if (elapsedSeconds < span.TimeSpan.StartSeconds)
+                if (elapsedSeconds < spanView.TimeSpan.StartSeconds)
                 {
                     i++;
                     continue;
@@ -53,13 +53,14 @@
 
                 // 起動
                 // ----
-                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{span.TimeSpan.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
+                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{spanView.TimeSpan.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
 
                 // スケジュールから除去
                 this.Model.RemoveAt(i);
 
                 // 実行
-                span.OnEnter(
+                spanView.OnEnter(
+                    spanView.TimeSpan,
                     gameModelBuffer,
                     gameViewModel,
                     setLaunchedSpanModel: setCardMovementModel);

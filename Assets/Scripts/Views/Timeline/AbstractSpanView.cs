@@ -31,6 +31,7 @@
         // - メソッド
 
         virtual public void OnEnter(
+            TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setLaunchedSpanModel)

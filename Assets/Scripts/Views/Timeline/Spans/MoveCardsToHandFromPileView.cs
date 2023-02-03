@@ -34,6 +34,7 @@
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override void OnEnter(
+            TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
@@ -55,9 +56,9 @@
                 // 場札の位置の再調整（をしないと、手札から移動しない）
                 GameModel gameModel = new GameModel(gameModelBuffer);
                 gameViewModel.ArrangeHandCards(
-                    startSeconds: this.TimeSpan.StartSeconds,
-                    duration1: this.TimeSpan.Duration / 2.0f,
-                    duration2: this.TimeSpan.Duration / 2.0f,
+                    startSeconds: timeSpan.StartSeconds,
+                    duration1: timeSpan.Duration / 2.0f,
+                    duration2: timeSpan.Duration / 2.0f,
                     gameModel: gameModel,
                     player: this.Model.Player,
                     setCardMovementModel: setCardMovementModel);
