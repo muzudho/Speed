@@ -3,6 +3,7 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
+    using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
@@ -43,26 +44,42 @@
         {
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timeSpan).Player].Count; // 手札の枚数
 
-            if (GetModel(timeSpan).NumberOfCards <= length)
+            if (length < GetModel(timeSpan).NumberOfCards)
             {
-                // 天辺から取っていく
-                var startIndex = length - GetModel(timeSpan).NumberOfCards;
-                gameModelBuffer.MoveCardsToHandFromPile(GetModel(timeSpan).Player, startIndex, GetModel(timeSpan).NumberOfCards);
+                // できない指示は無視
+                Debug.Log("[MoveCardsToHandFromPileView OnEnter] できない指示は無視");
+                return;
+            }
 
-                // もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
-                if (gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] == -1)
-                {
-                    gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = 0;
-                }
+            // TODO ★ 状態変更をして、ビューが再生する感じ？
+            // TODO ★ ビューは、状態にアクセスせず再生できる必要がある
+            // 天辺から取っていく
+            gameModelBuffer.MoveCardsToHandFromPile(
+                player: GetModel(timeSpan).Player,
+                startIndex: length - GetModel(timeSpan).NumberOfCards,
+                numberOfCards: GetModel(timeSpan).NumberOfCards);
 
-                // 場札の位置の再調整（をしないと、手札から移動しない）
-                GameModel gameModel = new GameModel(gameModelBuffer);
+            // もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
+            if (gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] == -1)
+            {
+                gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = 0;
+            }
+
+
+            // 場札の位置の再調整（をしないと、手札から移動しない）
+            GameModel gameModel = new GameModel(gameModelBuffer);
+            var player = GetModel(timeSpan).Player;
+            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); 
+            if (0 < numberOfCards)
+            {
                 gameViewModel.ArrangeHandCards(
                     startSeconds: timeSpan.StartSeconds,
                     duration1: timeSpan.Duration / 2.0f,
                     duration2: timeSpan.Duration / 2.0f,
-                    gameModel: gameModel,
-                    player: GetModel(timeSpan).Player,
+                    player: player,
+                    numberOfHandCards: gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
+                    indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(player),
+                    idOfHands: gameModel.GetCardsOfPlayerHand(player),
                     setCardMovementModel: setMovementViewModel);
             }
         }

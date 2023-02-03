@@ -5,6 +5,7 @@
     using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views.Timeline;
     using System;
+    using System.Collections.Generic;
     using UnityEngine;
 
     /// <summary>
@@ -77,24 +78,27 @@
         ///     - ２段階目：ピックアップしていた場札を下ろしてしまっているので、ピックアップし直す
         /// - 左端は角度で言うと 112.0f
         /// </summary>
+        /// <param name="startSeconds"></param>
+        /// <param name="duration1"></param>
+        /// <param name="duration2"></param>
+        /// <param name="gameModel"></param>
+        /// <param name="player"></param>
+        /// <param name="numberOfHandCards">場札の枚数</param>
+        /// <param name="indexOfPickup">ピックアップしている場札は何番目</param>
+        /// <param name="idOfHands">場札のIdリスト</param>
+        /// <param name="setCardMovementModel"></param>
+        /// <exception cref="Exception"></exception>
         internal void ArrangeHandCards(
             float startSeconds,
             float duration1,
             float duration2,
-            GameModel gameModel,
             int player,
+            int numberOfHandCards,
+            int indexOfPickup,
+            List<IdOfPlayingCards> idOfHands,
             LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
         {
-            // 25枚の場札が並べるように調整してある
-
-            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
-            if (numberOfCards < 1)
-            {
-                return; // 何もしない
-            }
-
-            // ピックアップしている場札は何番目
-            int indexOfPickup = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+            // 最大25枚の場札が並べるように調整してある
 
             float cardAngleZ = -5; // カードの少しの傾き
 
@@ -104,7 +108,7 @@
             float angleY;
             float playerTheta;
             float angleStep = -1.83f;
-            float startTheta = (numberOfCards * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
+            float startTheta = (numberOfHandCards * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
             float thetaStep = angleStep * Mathf.Deg2Rad; ; // 時計回り
 
             float ox = 0.0f;
@@ -131,7 +135,7 @@
             }
 
             float theta = startTheta;
-            foreach (var idOfCard in gameModel.GetCardsOfPlayerHand(player))
+            foreach (var idOfCard in idOfHands) // 場札のIdリスト
             {
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
                 float z = range * Mathf.Sin(theta + playerTheta) + oz + offsetCircleCenterZ;
@@ -156,15 +160,15 @@
             {
                 Debug.Log($"[ArrangeHandCards] 再度持上げ handIndex:{indexOfPickup}");
 
-                if (0 <= indexOfPickup && indexOfPickup < gameModel.GetLengthOfPlayerHandCards(player)) // 範囲内なら
+                if (0 <= indexOfPickup && indexOfPickup < numberOfHandCards) // 範囲内なら
                 {
-                    var idOfCard = gameModel.GetCardAtOfPlayerHand(player, indexOfPickup); // ピックアップしている場札
+                    var idOfPickuppedCard = idOfHands[indexOfPickup]; // ピックアップしている場札
 
                     // 抜いたカードの右隣のカードを（有れば）ピックアップする
                     setCardMovementModel(MovementGenerator.PickupCardOfHand(
                         startSeconds: startSeconds + duration1,
                         duration: duration2,
-                        idOfCard: idOfCard));
+                        idOfCard: idOfPickuppedCard));
                 }
             }
         }

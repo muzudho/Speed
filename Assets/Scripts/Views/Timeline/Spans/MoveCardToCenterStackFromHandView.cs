@@ -68,14 +68,22 @@
                             //    gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = 0;
                             //}
 
-                            // 場札の位置調整（をしないと歯抜けになる）
-                            gameViewModel.ArrangeHandCards(
-                                startSeconds: timeSpan.StartSeconds,
-                                duration1: timeSpan.Duration / 4.0f,
-                                duration2: timeSpan.Duration / 4.0f,
-                                gameModel: gameModel,
-                                player: GetModel(timeSpan).Player,
-                                setCardMovementModel: setMovementViewModel); // 場札
+                            var player = GetModel(timeSpan).Player;
+                            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
+                            if (0 < numberOfCards)
+                            {
+                                // 場札の位置調整（をしないと歯抜けになる）
+                                gameViewModel.ArrangeHandCards(
+                                    startSeconds: timeSpan.StartSeconds,
+                                    duration1: timeSpan.Duration / 4.0f,
+                                    duration2: timeSpan.Duration / 4.0f,
+                                    player: GetModel(timeSpan).Player,
+                                    numberOfHandCards: gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
+                                    indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(player),
+                                    idOfHands: gameModel.GetCardsOfPlayerHand(player),
+                                    setCardMovementModel: setMovementViewModel); // 場札
+                            }
+
                         },
                         setCardMovementModel: (movementModel) =>
                         {
