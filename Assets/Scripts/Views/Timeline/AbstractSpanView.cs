@@ -16,7 +16,7 @@
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        public AbstractSpanView(TimeSpan timeSpan)
+        public AbstractSpanView(TimeSpanView timeSpan)
         {
             this.TimeSpan = timeSpan;
         }
@@ -26,12 +26,12 @@
         /// <summary>
         /// タイム・スパン
         /// </summary>
-        public TimeSpan TimeSpan { get; private set; }
+        public TimeSpanView TimeSpan { get; private set; }
 
         // - メソッド
 
         virtual public void OnEnter(
-            TimeSpan timeSpan,
+            TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setLaunchedSpanModel)

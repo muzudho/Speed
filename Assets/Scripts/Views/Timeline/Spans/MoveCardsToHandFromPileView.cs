@@ -15,7 +15,7 @@
         /// 生成
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveCardsToHandFromPileView(TimeSpan timeSpan)
+        internal MoveCardsToHandFromPileView(TimeSpanView timeSpan)
             : base(timeSpan)
         {
         }
@@ -38,7 +38,7 @@
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override void OnEnter(
-            TimeSpan timeSpan,
+            TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)

@@ -18,7 +18,7 @@
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveCardsToPileFromCenterStacksView(ViewsOfTimeline.TimeSpan timeSpan)
+        internal MoveCardsToPileFromCenterStacksView(ViewsOfTimeline.TimeSpanView timeSpan)
             :base(timeSpan)
         {
         }
@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
         public override void OnEnter(
-            ViewsOfTimeline.TimeSpan timeSpan,
+            ViewsOfTimeline.TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)

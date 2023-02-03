@@ -17,7 +17,7 @@
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveCardToCenterStackFromHandView(ViewsOfTimeline.TimeSpan timeSpan)
+        internal MoveCardToCenterStackFromHandView(ViewsOfTimeline.TimeSpanView timeSpan)
             : base(timeSpan)
         {
         }
@@ -40,7 +40,7 @@
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
         public override void OnEnter(
-            TimeSpan timeSpan,
+            TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
@@ -106,7 +106,7 @@
         /// <param name="indexOfHandCardToRemove"></param>
         /// <param name="setIndexOfNextFocusedHandCard"></param>
         private void RemoveAtOfHandCard(
-            TimeSpan timeSpan,
+            TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             int player,
@@ -148,7 +148,7 @@
         }
 
         private void AddCardOfCenterStack2(
-            TimeSpan timeSpan,
+            TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             IdOfPlayingCards idOfCard,

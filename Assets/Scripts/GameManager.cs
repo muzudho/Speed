@@ -10,7 +10,7 @@ using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
 using Spans = Assets.Scripts.Views.Timeline.Spans;
 using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
-using TimeSpan = Assets.Scripts.Views.Timeline.TimeSpan;
+using TimeSpan = Assets.Scripts.Views.Timeline.TimeSpanView;
 using Assets.Scripts.Simulators.Timeline;
 
 /// <summary>
