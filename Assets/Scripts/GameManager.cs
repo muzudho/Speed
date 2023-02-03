@@ -11,6 +11,7 @@ using Spans = Assets.Scripts.Views.Timeline.Spans;
 using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 using TimeSpan = Assets.Scripts.Views.Timeline.TimeSpan;
+using Assets.Scripts.Simulators.Timeline;
 
 /// <summary>
 /// ゲーム・マネージャー
@@ -127,8 +128,8 @@ public class GameManager : MonoBehaviour
             new Spans.MoveCardsToPileFromCenterStacksView(
                 new TimeSpan(
                     startSeconds: 0.0f,
-                    duration: tickSeconds),
-                model : new MoveCardsToPileFromCenterStacksModel(
+                    duration: Specification.GetDurationBy(typeof(MoveCardsToPileFromCenterStacksModel))),
+                model: new MoveCardsToPileFromCenterStacksModel(
                     place: right
                     )).OnEnter(gameModelBuffer, gameViewModel,
                         setCardMovementModel: (cardMovementModel) =>
@@ -142,16 +143,16 @@ public class GameManager : MonoBehaviour
         this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
             timeSpan: new TimeSpan(
                 startSeconds: scheduledSeconds,
-                duration: 0.15f + durationOfMoveFocusToNextCard),
-            model:new MoveCardsToHandFromPileModel(
+                duration: Specification.GetDurationBy(typeof(MoveCardsToHandFromPileModel))),
+            model: new MoveCardsToHandFromPileModel(
                 player: 0,
                 numberOfCards: 5)
             ));
         this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
             timeSpan: new TimeSpan(
                 startSeconds: scheduledSeconds,
-                duration: 0.15f + durationOfMoveFocusToNextCard),
-            model:new MoveCardsToHandFromPileModel(
+                duration: Specification.GetDurationBy(typeof(MoveCardsToHandFromPileModel))),
+            model: new MoveCardsToHandFromPileModel(
                 player: 1,
                 numberOfCards: 5)
             ));
@@ -220,8 +221,8 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
                 timeSpan: new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    duration: 0.15f + durationOfMoveFocusToNextCard),
-                model:new MoveCardToCenterStackFromHandModel(
+                    duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel))),
+                model: new MoveCardToCenterStackFromHandModel(
                     player: 0, // １プレイヤーが
                     place: right) // 右の
                 ));
@@ -234,7 +235,7 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
                 timeSpan: new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    duration: 0.15f + durationOfMoveFocusToNextCard),
+                    duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel))),
                 model: new MoveCardToCenterStackFromHandModel(
                     player: 1, // ２プレイヤーが
                     place: right) // 右の
@@ -252,7 +253,7 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
                 timeSpan: new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    duration: 0.15f + durationOfMoveFocusToNextCard),
+                    duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel))),
                 model: new MoveCardToCenterStackFromHandModel(
                     player: 1, // ２プレイヤーが
                     place: left) // 左の
@@ -267,7 +268,7 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
                 timeSpan: new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    duration: 0.15f + durationOfMoveFocusToNextCard),
+                    duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel))),
                 model: new MoveCardToCenterStackFromHandModel(
                     player: 0, // １プレイヤーが
                     place: left) // 左の
@@ -290,7 +291,7 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
                 timeSpan: new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    duration: durationOfMoveFocusToNextCard),
+                    duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel))),
                 model: new MoveFocusToNextCardModel(
                     player: player,
                     direction: 1,
@@ -306,8 +307,8 @@ public class GameManager : MonoBehaviour
             var player = 0;
             this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
                 timeSpan: new TimeSpan(
-                    this.gameModelBuffer.ElapsedSeconds,
-                    durationOfMoveFocusToNextCard),
+                    startSeconds: this.gameModelBuffer.ElapsedSeconds,
+                    duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel))),
                 model: new MoveFocusToNextCardModel(
                     player: player,
                     direction: 0,
@@ -329,8 +330,8 @@ public class GameManager : MonoBehaviour
             var player = 1;
             this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
                 timeSpan: new TimeSpan(
-                    this.gameModelBuffer.ElapsedSeconds,
-                    durationOfMoveFocusToNextCard),
+                    startSeconds: this.gameModelBuffer.ElapsedSeconds,
+                    duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel))),
                 model: new MoveFocusToNextCardModel(
                     player: player,
                     direction: 1,
@@ -346,8 +347,8 @@ public class GameManager : MonoBehaviour
             var player = 1;
             this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
                 timeSpan: new TimeSpan(
-                    this.gameModelBuffer.ElapsedSeconds,
-                    durationOfMoveFocusToNextCard),
+                    startSeconds: this.gameModelBuffer.ElapsedSeconds,
+                    duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel))),
                 model: new MoveFocusToNextCardModel(
                     player: player,
                     direction: 0,
@@ -368,8 +369,8 @@ public class GameManager : MonoBehaviour
                 this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
                     timeSpan: new TimeSpan(
                         startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                        duration: 0.15f + durationOfMoveFocusToNextCard),
-                    model:new MoveCardsToHandFromPileModel(
+                        duration: Specification.GetDurationBy(typeof(MoveCardsToHandFromPileModel))),
+                    model: new MoveCardsToHandFromPileModel(
                         player: player,
                         numberOfCards: 1)
                     )); ;
@@ -399,7 +400,7 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
                 timeSpan: new TimeSpan(
                     startSeconds: scheduledSeconds,
-                    duration: 0.15f + durationOfMoveFocusToNextCard),
+                    duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel))),
                 model: new MoveCardToCenterStackFromHandModel(
                     player: 0, // １プレイヤーが
                     place: right) // 右の
@@ -409,7 +410,7 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
                 timeSpan: new TimeSpan(
                     startSeconds: scheduledSeconds,
-                    duration: 0.15f + durationOfMoveFocusToNextCard),
+                    duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel))),
                 model: new MoveCardToCenterStackFromHandModel(
                     player: 1, // ２プレイヤーが
                     place: left) // 左の
@@ -429,8 +430,8 @@ public class GameManager : MonoBehaviour
                     var player = 0;
                     this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
                         timeSpan: new TimeSpan(
-                            scheduledSeconds,
-                            durationOfMoveFocusToNextCard),
+                            startSeconds: scheduledSeconds,
+                            duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel))),
                         model: new MoveFocusToNextCardModel(
                             player: player,
                             direction: 0,
@@ -446,8 +447,8 @@ public class GameManager : MonoBehaviour
                     var player = 1;
                     this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
                         timeSpan: new TimeSpan(
-                            scheduledSeconds,
-                            durationOfMoveFocusToNextCard),
+                            startSeconds: scheduledSeconds,
+                            duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel))),
                         model: new MoveFocusToNextCardModel(
                             player: player,
                             direction: 0,
@@ -467,7 +468,7 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
                 timeSpan: new TimeSpan(
                     startSeconds: scheduledSeconds,
-                    duration: 0.15f + durationOfMoveFocusToNextCard),
+                    duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel))),
                 model: new MoveCardToCenterStackFromHandModel(
                     player: 0, // １プレイヤーが
                     place: 1) // 左の台札
@@ -476,7 +477,7 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
                 timeSpan: new TimeSpan(
                     startSeconds: scheduledSeconds,
-                    duration: 0.15f + durationOfMoveFocusToNextCard),
+                    duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel))),
                 model: new MoveCardToCenterStackFromHandModel(
                     player: 1, // ２プレイヤーが
                     place: 0) // 右の台札
@@ -490,7 +491,7 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
                 timeSpan: new TimeSpan(
                     startSeconds: scheduledSeconds,
-                    duration: 0.15f + durationOfMoveFocusToNextCard),
+                    duration: Specification.GetDurationBy(typeof(MoveCardsToHandFromPileModel))),
                 model: new MoveCardsToHandFromPileModel(
                     player: 0,
                     numberOfCards: 1)
@@ -500,7 +501,7 @@ public class GameManager : MonoBehaviour
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
                 timeSpan: new TimeSpan(
                     startSeconds: scheduledSeconds,
-                    duration: 0.15f + durationOfMoveFocusToNextCard),
+                    duration: Specification.GetDurationBy(typeof(MoveCardsToHandFromPileModel))),
                 model: new MoveCardsToHandFromPileModel(
                     player: 1,
                     numberOfCards: 1)
