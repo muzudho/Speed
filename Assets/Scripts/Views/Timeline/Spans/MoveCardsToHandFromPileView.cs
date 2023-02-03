@@ -15,20 +15,17 @@
         /// 生成
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="duration1">持続時間（秒）　２段階モーションの１段目</param>
-        /// <param name="duration2">持続時間（秒）　２段階モーションの２段目</param>
+        /// <param name="duration">持続時間（秒）</param>
         /// <param name="player">ｎプレイヤー</param>
         /// <param name="numberOfCards">カードがｍ枚</param>
-        internal MoveCardsToHandFromPileView(float startSeconds, float duration1, float duration2, MoveCardsToHandFromPileModel model)
-            : base(startSeconds, duration1)
+        internal MoveCardsToHandFromPileView(float startSeconds, float duration, MoveCardsToHandFromPileModel model)
+            : base(startSeconds, duration)
         {
-            this.Duration2 = duration2;
             this.Model = model;
         }
 
         // - プロパティ
 
-        float Duration2 { get; set; }
         MoveCardsToHandFromPileModel Model { get; set; }
 
         // - メソッド
@@ -61,8 +58,8 @@
                 GameModel gameModel = new GameModel(gameModelBuffer);
                 gameViewModel.ArrangeHandCards(
                     startSeconds: this.StartSeconds,
-                    duration1: this.Duration,
-                    duration2: this.Duration2,
+                    duration1: this.Duration / 2.0f,
+                    duration2: this.Duration / 2.0f,
                     gameModel: gameModel,
                     player: this.Model.Player,
                     setCardMovementModel: setCardMovementModel);

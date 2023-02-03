@@ -139,16 +139,14 @@ public class GameManager : MonoBehaviour
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
         this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
             startSeconds: scheduledSeconds,
-            duration1: 0.15f,
-            duration2: durationOfMoveFocusToNextCard,
+            duration: 0.15f + durationOfMoveFocusToNextCard,
             model:new MoveCardsToHandFromPileModel(
                 player: 0,
                 numberOfCards: 5)
             ));
         this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
             startSeconds: scheduledSeconds,
-            duration1: 0.15f,
-            duration2: durationOfMoveFocusToNextCard,
+            duration: 0.15f + durationOfMoveFocusToNextCard,
             model:new MoveCardsToHandFromPileModel(
                 player: 1,
                 numberOfCards: 5)
@@ -361,8 +359,7 @@ public class GameManager : MonoBehaviour
                 // 場札を並べる
                 this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    duration1: 0.15f,
-                    duration2: durationOfMoveFocusToNextCard,
+                    duration: 0.15f + durationOfMoveFocusToNextCard,
                     model:new MoveCardsToHandFromPileModel(
                         player: player,
                         numberOfCards: 1)
@@ -481,8 +478,7 @@ public class GameManager : MonoBehaviour
             // １プレイヤーは手札から１枚抜いて、場札として置く
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
             startSeconds: scheduledSeconds,
-            duration1: 0.15f,
-            duration2: durationOfMoveFocusToNextCard,
+            duration: 0.15f + durationOfMoveFocusToNextCard,
             model: new MoveCardsToHandFromPileModel(
                 player: 0,
                 numberOfCards: 1)
@@ -491,8 +487,7 @@ public class GameManager : MonoBehaviour
             // ２プレイヤーは手札から１枚抜いて、場札として置く
             this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
             startSeconds: scheduledSeconds,
-            duration1: 0.15f,
-            duration2: durationOfMoveFocusToNextCard,
+            duration: 0.15f + durationOfMoveFocusToNextCard,
             model: new MoveCardsToHandFromPileModel(
                 player: 1,
                 numberOfCards: 1)
