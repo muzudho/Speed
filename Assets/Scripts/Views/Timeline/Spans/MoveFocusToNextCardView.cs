@@ -19,16 +19,14 @@
         /// <param name="timeSpan">タイム・スパン</param>
         /// <param name="setIndexOfNextFocusedHandCard">次にピックアップする場札は何番目</param>
         /// <param name="model">モデル</param>
-        internal MoveFocusToNextCardView(ViewsOfTimeline.TimeSpan timeSpan, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard, MoveFocusToNextCardModel model)
+        internal MoveFocusToNextCardView(ViewsOfTimeline.TimeSpan timeSpan, MoveFocusToNextCardModel model)
             : base(timeSpan)
         {
-            this.SetIndexOfNextFocusedHandCard = setIndexOfNextFocusedHandCard;
             this.Model = model;
         }
 
         // - プロパティ
 
-        LazyArgs.SetValue<int> SetIndexOfNextFocusedHandCard { get; set; }
         MoveFocusToNextCardModel Model { get; set; }
 
         // - メソッド
@@ -102,7 +100,7 @@
             }
 
             // （状態変更）ピックアップしている場札の、インデックス更新
-            SetIndexOfNextFocusedHandCard(indexOfCurrent);
+            this.Model.SetIndexOfNextFocusedHandCard(indexOfCurrent);
 
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {

@@ -291,13 +291,13 @@ public class GameManager : MonoBehaviour
                 timeSpan: new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     duration: durationOfMoveFocusToNextCard),
-                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                    {
-                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
-                    },
                 model: new MoveFocusToNextCardModel(
                     player: player,
-                    direction: 1)
+                    direction: 1,
+                    setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                    {
+                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                    })
                 ));
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -308,13 +308,13 @@ public class GameManager : MonoBehaviour
                 timeSpan: new TimeSpan(
                     this.gameModelBuffer.ElapsedSeconds,
                     durationOfMoveFocusToNextCard),
-                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                    {
-                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
-                    },
                 model: new MoveFocusToNextCardModel(
                     player: player,
-                    direction: 0)
+                    direction: 0,
+                    setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                    {
+                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                    })
                 ));
         }
 
@@ -331,13 +331,13 @@ public class GameManager : MonoBehaviour
                 timeSpan: new TimeSpan(
                     this.gameModelBuffer.ElapsedSeconds,
                     durationOfMoveFocusToNextCard),
-                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                    {
-                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
-                    },
                 model: new MoveFocusToNextCardModel(
                     player: player,
-                    direction: 1)
+                    direction: 1,
+                    setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                    {
+                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                    })
                 ));
         }
         else if (Input.GetKeyDown(KeyCode.D))
@@ -348,13 +348,13 @@ public class GameManager : MonoBehaviour
                 timeSpan: new TimeSpan(
                     this.gameModelBuffer.ElapsedSeconds,
                     durationOfMoveFocusToNextCard),
-                setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                    {
-                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
-                    },
                 model: new MoveFocusToNextCardModel(
                     player: player,
-                    direction: 0)
+                    direction: 0,
+                    setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                    {
+                        gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                    })
                 ));
         }
 
@@ -431,13 +431,13 @@ public class GameManager : MonoBehaviour
                         timeSpan: new TimeSpan(
                             scheduledSeconds,
                             durationOfMoveFocusToNextCard),
-                        setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                        {
-                            gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
-                        },
                         model: new MoveFocusToNextCardModel(
                             player: player,
-                            direction: 0)
+                            direction: 0,
+                            setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                            {
+                                gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                            })
                         ));
                 }
 
@@ -448,13 +448,13 @@ public class GameManager : MonoBehaviour
                         timeSpan: new TimeSpan(
                             scheduledSeconds,
                             durationOfMoveFocusToNextCard),
-                        setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                        {
-                            gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
-                        },
                         model: new MoveFocusToNextCardModel(
                             player: player,
-                            direction: 0)
+                            direction: 0,
+                            setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                            {
+                                gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
+                            })
                         ));
                 }
 
