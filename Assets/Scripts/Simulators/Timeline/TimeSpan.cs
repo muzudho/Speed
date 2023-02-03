@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Simulators.Timeline
 {
     using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Views.Timeline;
 
     /// <summary>
     /// スパン・モデルと、スパン・ビューを紐づけます
@@ -18,6 +19,18 @@
         {
             this.StartSeconds = startSeconds;
             this.SpanModel = spanModel;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startSeconds">ゲーム内時間（秒）</param>
+        /// <param name="spanModel">スパン・モデル</param>
+        public TimeSpan(TimeSpan sourceTimeSpan, ISpanView spanView)
+        {
+            this.StartSeconds = sourceTimeSpan.StartSeconds;
+            this.SpanModel = sourceTimeSpan.SpanModel;
+            this.SpanView = spanView;
         }
 
         // - プロパティ
@@ -44,5 +57,7 @@
         public float EndSeconds => StartSeconds + Duration;
 
         public ISpanModel SpanModel { get; private set; }
+
+        public ISpanView SpanView { get; private set; }
     }
 }
