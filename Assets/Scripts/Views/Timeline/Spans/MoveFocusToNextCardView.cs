@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Views.Timeline.Spans
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
     using System;
 
@@ -17,22 +17,18 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
-        /// <param name="player"></param>
-        /// <param name="direction"></param>
         /// <param name="setIndexOfNextFocusedHandCard">次にピックアップする場札は何番目</param>
-        internal MoveFocusToNextCardView(float startSeconds, float duration, int player, int direction, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        internal MoveFocusToNextCardView(float startSeconds, float duration, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard, MoveFocusToNextCardModel model)
             : base(startSeconds, duration)
         {
-            this.Player = player;
-            this.Direction = direction;
             this.SetIndexOfNextFocusedHandCard = setIndexOfNextFocusedHandCard;
+            this.Model = model;
         }
 
         // - プロパティ
 
-        int Player { get; set; }
-        int Direction { get; set; }
         LazyArgs.SetValue<int> SetIndexOfNextFocusedHandCard { get; set; }
+        MoveFocusToNextCardModel Model { get; set; }
 
         // - メソッド
 
@@ -47,10 +43,10 @@
             LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
-            int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[Player]; // 下ろす場札
+            int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[this.Model.Player]; // 下ろす場札
 
             int indexOfCurrent; // ピックアップする場札
-            var length = gameModelBuffer.IdOfCardsOfPlayersHand[Player].Count;
+            var length = gameModelBuffer.IdOfCardsOfPlayersHand[this.Model.Player].Count;
 
             if (length < 1)
             {
@@ -59,7 +55,7 @@
             }
             else
             {
-                switch (Direction)
+                switch (this.Model.Direction)
                 {
                     // 後ろへ
                     case 0:
@@ -95,7 +91,7 @@
 
             if (0 <= indexOfPrevious && indexOfPrevious < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(Player, indexOfPrevious); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(this.Model.Player, indexOfPrevious); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setCardMovementModel(MovementGenerator.PutDownCardOfHand(
@@ -109,7 +105,7 @@
 
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(Player, indexOfCurrent); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(this.Model.Player, indexOfCurrent); // ピックアップしている場札
 
                 // 今回フォーカスするカードを持ち上げる
                 setCardMovementModel(MovementGenerator.PickupCardOfHand(
