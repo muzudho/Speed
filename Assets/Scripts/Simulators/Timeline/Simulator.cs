@@ -8,6 +8,7 @@
     using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Models.Timeline.Spans;
     using System.Collections.Generic;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// シミュレーター
@@ -48,11 +49,6 @@
         internal float[] ScheduledSeconds { get; private set; } = { 0.0f, 0.0f };
 
         // - メソッド
-
-        internal void AddScheduleSeconds(int player, float seconds)
-        {
-            this.ScheduledSeconds[player] += seconds;
-        }
 
         /// <summary>
         /// コマンドを消化
@@ -100,9 +96,20 @@
         /// 追加
         /// </summary>
         /// <param name="spanModel">タイム・スパン</param>
-        internal void Add(TimeSpan spanModel)
+        internal void Add(int player, ISpanModel spanModel)
         {
-            this.ScheduledItems.Add(spanModel);
+            var timeSpan = new SimulatorsOfTimeline.TimeSpan(
+                    startSeconds: this.ScheduledSeconds[player],
+                    spanModel: spanModel,
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
+
+            this.ScheduledItems.Add(timeSpan);
+            this.ScheduledSeconds[player] += timeSpan.Duration;
+        }
+
+        internal void AddScheduleSeconds(int player, float seconds)
+        {
+            this.ScheduledSeconds[player] += seconds;
         }
 
         internal TimeSpan GetItemAt(int index)
