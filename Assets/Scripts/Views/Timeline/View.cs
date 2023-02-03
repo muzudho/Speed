@@ -28,7 +28,7 @@
         /// 
         /// - 持続時間が切れると、消えていく
         /// </summary>
-        List<CardMovementView> ongoingCardMovementViews = new();
+        List<MovementView> ongoingCardMovementViews = new();
 
         // - メソッド
 
@@ -40,7 +40,7 @@
         {
             foreach (var cardMovementModel in launchedCardMovementModels)
             {
-                ongoingCardMovementViews.Add(new CardMovementView(cardMovementModel));
+                ongoingCardMovementViews.Add(new MovementView(cardMovementModel));
             }
 
             // Debug.Log($"[Assets.Scripts.Views.Timeline.View Lerp] リープ ongoingCardMovementViews count:{ongoingCardMovementViews.Count}");

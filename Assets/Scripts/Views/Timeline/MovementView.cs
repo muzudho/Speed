@@ -1,20 +1,19 @@
 ﻿namespace Assets.Scripts.Views
 {
-    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views.Timeline;
     using UnityEngine;
 
     /// <summary>
     /// モデル側から、ビュー側への注文
     /// </summary>
-    internal class CardMovementView
+    internal class MovementView
     {
 
         // - その他（生成）
 
-        public CardMovementView(MovementViewModel cardMovementModel)
+        public MovementView(MovementViewModel movementViewModel)
         {
-            this.Model = cardMovementModel;
+            this.Model = movementViewModel;
         }
 
         // - プロパティ

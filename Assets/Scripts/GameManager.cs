@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
                 timeSpan).OnEnter(timeSpan, gameModelBuffer, gameViewModel,
                         setCardMovementViewModel: (cardMovementViewModel) =>
                         {
-                            var cardMovementView = new CardMovementView(cardMovementViewModel);
+                            var cardMovementView = new MovementView(cardMovementViewModel);
                             cardMovementView.Lerp(1.0f);
                         });
         }
