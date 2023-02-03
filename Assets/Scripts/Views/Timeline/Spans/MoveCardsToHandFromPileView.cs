@@ -22,6 +22,7 @@
         internal MoveCardsToHandFromPileView(float startSeconds, float duration1, float duration2, MoveCardsToHandFromPileModel model)
             : base(startSeconds, duration1)
         {
+            this.Duration2 = duration2;
             this.Model = model;
         }
 

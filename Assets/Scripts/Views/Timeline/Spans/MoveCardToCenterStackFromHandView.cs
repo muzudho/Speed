@@ -23,6 +23,7 @@
         internal MoveCardToCenterStackFromHandView(float startSeconds, float duration1, float duration2, MoveCardToCenterStackFromHandModel model)
             : base(startSeconds, duration1)
         {
+            this.Duration2 = duration2;
             this.Model = model;
         }
 
