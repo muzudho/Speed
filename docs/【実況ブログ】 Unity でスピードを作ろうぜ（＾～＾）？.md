@@ -4915,5 +4915,18 @@ namespace Assets.Scripts.Models
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　今日は　ここまで」  
 
+# 📅2023-02-03 fri 18:48
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　しばらく　作り直し」  
+
+![202302_unity_04-0206--addition-1.png](https://crieit.now.sh/upload_images/ea26ca30cc98ad498bd8b846754055b663dd3f4d754cc.png)  
+
+📅 2023-02-04 sat 02:07  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　７時間ぐらいバグ探して　１つ　直した。  
+操作を２連続で行うと　カードが変なところに飛んでいくので、  
+２つの操作を結合して、１回の操作にする」  
 
 # // 書きかけ
