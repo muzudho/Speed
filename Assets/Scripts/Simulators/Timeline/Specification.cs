@@ -86,17 +86,17 @@
             DurationOfModels.Add(typeof(MoveCardToCenterStackFromHandModel).GetHashCode(), 0.15f + durationOfMoveFocusToNextCard);
             DurationOfModels.Add(typeof(MoveFocusToNextCardModel).GetHashCode(), durationOfMoveFocusToNextCard);
 
-            Views.Add(typeof(MoveCardsToHandFromPileView).GetHashCode(), new MoveCardsToHandFromPileView());
-            Views.Add(typeof(MoveCardsToPileFromCenterStacksView).GetHashCode(), new MoveCardsToPileFromCenterStacksView());
-            Views.Add(typeof(MoveCardToCenterStackFromHandView).GetHashCode(), new MoveCardToCenterStackFromHandView());
-            Views.Add(typeof(MoveFocusToNextCardView).GetHashCode(), new MoveFocusToNextCardView());
+            ViewsFromModel.Add(typeof(MoveCardsToHandFromPileModel).GetHashCode(), new MoveCardsToHandFromPileView());
+            ViewsFromModel.Add(typeof(MoveCardsToPileFromCenterStacksModel).GetHashCode(), new MoveCardsToPileFromCenterStacksView());
+            ViewsFromModel.Add(typeof(MoveCardToCenterStackFromHandModel).GetHashCode(), new MoveCardToCenterStackFromHandView());
+            ViewsFromModel.Add(typeof(MoveFocusToNextCardModel).GetHashCode(), new MoveFocusToNextCardView());
         }
 
         // - プロパティ
 
         internal static Dictionary<int, float> DurationOfModels = new();
 
-        internal static Dictionary<int, ISpanView> Views = new();
+        internal static Dictionary<int, ISpanView> ViewsFromModel = new();
 
         static Dictionary<IdOfPlayingCards, IdOfGameObjects> IdFromPlayingCardToGameObject = new();
         static Dictionary<IdOfGameObjects, IdOfPlayingCards> IdFromGameObjectToPlayingCard = new();
@@ -114,9 +114,9 @@
             return DurationOfModels[type.GetHashCode()];
         }
 
-        internal static ISpanView SpawnView(Type type)
+        internal static ISpanView SpawnViewFromModel(Type type)
         {
-            return Views[type.GetHashCode()].Spawn();
+            return ViewsFromModel[type.GetHashCode()].Spawn();
         }
 
         internal static IdOfGameObjects GetIdOfGameObject(IdOfPlayingCards id)

@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: 0.0f,
                     spanModel: spanModel,
-                    spanView: Specification.SpawnView(typeof(Spans.MoveCardsToPileFromCenterStacksView)));
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             timeSpan.SpanView.OnEnter(timeSpan, gameModelBuffer, gameViewModel,
                         setMovementViewModel: (movementViewModel) =>
                         {
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
                     spanModel: spanModel,
-                    spanView: new Spans.MoveCardsToHandFromPileView());
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             this.timelineView.Simulator.Add(timeSpan);
             this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
         }
@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
                     spanModel: spanModel,
-                    spanView: new Spans.MoveCardsToHandFromPileView());
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             this.timelineView.Simulator.Add(timeSpan);
             this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
         }
@@ -224,7 +224,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     spanModel: spanModel,
-                    spanView: new Spans.MoveCardToCenterStackFromHandView());
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             this.timelineView.Simulator.Add(timeSpan);
             handled1player = true;
         }
@@ -238,7 +238,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     spanModel: spanModel,
-                    spanView: new Spans.MoveCardToCenterStackFromHandView());
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             this.timelineView.Simulator.Add(timeSpan);
             handled2player = true;
         }
@@ -256,7 +256,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     spanModel: spanModel,
-                    spanView: new Spans.MoveCardToCenterStackFromHandView());
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             this.timelineView.Simulator.Add(timeSpan);
             handled2player = true;
         }
@@ -271,7 +271,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     spanModel: spanModel,
-                    spanView: new Spans.MoveCardToCenterStackFromHandView());
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             this.timelineView.Simulator.Add(timeSpan);
             handled1player = true;
         }
@@ -298,7 +298,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     spanModel: spanModel,
-                    spanView: new Spans.MoveFocusToNextCardView());
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             this.timelineView.Simulator.Add(timeSpan);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -315,7 +315,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     spanModel: spanModel,
-                    spanView: new Spans.MoveFocusToNextCardView());
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             this.timelineView.Simulator.Add(timeSpan);
         }
 
@@ -338,7 +338,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     spanModel: spanModel,
-                    spanView: new Spans.MoveFocusToNextCardView());
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             this.timelineView.Simulator.Add(timeSpan);
         }
         else if (Input.GetKeyDown(KeyCode.D))
@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     spanModel: spanModel,
-                    spanView: new Spans.MoveFocusToNextCardView());
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
             this.timelineView.Simulator.Add(timeSpan);
         }
 
@@ -372,7 +372,7 @@ public class GameManager : MonoBehaviour
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.gameModelBuffer.ElapsedSeconds,
                         spanModel: spanModel,
-                        spanView: new Spans.MoveCardsToHandFromPileView());
+                        spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
                 this.timelineView.Simulator.Add(timeSpan);
             }
         }
@@ -409,7 +409,7 @@ public class GameManager : MonoBehaviour
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
                         spanModel: spanModel,
-                        spanView: new Spans.MoveCardToCenterStackFromHandView());
+                        spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
                 this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
@@ -422,7 +422,7 @@ public class GameManager : MonoBehaviour
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
                         spanModel: spanModel,
-                        spanView: new Spans.MoveCardToCenterStackFromHandView());
+                        spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
                 this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
@@ -453,7 +453,7 @@ public class GameManager : MonoBehaviour
                     var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                             startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
                             spanModel: spanModel,
-                            spanView: new Spans.MoveFocusToNextCardView());
+                            spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
                     this.timelineView.Simulator.Add(timeSpan);
                     this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
                 }
@@ -471,7 +471,7 @@ public class GameManager : MonoBehaviour
                     var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                             startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
                             spanModel: spanModel,
-                            spanView: new Spans.MoveFocusToNextCardView());
+                            spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
                     this.timelineView.Simulator.Add(timeSpan);
                     this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
                 }
@@ -494,7 +494,7 @@ public class GameManager : MonoBehaviour
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
                         spanModel: spanModel,
-                        spanView: new Spans.MoveCardToCenterStackFromHandView());
+                        spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
                 this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
@@ -506,7 +506,7 @@ public class GameManager : MonoBehaviour
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
                         spanModel: spanModel,
-                        spanView: new Spans.MoveCardToCenterStackFromHandView());
+                        spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
                 this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
@@ -529,7 +529,7 @@ public class GameManager : MonoBehaviour
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
                         spanModel: spanModel,
-                        spanView: new Spans.MoveCardsToHandFromPileView());
+                        spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
                 this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
@@ -542,7 +542,7 @@ public class GameManager : MonoBehaviour
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
                         spanModel: spanModel,
-                        spanView: new Spans.MoveCardsToHandFromPileView());
+                        spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
                 this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
