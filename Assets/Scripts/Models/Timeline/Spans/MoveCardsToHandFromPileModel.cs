@@ -3,7 +3,7 @@
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    internal class MoveCardsToHandFromPileModel
+    internal class MoveCardsToHandFromPileModel : ISpanModel
     {
         // - その他（生成）
 

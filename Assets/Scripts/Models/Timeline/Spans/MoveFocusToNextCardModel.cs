@@ -3,7 +3,7 @@
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>
-    internal class MoveFocusToNextCardModel
+    internal class MoveFocusToNextCardModel : ISpanModel
     {
         // - 生成
 

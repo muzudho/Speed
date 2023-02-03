@@ -1,5 +1,7 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
+    using Assets.Scripts.Models.Timeline;
+
     internal class TimeSpan
     {
         // - その他（生成）
@@ -9,10 +11,11 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
-        public TimeSpan(float startSeconds, float duration)
+        public TimeSpan(float startSeconds, float duration, ISpanModel spanModel)
         {
             this.StartSeconds = startSeconds;
             this.Duration = duration;
+            this.SpanModel = spanModel;
         }
 
         // - プロパティ
@@ -26,6 +29,8 @@
         /// 持続時間（秒）
         /// </summary>
         public float Duration { get; private set; }
+
+        public ISpanModel SpanModel { get; private set; }
 
         /// <summary>
         /// 終了時間（秒）
