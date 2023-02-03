@@ -57,7 +57,7 @@
                         gameViewModel: gameViewModel,
                         player: GetModel(timeSpan).Player,
                         place: GetModel(timeSpan).Place,
-                        indexOfHandCardToRemove: indexOfFocusedHandCard,
+                        getIndexOfHandCardToRemove: () => indexOfFocusedHandCard,
                         setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                         {
                             gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
@@ -78,11 +78,11 @@
                                     duration1: timeSpan.Duration / 4.0f,
                                     duration2: timeSpan.Duration / 4.0f,
                                     player: GetModel(timeSpan).Player,
-                                    getNumberOfHandCards: ()=>gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
-                                    getIndexOfPickup:()=> gameModel.GetIndexOfFocusedCardOfPlayer(player),
-                                    getIdOfHands:()=> gameModel.GetCardsOfPlayerHand(player),
-                                    getHandCardMinY:()=> gameViewModel.minY,
-                                    getHandCardsOriginZ:()=> gameViewModel.handCardsZ[player],
+                                    getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
+                                    getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
+                                    getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
+                                    getHandCardMinY: () => gameViewModel.minY,
+                                    getHandCardsOriginZ: () => gameViewModel.handCardsZ[player],
                                     setCardMovementModel: setMovementViewModel); // 場札
                             }
 
@@ -119,10 +119,12 @@
             GameViewModel gameViewModel,
             int player,
             int place,
-            int indexOfHandCardToRemove,
+            LazyArgs.GetValue<int> getIndexOfHandCardToRemove,
             LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard,
             LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
         {
+            var indexOfHandCardToRemove = getIndexOfHandCardToRemove();
+
             // 抜く前の場札の数
             var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
             if (indexOfHandCardToRemove < 0 || lengthBeforeRemove <= indexOfHandCardToRemove)
@@ -150,26 +152,39 @@
             var goCard = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexOfHandCardToRemove]; // 場札を１枚抜いて
             gameModelBuffer.RemoveCardAtOfPlayerHand(player, indexOfHandCardToRemove);
 
-            AddCardOfCenterStack2(timeSpan, gameModelBuffer, gameViewModel, goCard, place,
-                setCardMovementModel: setCardMovementModel); // 台札
+            var gameModel = new GameModel(gameModelBuffer);
+
+            AddCardOfCenterStack2(
+                timeSpan: timeSpan,
+                gameModelBuffer: gameModelBuffer,
+                idOfCard: goCard,
+                place: place,
+                getNextTop: () =>
+                    {
+                        var (nextTopX, nextTopZ) = gameViewModel.GetXZOfNextCenterStackCard(gameModel, place);
+                        return new Vector3(nextTopX, gameViewModel.centerStacksY[place], nextTopZ);
+                    },
+                setCardMovementModel: setCardMovementModel, // 台札
+                setCenterStacksY: (deltaY) => gameViewModel.centerStacksY[place] += deltaY);
             setIndexOfNextFocusedHandCard(indexOfNextFocusedHandCard);
         }
 
         private void AddCardOfCenterStack2(
             TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            GameViewModel gameViewModel,
             IdOfPlayingCards idOfCard,
             int place,
-            LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
+            LazyArgs.GetValue<Vector3> getNextTop,
+            LazyArgs.SetValue<MovementViewModel> setCardMovementModel,
+            LazyArgs.SetValue<float> setCenterStacksY)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
             // 手ぶれ
-            var (shakeX, shakeZ, shakeAngleY) = gameViewModel.MakeShakeForCenterStack(place);
+            var (shakeX, shakeZ, shakeAngleY) = ViewHelper.MakeShakeForCenterStack(place);
 
             // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
-            var (nextTopX, nextTopZ) = gameViewModel.GetXZOfNextCenterStackCard(gameModel, place);
+            Vector3 nextTop = getNextTop();
 
             // 台札の捻り
             var goCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfCard)]; // TODO ビューが必要？
@@ -190,14 +205,14 @@
             setCardMovementModel(new MovementViewModel(
                 startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                 duration: timeSpan.Duration / 2.0f,
-                getBeginPosition: ()=>goCard.transform.position,
-                getEndPosition:()=> new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),
-                getBeginRotation:()=> goCard.transform.rotation,
-                getEndRotation:()=> Quaternion.Euler(0, nextAngleY, 0.0f),
+                getBeginPosition: () => goCard.transform.position,
+                getEndPosition: () => new Vector3(nextTop.x + shakeX, nextTop.y, nextTop.z + shakeZ),
+                getBeginRotation: () => goCard.transform.rotation,
+                getEndRotation: () => Quaternion.Euler(0, nextAngleY, 0.0f),
                 idOfGameObject: idOfGo));
 
             // 次に台札に積むカードの高さ
-            gameViewModel.centerStacksY[place] += 0.2f;
+            setCenterStacksY(0.2f);
         }
     }
 }
