@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline.Spans;
+    using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views;
     using System;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
@@ -107,11 +108,17 @@
             {
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timeSpan).Player, indexOfCurrent); // ピックアップしている場札
 
+                var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+                var goCard = GameObjectStorage.Items[idOfGo];
+
                 // 今回フォーカスするカードを持ち上げる
                 setMovementViewModel(MovementGenerator.PickupCardOfHand(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
-                    idOfCard: idOfCard));
+                    idOfCard: idOfCard,
+                    getBeginPosition: ()=> goCard.transform.position,
+                    getBeginRotation: () => goCard.transform.rotation
+                    ));
             }
         }
     }

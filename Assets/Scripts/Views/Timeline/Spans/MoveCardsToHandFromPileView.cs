@@ -69,19 +69,18 @@
             // 場札の位置の再調整（をしないと、手札から移動しない）
             GameModel gameModel = new GameModel(gameModelBuffer);
             var player = GetModel(timeSpan).Player;
-            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); 
+            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player);
             if (0 < numberOfCards)
             {
                 MovementGenerator.ArrangeHandCards(
                     startSeconds: timeSpan.StartSeconds,
-                    duration1: timeSpan.Duration / 2.0f,
-                    duration2: timeSpan.Duration / 2.0f,
+                    duration: timeSpan.Duration,
                     player: player,
-                    getNumberOfHandCards: ()=>gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
-                    getIndexOfPickup:()=> gameModel.GetIndexOfFocusedCardOfPlayer(player),
-                    getIdOfHands:()=> gameModel.GetCardsOfPlayerHand(player),
-                    getHandCardMinY: ()=>gameViewModel.minY,
-                    getHandCardsOriginZ:()=> gameViewModel.handCardsZ[player],
+                    getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
+                    getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
+                    getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
+                    getHandCardMinY: () => gameViewModel.minY,
+                    getHandCardsOriginZ: () => gameViewModel.handCardsZ[player],
                     setCardMovementModel: setMovementViewModel);
             }
         }

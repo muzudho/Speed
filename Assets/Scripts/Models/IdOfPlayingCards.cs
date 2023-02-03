@@ -9,6 +9,8 @@
     /// </summary>
     internal enum IdOfPlayingCards
     {
+        None, 
+
         Clubs1,
         Clubs2,
         Clubs3,

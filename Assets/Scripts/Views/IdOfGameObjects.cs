@@ -5,6 +5,8 @@
     /// </summary>
     internal enum IdOfGameObjects
     {
+        None,
+
         Clubs1,
         Clubs2,
         Clubs3,

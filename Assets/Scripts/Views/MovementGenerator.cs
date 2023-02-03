@@ -16,7 +16,11 @@
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="idOfCard">カードId</param>
         internal static MovementViewModel PickupCardOfHand(
-            float startSeconds, float duration, IdOfPlayingCards idOfCard)
+            float startSeconds,
+            float duration,
+            LazyArgs.GetValue<Vector3> getBeginPosition,
+            LazyArgs.GetValue<Quaternion> getBeginRotation,
+            IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
@@ -29,16 +33,24 @@
             return new MovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
-                getBeginPosition: ()=> goCard.transform.position,
-                getEndPosition: ()=> new Vector3(
-                    goCard.transform.position.x,
-                    goCard.transform.position.y + liftY,
-                    goCard.transform.position.z),
-                getBeginRotation:()=> goCard.transform.rotation,
-                getEndRotation:()=> Quaternion.Euler(
-                    goCard.transform.rotation.eulerAngles.x,
-                    goCard.transform.rotation.eulerAngles.y + rotateY,
-                    goCard.transform.eulerAngles.z + rotateZ),
+                getBeginPosition: getBeginPosition,
+                getEndPosition: () =>
+                    {
+                        var pos = getBeginPosition();
+                        return new Vector3(
+                            pos.x,
+                            pos.y + liftY,
+                            pos.z);
+                    },
+                getBeginRotation: getBeginRotation,
+                getEndRotation: () =>
+                    {
+                        var rot = getBeginRotation();
+                        return Quaternion.Euler(
+                            rot.eulerAngles.x,
+                            rot.eulerAngles.y + rotateY,
+                            rot.eulerAngles.z + rotateZ);
+                    },
                 idOfGameObject: idOfGo);
         }
 
@@ -64,10 +76,10 @@
             return new MovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
-                getBeginPosition: ()=>goCard.transform.position,
-                getEndPosition:()=> new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
-                getBeginRotation:()=> goCard.transform.rotation,
-                getEndRotation:()=> Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ),
+                getBeginPosition: () => goCard.transform.position,
+                getEndPosition: () => new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
+                getBeginRotation: () => goCard.transform.rotation,
+                getEndRotation: () => Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ),
                 idOfGameObject: idOfGo);
         }
 
@@ -80,8 +92,7 @@
         /// - 左端は角度で言うと 112.0f
         /// </summary>
         /// <param name="startSeconds"></param>
-        /// <param name="duration1"></param>
-        /// <param name="duration2"></param>
+        /// <param name="duration"></param>
         /// <param name="gameModel"></param>
         /// <param name="player"></param>
         /// <param name="numberOfHandCards">場札の枚数</param>
@@ -93,8 +104,7 @@
         /// <exception cref="Exception"></exception>
         internal static void ArrangeHandCards(
             float startSeconds,
-            float duration1,
-            float duration2,
+            float duration,
             int player,
             LazyArgs.GetValue<int> getNumberOfHandCards,
             LazyArgs.GetValue<int> getIndexOfPickup,
@@ -138,44 +148,58 @@
                     throw new Exception();
             }
 
-            float theta = startTheta;
             var idOfHands = getIdOfHands();
+
+            // TODO ★ 持ち上げ過ぎてしまう
+            // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
+            var indexOfPickup = getIndexOfPickup();
+            IdOfPlayingCards idOfPickupCard = IdOfPlayingCards.None;    // ピックアップしている場札
+            Debug.Log($"[ArrangeHandCards] 再度持上げ handIndex:{indexOfPickup}");
+            if (0 <= indexOfPickup && indexOfPickup < getNumberOfHandCards()) // 範囲内なら
+            {
+                idOfPickupCard = idOfHands[indexOfPickup];
+            }
+
+            float theta = startTheta;
             foreach (var idOfCard in idOfHands) // 場札のIdリスト
             {
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
                 float z = range * Mathf.Sin(theta + playerTheta) + getHandCardsOriginZ() + offsetCircleCenterZ;
 
                 var idOfGo = Specification.GetIdOfGameObject(idOfCard);
-                var goCard = GameObjectStorage.Items[idOfGo]; 
-                setCardMovementModel(new MovementViewModel(
-                    startSeconds: startSeconds,
-                    duration: duration1,
-                    getBeginPosition: ()=>goCard.transform.position,
-                    getEndPosition:()=> new Vector3(x, getHandCardMinY(), z),
-                    getBeginRotation:()=> goCard.transform.rotation,
-                    getEndRotation:()=> Quaternion.Euler(0, angleY, cardAngleZ),
-                    idOfGameObject: idOfGo));
+                var goCard = GameObjectStorage.Items[idOfGo];
 
+                // 目標地点
+                var destinationPosition = new Vector3(x, getHandCardMinY(), z);
+                var destinationRotation = Quaternion.Euler(0, angleY, cardAngleZ);
+
+                if (idOfCard != idOfPickupCard)
+                {
+                    setCardMovementModel(new MovementViewModel(
+                        startSeconds: startSeconds,
+                        duration: duration,
+                        getBeginPosition: () => goCard.transform.position,
+                        getEndPosition: () => destinationPosition,
+                        getBeginRotation: () => goCard.transform.rotation,
+                        getEndRotation: () => destinationRotation,
+                        idOfGameObject: idOfGo));
+                }
+                else
+                {
+                    // ピックアップしている場札
+
+                    // 目標地点　＋　ピックアップ操作
+                    setCardMovementModel(MovementGenerator.PickupCardOfHand(
+                        startSeconds: startSeconds,
+                        duration: duration,
+                        idOfCard: idOfPickupCard,
+                        getBeginPosition: () => destinationPosition,
+                        getBeginRotation: () => destinationRotation
+                        ));
+                }
 
                 // 更新
                 theta += thetaStep;
-            }
-
-            // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
-            {
-                var indexOfPickup = getIndexOfPickup();
-                Debug.Log($"[ArrangeHandCards] 再度持上げ handIndex:{indexOfPickup}");
-
-                if (0 <= indexOfPickup && indexOfPickup < getNumberOfHandCards()) // 範囲内なら
-                {
-                    var idOfPickuppedCard = idOfHands[indexOfPickup]; // ピックアップしている場札
-
-                    // 抜いたカードの右隣のカードを（有れば）ピックアップする
-                    setCardMovementModel(MovementGenerator.PickupCardOfHand(
-                        startSeconds: startSeconds + duration1,
-                        duration: duration2,
-                        idOfCard: idOfPickuppedCard));
-                }
             }
         }
     }

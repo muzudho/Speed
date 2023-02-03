@@ -82,8 +82,7 @@
                                 // 場札の位置調整（をしないと歯抜けになる）
                                 MovementGenerator.ArrangeHandCards(
                                     startSeconds: timeSpan.StartSeconds,
-                                    duration1: timeSpan.Duration / 4.0f,
-                                    duration2: timeSpan.Duration / 4.0f,
+                                    duration: timeSpan.Duration / 2.0f,
                                     player: GetModel(timeSpan).Player,
                                     getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
                                     getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
