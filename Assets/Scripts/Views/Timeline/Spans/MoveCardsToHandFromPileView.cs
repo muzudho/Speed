@@ -19,12 +19,17 @@
         internal MoveCardsToHandFromPileView(TimeSpan timeSpan, MoveCardsToHandFromPileModel model)
             : base(timeSpan)
         {
-            this.Model = model;
         }
 
         // - プロパティ
 
-        MoveCardsToHandFromPileModel Model { get; set; }
+        MoveCardsToHandFromPileModel Model
+        {
+            get
+            {
+                return (MoveCardsToHandFromPileModel)this.TimeSpan.SpanModel;
+            }
+        }
 
         // - メソッド
 

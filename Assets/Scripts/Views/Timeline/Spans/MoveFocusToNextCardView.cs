@@ -22,12 +22,17 @@
         internal MoveFocusToNextCardView(ViewsOfTimeline.TimeSpan timeSpan, MoveFocusToNextCardModel model)
             : base(timeSpan)
         {
-            this.Model = model;
         }
 
         // - プロパティ
 
-        MoveFocusToNextCardModel Model { get; set; }
+        MoveFocusToNextCardModel Model
+        {
+            get
+            {
+                return (MoveFocusToNextCardModel)this.TimeSpan.SpanModel;
+            }
+        }
 
         // - メソッド
 

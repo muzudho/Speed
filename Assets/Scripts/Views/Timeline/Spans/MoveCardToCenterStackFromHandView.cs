@@ -21,12 +21,17 @@
         internal MoveCardToCenterStackFromHandView(ViewsOfTimeline.TimeSpan timeSpan, MoveCardToCenterStackFromHandModel model)
             : base(timeSpan)
         {
-            this.Model = model;
         }
 
         // - プロパティ
 
-        MoveCardToCenterStackFromHandModel Model { get; set; }
+        MoveCardToCenterStackFromHandModel Model
+        {
+            get
+            {
+                return (MoveCardToCenterStackFromHandModel)this.TimeSpan.SpanModel;
+            }
+        }
 
         // - メソッド
 

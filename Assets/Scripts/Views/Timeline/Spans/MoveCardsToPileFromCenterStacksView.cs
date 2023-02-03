@@ -22,12 +22,17 @@
         internal MoveCardsToPileFromCenterStacksView(ViewsOfTimeline.TimeSpan timeSpan, MoveCardsToPileFromCenterStacksModel model)
             :base(timeSpan)
         {
-            this.Model = model;
         }
 
         // - プロパティ
 
-        MoveCardsToPileFromCenterStacksModel Model { get; set; }
+        MoveCardsToPileFromCenterStacksModel Model
+        {
+            get
+            {
+                return (MoveCardsToPileFromCenterStacksModel)this.TimeSpan.SpanModel;
+            }
+        }
 
         // - メソッド
 
