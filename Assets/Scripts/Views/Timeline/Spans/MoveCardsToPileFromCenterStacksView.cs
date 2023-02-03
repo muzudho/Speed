@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Views.Timeline.Spans
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
     using System;
     using UnityEngine;
@@ -19,15 +19,15 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="place"></param>
-        internal MoveCardsToPileFromCenterStacksView(float startSeconds, float duration, int place)
+        internal MoveCardsToPileFromCenterStacksView(float startSeconds, float duration, MoveCardsToPileFromCenterStacksModel model)
             :base(startSeconds, duration)
         {
-            this.Place = place;
+            this.Model = model;
         }
 
         // - プロパティ
 
-        int Place { get; set; }
+        MoveCardsToPileFromCenterStacksModel Model { get; set; }
 
         // - メソッド
 
@@ -44,12 +44,12 @@
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
-            var length = gameModelBuffer.IdOfCardsOfCenterStacks[Place].Count; // 台札の枚数
+            var length = gameModelBuffer.IdOfCardsOfCenterStacks[this.Model.Place].Count; // 台札の枚数
             if (1 <= length)
             {
                 var startIndex = length - numberOfCards;
-                var idOfCard = gameModelBuffer.IdOfCardsOfCenterStacks[Place][startIndex];
-                gameModelBuffer.RemoveCardAtOfCenterStack(Place, startIndex);
+                var idOfCard = gameModelBuffer.IdOfCardsOfCenterStacks[this.Model.Place][startIndex];
+                gameModelBuffer.RemoveCardAtOfCenterStack(this.Model.Place, startIndex);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 int player;

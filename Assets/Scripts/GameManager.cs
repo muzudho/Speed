@@ -122,12 +122,14 @@ public class GameManager : MonoBehaviour
             new Spans.MoveCardsToPileFromCenterStacksView(
                 startSeconds: 0.0f,
                 duration: tickSeconds,
-                place: right).OnEnter(gameModelBuffer, gameViewModel,
-                    setCardMovementModel: (cardMovementModel) =>
-                    {
-                        var cardMovementView = new CardMovementView(cardMovementModel);
-                        cardMovementView.Lerp(1.0f);
-                    });
+                model : new MoveCardsToPileFromCenterStacksModel(
+                    place: right
+                    )).OnEnter(gameModelBuffer, gameViewModel,
+                        setCardMovementModel: (cardMovementModel) =>
+                        {
+                            var cardMovementView = new CardMovementView(cardMovementModel);
+                            cardMovementView.Lerp(1.0f);
+                        });
         }
 
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
