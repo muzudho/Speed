@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;
 
@@ -81,7 +82,7 @@
             float duration2,
             GameModel gameModel,
             int player,
-            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
         {
             // 25枚の場札が並べるように調整してある
 
@@ -136,7 +137,7 @@
 
 
                 var goCard = GameObjectStorage.PlayingCards[idOfCard];
-                setCardMovementModel(new CardMovementModel(
+                setCardMovementModel(new CardMovementViewModel(
                     startSeconds: startSeconds,
                     duration: duration1,
                     beginPosition: goCard.transform.position,

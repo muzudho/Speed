@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Views.Timeline.Spans
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
 
     /// <summary>
@@ -19,18 +19,16 @@
         /// <param name="duration2">持続時間（秒）　２段階モーションの２段目</param>
         /// <param name="player">ｎプレイヤー</param>
         /// <param name="numberOfCards">カードがｍ枚</param>
-        internal MoveCardsToHandFromPileView(float startSeconds, float duration1, float duration2, int player, int numberOfCards)
+        internal MoveCardsToHandFromPileView(float startSeconds, float duration1, float duration2, MoveCardsToHandFromPileModel model)
             : base(startSeconds, duration1)
         {
-            Player = player;
-            NumberOfCards = numberOfCards;
+            this.Model = model;
         }
 
         // - プロパティ
 
         float Duration2 { get; set; }
-        int Player { get; set; }
-        int NumberOfCards { get; set; }
+        MoveCardsToHandFromPileModel Model { get; set; }
 
         // - メソッド
 
@@ -42,21 +40,21 @@
         public override void OnEnter(
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
         {
             // 手札の上の方からｎ枚抜いて、場札へ移動する
-            var length = gameModelBuffer.IdOfCardsOfPlayersPile[Player].Count; // 手札の枚数
+            var length = gameModelBuffer.IdOfCardsOfPlayersPile[this.Model.Player].Count; // 手札の枚数
 
-            if (NumberOfCards <= length)
+            if (this.Model.NumberOfCards <= length)
             {
                 // 天辺から取っていく
-                var startIndex = length - NumberOfCards;
-                gameModelBuffer.MoveCardsToHandFromPile(Player, startIndex, NumberOfCards);
+                var startIndex = length - this.Model.NumberOfCards;
+                gameModelBuffer.MoveCardsToHandFromPile(this.Model.Player, startIndex, this.Model.NumberOfCards);
 
                 // もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
-                if (gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] == -1)
+                if (gameModelBuffer.IndexOfFocusedCardOfPlayers[this.Model.Player] == -1)
                 {
-                    gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = 0;
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[this.Model.Player] = 0;
                 }
 
                 // 場札の位置の再調整（をしないと、手札から移動しない）
@@ -66,7 +64,7 @@
                     duration1: this.Duration,
                     duration2: this.Duration2,
                     gameModel: gameModel,
-                    player: Player,
+                    player: this.Model.Player,
                     setCardMovementModel: setCardMovementModel);
             }
         }

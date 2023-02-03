@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Views.Timeline;
     using UnityEngine;
 
     internal static class MovementGenerator
@@ -12,7 +13,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="idOfCard">カードId</param>
-        internal static CardMovementModel PickupCardOfHand(
+        internal static CardMovementViewModel PickupCardOfHand(
             float startSeconds, float duration, IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
@@ -22,7 +23,7 @@
             // TODO ★★ 登録時点の座標ではなく、実行時のその時点の座標を起点にしたい
             var goCard = GameObjectStorage.PlayingCards[idOfCard];
 
-            return new CardMovementModel(
+            return new CardMovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
                 beginPosition: goCard.transform.position,
@@ -44,7 +45,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="idOfCard">カードId</param>
-        internal static CardMovementModel PutDownCardOfHand(float startSeconds, float duration, IdOfPlayingCards idOfCard)
+        internal static CardMovementViewModel PutDownCardOfHand(float startSeconds, float duration, IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
@@ -56,7 +57,7 @@
             rotateZ = -rotateZ;
             var goCard = GameObjectStorage.PlayingCards[idOfCard];
 
-            return new CardMovementModel(
+            return new CardMovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
                 beginPosition: goCard.transform.position,

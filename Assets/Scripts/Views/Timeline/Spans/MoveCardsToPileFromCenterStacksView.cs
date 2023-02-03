@@ -40,7 +40,7 @@
         public override void OnEnter(
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
@@ -77,7 +77,7 @@
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
 
                 var goCard = GameObjectStorage.PlayingCards[idOfCard]; // TODO ビューから座標を取るしかない？
-                setCardMovementModel(new CardMovementModel(
+                setCardMovementModel(new CardMovementViewModel(
                     startSeconds: this.StartSeconds,
                     duration: this.Duration,
                     beginPosition: goCard.transform.position,

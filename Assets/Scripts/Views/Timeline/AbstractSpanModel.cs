@@ -46,7 +46,7 @@
         virtual public void OnEnter(
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementModel> setLaunchedSpanModel)
+            LazyArgs.SetValue<CardMovementViewModel> setLaunchedSpanModel)
         {
             // Ignored
         }

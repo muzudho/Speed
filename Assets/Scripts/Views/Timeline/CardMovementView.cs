@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Views
 {
     using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Views.Timeline;
     using UnityEngine;
 
     /// <summary>
@@ -11,14 +12,14 @@
 
         // - その他（生成）
 
-        public CardMovementView(CardMovementModel cardMovementModel)
+        public CardMovementView(CardMovementViewModel cardMovementModel)
         {
             this.Model = cardMovementModel;
         }
 
         // - プロパティ
 
-        public CardMovementModel Model { get; private set; }
+        public CardMovementViewModel Model { get; private set; }
 
         // - メソッド
 

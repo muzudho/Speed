@@ -1,5 +1,6 @@
-﻿namespace Assets.Scripts.Models.Timeline
+﻿namespace Assets.Scripts.Views.Timeline
 {
+    using Assets.Scripts.Models;
     using UnityEngine;
 
     /// <summary>
@@ -7,7 +8,7 @@
     /// 
     /// - Lerpに使うもの
     /// </summary>
-    internal class CardMovementModel
+    internal class CardMovementViewModel
     {
         // - その他（生成）
 
@@ -21,7 +22,7 @@
         /// <param name="beginRotation">開始回転</param>
         /// <param name="endRotation">終了回転</param>
         /// <param name="idOfCard">カードId</param>
-        public CardMovementModel(
+        public CardMovementViewModel(
             float startSeconds,
             float duration,
             Vector3 beginPosition,

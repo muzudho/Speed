@@ -43,7 +43,7 @@
         public override void OnEnter(
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
@@ -111,7 +111,7 @@
             int place,
             int indexOfHandCardToRemove,
             LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard,
-            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
         {
             // 抜く前の場札の数
             var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
@@ -150,7 +150,7 @@
             GameViewModel gameViewModel,
             IdOfPlayingCards idOfCard,
             int place,
-            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
@@ -175,7 +175,7 @@
             gameModelBuffer.AddCardOfCenterStack(place, idOfCard); // 台札として置く
 
             // 台札の位置をセット
-            setCardMovementModel(new CardMovementModel(
+            setCardMovementModel(new CardMovementViewModel(
                 startSeconds: this.StartSeconds,
                 duration: this.Duration,
                 beginPosition: goCard.transform.position,

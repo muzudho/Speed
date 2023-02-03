@@ -44,7 +44,7 @@
         public override void OnEnter(
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementModel> setCardMovementModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
             int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[Player]; // 下ろす場札
