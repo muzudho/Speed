@@ -17,9 +17,7 @@
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        /// <param name="setIndexOfNextFocusedHandCard">次にピックアップする場札は何番目</param>
-        /// <param name="model">モデル</param>
-        internal MoveFocusToNextCardView(ViewsOfTimeline.TimeSpan timeSpan, MoveFocusToNextCardModel model)
+        internal MoveFocusToNextCardView(ViewsOfTimeline.TimeSpan timeSpan)
             : base(timeSpan)
         {
         }

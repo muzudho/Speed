@@ -18,8 +18,7 @@
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        /// <param name="model">モデル</param>
-        internal MoveCardsToPileFromCenterStacksView(ViewsOfTimeline.TimeSpan timeSpan, MoveCardsToPileFromCenterStacksModel model)
+        internal MoveCardsToPileFromCenterStacksView(ViewsOfTimeline.TimeSpan timeSpan)
             :base(timeSpan)
         {
         }

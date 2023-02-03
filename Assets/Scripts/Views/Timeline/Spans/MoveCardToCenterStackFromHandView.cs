@@ -17,8 +17,7 @@
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        /// <param name="model">モデル</param>
-        internal MoveCardToCenterStackFromHandView(ViewsOfTimeline.TimeSpan timeSpan, MoveCardToCenterStackFromHandModel model)
+        internal MoveCardToCenterStackFromHandView(ViewsOfTimeline.TimeSpan timeSpan)
             : base(timeSpan)
         {
         }

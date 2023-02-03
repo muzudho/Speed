@@ -15,8 +15,7 @@
         /// 生成
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        /// <param name="model">モデル</param>
-        internal MoveCardsToHandFromPileView(TimeSpan timeSpan, MoveCardsToHandFromPileModel model)
+        internal MoveCardsToHandFromPileView(TimeSpan timeSpan)
             : base(timeSpan)
         {
         }
