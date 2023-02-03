@@ -16,7 +16,7 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
-        /// <param name="beginPosition">開始位置</param>
+        /// <param name="getBeginPosition">開始位置</param>
         /// <param name="endPosition">終了位置</param>
         /// <param name="beginRotation">開始回転</param>
         /// <param name="endRotation">終了回転</param>
@@ -24,7 +24,7 @@
         public MovementViewModel(
             float startSeconds,
             float duration,
-            Vector3 beginPosition,
+            LazyArgs.GetValue<Vector3> getBeginPosition,
             Vector3 endPosition,
             Quaternion beginRotation,
             Quaternion endRotation,
@@ -32,7 +32,7 @@
         {
             this.StartSeconds = startSeconds;
             this.Duration = duration;
-            this.BeginPosition = beginPosition;
+            this.GetBeginPosition = getBeginPosition;
             this.EndPosition = endPosition;
             this.BeginRotation = beginRotation;
             this.EndRotation = endRotation;
@@ -53,7 +53,7 @@
 
         public float EndSeconds => StartSeconds + Duration;
 
-        internal Vector3 BeginPosition { get; private set; }
+        internal LazyArgs.GetValue<Vector3> GetBeginPosition { get; private set; }
         internal Vector3 EndPosition { get; private set; }
         internal Quaternion BeginRotation { get; private set; }
         internal Quaternion EndRotation { get; private set; }

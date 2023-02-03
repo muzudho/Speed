@@ -84,7 +84,7 @@
                 setMovementViewModel(new MovementViewModel(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
-                    beginPosition: goCard.transform.position,
+                    getBeginPosition: ()=>goCard.transform.position,
                     endPosition: new Vector3(gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player]),
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, 180.0f),

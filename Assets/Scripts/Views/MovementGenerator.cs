@@ -24,12 +24,12 @@
 
             // TODO ★★ 登録時点の座標ではなく、実行時のその時点の座標を起点にしたい
             var idOfGo = Specification.GetIdOfGameObject(idOfCard);
-            var goCard = GameObjectStorage.Items[idOfGo];
+            var goCard = GameObjectStorage.Items[idOfGo]; // TODO ★ 各カードの座標は、ゲーム・オブジェクトから取得するのではなく、シミュレーターで保持しておきたい。シンクロしたくない
 
             return new MovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
-                beginPosition: goCard.transform.position,
+                getBeginPosition: ()=> goCard.transform.position,
                 endPosition: new Vector3(
                     goCard.transform.position.x,
                     goCard.transform.position.y + liftY,
@@ -59,12 +59,12 @@
             rotateY = -rotateY;
             rotateZ = -rotateZ;
             var idOfGo = Specification.GetIdOfGameObject(idOfCard);
-            var goCard = GameObjectStorage.Items[idOfGo];
+            var goCard = GameObjectStorage.Items[idOfGo]; // TODO ★ 各カードの座標は、ゲーム・オブジェクトから取得するのではなく、シミュレーターで保持しておきたい。シンクロしたくない
 
             return new MovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
-                beginPosition: goCard.transform.position,
+                getBeginPosition: ()=>goCard.transform.position,
                 endPosition: new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
                 beginRotation: goCard.transform.rotation,
                 endRotation: Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ),
@@ -145,11 +145,11 @@
                 float z = range * Mathf.Sin(theta + playerTheta) + handCardsOriginZ + offsetCircleCenterZ;
 
                 var idOfGo = Specification.GetIdOfGameObject(idOfCard);
-                var goCard = GameObjectStorage.Items[idOfGo];
+                var goCard = GameObjectStorage.Items[idOfGo]; // TODO ★ 各カードの座標は、ゲーム・オブジェクトから取得するのではなく、シミュレーターで保持しておきたい。シンクロしたくない
                 setCardMovementModel(new MovementViewModel(
                     startSeconds: startSeconds,
                     duration: duration1,
-                    beginPosition: goCard.transform.position,
+                    getBeginPosition: ()=>goCard.transform.position,
                     endPosition: new Vector3(x, handCardMinY, z),
                     beginRotation: goCard.transform.rotation,
                     endRotation: Quaternion.Euler(0, angleY, cardAngleZ),
