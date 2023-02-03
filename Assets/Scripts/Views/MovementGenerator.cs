@@ -96,11 +96,11 @@
             float duration1,
             float duration2,
             int player,
-            int numberOfHandCards,
-            int indexOfPickup,
-            List<IdOfPlayingCards> idOfHands,
-            float handCardMinY,
-            float handCardsOriginZ,
+            LazyArgs.GetValue<int> getNumberOfHandCards,
+            LazyArgs.GetValue<int> getIndexOfPickup,
+            LazyArgs.GetValue<List<IdOfPlayingCards>> getIdOfHands,
+            LazyArgs.GetValue<float> getHandCardMinY,
+            LazyArgs.GetValue<float> getHandCardsOriginZ,
             LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
         {
             // 最大25枚の場札が並べるように調整してある
@@ -113,7 +113,7 @@
             float angleY;
             float playerTheta;
             float angleStep = -1.83f;
-            float startTheta = (numberOfHandCards * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
+            float startTheta = (getNumberOfHandCards() * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
             float thetaStep = angleStep * Mathf.Deg2Rad; ; // 時計回り
 
             float ox = 0.0f;
@@ -139,18 +139,19 @@
             }
 
             float theta = startTheta;
+            var idOfHands = getIdOfHands();
             foreach (var idOfCard in idOfHands) // 場札のIdリスト
             {
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
-                float z = range * Mathf.Sin(theta + playerTheta) + handCardsOriginZ + offsetCircleCenterZ;
+                float z = range * Mathf.Sin(theta + playerTheta) + getHandCardsOriginZ() + offsetCircleCenterZ;
 
                 var idOfGo = Specification.GetIdOfGameObject(idOfCard);
-                var goCard = GameObjectStorage.Items[idOfGo]; // TODO ★ 各カードの座標は、ゲーム・オブジェクトから取得するのではなく、シミュレーターで保持しておきたい。シンクロしたくない
+                var goCard = GameObjectStorage.Items[idOfGo]; 
                 setCardMovementModel(new MovementViewModel(
                     startSeconds: startSeconds,
                     duration: duration1,
                     getBeginPosition: ()=>goCard.transform.position,
-                    getEndPosition:()=> new Vector3(x, handCardMinY, z),
+                    getEndPosition:()=> new Vector3(x, getHandCardMinY(), z),
                     getBeginRotation:()=> goCard.transform.rotation,
                     getEndRotation:()=> Quaternion.Euler(0, angleY, cardAngleZ),
                     idOfGameObject: idOfGo));
@@ -162,9 +163,10 @@
 
             // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
             {
+                var indexOfPickup = getIndexOfPickup();
                 Debug.Log($"[ArrangeHandCards] 再度持上げ handIndex:{indexOfPickup}");
 
-                if (0 <= indexOfPickup && indexOfPickup < numberOfHandCards) // 範囲内なら
+                if (0 <= indexOfPickup && indexOfPickup < getNumberOfHandCards()) // 範囲内なら
                 {
                     var idOfPickuppedCard = idOfHands[indexOfPickup]; // ピックアップしている場札
 

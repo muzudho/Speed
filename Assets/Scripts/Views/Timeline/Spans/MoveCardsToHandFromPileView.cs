@@ -77,11 +77,11 @@
                     duration1: timeSpan.Duration / 2.0f,
                     duration2: timeSpan.Duration / 2.0f,
                     player: player,
-                    numberOfHandCards: gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
-                    indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(player),
-                    idOfHands: gameModel.GetCardsOfPlayerHand(player),
-                    handCardMinY: gameViewModel.minY,
-                    handCardsOriginZ: gameViewModel.handCardsZ[player],
+                    getNumberOfHandCards: ()=>gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
+                    getIndexOfPickup:()=> gameModel.GetIndexOfFocusedCardOfPlayer(player),
+                    getIdOfHands:()=> gameModel.GetCardsOfPlayerHand(player),
+                    getHandCardMinY: ()=>gameViewModel.minY,
+                    getHandCardsOriginZ:()=> gameViewModel.handCardsZ[player],
                     setCardMovementModel: setMovementViewModel);
             }
         }
