@@ -41,7 +41,7 @@
                 var span = this.Model.GetItemAt(i);
 
                 // まだ
-                if (elapsedSeconds < span.StartSeconds)
+                if (elapsedSeconds < span.TimeSpan.StartSeconds)
                 {
                     i++;
                     continue;
@@ -49,7 +49,7 @@
 
                 // 起動
                 // ----
-                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{span.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
+                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{span.TimeSpan.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
 
                 // スケジュールから除去
                 this.Model.RemoveAt(i);

@@ -4,6 +4,7 @@
     using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
     using UnityEngine;
+    using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
@@ -15,21 +16,15 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="duration1">持続時間（秒）　２段階モーションの１段目</param>
-        /// <param name="duration2">持続時間（秒）　２段階モーションの２段目</param>
-        /// <param name="player"></param>
-        /// <param name="place"></param>
-        internal MoveCardToCenterStackFromHandView(float startSeconds, float duration1, float duration2, MoveCardToCenterStackFromHandModel model)
-            : base(startSeconds, duration1)
+        /// <param name="timeSpan">タイム・スパン</param>
+        /// <param name="model">モデル</param>
+        internal MoveCardToCenterStackFromHandView(ViewsOfTimeline.TimeSpan timeSpan, MoveCardToCenterStackFromHandModel model)
+            : base(timeSpan)
         {
-            this.Duration2 = duration2;
             this.Model = model;
         }
 
         // - プロパティ
-
-        float Duration2 { get; set; }
 
         MoveCardToCenterStackFromHandModel Model { get; set; }
 
@@ -71,9 +66,9 @@
 
                             // 場札の位置調整（をしないと歯抜けになる）
                             gameViewModel.ArrangeHandCards(
-                                startSeconds: this.StartSeconds,
-                                duration1: this.Duration,
-                                duration2: this.Duration2,
+                                startSeconds: this.TimeSpan.StartSeconds,
+                                duration1: this.TimeSpan.Duration / 4.0f,
+                                duration2: this.TimeSpan.Duration / 4.0f,
                                 gameModel: gameModel,
                                 player: this.Model.Player,
                                 setCardMovementModel: setCardMovementModel); // 場札
@@ -176,8 +171,8 @@
 
             // 台札の位置をセット
             setCardMovementModel(new CardMovementViewModel(
-                startSeconds: this.StartSeconds,
-                duration: this.Duration,
+                startSeconds: this.TimeSpan.StartSeconds + this.TimeSpan.Duration / 2.0f,
+                duration: this.TimeSpan.Duration / 2.0f,
                 beginPosition: goCard.transform.position,
                 endPosition: new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),
                 beginRotation: goCard.transform.rotation,

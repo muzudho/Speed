@@ -3,6 +3,7 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
+    using ViewsOfTimeline =  Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;
 
@@ -16,11 +17,10 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="duration">持続時間（秒）</param>
+        /// <param name="timeSpan">タイム・スパン</param>
         /// <param name="place"></param>
-        internal MoveCardsToPileFromCenterStacksView(float startSeconds, float duration, MoveCardsToPileFromCenterStacksModel model)
-            :base(startSeconds, duration)
+        internal MoveCardsToPileFromCenterStacksView(ViewsOfTimeline.TimeSpan timeSpan, MoveCardsToPileFromCenterStacksModel model)
+            :base(timeSpan)
         {
             this.Model = model;
         }
@@ -78,8 +78,8 @@
 
                 var goCard = GameObjectStorage.PlayingCards[idOfCard]; // TODO ビューから座標を取るしかない？
                 setCardMovementModel(new CardMovementViewModel(
-                    startSeconds: this.StartSeconds,
-                    duration: this.Duration,
+                    startSeconds: this.TimeSpan.StartSeconds,
+                    duration: this.TimeSpan.Duration,
                     beginPosition: goCard.transform.position,
                     endPosition: new Vector3(gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player]),
                     beginRotation: goCard.transform.rotation,

@@ -14,12 +14,11 @@
         /// <summary>
         /// 生成
         /// </summary>
-        /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="duration">持続時間（秒）</param>
+        /// <param name="timeSpan">タイム・スパン</param>
         /// <param name="player">ｎプレイヤー</param>
         /// <param name="numberOfCards">カードがｍ枚</param>
-        internal MoveCardsToHandFromPileView(float startSeconds, float duration, MoveCardsToHandFromPileModel model)
-            : base(startSeconds, duration)
+        internal MoveCardsToHandFromPileView(TimeSpan timeSpan, MoveCardsToHandFromPileModel model)
+            : base(timeSpan)
         {
             this.Model = model;
         }
@@ -57,9 +56,9 @@
                 // 場札の位置の再調整（をしないと、手札から移動しない）
                 GameModel gameModel = new GameModel(gameModelBuffer);
                 gameViewModel.ArrangeHandCards(
-                    startSeconds: this.StartSeconds,
-                    duration1: this.Duration / 2.0f,
-                    duration2: this.Duration / 2.0f,
+                    startSeconds: this.TimeSpan.StartSeconds,
+                    duration1: this.TimeSpan.Duration / 2.0f,
+                    duration2: this.TimeSpan.Duration / 2.0f,
                     gameModel: gameModel,
                     player: this.Model.Player,
                     setCardMovementModel: setCardMovementModel);

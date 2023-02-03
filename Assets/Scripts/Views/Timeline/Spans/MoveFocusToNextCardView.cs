@@ -4,6 +4,7 @@
     using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
     using System;
+    using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
@@ -15,11 +16,11 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="duration">持続時間（秒）</param>
+        /// <param name="timeSpan">タイム・スパン</param>
         /// <param name="setIndexOfNextFocusedHandCard">次にピックアップする場札は何番目</param>
-        internal MoveFocusToNextCardView(float startSeconds, float duration, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard, MoveFocusToNextCardModel model)
-            : base(startSeconds, duration)
+        /// <param name="model">モデル</param>
+        internal MoveFocusToNextCardView(ViewsOfTimeline.TimeSpan timeSpan, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard, MoveFocusToNextCardModel model)
+            : base(timeSpan)
         {
             this.SetIndexOfNextFocusedHandCard = setIndexOfNextFocusedHandCard;
             this.Model = model;
@@ -95,8 +96,8 @@
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setCardMovementModel(MovementGenerator.PutDownCardOfHand(
-                    startSeconds: this.StartSeconds,
-                    duration: this.Duration,
+                    startSeconds: this.TimeSpan.StartSeconds,
+                    duration: this.TimeSpan.Duration,
                     idOfCard: idOfCard));
             }
 
@@ -109,8 +110,8 @@
 
                 // 今回フォーカスするカードを持ち上げる
                 setCardMovementModel(MovementGenerator.PickupCardOfHand(
-                    startSeconds: this.StartSeconds,
-                    duration: this.Duration,
+                    startSeconds: this.TimeSpan.StartSeconds,
+                    duration: this.TimeSpan.Duration,
                     idOfCard: idOfCard));
             }
         }

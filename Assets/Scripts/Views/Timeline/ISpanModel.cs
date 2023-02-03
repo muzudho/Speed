@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views;
 
     /// <summary>
@@ -14,19 +13,9 @@
         // - プロパティ
 
         /// <summary>
-        /// 開始時間（秒）
+        /// タイム・スパン
         /// </summary>
-        float StartSeconds { get; }
-
-        /// <summary>
-        /// 持続時間（秒）
-        /// </summary>
-        float Duration { get; }
-
-        /// <summary>
-        /// 終了時間（秒）
-        /// </summary>
-        float EndSeconds { get; }
+        TimeSpan TimeSpan { get; }
 
         // - メソッド
 

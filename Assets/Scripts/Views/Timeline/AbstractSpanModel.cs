@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views;
 
     /// <summary>
@@ -16,30 +15,18 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="duration">持続時間（秒）</param>
-        public AbstractSpanModel(float startSeconds, float duration)
+        /// <param name="timeSpan">タイム・スパン</param>
+        public AbstractSpanModel(TimeSpan timeSpan)
         {
-            this.StartSeconds = startSeconds;
-            this.Duration = duration;
+            this.TimeSpan = timeSpan;
         }
 
         // - プロパティ
 
         /// <summary>
-        /// 開始時間（秒）
+        /// タイム・スパン
         /// </summary>
-        public float StartSeconds { get; private set; }
-
-        /// <summary>
-        /// 持続時間（秒）
-        /// </summary>
-        public float Duration { get; private set; }
-
-        /// <summary>
-        /// 終了時間（秒）
-        /// </summary>
-        public float EndSeconds =>StartSeconds + Duration;
+        public TimeSpan TimeSpan { get; private set; }
 
         // - メソッド
 
