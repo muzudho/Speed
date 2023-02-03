@@ -156,14 +156,15 @@
 
             AddCardOfCenterStack2(
                 timeSpan: timeSpan,
-                gameModelBuffer: gameModelBuffer,
                 idOfCard: goCard,
                 place: place,
+                getNumberOfCenterStackCards: ()=> gameModel.GetLengthOfCenterStackCards(place),
                 getNextTop: () =>
                     {
                         var (nextTopX, nextTopZ) = gameViewModel.GetXZOfNextCenterStackCard(gameModel, place);
                         return new Vector3(nextTopX, gameViewModel.centerStacksY[place], nextTopZ);
                     },
+                addCardOfCenterStack: (results) => gameModelBuffer.AddCardOfCenterStack(results.Item1, results.Item2),
                 setCardMovementModel: setCardMovementModel, // 台札
                 setCenterStacksY: (deltaY) => gameViewModel.centerStacksY[place] += deltaY);
             setIndexOfNextFocusedHandCard(indexOfNextFocusedHandCard);
@@ -171,15 +172,14 @@
 
         private void AddCardOfCenterStack2(
             TimeSpan timeSpan,
-            GameModelBuffer gameModelBuffer,
             IdOfPlayingCards idOfCard,
             int place,
+            LazyArgs.GetValue<int> getNumberOfCenterStackCards,
             LazyArgs.GetValue<Vector3> getNextTop,
+            LazyArgs.SetValue<(int, IdOfPlayingCards)> addCardOfCenterStack,
             LazyArgs.SetValue<MovementViewModel> setCardMovementModel,
             LazyArgs.SetValue<float> setCenterStacksY)
         {
-            var gameModel = new GameModel(gameModelBuffer);
-
             // 手ぶれ
             var (shakeX, shakeZ, shakeAngleY) = ViewHelper.MakeShakeForCenterStack(place);
 
@@ -189,8 +189,8 @@
             // 台札の捻り
             var goCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfCard)]; // TODO ビューが必要？
             float nextAngleY = goCard.transform.rotation.eulerAngles.y;
-            var length = gameModel.GetLengthOfCenterStackCards(place);
-            if (length < 1)
+            var numberOfCenterStackCards = getNumberOfCenterStackCards();
+            if (numberOfCenterStackCards < 1)
             {
             }
             else
@@ -198,7 +198,7 @@
                 nextAngleY += shakeAngleY;
             }
 
-            gameModelBuffer.AddCardOfCenterStack(place, idOfCard); // 台札として置く
+            addCardOfCenterStack((place, idOfCard));// 台札として置く
 
             // 台札の位置をセット
             var idOfGo = Specification.GetIdOfGameObject(idOfCard);
