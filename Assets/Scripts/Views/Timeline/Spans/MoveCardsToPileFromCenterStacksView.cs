@@ -86,8 +86,8 @@
                     duration: timeSpan.Duration,
                     getBeginPosition: ()=>goCard.transform.position,
                     getEndPosition:()=> new Vector3(gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player]),
-                    beginRotation: goCard.transform.rotation,
-                    endRotation: Quaternion.Euler(0, angleY, 180.0f),
+                    getBeginRotation:()=> goCard.transform.rotation,
+                    getEndRotation:()=> Quaternion.Euler(0, angleY, 180.0f),
                     idOfGameObject: idOfGo));
 
                 // 更新

@@ -26,16 +26,16 @@
             float duration,
             LazyArgs.GetValue<Vector3> getBeginPosition,
             LazyArgs.GetValue<Vector3> getEndPosition,
-            Quaternion beginRotation,
-            Quaternion endRotation,
+            LazyArgs.GetValue<Quaternion> getBeginRotation,
+            LazyArgs.GetValue<Quaternion> getEndRotation,
             IdOfGameObjects idOfGameObject)
         {
             this.StartSeconds = startSeconds;
             this.Duration = duration;
             this.GetBeginPosition = getBeginPosition;
             this.GetEndPosition = getEndPosition;
-            this.BeginRotation = beginRotation;
-            this.EndRotation = endRotation;
+            this.GetBeginRotation = getBeginRotation;
+            this.GetEndRotation = getEndRotation;
             this.IdOfGameObject = idOfGameObject;
         }
 
@@ -55,8 +55,8 @@
 
         internal LazyArgs.GetValue<Vector3> GetBeginPosition { get; private set; }
         internal LazyArgs.GetValue<Vector3> GetEndPosition { get; private set; }
-        internal Quaternion BeginRotation { get; private set; }
-        internal Quaternion EndRotation { get; private set; }
+        internal LazyArgs.GetValue<Quaternion> GetBeginRotation { get; private set; }
+        internal LazyArgs.GetValue<Quaternion> GetEndRotation { get; private set; }
         internal IdOfGameObjects IdOfGameObject { get; private set; }
     }
 }

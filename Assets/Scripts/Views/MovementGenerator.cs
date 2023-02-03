@@ -34,8 +34,8 @@
                     goCard.transform.position.x,
                     goCard.transform.position.y + liftY,
                     goCard.transform.position.z),
-                beginRotation: goCard.transform.rotation,
-                endRotation: Quaternion.Euler(
+                getBeginRotation:()=> goCard.transform.rotation,
+                getEndRotation:()=> Quaternion.Euler(
                     goCard.transform.rotation.eulerAngles.x,
                     goCard.transform.rotation.eulerAngles.y + rotateY,
                     goCard.transform.eulerAngles.z + rotateZ),
@@ -66,8 +66,8 @@
                 duration: duration,
                 getBeginPosition: ()=>goCard.transform.position,
                 getEndPosition:()=> new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
-                beginRotation: goCard.transform.rotation,
-                endRotation: Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ),
+                getBeginRotation:()=> goCard.transform.rotation,
+                getEndRotation:()=> Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ),
                 idOfGameObject: idOfGo);
         }
 
@@ -151,8 +151,8 @@
                     duration: duration1,
                     getBeginPosition: ()=>goCard.transform.position,
                     getEndPosition:()=> new Vector3(x, handCardMinY, z),
-                    beginRotation: goCard.transform.rotation,
-                    endRotation: Quaternion.Euler(0, angleY, cardAngleZ),
+                    getBeginRotation:()=> goCard.transform.rotation,
+                    getEndRotation:()=> Quaternion.Euler(0, angleY, cardAngleZ),
                     idOfGameObject: idOfGo));
 
 

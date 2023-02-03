@@ -192,8 +192,8 @@
                 duration: timeSpan.Duration / 2.0f,
                 getBeginPosition: ()=>goCard.transform.position,
                 getEndPosition:()=> new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),
-                beginRotation: goCard.transform.rotation,
-                endRotation: Quaternion.Euler(0, nextAngleY, 0.0f),
+                getBeginRotation:()=> goCard.transform.rotation,
+                getEndRotation:()=> Quaternion.Euler(0, nextAngleY, 0.0f),
                 idOfGameObject: idOfGo));
 
             // 次に台札に積むカードの高さ
