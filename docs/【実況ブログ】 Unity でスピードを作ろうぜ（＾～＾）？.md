@@ -4929,4 +4929,9 @@ namespace Assets.Scripts.Models
 操作を２連続で行うと　カードが変なところに飛んでいくので、  
 ２つの操作を結合して、１回の操作にする」  
 
+📺 [開発中画面](https://twitter.com/muzudho1/status/1621557770603597829?s=20&t=kCM9dWqp32K8flyyi7UwJw)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　今日はここまで」  
+
 # // 書きかけ
