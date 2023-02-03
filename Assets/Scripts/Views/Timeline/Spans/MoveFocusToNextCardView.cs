@@ -4,7 +4,7 @@
     using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
     using System;
-    using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
@@ -17,7 +17,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn(TimeSpanView timeSpan)
+        public override ISpanView Spawn(SimulatorsOfTimeline.TimeSpan timeSpan)
         {
             return new MoveFocusToNextCardView(timeSpan);
         }
@@ -26,7 +26,7 @@
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveFocusToNextCardView(ViewsOfTimeline.TimeSpanView timeSpan)
+        internal MoveFocusToNextCardView(SimulatorsOfTimeline.TimeSpan timeSpan)
             : base(timeSpan)
         {
         }
@@ -49,7 +49,7 @@
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
         public override void OnEnter(
-            ViewsOfTimeline.TimeSpanView timeSpan,
+            SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)

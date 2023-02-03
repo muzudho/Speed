@@ -3,6 +3,7 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -15,7 +16,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn(TimeSpanView timeSpan)
+        public override ISpanView Spawn(SimulatorsOfTimeline.TimeSpan timeSpan)
         {
             return new MoveCardsToHandFromPileView(timeSpan);
         }
@@ -24,7 +25,7 @@
         /// 生成
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveCardsToHandFromPileView(TimeSpanView timeSpan)
+        internal MoveCardsToHandFromPileView(SimulatorsOfTimeline.TimeSpan timeSpan)
             : base(timeSpan)
         {
         }
@@ -47,7 +48,7 @@
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override void OnEnter(
-            TimeSpanView timeSpan,
+            SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)

@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// タイム・スパン
@@ -16,14 +17,14 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        ISpanView Spawn(TimeSpanView timeSpan);
+        ISpanView Spawn(SimulatorsOfTimeline.TimeSpan timeSpan);
 
         // - プロパティ
 
         /// <summary>
         /// タイム・スパン
         /// </summary>
-        TimeSpanView TimeSpan { get; }
+        SimulatorsOfTimeline.TimeSpan TimeSpan { get; }
 
         // - メソッド
 
@@ -33,7 +34,7 @@
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
         void OnEnter(
-            TimeSpanView timeSpan,
+            SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel);

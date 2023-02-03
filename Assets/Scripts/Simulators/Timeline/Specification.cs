@@ -7,6 +7,7 @@
     using Assets.Scripts.Views.Timeline.Spans;
     using System;
     using System.Collections.Generic;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// モデルには時間、空間の概念がないので、
@@ -113,7 +114,7 @@
             return DurationOfModels[type.GetHashCode()];
         }
 
-        internal static ISpanView SpawnView(Type type, TimeSpanView timeSpan)
+        internal static ISpanView SpawnView(Type type, SimulatorsOfTimeline.TimeSpan timeSpan)
         {
             return Views[type.GetHashCode()].Spawn(timeSpan);
         }

@@ -5,7 +5,7 @@
     using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views;
     using UnityEngine;
-    using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
@@ -18,7 +18,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn(TimeSpanView timeSpan)
+        public override ISpanView Spawn(TimeSpan timeSpan)
         {
             return new MoveCardToCenterStackFromHandView(timeSpan);
         }
@@ -27,7 +27,7 @@
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveCardToCenterStackFromHandView(ViewsOfTimeline.TimeSpanView timeSpan)
+        internal MoveCardToCenterStackFromHandView(SimulatorsOfTimeline.TimeSpan timeSpan)
             : base(timeSpan)
         {
         }
@@ -50,7 +50,7 @@
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
         public override void OnEnter(
-            TimeSpanView timeSpan,
+            TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
@@ -116,7 +116,7 @@
         /// <param name="indexOfHandCardToRemove"></param>
         /// <param name="setIndexOfNextFocusedHandCard"></param>
         private void RemoveAtOfHandCard(
-            TimeSpanView timeSpan,
+            TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             int player,
@@ -158,7 +158,7 @@
         }
 
         private void AddCardOfCenterStack2(
-            TimeSpanView timeSpan,
+            TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             IdOfPlayingCards idOfCard,

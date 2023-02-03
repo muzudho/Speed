@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// タイム・スパン
@@ -16,13 +17,13 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public abstract ISpanView Spawn(TimeSpanView timeSpan);
+        public abstract ISpanView Spawn(SimulatorsOfTimeline.TimeSpan timeSpan);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        public AbstractSpanView(TimeSpanView timeSpan)
+        public AbstractSpanView(SimulatorsOfTimeline.TimeSpan timeSpan)
         {
             this.TimeSpan = timeSpan;
         }
@@ -32,12 +33,12 @@
         /// <summary>
         /// タイム・スパン
         /// </summary>
-        public TimeSpanView TimeSpan { get; private set; }
+        public SimulatorsOfTimeline.TimeSpan TimeSpan { get; private set; }
 
         // - メソッド
 
         virtual public void OnEnter(
-            TimeSpanView timeSpan,
+            SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)

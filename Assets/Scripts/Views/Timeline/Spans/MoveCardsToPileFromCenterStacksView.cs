@@ -2,11 +2,11 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline.Spans;
+    using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views;
-    using ViewsOfTimeline =  Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;
-    using Assets.Scripts.Simulators.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
@@ -19,7 +19,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn(TimeSpanView timeSpan)
+        public override ISpanView Spawn(SimulatorsOfTimeline.TimeSpan timeSpan)
         {
             return new MoveCardsToPileFromCenterStacksView(timeSpan);
         }
@@ -28,7 +28,7 @@
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveCardsToPileFromCenterStacksView(ViewsOfTimeline.TimeSpanView timeSpan)
+        internal MoveCardsToPileFromCenterStacksView(SimulatorsOfTimeline.TimeSpan timeSpan)
             :base(timeSpan)
         {
         }
@@ -52,7 +52,7 @@
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
         public override void OnEnter(
-            ViewsOfTimeline.TimeSpanView timeSpan,
+            SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
