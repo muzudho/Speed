@@ -1,13 +1,14 @@
-﻿namespace Assets.Scripts.Models.Timeline.Spans
+﻿namespace Assets.Scripts.Views.Timeline.Spans
 {
     using Assets.Scripts.Models;
+    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views;
     using UnityEngine;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
     /// </summary>
-    class MoveCardToCenterStackFromHand : AbstractSpanModel
+    class MoveCardToCenterStackFromHandView : AbstractSpanModel
     {
         // - 生成
 
@@ -19,7 +20,7 @@
         /// <param name="duration2">持続時間（秒）　２段階モーションの２段目</param>
         /// <param name="player"></param>
         /// <param name="place"></param>
-        internal MoveCardToCenterStackFromHand(float startSeconds, float duration1, float duration2, int player, int place)
+        internal MoveCardToCenterStackFromHandView(float startSeconds, float duration1, float duration2, int player, int place)
             : base(startSeconds, duration1)
         {
             this.Player = player;

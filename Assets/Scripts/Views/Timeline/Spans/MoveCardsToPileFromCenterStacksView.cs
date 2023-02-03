@@ -1,6 +1,7 @@
-﻿namespace Assets.Scripts.Models.Timeline.Spans
+﻿namespace Assets.Scripts.Views.Timeline.Spans
 {
     using Assets.Scripts.Models;
+    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views;
     using System;
     using UnityEngine;
@@ -8,7 +9,7 @@
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    class MoveCardsToPileFromCenterStacks : AbstractSpanModel
+    class MoveCardsToPileFromCenterStacksView : AbstractSpanModel
     {
         // - 生成
 
@@ -18,7 +19,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="place"></param>
-        internal MoveCardsToPileFromCenterStacks(float startSeconds, float duration, int place)
+        internal MoveCardsToPileFromCenterStacksView(float startSeconds, float duration, int place)
             :base(startSeconds, duration)
         {
             this.Place = place;

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Models.Timeline.Spans
+﻿namespace Assets.Scripts.Views.Timeline.Spans
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline;
@@ -8,7 +8,7 @@
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>
-    class MoveFocusToNextCard : AbstractSpanModel
+    class MoveFocusToNextCardView : AbstractSpanModel
     {
         // - 生成
 
@@ -20,7 +20,7 @@
         /// <param name="player"></param>
         /// <param name="direction"></param>
         /// <param name="setIndexOfNextFocusedHandCard">次にピックアップする場札は何番目</param>
-        internal MoveFocusToNextCard(float startSeconds, float duration, int player, int direction, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
+        internal MoveFocusToNextCardView(float startSeconds, float duration, int player, int direction, LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard)
             : base(startSeconds, duration)
         {
             this.Player = player;

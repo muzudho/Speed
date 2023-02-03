@@ -1,6 +1,7 @@
-﻿namespace Assets.Scripts.Models.Timeline
+﻿namespace Assets.Scripts.Views.Timeline
 {
     using Assets.Scripts.Models;
+    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views;
 
     /// <summary>

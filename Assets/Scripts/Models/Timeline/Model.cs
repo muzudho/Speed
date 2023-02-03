@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Views;
+    using Assets.Scripts.Views.Timeline;
     using System.Collections.Generic;
     using UnityEngine;
 

@@ -1,12 +1,13 @@
-﻿namespace Assets.Scripts.Models.Timeline.Spans
+﻿namespace Assets.Scripts.Views.Timeline.Spans
 {
     using Assets.Scripts.Models;
+    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    class MoveCardsToHandFromPile : AbstractSpanModel
+    class MoveCardsToHandFromPileView : AbstractSpanModel
     {
         // - その他（生成）
 
@@ -18,7 +19,7 @@
         /// <param name="duration2">持続時間（秒）　２段階モーションの２段目</param>
         /// <param name="player">ｎプレイヤー</param>
         /// <param name="numberOfCards">カードがｍ枚</param>
-        internal MoveCardsToHandFromPile(float startSeconds, float duration1, float duration2, int player, int numberOfCards)
+        internal MoveCardsToHandFromPileView(float startSeconds, float duration1, float duration2, int player, int numberOfCards)
             : base(startSeconds, duration1)
         {
             Player = player;
