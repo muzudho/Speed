@@ -5,6 +5,7 @@
     using Assets.Scripts.Views;
     using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
     using UnityEngine;
+    using Assets.Scripts.Models.Timeline;
 
     internal class Simulator
     {
@@ -21,7 +22,7 @@
 
         // - メソッド
 
-        internal void Bind(float startSeconds, ISpanView spanView)
+        internal void Bind(float startSeconds, ISpanModel spanModel, ISpanView spanView)
         {
         }
 

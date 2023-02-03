@@ -147,11 +147,12 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardsToHandFromPileModel(
                     player: 0,
                     numberOfCards: 5);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
-                timeSpan: new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: scheduledSeconds,
                     duration: Specification.GetDurationBy(typeof(MoveCardsToHandFromPileModel)),
-                    spanModel: spanModel),
+                    spanModel: spanModel);
+            this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
+                timeSpan: timeSpan,
                 model: spanModel
                 ));
         }
@@ -159,11 +160,12 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardsToHandFromPileModel(
                     player: 1,
                     numberOfCards: 5);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
-                timeSpan: new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: scheduledSeconds,
                     duration: Specification.GetDurationBy(typeof(MoveCardsToHandFromPileModel)),
-                    spanModel: spanModel),
+                    spanModel: spanModel);
+            this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
+                timeSpan: timeSpan,
                 model: spanModel
                 ));
         }
@@ -228,15 +230,16 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: 0, // １プレイヤーが
                     place: right); // 右の
-            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                timeSpan: new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel)),
-                    spanModel: spanModel),
+                    spanModel: spanModel);
+            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
+                timeSpan: timeSpan,
                 model: spanModel
                 ));
             handled1player = true;
@@ -244,15 +247,16 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
+            // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: 1, // ２プレイヤーが
                     place: right); // 右の
-            // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                timeSpan: new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel)),
-                    spanModel: spanModel),
+                    spanModel: spanModel);
+            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
+                timeSpan: timeSpan,
                 model: spanModel
                 ));
             handled2player = true;
@@ -264,15 +268,16 @@ public class GameManager : MonoBehaviour
         // ２プレイヤー
         if (Input.GetKeyDown(KeyCode.S))
         {
+            // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: 1, // ２プレイヤーが
                     place: left); // 左の
-            // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                timeSpan: new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel)),
-                    spanModel: spanModel),
+                    spanModel: spanModel);
+            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
+                timeSpan: timeSpan,
                 model: spanModel
                 ));
             handled2player = true;
@@ -281,15 +286,16 @@ public class GameManager : MonoBehaviour
         // １プレイヤー
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: 0, // １プレイヤーが
                     place: left); // 左の
-            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                timeSpan: new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel)),
-                    spanModel: spanModel),                
+                    spanModel: spanModel);
+            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
+                timeSpan: timeSpan,                
                 model: spanModel
                 ));
             handled1player = true;
@@ -314,11 +320,12 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                timeSpan: new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel)),
-                    spanModel),
+                    spanModel);
+            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
+                timeSpan: timeSpan,
                 model: spanModel
                 ));
         }
@@ -333,11 +340,12 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                timeSpan: new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel)),
-                    spanModel: spanModel),
+                    spanModel: spanModel);
+            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
+                timeSpan: timeSpan,
                 model: spanModel
                 ));
         }
@@ -358,11 +366,12 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                timeSpan: new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel)),
-                    spanModel: spanModel),
+                    spanModel: spanModel);
+            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
+                timeSpan: timeSpan,
                 model: spanModel
                 ));
         }
@@ -377,11 +386,12 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                timeSpan: new TimeSpan(
+            var timeSpan = new TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
                     duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel)),
-                    spanModel: spanModel),
+                    spanModel: spanModel);
+            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
+                timeSpan: timeSpan,
                 model: spanModel
                 ));
         }
@@ -396,11 +406,12 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardsToHandFromPileModel(
                         player: player,
                         numberOfCards: 1);
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
-                    timeSpan: new TimeSpan(
+                var timeSpan = new TimeSpan(
                         startSeconds: this.gameModelBuffer.ElapsedSeconds,
                         duration: Specification.GetDurationBy(typeof(MoveCardsToHandFromPileModel)),
-                        spanModel: spanModel),
+                        spanModel: spanModel);
+                this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
+                    timeSpan: timeSpan,
                     model: spanModel
                     )); ;
             }
@@ -430,11 +441,12 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: 0, // １プレイヤーが
                         place: right); // 右の
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                    timeSpan: new TimeSpan(
+                var timeSpan = new TimeSpan(
                         startSeconds: scheduledSeconds,
                         duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel)),
-                        spanModel: spanModel),
+                        spanModel: spanModel);
+                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
+                    timeSpan: timeSpan,
                     model: spanModel
                     ));
             }
@@ -443,11 +455,12 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: 1, // ２プレイヤーが
                         place: left); // 左の;
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                    timeSpan: new TimeSpan(
+                var timeSpan = new TimeSpan(
                         startSeconds: scheduledSeconds,
                         duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel)),
-                        spanModel: spanModel),
+                        spanModel: spanModel);
+                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
+                    timeSpan: timeSpan,
                     model: spanModel
                     ));
             }
@@ -471,11 +484,12 @@ public class GameManager : MonoBehaviour
                             {
                                 gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                             });
-                    this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                        timeSpan: new TimeSpan(
+                    var timeSpan = new TimeSpan(
                             startSeconds: scheduledSeconds,
                             duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel)),
-                            spanModel: spanModel),
+                            spanModel: spanModel);
+                    this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
+                        timeSpan: timeSpan,
                         model: spanModel
                         ));
                 }
@@ -490,12 +504,13 @@ public class GameManager : MonoBehaviour
                             {
                                 gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                             });
-
-                    this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                        timeSpan: new TimeSpan(
+                    var timeSpan = new TimeSpan(
                             startSeconds: scheduledSeconds,
                             duration: Specification.GetDurationBy(typeof(MoveFocusToNextCardModel)),
-                            spanModel: spanModel),
+                            spanModel: spanModel);
+
+                    this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
+                        timeSpan: timeSpan,
                         model: spanModel
                         ));
                 }
@@ -510,12 +525,13 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: 0, // １プレイヤーが
                         place: 1); // 左の台札
-
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                    timeSpan: new TimeSpan(
+                var timeSpan = new TimeSpan(
                         startSeconds: scheduledSeconds,
                         duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel)),
-                        spanModel: spanModel),
+                        spanModel: spanModel);
+
+                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
+                    timeSpan: timeSpan,
                     model: spanModel
                     ));
             }
@@ -523,11 +539,13 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: 1, // ２プレイヤーが
                         place: 0); // 右の台札
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                    timeSpan: new TimeSpan(
+                var timeSpan = new TimeSpan(
                         startSeconds: scheduledSeconds,
                         duration: Specification.GetDurationBy(typeof(MoveCardToCenterStackFromHandModel)),
-                        spanModel: spanModel),
+                        spanModel: spanModel);
+
+                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
+                    timeSpan: timeSpan,
                     model: spanModel
                     ));
             }
@@ -541,11 +559,13 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardsToHandFromPileModel(
                         player: 0,
                         numberOfCards: 1);
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
-                    timeSpan: new TimeSpan(
+                var timeSpan = new TimeSpan(
                         startSeconds: scheduledSeconds,
                         duration: Specification.GetDurationBy(typeof(MoveCardsToHandFromPileModel)),
-                        spanModel: spanModel),
+                        spanModel: spanModel);
+
+                this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
+                    timeSpan: timeSpan,
                     model: spanModel
                     ));
             }
@@ -554,11 +574,13 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardsToHandFromPileModel(
                         player: 1,
                         numberOfCards: 1);
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
-                    timeSpan: new TimeSpan(
+                var timeSpan = new TimeSpan(
                         startSeconds: scheduledSeconds,
                         duration: Specification.GetDurationBy(typeof(MoveCardsToHandFromPileModel)),
-                        spanModel: spanModel),
+                        spanModel: spanModel);
+
+                this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
+                    timeSpan: timeSpan,
                     model: spanModel
                     ));
             }
