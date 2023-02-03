@@ -55,7 +55,7 @@
             ViewsOfTimeline.TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<MovementViewModel> setCardMovementViewModel)
+            LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
@@ -93,7 +93,7 @@
 
                 var idOfGo = Specification.GetIdOfGameObject(idOfCard);
                 var goCard = GameObjectStorage.Items[idOfGo]; // TODO ビューから座標を取るしかない？
-                setCardMovementViewModel(new MovementViewModel(
+                setMovementViewModel(new MovementViewModel(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     beginPosition: goCard.transform.position,

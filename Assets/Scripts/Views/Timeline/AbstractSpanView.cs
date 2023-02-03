@@ -40,7 +40,7 @@
             TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<MovementViewModel> setCardMovementViewModel)
+            LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
             // Ignored
         }

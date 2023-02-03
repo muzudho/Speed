@@ -130,9 +130,9 @@ public class GameManager : MonoBehaviour
             var viewSpan = Specification.SpawnView(typeof(Spans.MoveCardsToPileFromCenterStacksView), timeSpan);
             new Spans.MoveCardsToPileFromCenterStacksView(
                 timeSpan).OnEnter(timeSpan, gameModelBuffer, gameViewModel,
-                        setCardMovementViewModel: (cardMovementViewModel) =>
+                        setMovementViewModel: (movementViewModel) =>
                         {
-                            var cardMovementView = new MovementView(cardMovementViewModel);
+                            var cardMovementView = new MovementView(movementViewModel);
                             cardMovementView.Lerp(1.0f);
                         });
         }
@@ -192,9 +192,9 @@ public class GameManager : MonoBehaviour
             this.gameModelBuffer.ElapsedSeconds,
             gameModelBuffer,
             gameViewModel,
-            setCardMovementViewModel: (cardMovementViewModel) =>
+            setMovementViewModel: (movementViewModel) =>
             {
-                launchedCardMovementModels.Add(cardMovementViewModel);
+                launchedCardMovementModels.Add(movementViewModel);
             });
 
         // モーションの補間

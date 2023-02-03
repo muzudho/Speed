@@ -53,7 +53,7 @@
             TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<MovementViewModel> setCardMovementViewModel)
+            LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
@@ -87,11 +87,11 @@
                                 duration2: timeSpan.Duration / 4.0f,
                                 gameModel: gameModel,
                                 player: this.Model.Player,
-                                setCardMovementModel: setCardMovementViewModel); // 場札
+                                setCardMovementModel: setMovementViewModel); // 場札
                         },
                         setCardMovementModel: (movementModel) =>
                         {
-                            setCardMovementViewModel(movementModel); // 台札
+                            setMovementViewModel(movementModel); // 台札
 
                         });
                 });

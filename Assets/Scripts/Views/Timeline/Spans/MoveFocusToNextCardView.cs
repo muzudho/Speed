@@ -52,7 +52,7 @@
             ViewsOfTimeline.TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<MovementViewModel> setCardMovementViewModel)
+            LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
             int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[this.Model.Player]; // 下ろす場札
@@ -106,7 +106,7 @@
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(this.Model.Player, indexOfPrevious); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
-                setCardMovementViewModel(MovementGenerator.PutDownCardOfHand(
+                setMovementViewModel(MovementGenerator.PutDownCardOfHand(
                     startSeconds: this.TimeSpan.StartSeconds,
                     duration: this.TimeSpan.Duration,
                     idOfCard: idOfCard));
@@ -120,7 +120,7 @@
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(this.Model.Player, indexOfCurrent); // ピックアップしている場札
 
                 // 今回フォーカスするカードを持ち上げる
-                setCardMovementViewModel(MovementGenerator.PickupCardOfHand(
+                setMovementViewModel(MovementGenerator.PickupCardOfHand(
                     startSeconds: this.TimeSpan.StartSeconds,
                     duration: this.TimeSpan.Duration,
                     idOfCard: idOfCard));
