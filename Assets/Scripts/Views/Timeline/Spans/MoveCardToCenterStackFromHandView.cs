@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Views.Timeline.Spans
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline;
+    using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
     using UnityEngine;
 
@@ -20,18 +20,17 @@
         /// <param name="duration2">持続時間（秒）　２段階モーションの２段目</param>
         /// <param name="player"></param>
         /// <param name="place"></param>
-        internal MoveCardToCenterStackFromHandView(float startSeconds, float duration1, float duration2, int player, int place)
+        internal MoveCardToCenterStackFromHandView(float startSeconds, float duration1, float duration2, MoveCardToCenterStackFromHandModel model)
             : base(startSeconds, duration1)
         {
-            this.Player = player;
-            this.Place = place;
+            this.Model = model;
         }
 
         // - プロパティ
 
         float Duration2 { get; set; }
-        int Player { get; set; }
-        int Place { get; set; }
+
+        MoveCardToCenterStackFromHandModel Model { get; set; }
 
         // - メソッド
 
@@ -50,18 +49,18 @@
             // ピックアップしているカードがあるか？
             GetIndexOfFocusedHandCard(
                 gameModelBuffer: gameModelBuffer,
-                player: Player,
+                player: this.Model.Player,
                 (indexOfFocusedHandCard) =>
                 {
                     RemoveAtOfHandCard(
                         gameModelBuffer: gameModelBuffer,
                         gameViewModel: gameViewModel,
-                        player: Player,
-                        place: Place,
+                        player: this.Model.Player,
+                        place: this.Model.Place,
                         indexOfHandCardToRemove: indexOfFocusedHandCard,
                         setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                         {
-                            gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
+                            gameModelBuffer.IndexOfFocusedCardOfPlayers[this.Model.Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
 
                             //// もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
                             //if (gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] == -1)
@@ -75,7 +74,7 @@
                                 duration1: this.Duration,
                                 duration2: this.Duration2,
                                 gameModel: gameModel,
-                                player: Player,
+                                player: this.Model.Player,
                                 setCardMovementModel: setCardMovementModel); // 場札
                         },
                         setCardMovementModel: (movementModel) =>

@@ -215,8 +215,9 @@ public class GameManager : MonoBehaviour
                 startSeconds: this.gameModelBuffer.ElapsedSeconds,
                 duration1: 0.15f,
                 duration2: durationOfMoveFocusToNextCard,
-                player: 0, // １プレイヤーが
-                place: right // 右の
+                model:new MoveCardToCenterStackFromHandModel(
+                    player: 0, // １プレイヤーが
+                    place: right) // 右の
                 ));
             handled1player = true;
         }
@@ -228,8 +229,9 @@ public class GameManager : MonoBehaviour
                 startSeconds: this.gameModelBuffer.ElapsedSeconds,
                 duration1: 0.15f,
                 duration2: durationOfMoveFocusToNextCard,
-                player: 1, // ２プレイヤーが
-                place: right // 右の
+                model: new MoveCardToCenterStackFromHandModel(
+                    player: 1, // ２プレイヤーが
+                    place: right) // 右の
                 ));
             handled2player = true;
         }
@@ -245,8 +247,9 @@ public class GameManager : MonoBehaviour
                 startSeconds: this.gameModelBuffer.ElapsedSeconds,
                 duration1: 0.15f,
                 duration2: durationOfMoveFocusToNextCard,
-                player: 1, // ２プレイヤーが
-                place: left // 左の
+                model: new MoveCardToCenterStackFromHandModel(
+                    player: 1, // ２プレイヤーが
+                    place: left) // 左の
                 ));
             handled2player = true;
         }
@@ -259,8 +262,9 @@ public class GameManager : MonoBehaviour
                 startSeconds: this.gameModelBuffer.ElapsedSeconds,
                 duration1: 0.15f,
                 duration2: durationOfMoveFocusToNextCard,
-                player: 0, // １プレイヤーが
-                place: left // 左の
+                model: new MoveCardToCenterStackFromHandModel(
+                    player: 0, // １プレイヤーが
+                    place: left) // 左の
                 ));
             handled1player = true;
         }
@@ -378,8 +382,9 @@ public class GameManager : MonoBehaviour
                 startSeconds: scheduledSeconds,
                 duration1: 0.15f,
                 duration2: durationOfMoveFocusToNextCard,
-                player: 0, // １プレイヤーが
-                place: right // 右の
+                model: new MoveCardToCenterStackFromHandModel(
+                    player: 0, // １プレイヤーが
+                    place: right) // 右の
                 ));
 
             // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
@@ -387,8 +392,9 @@ public class GameManager : MonoBehaviour
                 startSeconds: scheduledSeconds,
                 duration1: 0.15f,
                 duration2: durationOfMoveFocusToNextCard,
-                player: 1, // ２プレイヤーが
-                place: left // 左の
+                model: new MoveCardToCenterStackFromHandModel(
+                    player: 1, // ２プレイヤーが
+                    place: left) // 左の
                 ));
 
             scheduledSeconds += oneSecond;
@@ -438,16 +444,18 @@ public class GameManager : MonoBehaviour
             startSeconds: scheduledSeconds,
             duration1: 0.15f,
             duration2: durationOfMoveFocusToNextCard,
-            player: 0, // １プレイヤーが
-            place: 1 // 左の台札
+            model: new MoveCardToCenterStackFromHandModel(
+                player: 0, // １プレイヤーが
+                place: 1) // 左の台札
             ));
 
             this.timelineView.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
             startSeconds: scheduledSeconds,
             duration1: 0.15f,
             duration2: durationOfMoveFocusToNextCard,
-            player: 1, // ２プレイヤーが
-            place: 0 // 右の台札
+            model: new MoveCardToCenterStackFromHandModel(
+                player: 1, // ２プレイヤーが
+                place: 0) // 右の台札
             ));
 
             scheduledSeconds += oneSecond;
