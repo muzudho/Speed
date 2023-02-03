@@ -15,6 +15,15 @@
         // - 生成
 
         /// <summary>
+        /// 生成
+        /// </summary>
+        /// <returns></returns>
+        public override ISpanView Spawn(TimeSpanView timeSpan)
+        {
+            return new MoveCardsToPileFromCenterStacksView(timeSpan);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
@@ -45,7 +54,7 @@
             ViewsOfTimeline.TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementViewModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
@@ -82,7 +91,7 @@
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
 
                 var goCard = GameObjectStorage.PlayingCards[idOfCard]; // TODO ビューから座標を取るしかない？
-                setCardMovementModel(new CardMovementViewModel(
+                setCardMovementViewModel(new CardMovementViewModel(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     beginPosition: goCard.transform.position,

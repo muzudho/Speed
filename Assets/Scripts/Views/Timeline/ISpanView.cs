@@ -10,6 +10,14 @@
     /// </summary>
     interface ISpanView
     {
+        // - その他
+
+        /// <summary>
+        /// 生成
+        /// </summary>
+        /// <returns></returns>
+        ISpanView Spawn(TimeSpanView timeSpan);
+
         // - プロパティ
 
         /// <summary>
@@ -28,6 +36,6 @@
             TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setLaunchedSpanModel);
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementViewModel);
     }
 }

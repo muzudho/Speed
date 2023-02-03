@@ -13,6 +13,12 @@
         // - その他（生成）
 
         /// <summary>
+        /// 生成
+        /// </summary>
+        /// <returns></returns>
+        public abstract ISpanView Spawn(TimeSpanView timeSpan);
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
@@ -34,7 +40,7 @@
             TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setLaunchedSpanModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementViewModel)
         {
             // Ignored
         }

@@ -45,7 +45,7 @@
             float elapsedSeconds,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementViewModel)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
@@ -73,7 +73,7 @@
                     spanView.TimeSpan,
                     gameModelBuffer,
                     gameViewModel,
-                    setLaunchedSpanModel: setCardMovementModel);
+                    setCardMovementViewModel: setCardMovementViewModel);
             }
         }
     }

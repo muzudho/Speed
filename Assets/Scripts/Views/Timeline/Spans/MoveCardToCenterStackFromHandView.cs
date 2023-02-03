@@ -14,6 +14,15 @@
         // - 生成
 
         /// <summary>
+        /// 生成
+        /// </summary>
+        /// <returns></returns>
+        public override ISpanView Spawn(TimeSpanView timeSpan)
+        {
+            return new MoveCardToCenterStackFromHandView(timeSpan);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
@@ -43,7 +52,7 @@
             TimeSpanView timeSpan,
             GameModelBuffer gameModelBuffer,
             GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementViewModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
@@ -77,11 +86,11 @@
                                 duration2: timeSpan.Duration / 4.0f,
                                 gameModel: gameModel,
                                 player: this.Model.Player,
-                                setCardMovementModel: setCardMovementModel); // 場札
+                                setCardMovementModel: setCardMovementViewModel); // 場札
                         },
                         setCardMovementModel: (movementModel) =>
                         {
-                            setCardMovementModel(movementModel); // 台札
+                            setCardMovementViewModel(movementModel); // 台札
 
                         });
                 });

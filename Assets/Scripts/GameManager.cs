@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Models;
 using Assets.Scripts.Models.Timeline.Spans;
+using Assets.Scripts.Simulators.Timeline;
 using Assets.Scripts.Views;
 using Assets.Scripts.Views.Timeline;
 using System;
@@ -7,11 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
-using Spans = Assets.Scripts.Views.Timeline.Spans;
-using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
+using Spans = Assets.Scripts.Views.Timeline.Spans;
 using TimeSpan = Assets.Scripts.Views.Timeline.TimeSpanView;
-using Assets.Scripts.Simulators.Timeline;
+using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 
 /// <summary>
 /// ゲーム・マネージャー
@@ -126,11 +126,13 @@ public class GameManager : MonoBehaviour
             var timeSpan = new TimeSpan(
                     startSeconds: 0.0f,
                     spanModel: spanModel);
+
+            var viewSpan =  Specification.SpawnView(typeof(Spans.MoveCardsToPileFromCenterStacksView), timeSpan);
             new Spans.MoveCardsToPileFromCenterStacksView(
                 timeSpan).OnEnter(timeSpan, gameModelBuffer, gameViewModel,
-                        setCardMovementModel: (cardMovementModel) =>
+                        setCardMovementViewModel: (cardMovementViewModel) =>
                         {
-                            var cardMovementView = new CardMovementView(cardMovementModel);
+                            var cardMovementView = new CardMovementView(cardMovementViewModel);
                             cardMovementView.Lerp(1.0f);
                         });
         }
@@ -190,9 +192,9 @@ public class GameManager : MonoBehaviour
             this.gameModelBuffer.ElapsedSeconds,
             gameModelBuffer,
             gameViewModel,
-            setCardMovementModel: (cardMovementModel) =>
+            setCardMovementViewModel: (cardMovementViewModel) =>
             {
-                launchedCardMovementModels.Add(cardMovementModel);
+                launchedCardMovementModels.Add(cardMovementViewModel);
             });
 
         // モーションの補間
