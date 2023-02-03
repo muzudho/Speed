@@ -1,6 +1,10 @@
 ﻿namespace Assets.Scripts.Simulators.Timeline
 {
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Views.Timeline;
+    using Assets.Scripts.Views;
     using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
+    using UnityEngine;
 
     internal class Simulator
     {
@@ -14,5 +18,48 @@
         // - プロパティ
 
         internal ModelsOfTimeline.Model Model { get; private set; }
+
+        // - メソッド
+
+        /// <summary>
+        /// コマンドを消化
+        /// </summary>
+        /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
+        /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
+        /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
+        internal void OnEnter(
+            float elapsedSeconds,
+            GameModelBuffer gameModelBuffer,
+            GameViewModel gameViewModel,
+            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
+        {
+            // TODO ★ スレッド・セーフにしたい
+            // キューに溜まっている分を全て消化
+            int i = 0;
+            while (i < this.Model.GetCountItems())
+            {
+                var span = this.Model.GetItemAt(i);
+
+                // まだ
+                if (elapsedSeconds < span.StartSeconds)
+                {
+                    i++;
+                    continue;
+                }
+
+                // 起動
+                // ----
+                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{span.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
+
+                // スケジュールから除去
+                this.Model.RemoveAt(i);
+
+                // 実行
+                span.OnEnter(
+                    gameModelBuffer,
+                    gameViewModel,
+                    setLaunchedSpanModel: setCardMovementModel);
+            }
+        }
     }
 }

@@ -179,7 +179,7 @@ public class GameManager : MonoBehaviour
         var launchedCardMovementModels = new List<CardMovementViewModel>();
 
         // 時限式で、コマンドを消化
-        this.timelineView.Simulator.Model.OnEnter(
+        this.timelineView.Simulator.OnEnter(
             this.gameModelBuffer.ElapsedSeconds,
             gameModelBuffer,
             gameViewModel,

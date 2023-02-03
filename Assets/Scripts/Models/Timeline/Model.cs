@@ -1,13 +1,13 @@
 ﻿namespace Assets.Scripts.Models.Timeline
 {
-    using Assets.Scripts.Models;
-    using Assets.Scripts.Views;
     using Assets.Scripts.Views.Timeline;
     using System.Collections.Generic;
     using UnityEngine;
 
     /// <summary>
     /// タイムライン・モデル
+    /// 
+    /// - 編集可能（Mutable）
     /// </summary>
     internal class Model
     {
@@ -40,45 +40,19 @@
             this.ScheduledItems.Add(spanModel);
         }
 
-        /// <summary>
-        /// コマンドを消化
-        /// </summary>
-        /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
-        /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
-        /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
-        internal void OnEnter(
-            float elapsedSeconds,
-            GameModelBuffer gameModelBuffer,
-            GameViewModel gameViewModel,
-            LazyArgs.SetValue<CardMovementViewModel> setCardMovementModel)
+        internal ISpanModel GetItemAt(int index)
         {
-            // TODO ★ スレッド・セーフにしたい
-            // キューに溜まっている分を全て消化
-            int i = 0;
-            while (i < this.ScheduledItems.Count)
-            {
-                var span = this.ScheduledItems[i];
+            return this.ScheduledItems[index];
+        }
 
-                // まだ
-                if (elapsedSeconds < span.StartSeconds)
-                {
-                    i++;
-                    continue;
-                }
+        internal int GetCountItems()
+        {
+            return this.ScheduledItems.Count;
+        }
 
-                // 起動
-                // ----
-                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{span.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
-
-                // スケジュールから除去
-                this.ScheduledItems.RemoveAt(i);
-
-                // 実行
-                span.OnEnter(
-                    gameModelBuffer,
-                    gameViewModel,
-                    setLaunchedSpanModel: setCardMovementModel);
-            }
+        internal void RemoveAt(int index)
+        {
+            this.ScheduledItems.RemoveAt(index);
         }
 
         internal void DebugWrite()
