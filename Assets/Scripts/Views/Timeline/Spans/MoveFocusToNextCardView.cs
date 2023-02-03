@@ -9,7 +9,7 @@
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>
-    class MoveFocusToNextCardView : AbstractSpanModel
+    class MoveFocusToNextCardView : AbstractSpanView
     {
         // - 生成
 

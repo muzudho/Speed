@@ -19,9 +19,9 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<ISpanModel> scheduledItemModels = new();
+        List<ISpanView> scheduledItemModels = new();
 
-        internal List<ISpanModel> ScheduledItems
+        internal List<ISpanView> ScheduledItems
         {
             get
             {
@@ -35,12 +35,12 @@
         /// 追加
         /// </summary>
         /// <param name="spanModel">タイム・スパン</param>
-        internal void Add(ISpanModel spanModel)
+        internal void Add(ISpanView spanModel)
         {
             this.ScheduledItems.Add(spanModel);
         }
 
-        internal ISpanModel GetItemAt(int index)
+        internal ISpanView GetItemAt(int index)
         {
             return this.ScheduledItems[index];
         }

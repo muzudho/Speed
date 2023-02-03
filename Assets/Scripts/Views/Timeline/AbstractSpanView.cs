@@ -8,7 +8,7 @@
     /// 
     /// - 指定した時間と、そのとき実行されるコマンドのペア
     /// </summary>
-    internal abstract class AbstractSpanModel : ISpanModel
+    internal abstract class AbstractSpanView : ISpanView
     {
         // - その他（生成）
 
@@ -16,7 +16,7 @@
         /// 
         /// </summary>
         /// <param name="timeSpan">タイム・スパン</param>
-        public AbstractSpanModel(TimeSpan timeSpan)
+        public AbstractSpanView(TimeSpan timeSpan)
         {
             this.TimeSpan = timeSpan;
         }

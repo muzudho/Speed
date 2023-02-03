@@ -10,7 +10,7 @@
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    class MoveCardsToPileFromCenterStacksView : AbstractSpanModel
+    class MoveCardsToPileFromCenterStacksView : AbstractSpanView
     {
         // - 生成
 

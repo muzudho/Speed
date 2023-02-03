@@ -9,7 +9,7 @@
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
     /// </summary>
-    class MoveCardToCenterStackFromHandView : AbstractSpanModel
+    class MoveCardToCenterStackFromHandView : AbstractSpanView
     {
         // - 生成
 

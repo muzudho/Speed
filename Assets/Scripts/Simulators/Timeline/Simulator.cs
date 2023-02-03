@@ -21,6 +21,10 @@
 
         // - メソッド
 
+        internal void Bind(float startSeconds, ISpanView spanView)
+        {
+        }
+
         /// <summary>
         /// コマンドを消化
         /// </summary>
