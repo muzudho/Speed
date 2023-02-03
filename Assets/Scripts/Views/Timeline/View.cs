@@ -1,15 +1,15 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
-    using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
-    using Assets.Scripts.Models;
+    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Views;
     using System.Collections.Generic;
     using UnityEngine;
-    using Assets.Scripts.Models.Timeline;
-    using Unity.VisualScripting;
+    using ModelsOfTimeline = Assets.Scripts.Models.Timeline;
 
     /// <summary>
     /// タイムライン・ビュー
+    /// 
+    /// - タイムライン・モデルを持ちます
     /// </summary>
     internal class View
     {

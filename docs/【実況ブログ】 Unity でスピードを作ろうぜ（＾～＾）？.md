@@ -4901,4 +4901,19 @@ namespace Assets.Scripts.Models
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　作った」  
 
+![202302_unity_03-0200--bug-point-1.png](https://crieit.now.sh/upload_images/33d34bc41640b4ab0cc11582acd5120063dbec62dfa0a.png)  
+
+📅 2023-02-03 sat 02:00  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　タイム・ライン登録時は　まだ　座標が動いてないから、  
+タイム・ライン登録中も　座標を動かしてやらないと　いけないぜ。  
+この不具合は　また今度直そう」  
+
+📺 [開発中画面](https://twitter.com/muzudho1/status/1621193047693492224?s=20&t=CoRWztOdgUDSmBcMSE_6ug)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　今日は　ここまで」  
+
+
 # // 書きかけ
