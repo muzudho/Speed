@@ -21,7 +21,19 @@
 
         internal ModelsOfTimeline.Model Model { get; private set; }
 
+        /// <summary>
+        /// タイム・ライン作成用カウンター
+        /// 
+        /// - プレイヤー別
+        /// </summary>
+        internal float[] ScheduledSeconds { get; private set; } = { 0.0f, 0.0f };
+
         // - メソッド
+
+        internal void AddScheduleSeconds(int player, float seconds)
+        {
+            this.ScheduledSeconds[player] += seconds;
+        }
 
         /// <summary>
         /// コマンドを消化
