@@ -7,19 +7,38 @@
     using UnityEngine;
     using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Models.Timeline.Spans;
+    using System.Collections.Generic;
 
+    /// <summary>
+    /// シミュレーター
+    /// 
+    /// - 編集可能（Mutable）
+    /// </summary>
     internal class Simulator
     {
         // - その他（生成）
 
-        public Simulator(ModelsOfTimeline.Model model)
+        public Simulator()
         {
-            this.Model = model;
         }
 
         // - プロパティ
 
-        internal ModelsOfTimeline.Model Model { get; private set; }
+        /// <summary>
+        /// スケジュールに登録されている残りの項目
+        /// 
+        /// - 実行されると、 `ongoingItems` へ移動する
+        /// </summary>
+
+        List<TimeSpan> scheduledItemModels = new();
+
+        internal List<TimeSpan> ScheduledItems
+        {
+            get
+            {
+                return this.scheduledItemModels;
+            }
+        }
 
         /// <summary>
         /// タイム・ライン作成用カウンター
@@ -50,12 +69,12 @@
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
             int i = 0;
-            while (i < this.Model.GetCountItems())
+            while (i < this.GetCountItems())
             {
-                var spanView = this.Model.GetItemAt(i);
+                var timeSpan = this.GetItemAt(i);
 
                 // まだ
-                if (elapsedSeconds < spanView.TimeSpan.StartSeconds)
+                if (elapsedSeconds < timeSpan.StartSeconds)
                 {
                     i++;
                     continue;
@@ -63,18 +82,47 @@
 
                 // 起動
                 // ----
-                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{spanView.TimeSpan.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
+                Debug.Log($"[Assets.Scripts.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{timeSpan.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
 
                 // スケジュールから除去
-                this.Model.RemoveAt(i);
+                this.RemoveAt(i);
 
                 // 実行
-                spanView.OnEnter(
-                    spanView.TimeSpan,
+                timeSpan.SpanView.OnEnter(
+                    timeSpan,
                     gameModelBuffer,
                     gameViewModel,
                     setMovementViewModel: setMovementViewModel);
             }
+        }
+
+        /// <summary>
+        /// 追加
+        /// </summary>
+        /// <param name="spanModel">タイム・スパン</param>
+        internal void Add(TimeSpan spanModel)
+        {
+            this.ScheduledItems.Add(spanModel);
+        }
+
+        internal TimeSpan GetItemAt(int index)
+        {
+            return this.ScheduledItems[index];
+        }
+
+        internal int GetCountItems()
+        {
+            return this.ScheduledItems.Count;
+        }
+
+        internal void RemoveAt(int index)
+        {
+            this.ScheduledItems.RemoveAt(index);
+        }
+
+        internal void DebugWrite()
+        {
+            Debug.Log($"[Assets.Scripts.Simulators.Timeline.Simulator DebugWrite] timedItems.Count:{scheduledItemModels.Count}");
         }
     }
 }

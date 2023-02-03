@@ -17,28 +17,16 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn(SimulatorsOfTimeline.TimeSpan timeSpan)
+        public override ISpanView Spawn()
         {
-            return new MoveFocusToNextCardView(timeSpan);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveFocusToNextCardView(SimulatorsOfTimeline.TimeSpan timeSpan)
-            : base(timeSpan)
-        {
+            return new MoveFocusToNextCardView();
         }
 
         // - プロパティ
 
-        MoveFocusToNextCardModel Model
+        MoveFocusToNextCardModel GetModel(SimulatorsOfTimeline.TimeSpan timeSpan)
         {
-            get
-            {
-                return (MoveFocusToNextCardModel)this.TimeSpan.SpanModel;
-            }
+            return (MoveFocusToNextCardModel)timeSpan.SpanModel;
         }
 
         // - メソッド
@@ -55,10 +43,10 @@
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
-            int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[this.Model.Player]; // 下ろす場札
+            int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player]; // 下ろす場札
 
             int indexOfCurrent; // ピックアップする場札
-            var length = gameModelBuffer.IdOfCardsOfPlayersHand[this.Model.Player].Count;
+            var length = gameModelBuffer.IdOfCardsOfPlayersHand[GetModel(timeSpan).Player].Count;
 
             if (length < 1)
             {
@@ -67,7 +55,7 @@
             }
             else
             {
-                switch (this.Model.Direction)
+                switch (GetModel(timeSpan).Direction)
                 {
                     // 後ろへ
                     case 0:
@@ -103,26 +91,26 @@
 
             if (0 <= indexOfPrevious && indexOfPrevious < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(this.Model.Player, indexOfPrevious); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timeSpan).Player, indexOfPrevious); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setMovementViewModel(MovementGenerator.PutDownCardOfHand(
-                    startSeconds: this.TimeSpan.StartSeconds,
-                    duration: this.TimeSpan.Duration,
+                    startSeconds: timeSpan.StartSeconds,
+                    duration: timeSpan.Duration,
                     idOfCard: idOfCard));
             }
 
             // （状態変更）ピックアップしている場札の、インデックス更新
-            this.Model.SetIndexOfNextFocusedHandCard(indexOfCurrent);
+            GetModel(timeSpan).SetIndexOfNextFocusedHandCard(indexOfCurrent);
 
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(this.Model.Player, indexOfCurrent); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timeSpan).Player, indexOfCurrent); // ピックアップしている場札
 
                 // 今回フォーカスするカードを持ち上げる
                 setMovementViewModel(MovementGenerator.PickupCardOfHand(
-                    startSeconds: this.TimeSpan.StartSeconds,
-                    duration: this.TimeSpan.Duration,
+                    startSeconds: timeSpan.StartSeconds,
+                    duration: timeSpan.Duration,
                     idOfCard: idOfCard));
             }
         }

@@ -17,14 +17,9 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        ISpanView Spawn(SimulatorsOfTimeline.TimeSpan timeSpan);
+        ISpanView Spawn();
 
         // - プロパティ
-
-        /// <summary>
-        /// タイム・スパン
-        /// </summary>
-        SimulatorsOfTimeline.TimeSpan TimeSpan { get; }
 
         // - メソッド
 

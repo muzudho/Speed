@@ -19,28 +19,16 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn(SimulatorsOfTimeline.TimeSpan timeSpan)
+        public override ISpanView Spawn()
         {
-            return new MoveCardsToPileFromCenterStacksView(timeSpan);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveCardsToPileFromCenterStacksView(SimulatorsOfTimeline.TimeSpan timeSpan)
-            :base(timeSpan)
-        {
+            return new MoveCardsToPileFromCenterStacksView();
         }
 
         // - プロパティ
 
-        MoveCardsToPileFromCenterStacksModel Model
+        MoveCardsToPileFromCenterStacksModel GetModel(SimulatorsOfTimeline.TimeSpan timeSpan)
         {
-            get
-            {
-                return (MoveCardsToPileFromCenterStacksModel)this.TimeSpan.SpanModel;
-            }
+            return (MoveCardsToPileFromCenterStacksModel)timeSpan.SpanModel;
         }
 
         // - メソッド
@@ -59,12 +47,12 @@
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
-            var length = gameModelBuffer.IdOfCardsOfCenterStacks[this.Model.Place].Count; // 台札の枚数
+            var length = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timeSpan).Place].Count; // 台札の枚数
             if (1 <= length)
             {
                 var startIndex = length - numberOfCards;
-                var idOfCard = gameModelBuffer.IdOfCardsOfCenterStacks[this.Model.Place][startIndex];
-                gameModelBuffer.RemoveCardAtOfCenterStack(this.Model.Place, startIndex);
+                var idOfCard = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timeSpan).Place][startIndex];
+                gameModelBuffer.RemoveCardAtOfCenterStack(GetModel(timeSpan).Place, startIndex);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 int player;

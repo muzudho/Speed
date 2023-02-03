@@ -95,10 +95,9 @@ public class GameManager : MonoBehaviour
         GameObjectStorage.Add(IdOfGameObjects.Spades13, GameObject.Find($"Spades 13"));
 
         // タイムライン・ビューは、タイムライン・シミュレーターを持ち、
-        // タイムライン・シミュレーターは、タイムライン・モデルを持つ。
+        // タイムライン・シミュレーターは、タイム・スパンを持つ。
         timelineView = new ViewsOfTimeline.View(
-            new SimulatorsOfTimeline.Simulator(
-                new ModelsOfTimeline.Model()));
+            new SimulatorsOfTimeline.Simulator());
         gameModelBuffer = new GameModelBuffer();
         gameModel = new GameModel(gameModelBuffer);
         gameViewModel = new GameViewModel();
@@ -124,11 +123,9 @@ public class GameManager : MonoBehaviour
                     );
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: 0.0f,
-                    spanModel: spanModel);
-
-            var viewSpan = Specification.SpawnView(typeof(Spans.MoveCardsToPileFromCenterStacksView), timeSpan);
-            new Spans.MoveCardsToPileFromCenterStacksView(
-                timeSpan).OnEnter(timeSpan, gameModelBuffer, gameViewModel,
+                    spanModel: spanModel,
+                    spanView: Specification.SpawnView(typeof(Spans.MoveCardsToPileFromCenterStacksView)));
+            timeSpan.SpanView.OnEnter(timeSpan, gameModelBuffer, gameViewModel,
                         setMovementViewModel: (movementViewModel) =>
                         {
                             var cardMovementView = new MovementView(movementViewModel);
@@ -144,10 +141,9 @@ public class GameManager : MonoBehaviour
                     numberOfCards: 5);
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
-                    spanModel: spanModel);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
-                timeSpan: timeSpan
-                ));
+                    spanModel: spanModel,
+                    spanView: new Spans.MoveCardsToHandFromPileView());
+            this.timelineView.Simulator.Add(timeSpan);
             this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
         }
         {
@@ -157,10 +153,9 @@ public class GameManager : MonoBehaviour
                     numberOfCards: 5);
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
-                    spanModel: spanModel);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
-                timeSpan: timeSpan
-                ));
+                    spanModel: spanModel,
+                    spanView: new Spans.MoveCardsToHandFromPileView());
+            this.timelineView.Simulator.Add(timeSpan);
             this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
         }
 
@@ -199,7 +194,7 @@ public class GameManager : MonoBehaviour
         // モーションの補間
         this.timelineView.Lerp(this.gameModelBuffer.ElapsedSeconds, launchedCardMovementModels);
 
-        this.timelineView.Simulator.Model.DebugWrite(); // TODO ★ 消す
+        this.timelineView.Simulator.DebugWrite(); // TODO ★ 消す
         this.timelineView.DebugWrite(); // TODO ★ 消す
 
         this.gameModelBuffer.ElapsedSeconds += tickSeconds;
@@ -228,10 +223,9 @@ public class GameManager : MonoBehaviour
                     place: right); // 右の
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    spanModel: spanModel);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                timeSpan: timeSpan
-                ));
+                    spanModel: spanModel,
+                    spanView: new Spans.MoveCardToCenterStackFromHandView());
+            this.timelineView.Simulator.Add(timeSpan);
             handled1player = true;
         }
 
@@ -243,10 +237,9 @@ public class GameManager : MonoBehaviour
                     place: right); // 右の
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    spanModel: spanModel);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                timeSpan: timeSpan
-                ));
+                    spanModel: spanModel,
+                    spanView: new Spans.MoveCardToCenterStackFromHandView());
+            this.timelineView.Simulator.Add(timeSpan);
             handled2player = true;
         }
 
@@ -262,10 +255,9 @@ public class GameManager : MonoBehaviour
                     place: left); // 左の
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    spanModel: spanModel);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                timeSpan: timeSpan
-                ));
+                    spanModel: spanModel,
+                    spanView: new Spans.MoveCardToCenterStackFromHandView());
+            this.timelineView.Simulator.Add(timeSpan);
             handled2player = true;
         }
 
@@ -278,10 +270,9 @@ public class GameManager : MonoBehaviour
                     place: left); // 左の
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    spanModel: spanModel);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                timeSpan: timeSpan
-                ));
+                    spanModel: spanModel,
+                    spanView: new Spans.MoveCardToCenterStackFromHandView());
+            this.timelineView.Simulator.Add(timeSpan);
             handled1player = true;
         }
 
@@ -306,10 +297,9 @@ public class GameManager : MonoBehaviour
                     });
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    spanModel);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                timeSpan: timeSpan
-                ));
+                    spanModel: spanModel,
+                    spanView: new Spans.MoveFocusToNextCardView());
+            this.timelineView.Simulator.Add(timeSpan);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -324,10 +314,9 @@ public class GameManager : MonoBehaviour
                     });
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    spanModel: spanModel);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                timeSpan: timeSpan
-                ));
+                    spanModel: spanModel,
+                    spanView: new Spans.MoveFocusToNextCardView());
+            this.timelineView.Simulator.Add(timeSpan);
         }
 
         // ２プレイヤー
@@ -348,10 +337,9 @@ public class GameManager : MonoBehaviour
                     });
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    spanModel: spanModel);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                timeSpan: timeSpan
-                ));
+                    spanModel: spanModel,
+                    spanView: new Spans.MoveFocusToNextCardView());
+            this.timelineView.Simulator.Add(timeSpan);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
@@ -366,10 +354,9 @@ public class GameManager : MonoBehaviour
                     });
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                    spanModel: spanModel);
-            this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                timeSpan: timeSpan
-                ));
+                    spanModel: spanModel,
+                    spanView: new Spans.MoveFocusToNextCardView());
+            this.timelineView.Simulator.Add(timeSpan);
         }
 
         // デバッグ用
@@ -384,10 +371,9 @@ public class GameManager : MonoBehaviour
                         numberOfCards: 1);
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.gameModelBuffer.ElapsedSeconds,
-                        spanModel: spanModel);
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
-                    timeSpan: timeSpan
-                    )); ;
+                        spanModel: spanModel,
+                        spanView: new Spans.MoveCardsToHandFromPileView());
+                this.timelineView.Simulator.Add(timeSpan);
             }
         }
     }
@@ -422,10 +408,9 @@ public class GameManager : MonoBehaviour
                         place: right); // 右の
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
-                        spanModel: spanModel);
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                    timeSpan: timeSpan
-                    ));
+                        spanModel: spanModel,
+                        spanView: new Spans.MoveCardToCenterStackFromHandView());
+                this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
             {
@@ -436,10 +421,9 @@ public class GameManager : MonoBehaviour
                         place: left); // 左の;
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
-                        spanModel: spanModel);
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                    timeSpan: timeSpan
-                    ));
+                        spanModel: spanModel,
+                        spanView: new Spans.MoveCardToCenterStackFromHandView());
+                this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
         }
@@ -468,10 +452,9 @@ public class GameManager : MonoBehaviour
                             });
                     var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                             startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
-                            spanModel: spanModel);
-                    this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                        timeSpan: timeSpan
-                        ));
+                            spanModel: spanModel,
+                            spanView: new Spans.MoveFocusToNextCardView());
+                    this.timelineView.Simulator.Add(timeSpan);
                     this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
                 }
 
@@ -487,10 +470,9 @@ public class GameManager : MonoBehaviour
                             });
                     var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                             startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
-                            spanModel: spanModel);
-                    this.timelineView.Simulator.Model.Add(new Spans.MoveFocusToNextCardView(
-                        timeSpan: timeSpan
-                        ));
+                            spanModel: spanModel,
+                            spanView: new Spans.MoveFocusToNextCardView());
+                    this.timelineView.Simulator.Add(timeSpan);
                     this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
                 }
 
@@ -511,10 +493,9 @@ public class GameManager : MonoBehaviour
                         place: 1); // 左の台札
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
-                        spanModel: spanModel);
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                    timeSpan: timeSpan
-                    ));
+                        spanModel: spanModel,
+                        spanView: new Spans.MoveCardToCenterStackFromHandView());
+                this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
             {
@@ -524,10 +505,9 @@ public class GameManager : MonoBehaviour
                         place: 0); // 右の台札
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
-                        spanModel: spanModel);
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardToCenterStackFromHandView(
-                    timeSpan: timeSpan
-                    ));
+                        spanModel: spanModel,
+                        spanView: new Spans.MoveCardToCenterStackFromHandView());
+                this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
         }
@@ -548,10 +528,9 @@ public class GameManager : MonoBehaviour
                         numberOfCards: 1);
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
-                        spanModel: spanModel);
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
-                    timeSpan: timeSpan
-                    ));
+                        spanModel: spanModel,
+                        spanView: new Spans.MoveCardsToHandFromPileView());
+                this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
             {
@@ -562,10 +541,9 @@ public class GameManager : MonoBehaviour
                         numberOfCards: 1);
                 var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                         startSeconds: this.timelineView.Simulator.ScheduledSeconds[player],
-                        spanModel: spanModel);
-                this.timelineView.Simulator.Model.Add(new Spans.MoveCardsToHandFromPileView(
-                    timeSpan: timeSpan
-                    ));
+                        spanModel: spanModel,
+                        spanView: new Spans.MoveCardsToHandFromPileView());
+                this.timelineView.Simulator.Add(timeSpan);
                 this.timelineView.Simulator.AddScheduleSeconds(player, timeSpan.Duration);
             }
         }

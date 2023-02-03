@@ -16,28 +16,16 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn(SimulatorsOfTimeline.TimeSpan timeSpan)
+        public override ISpanView Spawn()
         {
-            return new MoveCardsToHandFromPileView(timeSpan);
-        }
-
-        /// <summary>
-        /// 生成
-        /// </summary>
-        /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveCardsToHandFromPileView(SimulatorsOfTimeline.TimeSpan timeSpan)
-            : base(timeSpan)
-        {
+            return new MoveCardsToHandFromPileView();
         }
 
         // - プロパティ
 
-        MoveCardsToHandFromPileModel Model
+        MoveCardsToHandFromPileModel GetModel(SimulatorsOfTimeline.TimeSpan timeSpan)
         {
-            get
-            {
-                return (MoveCardsToHandFromPileModel)this.TimeSpan.SpanModel;
-            }
+            return (MoveCardsToHandFromPileModel)timeSpan.SpanModel;
         }
 
         // - メソッド
@@ -53,18 +41,18 @@
             GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
-            var length = gameModelBuffer.IdOfCardsOfPlayersPile[this.Model.Player].Count; // 手札の枚数
+            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timeSpan).Player].Count; // 手札の枚数
 
-            if (this.Model.NumberOfCards <= length)
+            if (GetModel(timeSpan).NumberOfCards <= length)
             {
                 // 天辺から取っていく
-                var startIndex = length - this.Model.NumberOfCards;
-                gameModelBuffer.MoveCardsToHandFromPile(this.Model.Player, startIndex, this.Model.NumberOfCards);
+                var startIndex = length - GetModel(timeSpan).NumberOfCards;
+                gameModelBuffer.MoveCardsToHandFromPile(GetModel(timeSpan).Player, startIndex, GetModel(timeSpan).NumberOfCards);
 
                 // もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
-                if (gameModelBuffer.IndexOfFocusedCardOfPlayers[this.Model.Player] == -1)
+                if (gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] == -1)
                 {
-                    gameModelBuffer.IndexOfFocusedCardOfPlayers[this.Model.Player] = 0;
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = 0;
                 }
 
                 // 場札の位置の再調整（をしないと、手札から移動しない）
@@ -74,7 +62,7 @@
                     duration1: timeSpan.Duration / 2.0f,
                     duration2: timeSpan.Duration / 2.0f,
                     gameModel: gameModel,
-                    player: this.Model.Player,
+                    player: GetModel(timeSpan).Player,
                     setCardMovementModel: setMovementViewModel);
             }
         }

@@ -15,23 +15,24 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="spanModel">スパン・モデル</param>
-        public TimeSpan(float startSeconds, ISpanModel spanModel)
+        public TimeSpan(float startSeconds, ISpanModel spanModel, ISpanView spanView)
         {
             this.StartSeconds = startSeconds;
             this.SpanModel = spanModel;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="spanModel">スパン・モデル</param>
-        public TimeSpan(TimeSpan sourceTimeSpan, ISpanView spanView)
-        {
-            this.StartSeconds = sourceTimeSpan.StartSeconds;
-            this.SpanModel = sourceTimeSpan.SpanModel;
             this.SpanView = spanView;
         }
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="startSeconds">ゲーム内時間（秒）</param>
+        ///// <param name="spanModel">スパン・モデル</param>
+        //public TimeSpan(TimeSpan sourceTimeSpan, ISpanView spanView)
+        //{
+        //    this.StartSeconds = sourceTimeSpan.StartSeconds;
+        //    this.SpanModel = sourceTimeSpan.SpanModel;
+        //    this.SpanView = spanView;
+        //}
 
         // - プロパティ
 

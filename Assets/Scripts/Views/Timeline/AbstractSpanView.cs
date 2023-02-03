@@ -17,23 +17,9 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public abstract ISpanView Spawn(SimulatorsOfTimeline.TimeSpan timeSpan);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="timeSpan">タイム・スパン</param>
-        public AbstractSpanView(SimulatorsOfTimeline.TimeSpan timeSpan)
-        {
-            this.TimeSpan = timeSpan;
-        }
+        public abstract ISpanView Spawn();
 
         // - プロパティ
-
-        /// <summary>
-        /// タイム・スパン
-        /// </summary>
-        public SimulatorsOfTimeline.TimeSpan TimeSpan { get; private set; }
 
         // - メソッド
 

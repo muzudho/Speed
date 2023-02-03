@@ -18,28 +18,16 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn(TimeSpan timeSpan)
+        public override ISpanView Spawn()
         {
-            return new MoveCardToCenterStackFromHandView(timeSpan);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="timeSpan">タイム・スパン</param>
-        internal MoveCardToCenterStackFromHandView(SimulatorsOfTimeline.TimeSpan timeSpan)
-            : base(timeSpan)
-        {
+            return new MoveCardToCenterStackFromHandView();
         }
 
         // - プロパティ
 
-        MoveCardToCenterStackFromHandModel Model
+        MoveCardToCenterStackFromHandModel GetModel(SimulatorsOfTimeline.TimeSpan timeSpan)
         {
-            get
-            {
-                return (MoveCardToCenterStackFromHandModel)this.TimeSpan.SpanModel;
-            }
+            return (MoveCardToCenterStackFromHandModel)timeSpan.SpanModel;
         }
 
         // - メソッド
@@ -60,19 +48,19 @@
             // ピックアップしているカードがあるか？
             GetIndexOfFocusedHandCard(
                 gameModelBuffer: gameModelBuffer,
-                player: this.Model.Player,
+                player: GetModel(timeSpan).Player,
                 (indexOfFocusedHandCard) =>
                 {
                     RemoveAtOfHandCard(
                         timeSpan: timeSpan,
                         gameModelBuffer: gameModelBuffer,
                         gameViewModel: gameViewModel,
-                        player: this.Model.Player,
-                        place: this.Model.Place,
+                        player: GetModel(timeSpan).Player,
+                        place: GetModel(timeSpan).Place,
                         indexOfHandCardToRemove: indexOfFocusedHandCard,
                         setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                         {
-                            gameModelBuffer.IndexOfFocusedCardOfPlayers[this.Model.Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
+                            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
 
                             //// もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
                             //if (gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] == -1)
@@ -86,7 +74,7 @@
                                 duration1: timeSpan.Duration / 4.0f,
                                 duration2: timeSpan.Duration / 4.0f,
                                 gameModel: gameModel,
-                                player: this.Model.Player,
+                                player: GetModel(timeSpan).Player,
                                 setCardMovementModel: setMovementViewModel); // 場札
                         },
                         setCardMovementModel: (movementModel) =>
@@ -190,7 +178,7 @@
             // 台札の位置をセット
             var idOfGo = Specification.GetIdOfGameObject(idOfCard);
             setCardMovementModel(new MovementViewModel(
-                startSeconds: timeSpan.StartSeconds + this.TimeSpan.Duration / 2.0f,
+                startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                 duration: timeSpan.Duration / 2.0f,
                 beginPosition: goCard.transform.position,
                 endPosition: new Vector3(nextTopX + shakeX, gameViewModel.centerStacksY[place], nextTopZ + shakeZ),

@@ -86,10 +86,10 @@
             DurationOfModels.Add(typeof(MoveCardToCenterStackFromHandModel).GetHashCode(), 0.15f + durationOfMoveFocusToNextCard);
             DurationOfModels.Add(typeof(MoveFocusToNextCardModel).GetHashCode(), durationOfMoveFocusToNextCard);
 
-            Views.Add(typeof(MoveCardsToHandFromPileView).GetHashCode(), new MoveCardsToHandFromPileView(null));
-            Views.Add(typeof(MoveCardsToPileFromCenterStacksView).GetHashCode(), new MoveCardsToPileFromCenterStacksView(null));
-            Views.Add(typeof(MoveCardToCenterStackFromHandView).GetHashCode(), new MoveCardToCenterStackFromHandView(null));
-            Views.Add(typeof(MoveFocusToNextCardView).GetHashCode(), new MoveFocusToNextCardView(null));
+            Views.Add(typeof(MoveCardsToHandFromPileView).GetHashCode(), new MoveCardsToHandFromPileView());
+            Views.Add(typeof(MoveCardsToPileFromCenterStacksView).GetHashCode(), new MoveCardsToPileFromCenterStacksView());
+            Views.Add(typeof(MoveCardToCenterStackFromHandView).GetHashCode(), new MoveCardToCenterStackFromHandView());
+            Views.Add(typeof(MoveFocusToNextCardView).GetHashCode(), new MoveFocusToNextCardView());
         }
 
         // - プロパティ
@@ -114,9 +114,9 @@
             return DurationOfModels[type.GetHashCode()];
         }
 
-        internal static ISpanView SpawnView(Type type, SimulatorsOfTimeline.TimeSpan timeSpan)
+        internal static ISpanView SpawnView(Type type)
         {
-            return Views[type.GetHashCode()].Spawn(timeSpan);
+            return Views[type.GetHashCode()].Spawn();
         }
 
         internal static IdOfGameObjects GetIdOfGameObject(IdOfPlayingCards id)
