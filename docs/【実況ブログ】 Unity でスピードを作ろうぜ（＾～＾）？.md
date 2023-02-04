@@ -4990,5 +4990,15 @@ namespace Assets.Scripts.Models
 こんな書き方が役に立つ場面　初めて見た。  
 不思議な気分だぜ」  
 
+📺 [開発中画面](https://twitter.com/muzudho1/status/1621884143868219393?s=20&t=DePtrbaQRFX6Mkz2O1Tomg)  
+
+📅 2023-02-04 sat 23:55  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　思ったのと　違う動きをしているが、  
+不具合のリクツが分かってきたのは前進だぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　今日は　ここまでだぜ」  
 
 # // 書きかけ
