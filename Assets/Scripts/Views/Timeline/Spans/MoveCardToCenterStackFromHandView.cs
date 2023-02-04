@@ -159,6 +159,7 @@
             AddCardOfCenterStack2(
                 timeSpan: timeSpan,
                 idOfCard: goCard,
+                player: player,
                 place: place,
                 getNumberOfCenterStackCards: getNumberOfCenterStackCards,
                 getNextTopOfCenterStackCard: getNextTopOfCenterStackCard,
@@ -171,6 +172,7 @@
         private void AddCardOfCenterStack2(
             TimeSpan timeSpan,
             IdOfPlayingCards idOfCard,
+            int player,
             int place,
             LazyArgs.GetValue<int> getNumberOfCenterStackCards,
             LazyArgs.GetValue<Vector3> getNextTopOfCenterStackCard,
@@ -178,22 +180,13 @@
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             // 手ぶれ
-            var (shakeX, shakeZ, shakeAngleY) = GameView.MakeShakeForCenterStack(place);
+            var (shakeX, shakeZ) = GameView.MakeShakeForCenterStack(place);
 
             // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
             Vector3 nextTop = getNextTopOfCenterStackCard();
 
-            // 台札の捻り
+            // 抜いた場札
             var goCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfCard)]; // TODO ビューが必要？
-            float nextAngleY = goCard.transform.rotation.eulerAngles.y;
-            var numberOfCenterStackCards = getNumberOfCenterStackCards();
-            if (numberOfCenterStackCards < 1)
-            {
-            }
-            else
-            {
-                nextAngleY += shakeAngleY;
-            }
 
             addCardOfCenterStack((place, idOfCard));// 台札として置く
 
@@ -208,7 +201,28 @@
                     getQuaternion: () => goCard.transform.rotation),
                 getEnd: ()=> new Vector3AndQuaternionLazy(
                     getVector3: ()=> new Vector3(nextTop.x + shakeX, nextTop.y, nextTop.z + shakeZ),
-                    getQuaternion: () => Quaternion.Euler(0, nextAngleY, 0.0f))));
+                    getQuaternion: () =>
+                    {
+                        // １プレイヤー、２プレイヤーでカードの向きが違う
+                        // また、元の捻りを保存していないと、補間で大回転してしまうようだ
+
+                        var src = goCard.transform.rotation;
+                        var shake = GameView.ShakeRotation();
+                        float yByPlayer;
+                        if (player==0) // １プレイヤーの方を 180°回転させる
+                        {
+                            yByPlayer = 180.0f;
+                        }
+                        else
+                        {
+                            yByPlayer = 0.0f;
+                        }
+
+                        return Quaternion.Euler(
+                            x: src.x + shake.x,
+                            y: src.y + shake.y + yByPlayer,
+                            z: src.z + shake.z);
+                    })));
         }
     }
 }
