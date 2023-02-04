@@ -87,7 +87,6 @@
                         setViewMovement: (movementModel) =>
                         {
                             setViewMovement(movementModel); // 台札
-
                         });
                 });
         }
@@ -234,6 +233,7 @@
                     },
                     getRotation: () =>
                     {
+                        // 初回アクセス時に、値固定
                         if (endRotation == null)
                         {
                             // １プレイヤー、２プレイヤーでカードの向きが違う
