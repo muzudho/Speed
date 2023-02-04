@@ -14,7 +14,19 @@
             this.me = new Vector3(x, y, z);
         }
 
+        // - フィールド
+
         Vector3 me;
+
+        // - プロパティ
+
+        public float X => me.x;
+
+        public float Y => me.y;
+
+        public float Z => me.z;
+
+        // - メソッド
 
         public Vector3 Add(Vector3 adds)
         {

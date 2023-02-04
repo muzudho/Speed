@@ -163,14 +163,14 @@
             foreach (var idOfCard in idOfHands) // 場札のIdリスト
             {
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
-                float z = range * Mathf.Sin(theta + playerTheta) + GameView.positionOfHandCardsOrigin[player].z + offsetCircleCenterZ;
+                float z = range * Mathf.Sin(theta + playerTheta) + GameView.positionOfHandCardsOrigin[player].Z + offsetCircleCenterZ;
 
                 var idOfGo = Specification.GetIdOfGameObject(idOfCard);
                 var goCard = GameObjectStorage.Items[idOfGo];
 
                 // 目標地点
                 var destination = new Vector3AndQuaternionLazy(
-                    getVector3: ()=> new Vector3(x, GameView.positionOfHandCardsOrigin[player].y, z),
+                    getVector3: ()=> new Vector3(x, GameView.positionOfHandCardsOrigin[player].Y, z),
                     getQuaternion: ()=> Quaternion.Euler(0, angleY, cardAngleZ));
 
                 if (idOfCard != idOfPickupCard)

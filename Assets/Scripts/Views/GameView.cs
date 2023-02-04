@@ -27,10 +27,10 @@
         /// 
         /// - 扇状を作るため、画面外の遠くにある
         /// </summary>
-        internal static readonly Vector3[] positionOfHandCardsOrigin = new Vector3[]
+        internal static readonly Vector3Immutable[] positionOfHandCardsOrigin = new Vector3Immutable[]
         {
-            new Vector3(0f,0.5f,-28.0f),
-            new Vector3(0f,0.5f, 42.0f),
+            new Vector3Immutable(0f,0.5f,-28.0f),
+            new Vector3Immutable(0f,0.5f, 42.0f),
         };
 
         /// <summary>
