@@ -115,8 +115,9 @@
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     idOfCard: idOfCard,
-                    getBeginPosition: ()=> goCard.transform.position,
-                    getBeginRotation: () => goCard.transform.rotation
+                    getBegin: () => new Vector3AndQuaternionLazy(
+                        getVector3: () => goCard.transform.position,
+                        getQuaternion: () => goCard.transform.rotation)
                     ));
             }
         }

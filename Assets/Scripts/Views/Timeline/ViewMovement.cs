@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
-    using Assets.Scripts.Views.Timeline;
     using UnityEngine;
 
     /// <summary>
