@@ -4946,6 +4946,42 @@ namespace Assets.Scripts.Models
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　`GameViewModel` を廃止し、静的クラスにしたぜ」  
 
+![202302_unity_04-1941--miss-name-1.png](https://crieit.now.sh/upload_images/671c39f10b2bfd10364dcb29e820e5d663de36bb375b1.png)  
+
+📅 2023-02-04 sat 19:43  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　怪しい場所を発見したぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　修正したが、バグが直る様子なし」  
+
+![202302_unity_04-2119--log-1.png](https://crieit.now.sh/upload_images/1da52164e1479a43a0deeeb0c7749e4063de4d8620cfb.png)  
+
+📅 2023-02-04 sat 21:20  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　5.0 だけ持ち上げたいのに、すでに 25.5　も持ち上がってたら、　６倍ぐらい　飛び上がるよな」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　1.06、 2.17、 3.83、 6.06、 8.83、 12.17、 16.06、 20.50、 25.50 は、  
++1.06、 +1.11、 +1.66、 +2.23、 +2.77、 +3.34、 +3.89、 +4.44、 +5.0 だぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　加速していく 5.0 を累計してんの？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　なんで勝手に　積分してんだぜ？　調べるか……」  
+
+![202302_unity_04-2144--sum-1.png](https://crieit.now.sh/upload_images/5fc49fa169db43447eac3818ed2ad21163de53d7257c0.png)
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　説明するのは難しいが　理解した。  
+開始地点から　終了地点まで　刻んで動け、という命令をしてるときに  
+開始地点が　刻々と　進んでいるんだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　開始地点は　動くなだぜ」  
 
 
 # // 書きかけ

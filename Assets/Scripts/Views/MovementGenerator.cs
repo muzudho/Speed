@@ -22,9 +22,8 @@
             LazyArgs.GetValue<Vector3AndQuaternionLazy> getBegin,
             IdOfPlayingCards idOfCard)
         {
-            var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
-            var rotateY = -5; // -5°傾ける
-            var rotateZ = -5; // -5°傾ける
+            // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
+            Vector3 lift = new Vector3(0.0f, 5.0f, 0.0f);
 
             return new ViewMovement(
                 startSeconds: startSeconds,
@@ -35,13 +34,13 @@
                             getVector3: () =>
                             {
                                 var pos = getBegin().GetVector3();
-                                return new Vector3(
-                                    pos.x,
-                                    pos.y + liftY,
-                                    pos.z);
+                                Debug.Log($"[MovementGenerator PickupCardOfHand] pos:{pos} lift:{lift}");
+                                return pos + lift;
                             },
                             getQuaternion: () =>
                             {
+                                var rotateY = -5; // -5°傾ける
+                                var rotateZ = -5; // -5°傾ける
                                 var rot = getBegin().GetQuaternion();
                                 return Quaternion.Euler(
                                     rot.eulerAngles.x,
@@ -59,7 +58,7 @@
         /// <param name="idOfCard">カードId</param>
         internal static ViewMovement PutDownCardOfHand(
             float startSeconds,
-            float duration, 
+            float duration,
             IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
@@ -78,11 +77,11 @@
                 duration: duration,
                 target: idOfGo,
                 getBegin: () => new Vector3AndQuaternionLazy(
-                    getVector3: ()=>goCard.transform.position,
-                    getQuaternion: ()=>goCard.transform.rotation),
+                    getVector3: () => goCard.transform.position,
+                    getQuaternion: () => goCard.transform.rotation),
                 getEnd: () => new Vector3AndQuaternionLazy(
-                    getVector3: ()=>new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
-                    getQuaternion:()=> Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ)
+                    getVector3: () => new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
+                    getQuaternion: () => Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ)
                     ));
         }
 
@@ -160,18 +159,18 @@
             }
 
             float theta = startTheta;
+            int i = 0;
             foreach (var idOfCard in idOfHands) // 場札のIdリスト
             {
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
                 float z = range * Mathf.Sin(theta + playerTheta) + GameView.positionOfHandCardsOrigin[player].Z + offsetCircleCenterZ;
 
                 var idOfGo = Specification.GetIdOfGameObject(idOfCard);
-                var goCard = GameObjectStorage.Items[idOfGo];
 
                 // 目標地点
                 var destination = new Vector3AndQuaternionLazy(
-                    getVector3: ()=> new Vector3(x, GameView.positionOfHandCardsOrigin[player].Y, z),
-                    getQuaternion: ()=> Quaternion.Euler(0, angleY, cardAngleZ));
+                    getVector3: () => new Vector3(x, GameView.positionOfHandCardsOrigin[player].Y, z),
+                    getQuaternion: () => Quaternion.Euler(0, angleY, cardAngleZ));
 
                 if (idOfCard != idOfPickupCard)
                 {
@@ -179,9 +178,14 @@
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,
-                        getBegin: ()=> new Vector3AndQuaternionLazy(
-                            getVector3: () => goCard.transform.position,
-                            getQuaternion: ()=> goCard.transform.rotation),
+                        getBegin: () =>
+                        {
+                            var goCard = GameObjectStorage.Items[idOfGo];
+                            return new Vector3AndQuaternionLazy(
+                                getVector3: () => goCard.transform.position,
+                                getQuaternion: () => goCard.transform.rotation);
+
+                        },
                         getEnd: () => destination));
                 }
                 else
@@ -193,11 +197,16 @@
                         startSeconds: startSeconds,
                         duration: duration,
                         idOfCard: idOfPickupCard,
-                        getBegin: () => destination));
+                        getBegin: () =>
+                        {
+                            Debug.Log($"[ArrangeHandCards] i:{i} destination.pos:{destination.GetVector3()}");
+                            return destination;
+                        }));
                 }
 
                 // 更新
                 theta += thetaStep;
+                i++;
             }
         }
     }

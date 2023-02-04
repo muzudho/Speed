@@ -67,12 +67,6 @@
                         {
                             gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
 
-                            //// もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
-                            //if (gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] == -1)
-                            //{
-                            //    gameModelBuffer.IndexOfFocusedCardOfPlayers[Player] = 0;
-                            //}
-
                             var player = GetModel(timeSpan).Player;
                             int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
                             if (0 < numberOfCards)

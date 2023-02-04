@@ -63,8 +63,17 @@
         {
             var gameObject = GameObjectStorage.Items[this.Target];
 
-            gameObject.transform.position = Vector3.Lerp(this.GetBegin().GetVector3(), this.GetEnd().GetVector3(), progress);
-            gameObject.transform.rotation = Quaternion.Lerp(this.GetBegin().GetQuaternion(), this.GetEnd().GetQuaternion(), progress);
+            var begin = this.GetBegin();
+            var end = this.GetEnd();
+
+            // ここで座標を更新していくから、
+            // もし　自分自身の座標から参照した値を　セットしようとしたら、
+            // 累計　になることがあるので　注意
+            //
+            // 開始地点から 終了地点まで 刻んで動け、という命令をしてるときに
+            // 開始地点が 刻々と 進んでいる、ということがないようにすること。
+            gameObject.transform.position = Vector3.Lerp(begin.GetVector3(), end.GetVector3(), progress);
+            gameObject.transform.rotation = Quaternion.Lerp(begin.GetQuaternion(), end.GetQuaternion(), progress);
         }
     }
 }

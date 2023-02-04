@@ -5,6 +5,7 @@
     using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views;
     using System;
+    using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
@@ -110,13 +111,22 @@
                 var idOfGo = Specification.GetIdOfGameObject(idOfCard);
                 var goCard = GameObjectStorage.Items[idOfGo];
 
+                Vector3? startPosition = null;
+
                 // 今回フォーカスするカードを持ち上げる
                 setViewMovement(MovementGenerator.PickupCardOfHand(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     idOfCard: idOfCard,
                     getBegin: () => new Vector3AndQuaternionLazy(
-                        getVector3: () => goCard.transform.position,
+                        getVector3: () => {
+                            // 初回アクセス時に、値固定
+                            if (startPosition==null)
+                            {
+                                startPosition = goCard.transform.position;
+                            }
+                            return startPosition ?? new Vector3();
+                        },
                         getQuaternion: () => goCard.transform.rotation)
                     ));
             }
