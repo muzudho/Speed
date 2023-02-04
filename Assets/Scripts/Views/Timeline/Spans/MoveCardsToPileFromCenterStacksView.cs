@@ -100,7 +100,7 @@
                                     if (length < 1)
                                     {
                                         // 一番下
-                                        positionOfTop = GameView.positionOfPileCardsOrigin[player];
+                                        positionOfTop = GameView.positionOfPileCardsOrigin[player].ToMutable();
                                     }
                                     // 既存の手札があれば
                                     else

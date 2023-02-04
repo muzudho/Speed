@@ -36,9 +36,9 @@
         /// <summary>
         /// 手札（プレイヤー側で伏せて積んでる札）
         /// </summary>
-        internal static readonly Vector3[] positionOfPileCardsOrigin = new Vector3[] {
-            new Vector3(40.0f, 0.5f,-6.5f),
-            new Vector3(-40.0f, 0.5f, 16.0f),
+        internal static readonly Vector3Immutable[] positionOfPileCardsOrigin = new Vector3Immutable[] {
+            new Vector3Immutable(40.0f, 0.5f,-6.5f),
+            new Vector3Immutable(-40.0f, 0.5f, 16.0f),
         };
 
         /// <summary>

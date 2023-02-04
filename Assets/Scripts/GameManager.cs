@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
                 if (length == 1)
                 {
                     var position = GameView.positionOfPileCardsOrigin[player];
-                    goCard.transform.position = position;
+                    goCard.transform.position = position.ToMutable();
                     // 裏返す
                     goCard.transform.rotation = Quaternion.Euler(
                         x: goCard.transform.rotation.x,

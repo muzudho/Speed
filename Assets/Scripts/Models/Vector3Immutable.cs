@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.Models
 {
+    using Unity.VisualScripting;
     using UnityEngine;
 
     /// <summary>
@@ -31,6 +32,11 @@
         public Vector3 Add(Vector3 adds)
         {
             return me + adds;
+        }
+
+        public Vector3 ToMutable()
+        {
+            return new Vector3(me.x, me.y, me.z);
         }
     }
 }
