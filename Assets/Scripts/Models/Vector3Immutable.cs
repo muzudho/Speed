@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Models
 {
-    using Unity.VisualScripting;
     using UnityEngine;
 
     /// <summary>
@@ -13,6 +12,11 @@
         public Vector3Immutable(float x, float y, float z)
         {
             this.me = new Vector3(x, y, z);
+        }
+
+        public Vector3Immutable(Vector3 source)
+        {
+            this.me = new Vector3(source.x, source.y, source.z);
         }
 
         // - フィールド
