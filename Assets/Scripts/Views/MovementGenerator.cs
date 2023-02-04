@@ -197,7 +197,6 @@
 
             var idOfHands = getIdOfHands();
 
-            // TODO ★ 持ち上げ過ぎてしまう
             // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
             var indexOfPickup = getIndexOfPickup();
             IdOfPlayingCards idOfPickupCard = IdOfPlayingCards.None;    // ピックアップしている場札
@@ -223,6 +222,9 @@
 
                 if (idOfCard != idOfPickupCard)
                 {
+                    Vector3? startPosition = null;
+                    Quaternion? startRotation = null;
+
                     setViewMovement(new ViewMovement(
                         startSeconds: startSeconds,
                         duration: duration,
@@ -231,9 +233,24 @@
                         {
                             var goCard = GameObjectStorage.Items[idOfGo];
                             return new PositionAndRotationLazy(
-                                getPosition: () => goCard.transform.position,
-                                getRotation: () => goCard.transform.rotation);
-
+                                getPosition: () =>
+                                {
+                                    // 初回アクセス時に、値固定
+                                    if (startPosition == null)
+                                    {
+                                        startPosition = goCard.transform.position;
+                                    }
+                                    return startPosition ?? throw new Exception();
+                                },
+                                getRotation: () =>
+                                {
+                                    // 初回アクセス時に、値固定
+                                    if (startRotation == null)
+                                    {
+                                        startRotation = goCard.transform.rotation;
+                                    }
+                                    return startRotation ?? throw new Exception();
+                                });
                         },
                         getEnd: () => staticDestination));
                 }
