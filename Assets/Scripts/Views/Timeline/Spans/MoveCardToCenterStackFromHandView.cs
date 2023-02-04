@@ -88,7 +88,6 @@
                                     getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
                                     getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
                                     getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
-                                    getZOfHandCardsOrigin: gameViewModel.GetZOfHandCardsOrgin(),
                                     setCardMovementModel: setMovementViewModel); // 場札
                             }
 

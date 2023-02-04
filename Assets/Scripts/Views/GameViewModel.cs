@@ -20,13 +20,15 @@
         internal static readonly Vector3 yOfCardThickness = new Vector3(0f, 0.2f, 0f);
 
         /// <summary>
-        /// 底端
+        /// 場札の原点
         /// 
-        /// - `0.0f` は盤
+        /// - 扇状を作るため、画面外の遠くにある
         /// </summary>
-        internal static readonly float yOfMinOfCards = 0.5f;
-
-        readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
+        internal static readonly Vector3[] positionOfHandCardsOrigin = new Vector3[]
+        {
+            new Vector3(0f,0.5f,-28.0f),
+            new Vector3(0f,0.5f, 42.0f),
+        };
 
         /// <summary>
         /// 手札（プレイヤー側で伏せて積んでる札）
@@ -48,11 +50,6 @@
         };
 
         // - メソッド
-
-        internal LazyArgs.GetValue<float[]> GetZOfHandCardsOrgin()
-        {
-            return () => handCardsZ;
-        }
 
         internal LazyArgs.GetValue<Vector3[]> GetPositionOfPileCardsOrigin()
         {
