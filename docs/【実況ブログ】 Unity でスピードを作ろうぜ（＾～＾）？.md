@@ -4934,4 +4934,18 @@ namespace Assets.Scripts.Models
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　今日はここまで」  
 
+# 📅2023-02-04 sat 12:02
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　作ってみると　分からないところが　いっぱい出てくる。散々だぜ」  
+
+![202302_unity_04-1351--static-game-view-1.png](https://crieit.now.sh/upload_images/ebec83eb4d51368e981f5b01d418850163dde49642650.png)  
+
+📅 2023-02-04 sat 13:53  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`GameViewModel` を廃止し、静的クラスにしたぜ」  
+
+
+
 # // 書きかけ
