@@ -42,7 +42,6 @@
         public override void OnEnter(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
@@ -97,7 +96,7 @@
                             if (length < 1)
                             {
                                 // 一番下
-                                positionOfTop = GameViewModel.positionOfPileCardsOrigin[player];
+                                positionOfTop = GameView.positionOfPileCardsOrigin[player];
                             }
                             // 既存の手札があれば
                             else

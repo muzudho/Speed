@@ -39,7 +39,6 @@
         public override void OnEnter(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timeSpan).Player].Count; // 手札の枚数

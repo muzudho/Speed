@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Simulators.Timeline;
+    using System;
     using UnityEngine;
 
     /// <summary>
@@ -10,7 +11,7 @@
     /// 西端: -62.0f
     /// 東端: 62.0f
     /// </summary>
-    public class GameViewModel
+    public static class GameView
     {
         // - プロパティー
 
@@ -44,7 +45,7 @@
         /// - 右が 0、左が 1
         /// - 盤Y = 0.0f なので、それより上にある
         /// </summary>
-        readonly Vector3[] positionOfCenterStacksOrigin = new Vector3[] {
+        readonly static Vector3[] positionOfCenterStacksOrigin = new Vector3[] {
             new Vector3(15.0f, 0.5f, 0.5f),
             new Vector3(-15.0f, 2.5f, 9.0f),
         };
@@ -59,7 +60,7 @@
         /// <param name="getLengthOfCenterStackCards"></param>
         /// <param name="getLastCardOfCenterStack">天辺（最後）のカード</param>
         /// <returns></returns>
-        internal Vector3 GetPositionOfNextCenterStackCard(
+        internal static Vector3 GetPositionOfNextCenterStackCard(
             int place,
             LazyArgs.GetValue<ReadonlyList<IdOfPlayingCards>> getCenterStack)
         {
@@ -70,9 +71,9 @@
             {
                 // 床上
                 return new Vector3(
-                    x: this.positionOfCenterStacksOrigin[place].x,
-                    y: this.positionOfCenterStacksOrigin[place].y,
-                    z: this.positionOfCenterStacksOrigin[place].z);
+                    x: positionOfCenterStacksOrigin[place].x,
+                    y: positionOfCenterStacksOrigin[place].y,
+                    z: positionOfCenterStacksOrigin[place].z);
             }
 
             // 台札の次の天辺の位置
@@ -80,15 +81,44 @@
             var goLastCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfLastCard)];
 
             var position = new Vector3(
-                x: (this.positionOfCenterStacksOrigin[place].x - goLastCard.transform.position.x) / 2 + this.positionOfCenterStacksOrigin[place].x,
+                x: (positionOfCenterStacksOrigin[place].x - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[place].x,
                 y: goLastCard.transform.position.y,
-                z: (this.positionOfCenterStacksOrigin[place].z - goLastCard.transform.position.z) / 2 + this.positionOfCenterStacksOrigin[place].y);
+                z: (positionOfCenterStacksOrigin[place].z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[place].y);
 
             // カードの厚み分、上へ
             position += yOfCardThickness;
 
             return position;
 
+        }
+
+        /// <summary>
+        /// ぴったり積むと不自然だから、X と Z を少しずらすための仕組み
+        /// 
+        /// - １プレイヤー、２プレイヤーのどちらも右利きと仮定
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        internal static (float, float, float) MakeShakeForCenterStack(int player)
+        {
+            // １プレイヤーから見て。左上にずれていくだろう
+            var left = -1.5f;
+            var right = 0.5f;
+            var bottom = -0.5f;
+            var top = 1.5f;
+            var angleY = UnityEngine.Random.Range(-10, 40); // 反時計回りに大きく捻りそう
+
+            switch (player)
+            {
+                case 0:
+                    return (UnityEngine.Random.Range(left, right), UnityEngine.Random.Range(bottom, top), angleY);
+
+                case 1:
+                    return (UnityEngine.Random.Range(-right, -left), UnityEngine.Random.Range(-top, -bottom), angleY);
+
+                default:
+                    throw new Exception();
+            }
         }
     }
 }

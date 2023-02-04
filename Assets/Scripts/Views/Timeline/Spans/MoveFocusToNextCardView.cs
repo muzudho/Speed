@@ -40,7 +40,6 @@
         public override void OnEnter(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);

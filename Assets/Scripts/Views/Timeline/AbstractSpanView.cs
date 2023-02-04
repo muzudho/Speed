@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Views;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
@@ -26,7 +25,6 @@
         virtual public void OnEnter(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
             // Ignored

@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     ViewsOfTimeline.View timelineView;
     GameModelBuffer gameModelBuffer;
     GameModel gameModel;
-    GameViewModel gameViewModel;
 
     // ゲーム内単位時間
     float tickSeconds = 1.0f / 60.0f;
@@ -98,7 +97,6 @@ public class GameManager : MonoBehaviour
             new SimulatorsOfTimeline.Simulator());
         gameModelBuffer = new GameModelBuffer();
         gameModel = new GameModel(gameModelBuffer);
-        gameViewModel = new GameViewModel();
 
         // ゲーム初期状態へセット
         {
@@ -139,7 +137,7 @@ public class GameManager : MonoBehaviour
                 // 最初の１枚目
                 if (length == 1)
                 {
-                    var position = GameViewModel.positionOfPileCardsOrigin[player];
+                    var position = GameView.positionOfPileCardsOrigin[player];
                     goCard.transform.position = position;
                     // 裏返す
                     goCard.transform.rotation = Quaternion.Euler(
@@ -151,7 +149,7 @@ public class GameManager : MonoBehaviour
                 {
                     var previousTopCard = gameModelBuffer.IdOfCardsOfPlayersPile[player][length - 2]; // 天辺より１つ下のカードが、前のカード
                     var goPreviousTopCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(previousTopCard)];
-                    goCard.transform.position = goPreviousTopCard.transform.position + GameViewModel.yOfCardThickness; // 下のカードの上に被せる
+                    goCard.transform.position = goPreviousTopCard.transform.position + GameView.yOfCardThickness; // 下のカードの上に被せる
                                                                                                                        // 裏返す
                     goCard.transform.rotation = Quaternion.Euler(
                         x: goCard.transform.rotation.x,
@@ -173,7 +171,7 @@ public class GameManager : MonoBehaviour
                     startSeconds: 0.0f,
                     spanModel: spanModel,
                     spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
-            timeSpan.SpanView.OnEnter(timeSpan, gameModelBuffer, gameViewModel,
+            timeSpan.SpanView.OnEnter(timeSpan, gameModelBuffer,
                         setMovementViewModel: (movementViewModel) =>
                         {
                             var cardMovementView = new MovementView(movementViewModel);
@@ -223,7 +221,6 @@ public class GameManager : MonoBehaviour
         this.timelineView.Simulator.OnEnter(
             this.gameModelBuffer.ElapsedSeconds,
             gameModelBuffer,
-            gameViewModel,
             setMovementViewModel: (movementViewModel) =>
             {
                 launchedCardMovementModels.Add(movementViewModel);

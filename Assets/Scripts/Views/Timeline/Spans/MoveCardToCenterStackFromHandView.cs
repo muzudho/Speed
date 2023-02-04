@@ -40,7 +40,6 @@
         public override void OnEnter(
             TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            GameViewModel gameViewModel,
             LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
         {
             var gameModel = new GameModel(gameModelBuffer);
@@ -55,14 +54,13 @@
                     RemoveAtOfHandCard(
                         timeSpan: timeSpan,
                         gameModelBuffer: gameModelBuffer,
-                        gameViewModel: gameViewModel,
                         player: GetModel(timeSpan).Player,
                         place: place,
                         getIndexOfHandCardToRemove: () => indexOfFocusedHandCard,
                         getNumberOfCenterStackCards: () => gameModel.GetLengthOfCenterStackCards(place),
                         getNextTopOfCenterStackCard: () =>
                         {
-                            return gameViewModel.GetPositionOfNextCenterStackCard(
+                            return GameView.GetPositionOfNextCenterStackCard(
                                 place: place,
                                 getCenterStack: ()=>gameModel.GetCenterStack(place));
                         },
@@ -121,7 +119,6 @@
         private void RemoveAtOfHandCard(
             TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            GameViewModel gameViewModel,
             int player,
             int place,
             LazyArgs.GetValue<int> getIndexOfHandCardToRemove,
@@ -181,7 +178,7 @@
             LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
         {
             // 手ぶれ
-            var (shakeX, shakeZ, shakeAngleY) = ViewHelper.MakeShakeForCenterStack(place);
+            var (shakeX, shakeZ, shakeAngleY) = GameView.MakeShakeForCenterStack(place);
 
             // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
             Vector3 nextTop = getNextTopOfCenterStackCard();
