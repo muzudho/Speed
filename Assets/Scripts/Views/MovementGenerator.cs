@@ -25,28 +25,42 @@
             // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             Vector3 lift = new Vector3(0.0f, 5.0f, 0.0f);
 
+            Vector3? startPosition = null;
+            Quaternion? startRotation = null;
+
             return new ViewMovement(
                 startSeconds: startSeconds,
                 duration: duration,
                 target: Specification.GetIdOfGameObject(idOfCard),
                 getBegin: getBegin,
-                getEnd: () => new PositionAndRotationLazy(
-                            getPosition: () =>
-                            {
-                                var pos = getBegin().GetPosition();
-                                Debug.Log($"[MovementGenerator PickupCardOfHand] pos:{pos} lift:{lift}");
-                                return pos + lift;
-                            },
-                            getRotation: () =>
-                            {
-                                var rotateY = -5; // -5°傾ける
-                                var rotateZ = -5; // -5°傾ける
-                                var rot = getBegin().GetRotation();
-                                return Quaternion.Euler(
-                                    rot.eulerAngles.x,
-                                    rot.eulerAngles.y + rotateY,
-                                    rot.eulerAngles.z + rotateZ);
-                            }));
+                getEnd: () =>
+                {
+                    return new PositionAndRotationLazy(
+                                getPosition: () =>
+                                {
+                                    // 初回アクセス時に、値固定
+                                    if (startPosition==null)
+                                    {
+                                        startPosition = getBegin().GetPosition();
+                                    }
+                                    return (startPosition??throw new Exception()) + lift;
+                                },
+                                getRotation: () =>
+                                {
+                                    // 初回アクセス時に、値固定
+                                    if (startRotation==null)
+                                    {
+                                        startRotation= getBegin().GetRotation();
+                                    }
+                                    var rot = startRotation ?? throw new Exception();
+                                    var rotateY = -5; // -5°傾ける
+                                    var rotateZ = -5; // -5°傾ける
+                                    return Quaternion.Euler(
+                                        rot.eulerAngles.x,
+                                        rot.eulerAngles.y + rotateY,
+                                        rot.eulerAngles.z + rotateZ);
+                                });
+                });
         }
 
         /// <summary>
