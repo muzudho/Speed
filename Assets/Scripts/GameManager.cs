@@ -183,14 +183,14 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardsToHandFromPileModel(
                     player: player,
                     numberOfCards: 5);
-            this.timelineView.Simulator.Add(player, spanModel);
+            this.timelineView.Simulator.AddWithinScheduler(player, spanModel);
         }
         {
             var player = 1;
             var spanModel = new MoveCardsToHandFromPileModel(
                     player: player,
                     numberOfCards: 5);
-            this.timelineView.Simulator.Add(player, spanModel);
+            this.timelineView.Simulator.AddWithinScheduler(player, spanModel);
         }
 
         // 以下、デモ・プレイを登録
@@ -255,7 +255,10 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: player, // １プレイヤーが
                     place: right); // 右の
-            this.timelineView.Simulator.Add(player, spanModel);
+            this.timelineView.Simulator.AddJustNow(
+                this.gameModelBuffer.ElapsedSeconds,
+                player, 
+                spanModel);
             handled1player = true;
         }
 
@@ -266,7 +269,10 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: player, // ２プレイヤーが
                     place: right); // 右の
-            this.timelineView.Simulator.Add(player, spanModel);
+            this.timelineView.Simulator.AddJustNow(
+                this.gameModelBuffer.ElapsedSeconds, 
+                player,
+                spanModel);
             handled2player = true;
         }
 
@@ -281,7 +287,10 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: player, // ２プレイヤーが
                     place: left); // 左の
-            this.timelineView.Simulator.Add(player, spanModel);
+            this.timelineView.Simulator.AddJustNow(
+                this.gameModelBuffer.ElapsedSeconds, 
+                player,
+                spanModel);
             handled2player = true;
         }
 
@@ -293,7 +302,10 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: player, // １プレイヤーが
                     place: left); // 左の
-            this.timelineView.Simulator.Add(player, spanModel);
+            this.timelineView.Simulator.AddJustNow(
+                this.gameModelBuffer.ElapsedSeconds, 
+                player,
+                spanModel);
             handled1player = true;
         }
 
@@ -316,7 +328,10 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.timelineView.Simulator.Add(player, spanModel);
+            this.timelineView.Simulator.AddJustNow(
+                this.gameModelBuffer.ElapsedSeconds, 
+                player,
+                spanModel);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -329,7 +344,10 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.timelineView.Simulator.Add(player, spanModel);
+            this.timelineView.Simulator.AddJustNow(
+                this.gameModelBuffer.ElapsedSeconds, 
+                player,
+                spanModel);
         }
 
         // ２プレイヤー
@@ -348,7 +366,10 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.timelineView.Simulator.Add(player, spanModel);
+            this.timelineView.Simulator.AddJustNow(
+                this.gameModelBuffer.ElapsedSeconds, 
+                player,
+                spanModel);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
@@ -361,7 +382,10 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.timelineView.Simulator.Add(player, spanModel);
+            this.timelineView.Simulator.AddJustNow(
+                this.gameModelBuffer.ElapsedSeconds, 
+                player,
+                spanModel);
         }
 
         // デバッグ用
@@ -374,7 +398,10 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardsToHandFromPileModel(
                         player: player,
                         numberOfCards: 1);
-                this.timelineView.Simulator.Add(player, spanModel);
+                this.timelineView.Simulator.AddJustNow(
+                    this.gameModelBuffer.ElapsedSeconds, 
+                    player,
+                    spanModel);
             }
         }
     }
@@ -407,7 +434,7 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: player, // １プレイヤーが
                         place: right); // 右の
-                this.timelineView.Simulator.Add(player, spanModel);
+                this.timelineView.Simulator.AddWithinScheduler(player, spanModel);
             }
             {
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
@@ -415,7 +442,7 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: player, // ２プレイヤーが
                         place: left); // 左の;
-                this.timelineView.Simulator.Add(player, spanModel);
+                this.timelineView.Simulator.AddWithinScheduler(player, spanModel);
             }
         }
 
@@ -441,7 +468,7 @@ public class GameManager : MonoBehaviour
                             {
                                 gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                             });
-                    this.timelineView.Simulator.Add(player, spanModel);
+                    this.timelineView.Simulator.AddWithinScheduler(player, spanModel);
                 }
 
                 // ２プレイヤーの右隣のカードへフォーカスを移します
@@ -454,7 +481,7 @@ public class GameManager : MonoBehaviour
                             {
                                 gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                             });
-                    this.timelineView.Simulator.Add(player, spanModel);
+                    this.timelineView.Simulator.AddWithinScheduler(player, spanModel);
                 }
 
                 // 間
@@ -472,14 +499,14 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: player, // １プレイヤーが
                         place: 1); // 左の台札
-                this.timelineView.Simulator.Add(player, spanModel);
+                this.timelineView.Simulator.AddWithinScheduler(player, spanModel);
             }
             {
                 var player = 1;
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: player, // ２プレイヤーが
                         place: 0); // 右の台札
-                this.timelineView.Simulator.Add(player, spanModel);
+                this.timelineView.Simulator.AddWithinScheduler(player, spanModel);
             }
         }
 
@@ -497,7 +524,7 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardsToHandFromPileModel(
                         player: player,
                         numberOfCards: 1);
-                this.timelineView.Simulator.Add(player, spanModel);
+                this.timelineView.Simulator.AddWithinScheduler(player, spanModel);
             }
             {
                 // ２プレイヤーは手札から１枚抜いて、場札として置く
@@ -505,7 +532,7 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardsToHandFromPileModel(
                         player: 1,
                         numberOfCards: 1);
-                this.timelineView.Simulator.Add(player, spanModel);
+                this.timelineView.Simulator.AddWithinScheduler(player, spanModel);
             }
         }
     }

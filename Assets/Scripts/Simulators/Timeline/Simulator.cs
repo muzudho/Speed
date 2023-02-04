@@ -94,7 +94,21 @@
         /// 追加
         /// </summary>
         /// <param name="spanModel">タイム・スパン</param>
-        internal void Add(int player, ISpanModel spanModel)
+        internal void AddJustNow(float startSeconds, int player, ISpanModel spanModel)
+        {
+            var timeSpan = new SimulatorsOfTimeline.TimeSpan(
+                    startSeconds: startSeconds,
+                    spanModel: spanModel,
+                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
+
+            this.ScheduledItems.Add(timeSpan);
+        }
+
+        /// <summary>
+        /// 追加
+        /// </summary>
+        /// <param name="spanModel">タイム・スパン</param>
+        internal void AddWithinScheduler(int player, ISpanModel spanModel)
         {
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.ScheduledSeconds[player],
