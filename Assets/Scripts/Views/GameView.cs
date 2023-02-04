@@ -47,9 +47,9 @@
         /// - 右が 0、左が 1
         /// - 盤Y = 0.0f なので、それより上にある
         /// </summary>
-        readonly static Vector3[] positionOfCenterStacksOrigin = new Vector3[] {
-            new Vector3(15.0f, 0.5f, 0.5f),
-            new Vector3(-15.0f, 2.5f, 9.0f),
+        readonly static Vector3Immutable[] positionOfCenterStacksOrigin = new Vector3Immutable[] {
+            new Vector3Immutable(15.0f, 0.5f, 0.5f),
+            new Vector3Immutable(-15.0f, 2.5f, 9.0f),
         };
 
         // - メソッド
@@ -73,9 +73,9 @@
             {
                 // 床上
                 return new Vector3(
-                    x: positionOfCenterStacksOrigin[place].x,
-                    y: positionOfCenterStacksOrigin[place].y,
-                    z: positionOfCenterStacksOrigin[place].z);
+                    x: positionOfCenterStacksOrigin[place].X,
+                    y: positionOfCenterStacksOrigin[place].Y,
+                    z: positionOfCenterStacksOrigin[place].Z);
             }
 
             // 台札の次の天辺の位置
@@ -83,9 +83,9 @@
             var goLastCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfLastCard)];
 
             var position = new Vector3(
-                x: (positionOfCenterStacksOrigin[place].x - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[place].x,
+                x: (positionOfCenterStacksOrigin[place].X - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[place].X,
                 y: goLastCard.transform.position.y,
-                z: (positionOfCenterStacksOrigin[place].z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[place].y);
+                z: (positionOfCenterStacksOrigin[place].Z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[place].Z);
 
             // カードの厚み分、上へ
             return yOfCardThickness.Add(position);
