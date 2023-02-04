@@ -109,7 +109,7 @@
 
             var position = new Vector3(
                 x: (this.positionOfCenterStacksOrigin[place].x - goLastCard.transform.position.x) / 2 + this.positionOfCenterStacksOrigin[place].x,
-                y: this.positionOfCenterStacksOrigin[place].y,
+                y: goLastCard.transform.position.y,
                 z: (this.positionOfCenterStacksOrigin[place].z - goLastCard.transform.position.z) / 2 + this.positionOfCenterStacksOrigin[place].y);
 
             // カードの厚み分、上へ
