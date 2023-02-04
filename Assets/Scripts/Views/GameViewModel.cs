@@ -33,7 +33,7 @@
         /// <summary>
         /// 手札（プレイヤー側で伏せて積んでる札）
         /// </summary>
-        readonly Vector3[] positionOfPileCardsOrigin = new Vector3[] {
+        internal static readonly Vector3[] positionOfPileCardsOrigin = new Vector3[] {
             new Vector3(40.0f, 0.5f,-6.5f),
             new Vector3(-40.0f, 0.5f, 16.0f),
         };
@@ -44,24 +44,12 @@
         /// - 右が 0、左が 1
         /// - 盤Y = 0.0f なので、それより上にある
         /// </summary>
-        Vector3[] positionOfCenterStacksOrigin = new Vector3[] {
+        readonly Vector3[] positionOfCenterStacksOrigin = new Vector3[] {
             new Vector3(15.0f, 0.5f, 0.5f),
             new Vector3(-15.0f, 2.5f, 9.0f),
         };
 
         // - メソッド
-
-        internal LazyArgs.GetValue<Vector3[]> GetPositionOfPileCardsOrigin()
-        {
-            return () => positionOfPileCardsOrigin;
-        }
-
-        internal LazyArgs.GetValue<Vector3> GetPositionOfCards(IdOfPlayingCards idOfLastCard)
-        {
-            // 手札の天辺のカード
-            var goTopCardOfPile = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfLastCard)];
-            return () => goTopCardOfPile.transform.position;
-        }
 
         /// <summary>
         /// 台札の次の天辺の位置

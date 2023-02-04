@@ -97,8 +97,7 @@
                             if (length < 1)
                             {
                                 // 一番下
-                                var getPositions = gameViewModel.GetPositionOfPileCardsOrigin();
-                                positionOfTop = getPositions()[player];
+                                positionOfTop = GameViewModel.positionOfPileCardsOrigin[player];
                             }
                             // 既存の手札があれば
                             else
