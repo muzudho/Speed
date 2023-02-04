@@ -4983,5 +4983,12 @@ namespace Assets.Scripts.Models
 ![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
 「　開始地点は　動くなだぜ」  
 
+![202302_unity_04-2201--bug-fix-1.png](https://crieit.now.sh/upload_images/22a69d36cf4f65370174b4d5c6b5bdd463de578425568.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こういう書き方で　修正できたが、  
+こんな書き方が役に立つ場面　初めて見た。  
+不思議な気分だぜ」  
+
 
 # // 書きかけ

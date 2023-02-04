@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.Models
 {
+    using System;
     using UnityEngine;
 
     /// <summary>
