@@ -28,26 +28,34 @@
 
         readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
 
-        // 手札（プレイヤー側で伏せて積んでる札）
-        // 画面端っこ X は 62.0f, -62.0f
+        /// <summary>
+        /// 手札（プレイヤー側で伏せて積んでる札）
+        /// </summary>
         readonly Vector3[] positionOfPileCardsOrigin = new Vector3[] {
             new Vector3(40.0f, 0.5f,-6.5f),
             new Vector3(-40.0f, 0.5f, 16.0f),
         };
 
-        // 台札
-        internal float[] centerStacksX = { 15.0f, -15.0f };
-
         /// <summary>
-        /// 台札のY座標
+        /// 台札
         /// 
         /// - 右が 0、左が 1
-        /// - 0.0f は盤なので、それより上にある
+        /// - 盤Y = 0.0f なので、それより上にある
         /// </summary>
-        internal float[] centerStacksY = { 0.5f, 0.5f };
-        internal float[] centerStacksZ = { 2.5f, 9.0f };
+        Vector3[] positionOfCenterStacksOrigin = new Vector3[] {
+            new Vector3(15.0f, 0.5f, 0.5f),
+            new Vector3(-15.0f, 2.5f, 9.0f),
+        };
 
         // - メソッド
+
+        //internal LazyArgs.GetValue<Vector3[]> GetPositionOfCenterStacksOrigin
+        //{
+        //    get
+        //    {
+        //        return () => positionOfCenterStacksOrigin;
+        //    }
+        //}
 
         internal LazyArgs.GetValue<float> GetYOfMinOfCards()
         {
@@ -81,26 +89,34 @@
         /// <returns></returns>
         internal Vector3 GetPositionOfNextCenterStackCard(
             int place,
-            LazyArgs.GetValue<int> getLengthOfCenterStackCards,
-            LazyArgs.GetValue<IdOfPlayingCards> getLastCardOfCenterStack)
+            LazyArgs.GetValue<ReadonlyList<IdOfPlayingCards>> getCenterStack)
         {
-            var length = getLengthOfCenterStackCards();
+            var centerStack = getCenterStack();
+
+            var length = centerStack.Count;
             if (length < 1)
             {
                 // 床上
                 return new Vector3(
-                    x: this.centerStacksX[place],
-                    y: this.centerStacksY[place],
-                    z: this.centerStacksZ[place]);
+                    x: this.positionOfCenterStacksOrigin[place].x,
+                    y: this.positionOfCenterStacksOrigin[place].y,
+                    z: this.positionOfCenterStacksOrigin[place].z);
             }
 
             // 台札の次の天辺の位置
-            var idOfLastCard = getLastCardOfCenterStack();
+            var idOfLastCard = centerStack.ElementAt(length - 1);
             var goLastCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfLastCard)];
-            return new Vector3(
-                x: (this.centerStacksX[place] - goLastCard.transform.position.x) / 2 + this.centerStacksX[place],
-                y: this.centerStacksY[place],
-                z: (this.centerStacksZ[place] - goLastCard.transform.position.z) / 2 + this.centerStacksZ[place]);
+
+            var position = new Vector3(
+                x: (this.positionOfCenterStacksOrigin[place].x - goLastCard.transform.position.x) / 2 + this.positionOfCenterStacksOrigin[place].x,
+                y: this.positionOfCenterStacksOrigin[place].y,
+                z: (this.positionOfCenterStacksOrigin[place].z - goLastCard.transform.position.z) / 2 + this.positionOfCenterStacksOrigin[place].y);
+
+            // カードの厚み分、上へ
+            position += yOfCardThickness;
+
+            return position;
+
         }
     }
 }
