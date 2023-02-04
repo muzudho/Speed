@@ -48,7 +48,7 @@
         /// - 盤Y = 0.0f なので、それより上にある
         /// </summary>
         readonly static Vector3Immutable[] positionOfCenterStacksOrigin = new Vector3Immutable[] {
-            new Vector3Immutable(15.0f, 0.5f, 0.5f),
+            new Vector3Immutable(15.0f, 0.5f, 3.0f),
             new Vector3Immutable(-15.0f, 2.5f, 9.0f),
         };
 
@@ -98,7 +98,7 @@
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
-        internal static (float, float) MakeShakeForCenterStack(int player)
+        internal static Vector3 ShakePosition(int player)
         {
             // １プレイヤーから見て。左上にずれていくだろう
             var left = -1.5f;
@@ -109,10 +109,10 @@
             switch (player)
             {
                 case 0:
-                    return (UnityEngine.Random.Range(left, right), UnityEngine.Random.Range(bottom, top));
+                    return new Vector3(UnityEngine.Random.Range(left, right), 0.0f, UnityEngine.Random.Range(bottom, top));
 
                 case 1:
-                    return (UnityEngine.Random.Range(-right, -left), UnityEngine.Random.Range(-top, -bottom));
+                    return new Vector3(UnityEngine.Random.Range(-right, -left), 0.0f, UnityEngine.Random.Range(-top, -bottom));
 
                 default:
                     throw new Exception();

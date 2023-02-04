@@ -57,7 +57,6 @@
                         player: GetModel(timeSpan).Player,
                         place: place,
                         getIndexOfHandCardToRemove: () => indexOfFocusedHandCard,
-                        getNumberOfCenterStackCards: () => gameModel.GetLengthOfCenterStackCards(place),
                         getNextTopOfCenterStackCard: () =>
                         {
                             return GameView.GetPositionOfNextCenterStackCard(
@@ -122,7 +121,6 @@
             int player,
             int place,
             LazyArgs.GetValue<int> getIndexOfHandCardToRemove,
-            LazyArgs.GetValue<int> getNumberOfCenterStackCards,
             LazyArgs.GetValue<Vector3> getNextTopOfCenterStackCard,
             LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard,
             LazyArgs.SetValue<ViewMovement> setViewMovement)
@@ -161,7 +159,6 @@
                 idOfCard: goCard,
                 player: player,
                 place: place,
-                getNumberOfCenterStackCards: getNumberOfCenterStackCards,
                 getNextTopOfCenterStackCard: getNextTopOfCenterStackCard,
                 addCardOfCenterStack: (results) => gameModelBuffer.AddCardOfCenterStack(results.Item1, results.Item2),
                 setViewMovement: setViewMovement); // 台札
@@ -174,13 +171,12 @@
             IdOfPlayingCards idOfCard,
             int player,
             int place,
-            LazyArgs.GetValue<int> getNumberOfCenterStackCards,
             LazyArgs.GetValue<Vector3> getNextTopOfCenterStackCard,
             LazyArgs.SetValue<(int, IdOfPlayingCards)> addCardOfCenterStack,
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             // 手ぶれ
-            var (shakeX, shakeZ) = GameView.MakeShakeForCenterStack(place);
+            var shakePosition = GameView.ShakePosition(place);
 
             // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
             Vector3 nextTop = getNextTopOfCenterStackCard();
@@ -200,7 +196,7 @@
                     getVector3: () => goCard.transform.position,
                     getQuaternion: () => goCard.transform.rotation),
                 getEnd: ()=> new Vector3AndQuaternionLazy(
-                    getVector3: ()=> new Vector3(nextTop.x + shakeX, nextTop.y, nextTop.z + shakeZ),
+                    getVector3: ()=> nextTop + shakePosition,
                     getQuaternion: () =>
                     {
                         // １プレイヤー、２プレイヤーでカードの向きが違う
