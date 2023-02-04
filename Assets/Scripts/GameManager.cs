@@ -100,19 +100,69 @@ public class GameManager : MonoBehaviour
         gameModel = new GameModel(gameModelBuffer);
         gameViewModel = new GameViewModel();
 
-        // ゲーム開始時、とりあえず、すべてのカードは、いったん右の台札という扱いにする
-        const int right = 0;// 台札の右
-                            // const int left = 1;// 台札の左
-        foreach (var idOfGo in GameObjectStorage.Items.Keys)
+        // ゲーム初期状態へセット
         {
-            // 右の台札
-            gameModelBuffer.IdOfCardsOfCenterStacks[right].Add(Specification.GetIdOfPlayingCard(idOfGo));
+            // ゲーム開始時、とりあえず、すべてのカードを集める
+            List<IdOfPlayingCards> cardsOfGame = new();
+            foreach (var idOfGo in GameObjectStorage.CreatePlayingCards().Keys)
+            {
+                cardsOfGame.Add(Specification.GetIdOfPlayingCard(idOfGo));
+            }
+
+            // すべてのカードをシャッフル
+            cardsOfGame = cardsOfGame.OrderBy(i => Guid.NewGuid()).ToList();
+
+            // すべてのカードを、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
+            foreach (var idOfCard in cardsOfGame)
+            {
+                int player;
+                switch (idOfCard.Suit())
+                {
+                    case IdOfCardSuits.Clubs:
+                    case IdOfCardSuits.Spades:
+                        player = 0;
+                        break;
+                    case IdOfCardSuits.Diamonds:
+                    case IdOfCardSuits.Hearts:
+                        player = 1;
+                        break;
+                    default:
+                        throw new Exception();
+                }
+
+                gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
+
+                // 画面上の位置も調整
+                var goCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfCard)];
+
+                var length = gameModelBuffer.IdOfCardsOfPlayersPile[player].Count;
+                // 最初の１枚目
+                if (length == 1)
+                {
+                    var position = gameViewModel.GetPositionOfPileCardsOrigin()()[player];
+                    goCard.transform.position = position;
+                    // 裏返す
+                    goCard.transform.rotation = Quaternion.Euler(
+                        x: goCard.transform.rotation.x,
+                        y: goCard.transform.rotation.y,
+                        z: 180.0f);
+                }
+                else
+                {
+                    var previousTopCard = gameModelBuffer.IdOfCardsOfPlayersPile[player][length - 2]; // 天辺より１つ下のカードが、前のカード
+                    var goPreviousTopCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(previousTopCard)];
+                    goCard.transform.position = goPreviousTopCard.transform.position + GameViewModel.yOfCardThickness; // 下のカードの上に被せる
+                                                                                                                       // 裏返す
+                    goCard.transform.rotation = Quaternion.Euler(
+                        x: goCard.transform.rotation.x,
+                        y: goCard.transform.rotation.y,
+                        z: 180.0f);
+                }
+            }
         }
 
-        // 右の台札をシャッフル
-        gameModelBuffer.IdOfCardsOfCenterStacks[right] = gameModelBuffer.IdOfCardsOfCenterStacks[right].OrderBy(i => Guid.NewGuid()).ToList();
-
-        // 右の台札をすべて、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
+        const int right = 0;// 台札の右
+                            // const int left = 1;// 台札の左
         while (0 < gameModel.GetLengthOfCenterStackCards(right))
         {
             // 即実行

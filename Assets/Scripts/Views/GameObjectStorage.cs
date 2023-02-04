@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.Views
 {
+    using Assets.Scripts.Simulators.Timeline;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -13,6 +14,21 @@
         internal static void Add(IdOfGameObjects id, GameObject gameObject)
         {
             Items.Add(id, gameObject);
+        }
+
+        internal static Dictionary<IdOfGameObjects, GameObject> CreatePlayingCards()
+        {
+            var list = new Dictionary<IdOfGameObjects, GameObject>();
+
+            foreach (var item in Items)
+            {
+                if(Specification.TestPlayingCard(item.Key))
+                {
+                    list.Add(item.Key, item.Value);
+                }
+            }
+
+            return list;
         }
     }
 }

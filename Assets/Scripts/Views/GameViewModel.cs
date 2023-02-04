@@ -15,6 +15,11 @@
         // - プロパティー
 
         /// <summary>
+        /// カードを積み重ねるときの厚み
+        /// </summary>
+        internal static readonly Vector3 yOfCardThickness = new Vector3(0f, 0.2f, 0f);
+
+        /// <summary>
         /// 底端
         /// 
         /// - `0.0f` は盤
@@ -24,9 +29,11 @@
         readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
 
         // 手札（プレイヤー側で伏せて積んでる札）
-        internal readonly float[] pileCardsX = new[] { 40.0f, -40.0f }; // 端っこは 62.0f, -62.0f
-        internal readonly float[] pileCardsY = new[] { 0.5f, 0.5f };
-        internal readonly float[] pileCardsZ = new[] { -6.5f, 16.0f };
+        // 画面端っこ X は 62.0f, -62.0f
+        readonly Vector3[] positionOfPileCardsOrigin = new Vector3[] {
+            new Vector3(40.0f, 0.5f,-6.5f),
+            new Vector3(-40.0f, 0.5f, 16.0f),
+        };
 
         // 台札
         internal float[] centerStacksX = { 15.0f, -15.0f };
@@ -50,6 +57,18 @@
         internal LazyArgs.GetValue<float[]> GetZOfHandCardsOrgin()
         {
             return () => handCardsZ;
+        }
+
+        internal LazyArgs.GetValue<Vector3[]> GetPositionOfPileCardsOrigin()
+        {
+            return () => positionOfPileCardsOrigin;
+        }
+
+        internal LazyArgs.GetValue<Vector3> GetPositionOfCards(IdOfPlayingCards idOfLastCard)
+        {
+            // 手札の天辺のカード
+            var goTopCardOfPile = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfLastCard)];
+            return () => goTopCardOfPile.transform.position;
         }
 
         /// <summary>

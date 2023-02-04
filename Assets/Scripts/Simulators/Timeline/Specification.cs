@@ -128,5 +128,10 @@
         {
             return IdFromGameObjectToPlayingCard[id];
         }
+
+        internal static bool TestPlayingCard(IdOfGameObjects id)
+        {
+            return IdFromGameObjectToPlayingCard.ContainsKey(id);
+        }
     }
 }

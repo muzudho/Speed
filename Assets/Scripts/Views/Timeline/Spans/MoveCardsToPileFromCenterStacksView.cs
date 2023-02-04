@@ -51,13 +51,13 @@
             if (1 <= length)
             {
                 var startIndex = length - numberOfCards;
-                var idOfCard = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timeSpan).Place][startIndex];
+                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timeSpan).Place][startIndex]; // 台札の１番上のカード
                 gameModelBuffer.RemoveCardAtOfCenterStack(GetModel(timeSpan).Place, startIndex);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 int player;
                 float angleY;
-                var suit = idOfCard.Suit();
+                var suit = idOfCardOfCenterStack.Suit();
                 switch (suit)
                 {
                     case IdOfCardSuits.Clubs:
@@ -77,21 +77,44 @@
                 }
 
                 // プレイヤーの手札を積み上げる
-                gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
+                gameModelBuffer.AddCardOfPlayersPile(player, idOfCardOfCenterStack);
 
-                var idOfGo = Specification.GetIdOfGameObject(idOfCard);
-                var goCard = GameObjectStorage.Items[idOfGo]; // TODO ビューから座標を取るしかない？
+                // 台札から手札へ移動するカードについて
+                var idOfGameObjectOfCard = Specification.GetIdOfGameObject(idOfCardOfCenterStack);
+                var goCard = GameObjectStorage.Items[idOfGameObjectOfCard];
                 setMovementViewModel(new MovementViewModel(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     getBeginPosition: ()=>goCard.transform.position,
-                    getEndPosition:()=> new Vector3(gameViewModel.pileCardsX[player], gameViewModel.pileCardsY[player], gameViewModel.pileCardsZ[player]),
+                    getEndPosition: ()=>
+                    {
+                        // 現在の天辺の手札のポジションより１枚分上、または、一番下
+                        Vector3 positionOfTop;
+                        {
+                            var length = gameModelBuffer.IdOfCardsOfPlayersPile[player].Count;
+
+                            // 手札が１枚も無ければ
+                            if (length < 1)
+                            {
+                                // 一番下
+                                var getPositions = gameViewModel.GetPositionOfPileCardsOrigin();
+                                positionOfTop = getPositions()[player];
+                            }
+                            // 既存の手札があれば
+                            else
+                            {
+                                var idOfTop = gameModelBuffer.IdOfCardsOfPlayersPile[player][length - 1];
+                                var goCardOfTop = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfTop)];
+                                // より、１枚分上
+                                positionOfTop = goCardOfTop.transform.position;
+                            }
+                        }
+
+                        return positionOfTop;
+                    },
                     getBeginRotation:()=> goCard.transform.rotation,
                     getEndRotation:()=> Quaternion.Euler(0, angleY, 180.0f),
-                    idOfGameObject: idOfGo));
-
-                // 更新
-                gameViewModel.pileCardsY[player] += 0.2f;
+                    idOfGameObject: idOfGameObjectOfCard));
             }
         }
     }
