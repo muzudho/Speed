@@ -202,13 +202,13 @@
             setCardMovementModel(new MovementViewModel(
                 startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                 duration: timeSpan.Duration / 2.0f,
+                target: idOfGo,
                 getBegin: ()=> new Vector3AndQuaternionLazy(
                     getVector3: () => goCard.transform.position,
                     getQuaternion: () => goCard.transform.rotation),
                 getEnd: ()=> new Vector3AndQuaternionLazy(
                     getVector3: ()=> new Vector3(nextTop.x + shakeX, nextTop.y, nextTop.z + shakeZ),
-                    getQuaternion: () => Quaternion.Euler(0, nextAngleY, 0.0f)),
-                idOfGameObject: idOfGo));
+                    getQuaternion: () => Quaternion.Euler(0, nextAngleY, 0.0f))));
         }
     }
 }

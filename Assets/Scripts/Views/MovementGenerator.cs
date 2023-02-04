@@ -33,6 +33,7 @@
             return new MovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
+                target: idOfGo,
                 getBegin: ()=> new Vector3AndQuaternionLazy(getBeginPosition, getBeginRotation),
                 getEnd: () => new Vector3AndQuaternionLazy(
                             getVector3: () =>
@@ -50,8 +51,8 @@
                                     rot.eulerAngles.x,
                                     rot.eulerAngles.y + rotateY,
                                     rot.eulerAngles.z + rotateZ);
-                            }),
-                idOfGameObject: idOfGo);
+                            })
+                );
         }
 
         /// <summary>
@@ -76,14 +77,14 @@
             return new MovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
+                target: idOfGo,
                 getBegin: () => new Vector3AndQuaternionLazy(
                     getVector3: ()=>goCard.transform.position,
                     getQuaternion: ()=>goCard.transform.rotation),
                 getEnd: () => new Vector3AndQuaternionLazy(
                     getVector3: ()=>new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
                     getQuaternion:()=> Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ)
-                    ),
-                idOfGameObject: idOfGo);
+                    ));
         }
 
         /// <summary>
@@ -177,13 +178,13 @@
                     setCardMovementModel(new MovementViewModel(
                         startSeconds: startSeconds,
                         duration: duration,
+                        target: idOfGo,
                         getBegin: ()=> new Vector3AndQuaternionLazy(
                             getVector3: () => goCard.transform.position,
                             getQuaternion: ()=> goCard.transform.rotation),
                         getEnd: () => new Vector3AndQuaternionLazy(
                             getVector3: ()=> destinationPosition,
-                            getQuaternion: () => destinationRotation),
-                        idOfGameObject: idOfGo));
+                            getQuaternion: () => destinationRotation)));
                 }
                 else
                 {

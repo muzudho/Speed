@@ -14,21 +14,21 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
+        /// <param name="target">ゲーム・オブジェクトId</param>
         /// <param name="getBegin">開始時の位置と回転</param>
         /// <param name="getEnd">終了時の位置と回転</param>
-        /// <param name="idOfGameObject">Id</param>
         public MovementViewModel(
             float startSeconds,
             float duration,
+            IdOfGameObjects target,
             LazyArgs.GetValue<Vector3AndQuaternionLazy> getBegin,
-            LazyArgs.GetValue<Vector3AndQuaternionLazy> getEnd,
-            IdOfGameObjects idOfGameObject)
+            LazyArgs.GetValue<Vector3AndQuaternionLazy> getEnd)
         {
             this.StartSeconds = startSeconds;
             this.Duration = duration;
             this.GetBegin = getBegin;
             this.GetEnd = getEnd;
-            this.IdOfGameObject = idOfGameObject;
+            this.IdOfGameObject = target;
         }
 
         // - プロパティ
@@ -45,10 +45,10 @@
 
         public float EndSeconds => StartSeconds + Duration;
 
+        internal IdOfGameObjects IdOfGameObject { get; private set; }
+
         internal LazyArgs.GetValue<Vector3AndQuaternionLazy> GetBegin { get; private set; }
 
         internal LazyArgs.GetValue<Vector3AndQuaternionLazy> GetEnd { get; private set; }
-
-        internal IdOfGameObjects IdOfGameObject { get; private set; }
     }
 }
