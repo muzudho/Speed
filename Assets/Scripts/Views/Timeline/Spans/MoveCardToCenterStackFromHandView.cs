@@ -4,6 +4,7 @@
     using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views;
+    using System;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
@@ -38,7 +39,7 @@
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
         public override void OnEnter(
-            TimeSpan timeSpan,
+            SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
@@ -61,7 +62,7 @@
                         {
                             return GameView.GetPositionOfNextCenterStackCard(
                                 place: place,
-                                getCenterStack: ()=>gameModel.GetCenterStack(place));
+                                getCenterStack: () => gameModel.GetCenterStack(place));
                         },
                         setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                         {
@@ -104,13 +105,13 @@
 
 
         /// <summary>
-        /// 台札を抜く
+        /// 場札を抜いて、台札へ置く
         /// </summary>
         /// <param name="player"></param>
         /// <param name="indexOfHandCardToRemove"></param>
         /// <param name="setIndexOfNextFocusedHandCard"></param>
         private void RemoveAtOfHandCard(
-            TimeSpan timeSpan,
+            SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             int player,
             int place,
@@ -160,8 +161,18 @@
             setIndexOfNextFocusedHandCard(indexOfNextFocusedHandCard);
         }
 
+        /// <summary>
+        /// 台札へ置く
+        /// </summary>
+        /// <param name="timeSpan"></param>
+        /// <param name="idOfCard"></param>
+        /// <param name="player"></param>
+        /// <param name="place"></param>
+        /// <param name="getNextTopOfCenterStackCard"></param>
+        /// <param name="addCardOfCenterStack"></param>
+        /// <param name="setViewMovement"></param>
         private void AddCardOfCenterStack2(
-            TimeSpan timeSpan,
+            SimulatorsOfTimeline.TimeSpan timeSpan,
             IdOfPlayingCards idOfCard,
             int player,
             int place,
@@ -182,36 +193,70 @@
 
             // 台札の位置をセット
             var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+
+            Vector3? startPosition = null;
+            Quaternion? startRotation = null;
+            Vector3? endPosition = null;
+            Quaternion? endRotation = null;
+
             setViewMovement(new ViewMovement(
                 startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                 duration: timeSpan.Duration / 2.0f,
                 target: idOfGo,
-                getBegin: ()=> new PositionAndRotationLazy(
-                    getPosition: () => goCard.transform.position,
-                    getRotation: () => goCard.transform.rotation),
-                getEnd: ()=> new PositionAndRotationLazy(
-                    getPosition: ()=> nextTop + shakePosition,
+                getBegin: () => new PositionAndRotationLazy(
+                    getPosition: () =>
+                    {
+                        // 初回アクセス時に、値固定
+                        if (startPosition == null)
+                        {
+                            startPosition = goCard.transform.position;
+                        }
+                        return startPosition ?? throw new Exception();
+                    },
                     getRotation: () =>
                     {
-                        // １プレイヤー、２プレイヤーでカードの向きが違う
-                        // また、元の捻りを保存していないと、補間で大回転してしまうようだ
-
-                        var src = goCard.transform.rotation;
-                        var shake = GameView.ShakeRotation();
-                        float yByPlayer;
-                        if (player==0) // １プレイヤーの方を 180°回転させる
+                        // 初回アクセス時に、値固定
+                        if (startRotation == null)
                         {
-                            yByPlayer = 180.0f;
+                            startRotation = goCard.transform.rotation;
                         }
-                        else
+                        return startRotation ?? throw new Exception();
+                    }),
+                getEnd: () => new PositionAndRotationLazy(
+                    getPosition: () =>
+                    {
+                        // 初回アクセス時に、値固定
+                        if (endPosition == null)
                         {
-                            yByPlayer = 0.0f;
+                            endPosition = nextTop + shakePosition;
                         }
+                        return endPosition ?? throw new Exception();
+                    },
+                    getRotation: () =>
+                    {
+                        if (endRotation == null)
+                        {
+                            // １プレイヤー、２プレイヤーでカードの向きが違う
+                            // また、元の捻りを保存していないと、補間で大回転してしまうようだ
 
-                        return Quaternion.Euler(
-                            x: src.x + shake.x,
-                            y: src.y + shake.y + yByPlayer,
-                            z: src.z + shake.z);
+                            var src = goCard.transform.rotation;
+                            var shake = GameView.ShakeRotation();
+                            float yByPlayer;
+                            if (player == 0) // １プレイヤーの方を 180°回転させる
+                            {
+                                yByPlayer = 180.0f;
+                            }
+                            else
+                            {
+                                yByPlayer = 0.0f;
+                            }
+
+                            endRotation = Quaternion.Euler(
+                                x: src.x + shake.x,
+                                y: src.y + shake.y + yByPlayer,
+                                z: src.z + shake.z);
+                        }
+                        return endRotation ?? throw new Exception();
                     })));
         }
     }
