@@ -24,7 +24,7 @@
         /// 
         /// - `0.0f` は盤
         /// </summary>
-        readonly float minY = 0.5f;
+        internal static readonly float yOfMinOfCards = 0.5f;
 
         readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
 
@@ -48,19 +48,6 @@
         };
 
         // - メソッド
-
-        //internal LazyArgs.GetValue<Vector3[]> GetPositionOfCenterStacksOrigin
-        //{
-        //    get
-        //    {
-        //        return () => positionOfCenterStacksOrigin;
-        //    }
-        //}
-
-        internal LazyArgs.GetValue<float> GetYOfMinOfCards()
-        {
-            return () => minY;
-        }
 
         internal LazyArgs.GetValue<float[]> GetZOfHandCardsOrgin()
         {

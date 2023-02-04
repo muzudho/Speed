@@ -98,7 +98,6 @@
         /// <param name="numberOfHandCards">場札の枚数</param>
         /// <param name="indexOfPickup">ピックアップしている場札は何番目</param>
         /// <param name="idOfHands">場札のIdリスト</param>
-        /// <param name="getYOfMinOfCards">場札の最低Y座標</param>
         /// <param name="getZOfHandCardsOrigin">場札の基準Z座標</param>
         /// <param name="setCardMovementModel"></param>
         /// <exception cref="Exception"></exception>
@@ -109,7 +108,6 @@
             LazyArgs.GetValue<int> getNumberOfHandCards,
             LazyArgs.GetValue<int> getIndexOfPickup,
             LazyArgs.GetValue<List<IdOfPlayingCards>> getIdOfHands,
-            LazyArgs.GetValue<float> getYOfMinOfCards,
             LazyArgs.GetValue<float[]> getZOfHandCardsOrigin,
             LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
         {
@@ -170,7 +168,7 @@
                 var goCard = GameObjectStorage.Items[idOfGo];
 
                 // 目標地点
-                var destinationPosition = new Vector3(x, getYOfMinOfCards(), z);
+                var destinationPosition = new Vector3(x, GameViewModel.yOfMinOfCards, z);
                 var destinationRotation = Quaternion.Euler(0, angleY, cardAngleZ);
 
                 if (idOfCard != idOfPickupCard)
