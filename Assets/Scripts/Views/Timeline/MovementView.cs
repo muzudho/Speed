@@ -30,8 +30,8 @@
         {
             var gameObject = GameObjectStorage.Items[this.Model.IdOfGameObject];
 
-            gameObject.transform.position = Vector3.Lerp(this.Model.GetBeginPosition(), this.Model.GetEndPosition(), progress);
-            gameObject.transform.rotation = Quaternion.Lerp(this.Model.GetBeginRotation(), this.Model.GetEndRotation(), progress);
+            gameObject.transform.position = Vector3.Lerp(this.Model.GetBegin().GetVector3(), this.Model.GetEnd().GetVector3(), progress);
+            gameObject.transform.rotation = Quaternion.Lerp(this.Model.GetBegin().GetQuaternion(), this.Model.GetEnd().GetQuaternion(), progress);
         }
     }
 }

@@ -33,24 +33,24 @@
             return new MovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
-                getBeginPosition: getBeginPosition,
-                getEndPosition: () =>
-                    {
-                        var pos = getBeginPosition();
-                        return new Vector3(
-                            pos.x,
-                            pos.y + liftY,
-                            pos.z);
-                    },
-                getBeginRotation: getBeginRotation,
-                getEndRotation: () =>
-                    {
-                        var rot = getBeginRotation();
-                        return Quaternion.Euler(
-                            rot.eulerAngles.x,
-                            rot.eulerAngles.y + rotateY,
-                            rot.eulerAngles.z + rotateZ);
-                    },
+                getBegin: ()=> new Vector3AndQuaternionLazy(getBeginPosition, getBeginRotation),
+                getEnd: () => new Vector3AndQuaternionLazy(
+                            getVector3: () =>
+                            {
+                                var pos = getBeginPosition();
+                                return new Vector3(
+                                    pos.x,
+                                    pos.y + liftY,
+                                    pos.z);
+                            },
+                            getQuaternion: () =>
+                            {
+                                var rot = getBeginRotation();
+                                return Quaternion.Euler(
+                                    rot.eulerAngles.x,
+                                    rot.eulerAngles.y + rotateY,
+                                    rot.eulerAngles.z + rotateZ);
+                            }),
                 idOfGameObject: idOfGo);
         }
 
@@ -76,10 +76,13 @@
             return new MovementViewModel(
                 startSeconds: startSeconds,
                 duration: duration,
-                getBeginPosition: () => goCard.transform.position,
-                getEndPosition: () => new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
-                getBeginRotation: () => goCard.transform.rotation,
-                getEndRotation: () => Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ),
+                getBegin: () => new Vector3AndQuaternionLazy(
+                    getVector3: ()=>goCard.transform.position,
+                    getQuaternion: ()=>goCard.transform.rotation),
+                getEnd: () => new Vector3AndQuaternionLazy(
+                    getVector3: ()=>new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
+                    getQuaternion:()=> Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ)
+                    ),
                 idOfGameObject: idOfGo);
         }
 
@@ -174,10 +177,12 @@
                     setCardMovementModel(new MovementViewModel(
                         startSeconds: startSeconds,
                         duration: duration,
-                        getBeginPosition: () => goCard.transform.position,
-                        getEndPosition: () => destinationPosition,
-                        getBeginRotation: () => goCard.transform.rotation,
-                        getEndRotation: () => destinationRotation,
+                        getBegin: ()=> new Vector3AndQuaternionLazy(
+                            getVector3: () => goCard.transform.position,
+                            getQuaternion: ()=> goCard.transform.rotation),
+                        getEnd: () => new Vector3AndQuaternionLazy(
+                            getVector3: ()=> destinationPosition,
+                            getQuaternion: () => destinationRotation),
                         idOfGameObject: idOfGo));
                 }
                 else

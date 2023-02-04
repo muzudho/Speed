@@ -84,34 +84,36 @@
                 setMovementViewModel(new MovementViewModel(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
-                    getBeginPosition: ()=>goCard.transform.position,
-                    getEndPosition: ()=>
-                    {
-                        // 現在の天辺の手札のポジションより１枚分上、または、一番下
-                        Vector3 positionOfTop;
-                        {
-                            var length = gameModelBuffer.IdOfCardsOfPlayersPile[player].Count;
-
-                            // 手札が１枚も無ければ
-                            if (length < 1)
+                    getBegin: ()=> new Vector3AndQuaternionLazy(
+                        getVector3: ()=>goCard.transform.position,
+                        getQuaternion: () => goCard.transform.rotation),
+                    getEnd: ()=> new Vector3AndQuaternionLazy(
+                        getVector3: ()=>
                             {
-                                // 一番下
-                                positionOfTop = GameView.positionOfPileCardsOrigin[player];
-                            }
-                            // 既存の手札があれば
-                            else
-                            {
-                                var idOfTop = gameModelBuffer.IdOfCardsOfPlayersPile[player][length - 1];
-                                var goCardOfTop = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfTop)];
-                                // より、１枚分上
-                                positionOfTop = goCardOfTop.transform.position;
-                            }
-                        }
+                                // 現在の天辺の手札のポジションより１枚分上、または、一番下
+                                Vector3 positionOfTop;
+                                {
+                                    var length = gameModelBuffer.IdOfCardsOfPlayersPile[player].Count;
 
-                        return positionOfTop;
-                    },
-                    getBeginRotation:()=> goCard.transform.rotation,
-                    getEndRotation:()=> Quaternion.Euler(0, angleY, 180.0f),
+                                    // 手札が１枚も無ければ
+                                    if (length < 1)
+                                    {
+                                        // 一番下
+                                        positionOfTop = GameView.positionOfPileCardsOrigin[player];
+                                    }
+                                    // 既存の手札があれば
+                                    else
+                                    {
+                                        var idOfTop = gameModelBuffer.IdOfCardsOfPlayersPile[player][length - 1];
+                                        var goCardOfTop = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfTop)];
+                                        // より、１枚分上
+                                        positionOfTop = goCardOfTop.transform.position;
+                                    }
+                                }
+
+                                return positionOfTop;
+                            },
+                        getQuaternion: ()=> Quaternion.Euler(0, angleY, 180.0f)),
                     idOfGameObject: idOfGameObjectOfCard));
             }
         }
