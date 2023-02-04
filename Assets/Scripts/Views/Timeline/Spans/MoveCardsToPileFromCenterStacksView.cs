@@ -42,7 +42,7 @@
         public override void OnEnter(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
+            LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
@@ -81,7 +81,7 @@
                 // 台札から手札へ移動するカードについて
                 var idOfGameObjectOfCard = Specification.GetIdOfGameObject(idOfCardOfCenterStack);
                 var goCard = GameObjectStorage.Items[idOfGameObjectOfCard];
-                setMovementViewModel(new MovementViewModel(
+                setViewMovement(new ViewMovement(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     target: idOfGameObjectOfCard,

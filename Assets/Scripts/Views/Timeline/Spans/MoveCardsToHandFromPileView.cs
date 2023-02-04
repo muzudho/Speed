@@ -39,7 +39,7 @@
         public override void OnEnter(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
+            LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timeSpan).Player].Count; // 手札の枚数
 
@@ -78,7 +78,7 @@
                     getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
                     getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
                     getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
-                    setCardMovementModel: setMovementViewModel);
+                    setViewMovement: setViewMovement);
             }
         }
     }

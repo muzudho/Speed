@@ -59,7 +59,7 @@
         internal void OnEnter(
             float elapsedSeconds,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
+            LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
@@ -86,7 +86,7 @@
                 timeSpan.SpanView.OnEnter(
                     timeSpan,
                     gameModelBuffer,
-                    setMovementViewModel: setMovementViewModel);
+                    setViewMovement: setViewMovement);
             }
         }
 

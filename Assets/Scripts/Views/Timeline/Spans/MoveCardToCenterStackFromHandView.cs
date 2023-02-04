@@ -40,7 +40,7 @@
         public override void OnEnter(
             TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
+            LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             var gameModel = new GameModel(gameModelBuffer);
 
@@ -86,13 +86,13 @@
                                     getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
                                     getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
                                     getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
-                                    setCardMovementModel: setMovementViewModel); // 場札
+                                    setViewMovement: setViewMovement); // 場札
                             }
 
                         },
-                        setCardMovementModel: (movementModel) =>
+                        setViewMovement: (movementModel) =>
                         {
-                            setMovementViewModel(movementModel); // 台札
+                            setViewMovement(movementModel); // 台札
 
                         });
                 });
@@ -125,7 +125,7 @@
             LazyArgs.GetValue<int> getNumberOfCenterStackCards,
             LazyArgs.GetValue<Vector3> getNextTopOfCenterStackCard,
             LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard,
-            LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
+            LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             var indexOfHandCardToRemove = getIndexOfHandCardToRemove();
 
@@ -163,7 +163,7 @@
                 getNumberOfCenterStackCards: getNumberOfCenterStackCards,
                 getNextTopOfCenterStackCard: getNextTopOfCenterStackCard,
                 addCardOfCenterStack: (results) => gameModelBuffer.AddCardOfCenterStack(results.Item1, results.Item2),
-                setCardMovementModel: setCardMovementModel); // 台札
+                setViewMovement: setViewMovement); // 台札
 
             setIndexOfNextFocusedHandCard(indexOfNextFocusedHandCard);
         }
@@ -175,7 +175,7 @@
             LazyArgs.GetValue<int> getNumberOfCenterStackCards,
             LazyArgs.GetValue<Vector3> getNextTopOfCenterStackCard,
             LazyArgs.SetValue<(int, IdOfPlayingCards)> addCardOfCenterStack,
-            LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
+            LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             // 手ぶれ
             var (shakeX, shakeZ, shakeAngleY) = GameView.MakeShakeForCenterStack(place);
@@ -199,7 +199,7 @@
 
             // 台札の位置をセット
             var idOfGo = Specification.GetIdOfGameObject(idOfCard);
-            setCardMovementModel(new MovementViewModel(
+            setViewMovement(new ViewMovement(
                 startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                 duration: timeSpan.Duration / 2.0f,
                 target: idOfGo,

@@ -29,6 +29,6 @@
         void OnEnter(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<MovementViewModel> setMovementViewModel);
+            LazyArgs.SetValue<ViewMovement> setViewMovement);
     }
 }

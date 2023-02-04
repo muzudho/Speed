@@ -15,7 +15,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="idOfCard">カードId</param>
-        internal static MovementViewModel PickupCardOfHand(
+        internal static ViewMovement PickupCardOfHand(
             float startSeconds,
             float duration,
             LazyArgs.GetValue<Vector3> getBeginPosition,
@@ -30,7 +30,7 @@
             var idOfGo = Specification.GetIdOfGameObject(idOfCard);
             var goCard = GameObjectStorage.Items[idOfGo]; // TODO ★ 各カードの座標は、ゲーム・オブジェクトから取得するのではなく、シミュレーターで保持しておきたい。シンクロしたくない
 
-            return new MovementViewModel(
+            return new ViewMovement(
                 startSeconds: startSeconds,
                 duration: duration,
                 target: idOfGo,
@@ -61,7 +61,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="idOfCard">カードId</param>
-        internal static MovementViewModel PutDownCardOfHand(float startSeconds, float duration, IdOfPlayingCards idOfCard)
+        internal static ViewMovement PutDownCardOfHand(float startSeconds, float duration, IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける
@@ -74,7 +74,7 @@
             var idOfGo = Specification.GetIdOfGameObject(idOfCard);
             var goCard = GameObjectStorage.Items[idOfGo]; // TODO ★ 各カードの座標は、ゲーム・オブジェクトから取得するのではなく、シミュレーターで保持しておきたい。シンクロしたくない
 
-            return new MovementViewModel(
+            return new ViewMovement(
                 startSeconds: startSeconds,
                 duration: duration,
                 target: idOfGo,
@@ -102,7 +102,7 @@
         /// <param name="numberOfHandCards">場札の枚数</param>
         /// <param name="indexOfPickup">ピックアップしている場札は何番目</param>
         /// <param name="idOfHands">場札のIdリスト</param>
-        /// <param name="setCardMovementModel"></param>
+        /// <param name="setViewMovement"></param>
         /// <exception cref="Exception"></exception>
         internal static void ArrangeHandCards(
             float startSeconds,
@@ -111,7 +111,7 @@
             LazyArgs.GetValue<int> getNumberOfHandCards,
             LazyArgs.GetValue<int> getIndexOfPickup,
             LazyArgs.GetValue<List<IdOfPlayingCards>> getIdOfHands,
-            LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
+            LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             // 最大25枚の場札が並べるように調整してある
 
@@ -175,7 +175,7 @@
 
                 if (idOfCard != idOfPickupCard)
                 {
-                    setCardMovementModel(new MovementViewModel(
+                    setViewMovement(new ViewMovement(
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,
@@ -191,7 +191,7 @@
                     // ピックアップしている場札
 
                     // 目標地点　＋　ピックアップ操作
-                    setCardMovementModel(MovementGenerator.PickupCardOfHand(
+                    setViewMovement(MovementGenerator.PickupCardOfHand(
                         startSeconds: startSeconds,
                         duration: duration,
                         idOfCard: idOfPickupCard,

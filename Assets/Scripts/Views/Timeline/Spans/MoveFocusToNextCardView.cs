@@ -40,7 +40,7 @@
         public override void OnEnter(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<MovementViewModel> setMovementViewModel)
+            LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
             int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player]; // 下ろす場札
@@ -94,7 +94,7 @@
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timeSpan).Player, indexOfPrevious); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
-                setMovementViewModel(MovementGenerator.PutDownCardOfHand(
+                setViewMovement(MovementGenerator.PutDownCardOfHand(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     idOfCard: idOfCard));
@@ -111,7 +111,7 @@
                 var goCard = GameObjectStorage.Items[idOfGo];
 
                 // 今回フォーカスするカードを持ち上げる
-                setMovementViewModel(MovementGenerator.PickupCardOfHand(
+                setViewMovement(MovementGenerator.PickupCardOfHand(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     idOfCard: idOfCard,

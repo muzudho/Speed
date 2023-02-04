@@ -171,12 +171,10 @@ public class GameManager : MonoBehaviour
                     startSeconds: 0.0f,
                     spanModel: spanModel,
                     spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
-            timeSpan.SpanView.OnEnter(timeSpan, gameModelBuffer,
-                        setMovementViewModel: (movementViewModel) =>
-                        {
-                            var cardMovementView = new MovementView(movementViewModel);
-                            cardMovementView.Lerp(1.0f);
-                        });
+            timeSpan.SpanView.OnEnter(
+                timeSpan,
+                gameModelBuffer,
+                setViewMovement: (movementViewModel) => movementViewModel.Lerp(1.0f));
         }
 
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
@@ -215,19 +213,19 @@ public class GameManager : MonoBehaviour
     void OnTick()
     {
         // モデルからビューへ、起動したタイム・スパンを引き継ぎたい
-        var launchedCardMovementModels = new List<MovementViewModel>();
+        var viewMovement = new List<ViewMovement>();
 
         // 時限式で、コマンドを消化
         this.timelineView.Simulator.OnEnter(
             this.gameModelBuffer.ElapsedSeconds,
             gameModelBuffer,
-            setMovementViewModel: (movementViewModel) =>
+            setViewMovement: (movementViewModel) =>
             {
-                launchedCardMovementModels.Add(movementViewModel);
+                viewMovement.Add(movementViewModel);
             });
 
         // モーションの補間
-        this.timelineView.Lerp(this.gameModelBuffer.ElapsedSeconds, launchedCardMovementModels);
+        this.timelineView.Lerp(this.gameModelBuffer.ElapsedSeconds, viewMovement);
 
         this.timelineView.Simulator.DebugWrite(); // TODO ★ 消す
         this.timelineView.DebugWrite(); // TODO ★ 消す
