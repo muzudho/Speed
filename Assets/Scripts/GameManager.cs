@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
                 {
                     var previousTopCard = gameModelBuffer.IdOfCardsOfPlayersPile[player][length - 2]; // 天辺より１つ下のカードが、前のカード
                     var goPreviousTopCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(previousTopCard)];
-                    goCard.transform.position = goPreviousTopCard.transform.position + GameView.yOfCardThickness; // 下のカードの上に被せる
+                    goCard.transform.position = GameView.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
                                                                                                                        // 裏返す
                     goCard.transform.rotation = Quaternion.Euler(
                         x: goCard.transform.rotation.x,

@@ -14,6 +14,7 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
+        /// <param name="getBegin"></param>
         /// <param name="idOfCard">カードId</param>
         internal static ViewMovement PickupCardOfHand(
             float startSeconds,
@@ -29,7 +30,7 @@
                 startSeconds: startSeconds,
                 duration: duration,
                 target: Specification.GetIdOfGameObject(idOfCard),
-                getBegin: ()=> new Vector3AndQuaternionLazy(getBegin().GetVector3, getBegin().GetQuaternion),
+                getBegin: getBegin,
                 getEnd: () => new Vector3AndQuaternionLazy(
                             getVector3: () =>
                             {
@@ -56,7 +57,10 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="idOfCard">カードId</param>
-        internal static ViewMovement PutDownCardOfHand(float startSeconds, float duration, IdOfPlayingCards idOfCard)
+        internal static ViewMovement PutDownCardOfHand(
+            float startSeconds,
+            float duration, 
+            IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             var rotateY = -5; // -5°傾ける

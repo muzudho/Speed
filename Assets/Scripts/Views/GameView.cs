@@ -15,10 +15,12 @@
     {
         // - プロパティー
 
+        // TODO ★ Vector3 のプロパティ自体は readonly ではない
+
         /// <summary>
         /// カードを積み重ねるときの厚み
         /// </summary>
-        internal static readonly Vector3 yOfCardThickness = new Vector3(0f, 0.2f, 0f);
+        internal static readonly Vector3Immutable yOfCardThickness = new Vector3Immutable(0f, 0.2f, 0f);
 
         /// <summary>
         /// 場札の原点
@@ -86,10 +88,7 @@
                 z: (positionOfCenterStacksOrigin[place].z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[place].y);
 
             // カードの厚み分、上へ
-            position += yOfCardThickness;
-
-            return position;
-
+            return yOfCardThickness.Add(position);
         }
 
         /// <summary>
