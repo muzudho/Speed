@@ -62,8 +62,10 @@
                         getNumberOfCenterStackCards: () => gameModel.GetLengthOfCenterStackCards(place),
                         getNextTop: () =>
                         {
-                            var (nextTopX, nextTopZ) = gameViewModel.GetXZOfNextCenterStackCard(gameModel, place);
-                            return new Vector3(nextTopX, gameViewModel.centerStacksY[place], nextTopZ);
+                            return gameViewModel.GetPositionOfNextCenterStackCard(
+                                place: place,
+                                getLengthOfCenterStackCards: ()=>gameModel.GetLengthOfCenterStackCards(place),
+                                getLastCardOfCenterStack: () => gameModel.GetLastCardOfCenterStack(place));
                         },
                         setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
                         {

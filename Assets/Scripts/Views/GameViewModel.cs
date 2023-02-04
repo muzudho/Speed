@@ -49,25 +49,33 @@
         /// <summary>
         /// 台札の次の天辺の位置
         /// </summary>
+        /// <param name="gameModel"></param>
         /// <param name="place"></param>
+        /// <param name="getLengthOfCenterStackCards"></param>
+        /// <param name="getLastCardOfCenterStack">天辺（最後）のカード</param>
         /// <returns></returns>
-        internal (float, float) GetXZOfNextCenterStackCard(GameModel gameModel, int place)
+        internal Vector3 GetPositionOfNextCenterStackCard(
+            int place,
+            LazyArgs.GetValue<int> getLengthOfCenterStackCards,
+            LazyArgs.GetValue<IdOfPlayingCards> getLastCardOfCenterStack)
         {
-            var length = gameModel.GetLengthOfCenterStackCards(place);
+            var length = getLengthOfCenterStackCards();
             if (length < 1)
             {
                 // 床上
-                var nextTopX2 = this.centerStacksX[place];
-                var nextTopZ2 = this.centerStacksZ[place];
-                return (nextTopX2, nextTopZ2);
+                return new Vector3(
+                    x: this.centerStacksX[place],
+                    y: this.centerStacksY[place],
+                    z: this.centerStacksZ[place]);
             }
 
             // 台札の次の天辺の位置
-            var idOfLastCard = gameModel.GetLastCardOfCenterStack(place); // 天辺（最後）のカード
+            var idOfLastCard = getLastCardOfCenterStack();
             var goLastCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfLastCard)];
-            var nextTopX = (this.centerStacksX[place] - goLastCard.transform.position.x) / 2 + this.centerStacksX[place];
-            var nextTopZ = (this.centerStacksZ[place] - goLastCard.transform.position.z) / 2 + this.centerStacksZ[place];
-            return (nextTopX, nextTopZ);
+            return new Vector3(
+                x: (this.centerStacksX[place] - goLastCard.transform.position.x) / 2 + this.centerStacksX[place],
+                y: this.centerStacksY[place],
+                z: (this.centerStacksZ[place] - goLastCard.transform.position.z) / 2 + this.centerStacksZ[place]);
         }
     }
 }

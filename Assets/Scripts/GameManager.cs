@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 
