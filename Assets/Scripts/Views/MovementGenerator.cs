@@ -98,8 +98,8 @@
         /// <param name="numberOfHandCards">場札の枚数</param>
         /// <param name="indexOfPickup">ピックアップしている場札は何番目</param>
         /// <param name="idOfHands">場札のIdリスト</param>
-        /// <param name="handCardMinY">場札の最低Y座標</param>
-        /// <param name="handCardsOriginZ">場札の基準Z座標</param>
+        /// <param name="getYOfMinOfCards">場札の最低Y座標</param>
+        /// <param name="getZOfHandCardsOrigin">場札の基準Z座標</param>
         /// <param name="setCardMovementModel"></param>
         /// <exception cref="Exception"></exception>
         internal static void ArrangeHandCards(
@@ -109,8 +109,8 @@
             LazyArgs.GetValue<int> getNumberOfHandCards,
             LazyArgs.GetValue<int> getIndexOfPickup,
             LazyArgs.GetValue<List<IdOfPlayingCards>> getIdOfHands,
-            LazyArgs.GetValue<float> getHandCardMinY,
-            LazyArgs.GetValue<float> getHandCardsOriginZ,
+            LazyArgs.GetValue<float> getYOfMinOfCards,
+            LazyArgs.GetValue<float[]> getZOfHandCardsOrigin,
             LazyArgs.SetValue<MovementViewModel> setCardMovementModel)
         {
             // 最大25枚の場札が並べるように調整してある
@@ -164,13 +164,13 @@
             foreach (var idOfCard in idOfHands) // 場札のIdリスト
             {
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
-                float z = range * Mathf.Sin(theta + playerTheta) + getHandCardsOriginZ() + offsetCircleCenterZ;
+                float z = range * Mathf.Sin(theta + playerTheta) + getZOfHandCardsOrigin()[player] + offsetCircleCenterZ;
 
                 var idOfGo = Specification.GetIdOfGameObject(idOfCard);
                 var goCard = GameObjectStorage.Items[idOfGo];
 
                 // 目標地点
-                var destinationPosition = new Vector3(x, getHandCardMinY(), z);
+                var destinationPosition = new Vector3(x, getYOfMinOfCards(), z);
                 var destinationRotation = Quaternion.Euler(0, angleY, cardAngleZ);
 
                 if (idOfCard != idOfPickupCard)

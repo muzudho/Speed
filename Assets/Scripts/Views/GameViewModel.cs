@@ -1,11 +1,7 @@
 ﻿namespace Assets.Scripts.Views
 {
     using Assets.Scripts.Models;
-    using Assets.Scripts.Models.Timeline;
     using Assets.Scripts.Simulators.Timeline;
-    using Assets.Scripts.Views.Timeline;
-    using System;
-    using System.Collections.Generic;
     using UnityEngine;
 
     /// <summary>
@@ -23,9 +19,9 @@
         /// 
         /// - `0.0f` は盤
         /// </summary>
-        internal readonly float minY = 0.5f;
+        readonly float minY = 0.5f;
 
-        internal readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
+        readonly float[] handCardsZ = new[] { -28.0f, 42.0f };
 
         // 手札（プレイヤー側で伏せて積んでる札）
         internal readonly float[] pileCardsX = new[] { 40.0f, -40.0f }; // 端っこは 62.0f, -62.0f
@@ -45,6 +41,16 @@
         internal float[] centerStacksZ = { 2.5f, 9.0f };
 
         // - メソッド
+
+        internal LazyArgs.GetValue<float> GetYOfMinOfCards()
+        {
+            return () => minY;
+        }
+
+        internal LazyArgs.GetValue<float[]> GetZOfHandCardsOrgin()
+        {
+            return () => handCardsZ;
+        }
 
         /// <summary>
         /// 台札の次の天辺の位置
