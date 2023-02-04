@@ -39,18 +39,18 @@
                                 getPosition: () =>
                                 {
                                     // 初回アクセス時に、値固定
-                                    if (startPosition==null)
+                                    if (startPosition == null)
                                     {
                                         startPosition = getBegin().GetPosition();
                                     }
-                                    return (startPosition??throw new Exception()) + lift;
+                                    return (startPosition ?? throw new Exception()) + lift;
                                 },
                                 getRotation: () =>
                                 {
                                     // 初回アクセス時に、値固定
-                                    if (startRotation==null)
+                                    if (startRotation == null)
                                     {
-                                        startRotation= getBegin().GetRotation();
+                                        startRotation = getBegin().GetRotation();
                                     }
                                     var rot = startRotation ?? throw new Exception();
                                     var rotateY = -5; // -5°傾ける
@@ -85,33 +85,53 @@
             var idOfGo = Specification.GetIdOfGameObject(idOfCard);
             var goCard = GameObjectStorage.Items[idOfGo]; // TODO ★ 各カードの座標は、ゲーム・オブジェクトから取得するのではなく、シミュレーターで保持しておきたい。シンクロしたくない
 
-            PositionAndRotationLazy startPositionAndRotation = null;
-            PositionAndRotationLazy endPositionAndRotation = null;
+            Vector3? startPosition = null;
+            Quaternion? startRotation = null;
+            Vector3? endPosition = null;
+            Quaternion? endRotation = null;
 
             return new ViewMovement(
                 startSeconds: startSeconds,
                 duration: duration,
                 target: idOfGo,
-                getBegin: () =>
-                    {
-                        if (startPositionAndRotation == null)
-                        {
-                            startPositionAndRotation = new PositionAndRotationLazy(
-                                getPosition: () => goCard.transform.position,
-                                getRotation: () => goCard.transform.rotation);
-                        }
-                        return startPositionAndRotation;
-                    },
-                getEnd: () =>
-                    {
-                        if (endPositionAndRotation == null)
-                        {
-                            endPositionAndRotation = new PositionAndRotationLazy(
-                                getPosition: () => new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z),
-                                getRotation: () => Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ));
-                        }
-                        return endPositionAndRotation;
-                    });
+                getBegin: () => new PositionAndRotationLazy(
+                                getPosition: () =>
+                                {
+                                    // 初回アクセス時に、値固定
+                                    if (startPosition == null)
+                                    {
+                                        startPosition = goCard.transform.position;
+                                    }
+                                    return startPosition ?? throw new Exception();
+                                },
+                                getRotation: () =>
+                                {
+                                    // 初回アクセス時に、値固定
+                                    if (startRotation == null)
+                                    {
+                                        startRotation = goCard.transform.rotation;
+                                    }
+                                    return startRotation ?? throw new Exception();
+                                }),
+                getEnd: () => new PositionAndRotationLazy(
+                                getPosition: () =>
+                                {
+                                    // 初回アクセス時に、値固定
+                                    if (endPosition == null)
+                                    {
+                                        endPosition = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
+                                    }
+                                    return endPosition ?? throw new Exception();
+                                },
+                                getRotation: () =>
+                                {
+                                    // 初回アクセス時に、値固定
+                                    if (endRotation == null)
+                                    {
+                                        endRotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
+                                    }
+                                    return endRotation ?? throw new Exception();
+                                }));
         }
 
         /// <summary>
