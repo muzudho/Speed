@@ -23,8 +23,8 @@
             float startSeconds,
             float duration,
             IdOfGameObjects target,
-            LazyArgs.GetValue<Vector3AndQuaternionLazy> getBegin,
-            LazyArgs.GetValue<Vector3AndQuaternionLazy> getEnd)
+            LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
+            LazyArgs.GetValue<PositionAndRotationLazy> getEnd)
         {
             this.StartSeconds = startSeconds;
             this.Duration = duration;
@@ -49,9 +49,9 @@
 
         internal IdOfGameObjects Target { get; private set; }
 
-        internal LazyArgs.GetValue<Vector3AndQuaternionLazy> GetBegin { get; private set; }
+        internal LazyArgs.GetValue<PositionAndRotationLazy> GetBegin { get; private set; }
 
-        internal LazyArgs.GetValue<Vector3AndQuaternionLazy> GetEnd { get; private set; }
+        internal LazyArgs.GetValue<PositionAndRotationLazy> GetEnd { get; private set; }
 
         // - メソッド
 
@@ -72,8 +72,8 @@
             //
             // 開始地点から 終了地点まで 刻んで動け、という命令をしてるときに
             // 開始地点が 刻々と 進んでいる、ということがないようにすること。
-            gameObject.transform.position = Vector3.Lerp(begin.GetVector3(), end.GetVector3(), progress);
-            gameObject.transform.rotation = Quaternion.Lerp(begin.GetQuaternion(), end.GetQuaternion(), progress);
+            gameObject.transform.position = Vector3.Lerp(begin.GetPosition(), end.GetPosition(), progress);
+            gameObject.transform.rotation = Quaternion.Lerp(begin.GetRotation(), end.GetRotation(), progress);
         }
     }
 }

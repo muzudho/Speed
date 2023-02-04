@@ -119,8 +119,8 @@
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     idOfCard: idOfCard,
-                    getBegin: () => new Vector3AndQuaternionLazy(
-                        getVector3: () =>
+                    getBegin: () => new PositionAndRotationLazy(
+                        getPosition: () =>
                         {
                             // 初回アクセス時に、値固定
                             if (startPosition == null)
@@ -129,7 +129,7 @@
                             }
                             return startPosition ?? throw new Exception();
                         },
-                        getQuaternion: () =>
+                        getRotation: () =>
                         {
                             // 初回アクセス時に、値固定
                             if (startQuaternion==null)

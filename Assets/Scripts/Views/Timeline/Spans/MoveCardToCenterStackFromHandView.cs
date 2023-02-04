@@ -186,12 +186,12 @@
                 startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                 duration: timeSpan.Duration / 2.0f,
                 target: idOfGo,
-                getBegin: ()=> new Vector3AndQuaternionLazy(
-                    getVector3: () => goCard.transform.position,
-                    getQuaternion: () => goCard.transform.rotation),
-                getEnd: ()=> new Vector3AndQuaternionLazy(
-                    getVector3: ()=> nextTop + shakePosition,
-                    getQuaternion: () =>
+                getBegin: ()=> new PositionAndRotationLazy(
+                    getPosition: () => goCard.transform.position,
+                    getRotation: () => goCard.transform.rotation),
+                getEnd: ()=> new PositionAndRotationLazy(
+                    getPosition: ()=> nextTop + shakePosition,
+                    getRotation: () =>
                     {
                         // １プレイヤー、２プレイヤーでカードの向きが違う
                         // また、元の捻りを保存していないと、補間で大回転してしまうようだ

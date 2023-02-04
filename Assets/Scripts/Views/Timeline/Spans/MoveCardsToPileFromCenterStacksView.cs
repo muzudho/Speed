@@ -85,11 +85,11 @@
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     target: idOfGameObjectOfCard,
-                    getBegin: ()=> new Vector3AndQuaternionLazy(
-                        getVector3: ()=>goCard.transform.position,
-                        getQuaternion: () => goCard.transform.rotation),
-                    getEnd: ()=> new Vector3AndQuaternionLazy(
-                        getVector3: ()=>
+                    getBegin: ()=> new PositionAndRotationLazy(
+                        getPosition: ()=>goCard.transform.position,
+                        getRotation: () => goCard.transform.rotation),
+                    getEnd: ()=> new PositionAndRotationLazy(
+                        getPosition: ()=>
                             {
                                 // 現在の天辺の手札のポジションより１枚分上、または、一番下
                                 Vector3 positionOfTop;
@@ -114,7 +114,7 @@
 
                                 return positionOfTop;
                             },
-                        getQuaternion: ()=> Quaternion.Euler(0, angleY, 180.0f))));
+                        getRotation: ()=> Quaternion.Euler(0, angleY, 180.0f))));
             }
         }
     }
