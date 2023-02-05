@@ -1,7 +1,13 @@
-﻿namespace Assets.Scripts.Gui.Models
+﻿namespace Assets.Scripts.ThikningEngine
 {
     using System.Collections.Generic;
 
+    /// <summary>
+    /// 読取専用リスト
+    /// 
+    /// - 要素は、Immutable なものにしてください
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     internal class ReadonlyList<T>
     {
         internal ReadonlyList(List<T> list)

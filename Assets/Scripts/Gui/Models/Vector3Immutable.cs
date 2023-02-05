@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Gui.Models
 {
-    using System;
     using UnityEngine;
 
     /// <summary>
