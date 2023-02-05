@@ -57,20 +57,17 @@
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 int player;
-                float angleY;
                 var suit = idOfCardOfCenterStack.Suit();
                 switch (suit)
                 {
                     case IdOfCardSuits.Clubs:
                     case IdOfCardSuits.Spades:
                         player = 0;
-                        angleY = 180.0f;
                         break;
 
                     case IdOfCardSuits.Diamonds:
                     case IdOfCardSuits.Hearts:
                         player = 1;
-                        angleY = 0.0f;
                         break;
 
                     default:
@@ -80,51 +77,12 @@
                 // プレイヤーの手札を積み上げる
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCardOfCenterStack);
 
-                // 台札から手札へ移動するカードについて
-                var idOfGameObjectOfCard = Specification.GetIdOfGameObject(idOfCardOfCenterStack);
-                var lengthOfPile = gameModelBuffer.IdOfCardsOfPlayersPile[player].Count;
-                var idOfTopOfPile = gameModelBuffer.IdOfCardsOfPlayersPile[player][lengthOfPile - 1]; // 手札の天辺
-
-                Vector3? endPosition = null;
-                Quaternion? endRotation = null;
-
                 setViewMovement(MoveToMoveCardsToPileFromCenterStacks.Generate(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
-                    target: idOfGameObjectOfCard,
-                    getEnd: () => new PositionAndRotationLazy(
-                        getPosition: () =>
-                        {
-                            // 初回アクセス時に、値固定
-                            if (endPosition == null)
-                            {
-                                // 現在の天辺の手札のポジションより１枚分上、または、一番下
-                                // 手札が１枚も無ければ
-                                if (lengthOfPile < 1)
-                                {
-                                    // 一番下
-                                    endPosition = GameView.positionOfPileCardsOrigin[player].ToMutable();
-                                }
-                                // 既存の手札があれば
-                                else
-                                {
-                                    var goCardOfTop = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfTopOfPile)];
-                                    // より、１枚分上
-                                    endPosition = goCardOfTop.transform.position;
-                                }
-                            }
-                            return endPosition ?? throw new Exception();
-                        },
-                        getRotation: () =>
-                        {
-                            // 初回アクセス時に、値固定
-                            if (endRotation == null)
-                            {
-                                endRotation = Quaternion.Euler(0, angleY, 180.0f);
-                            }
-                            return endRotation ?? throw new Exception();
-                        })
-                    ));
+                    player: player,
+                    idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[player],
+                    idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
             }
         }
     }

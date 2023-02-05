@@ -1,7 +1,10 @@
 ﻿namespace Assets.Scripts.Views.Moves
 {
+    using Assets.Scripts.Models;
+    using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views.Timeline;
     using System;
+    using System.Collections.Generic;
     using UnityEngine;
 
     /// <summary>
@@ -15,16 +18,24 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="target">ゲーム・オブジェクトId</param>
-        /// <param name="getEnd">終了時の位置と回転</param>
         /// <returns></returns>
         internal static ViewMovement Generate(
             float startSeconds,
             float duration,
-            IdOfGameObjects target,
-            LazyArgs.GetValue<PositionAndRotationLazy> getEnd)
+            int player,
+            List<IdOfPlayingCards> idOfPlayerPileCards,
+            IdOfPlayingCards idOfPlayingCard)
         {
+            // 台札から手札へ移動するカードについて
+            var target = Specification.GetIdOfGameObject(idOfPlayingCard);
+
+            var lengthOfPile = idOfPlayerPileCards.Count;
+            var idOfTopOfPile = idOfPlayerPileCards[lengthOfPile - 1]; // 手札の天辺
+
             Vector3? startPosition = null;
             Quaternion? startRotation = null;
+            Vector3? endPosition = null;
+            Quaternion? endRotation = null;
 
             return new ViewMovement(
                 startSeconds: startSeconds,
@@ -49,7 +60,55 @@
                             }
                             return startRotation ?? throw new Exception();
                         }),
-                getEnd: getEnd);
+                getEnd: () => new PositionAndRotationLazy(
+                        getPosition: () =>
+                        {
+                            // 初回アクセス時に、値固定
+                            if (endPosition == null)
+                            {
+                                // 現在の天辺の手札のポジションより１枚分上、または、一番下
+                                // 手札が１枚も無ければ
+                                if (lengthOfPile < 1)
+                                {
+                                    // 一番下
+                                    endPosition = GameView.positionOfPileCardsOrigin[player].ToMutable();
+                                }
+                                // 既存の手札があれば
+                                else
+                                {
+                                    var goCardOfTop = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfTopOfPile)];
+                                    // より、１枚分上
+                                    endPosition = goCardOfTop.transform.position;
+                                }
+                            }
+                            return endPosition ?? throw new Exception();
+                        },
+                        getRotation: () =>
+                        {
+                            // 初回アクセス時に、値固定
+                            if (endRotation == null)
+                            {
+                                // １プレイヤーのカードは１８０°回転
+                                float angleY;
+                                switch (player)
+                                {
+                                    case 0:
+                                        angleY = 180.0f;
+                                        break;
+
+                                    case 1:
+                                        angleY = 0.0f;
+                                        break;
+
+                                    default:
+                                        throw new Exception();
+                                }
+
+                                endRotation = Quaternion.Euler(0, angleY, 180.0f);
+                            }
+                            return endRotation ?? throw new Exception();
+                        })
+                    );
         }
     }
 }
