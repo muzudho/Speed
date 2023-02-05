@@ -17,6 +17,8 @@ using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    internal SimulatorsOfTimeline.Simulator Simulator { get; private set; }
+
     ViewsOfTimeline.PlayerToLerp playerToLerp;
     GameModelBuffer gameModelBuffer;
     GameModel gameModel;
@@ -84,10 +86,11 @@ public class GameManager : MonoBehaviour
         GameObjectStorage.Add(IdOfGameObjects.Spades12, GameObject.Find($"Spades 12"));
         GameObjectStorage.Add(IdOfGameObjects.Spades13, GameObject.Find($"Spades 13"));
 
-        // タイムライン・ビューは、タイムライン・シミュレーターを持ち、
+        // Lerp を実行するだけのクラス
+        playerToLerp = new PlayerToLerp();
+
         // タイムライン・シミュレーターは、タイム・スパンを持つ。
-        playerToLerp = new ViewsOfTimeline.PlayerToLerp(
-            new SimulatorsOfTimeline.Simulator());
+        Simulator = new SimulatorsOfTimeline.Simulator();
         gameModelBuffer = new GameModelBuffer();
         gameModel = new GameModel(gameModelBuffer);
 
@@ -176,14 +179,14 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardsToHandFromPileModel(
                     player: player,
                     numberOfCards: 5);
-            this.playerToLerp.Simulator.AddWithinScheduler(player, spanModel);
+            this.Simulator.AddWithinScheduler(player, spanModel);
         }
         {
             var player = 1;
             var spanModel = new MoveCardsToHandFromPileModel(
                     player: player,
                     numberOfCards: 5);
-            this.playerToLerp.Simulator.AddWithinScheduler(player, spanModel);
+            this.Simulator.AddWithinScheduler(player, spanModel);
         }
 
         // 以下、デモ・プレイを登録
@@ -209,7 +212,7 @@ public class GameManager : MonoBehaviour
         var viewMovement = new List<SpanToLerp>();
 
         // 時限式で、ゲーム画面の同期を始めます
-        this.playerToLerp.Simulator.OnEnter(
+        this.Simulator.OnEnter(
             this.gameModelBuffer.ElapsedSeconds,
             gameModelBuffer,
             setViewMovement: (movementViewModel) =>
@@ -220,7 +223,7 @@ public class GameManager : MonoBehaviour
         // モーションの補間
         this.playerToLerp.Lerp(this.gameModelBuffer.ElapsedSeconds, viewMovement);
 
-        this.playerToLerp.Simulator.DebugWrite(); // TODO ★ 消す
+        this.Simulator.DebugWrite(); // TODO ★ 消す
         this.playerToLerp.DebugWrite(); // TODO ★ 消す
 
         this.gameModelBuffer.ElapsedSeconds += tickSeconds;
@@ -248,7 +251,7 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: player, // １プレイヤーが
                     place: right); // 右の
-            this.playerToLerp.Simulator.AddJustNow(
+            this.Simulator.AddJustNow(
                 this.gameModelBuffer.ElapsedSeconds,
                 player, 
                 spanModel);
@@ -262,7 +265,7 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: player, // ２プレイヤーが
                     place: right); // 右の
-            this.playerToLerp.Simulator.AddJustNow(
+            this.Simulator.AddJustNow(
                 this.gameModelBuffer.ElapsedSeconds, 
                 player,
                 spanModel);
@@ -280,7 +283,7 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: player, // ２プレイヤーが
                     place: left); // 左の
-            this.playerToLerp.Simulator.AddJustNow(
+            this.Simulator.AddJustNow(
                 this.gameModelBuffer.ElapsedSeconds, 
                 player,
                 spanModel);
@@ -295,7 +298,7 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardToCenterStackFromHandModel(
                     player: player, // １プレイヤーが
                     place: left); // 左の
-            this.playerToLerp.Simulator.AddJustNow(
+            this.Simulator.AddJustNow(
                 this.gameModelBuffer.ElapsedSeconds, 
                 player,
                 spanModel);
@@ -321,7 +324,7 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.playerToLerp.Simulator.AddJustNow(
+            this.Simulator.AddJustNow(
                 this.gameModelBuffer.ElapsedSeconds, 
                 player,
                 spanModel);
@@ -337,7 +340,7 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.playerToLerp.Simulator.AddJustNow(
+            this.Simulator.AddJustNow(
                 this.gameModelBuffer.ElapsedSeconds, 
                 player,
                 spanModel);
@@ -359,7 +362,7 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.playerToLerp.Simulator.AddJustNow(
+            this.Simulator.AddJustNow(
                 this.gameModelBuffer.ElapsedSeconds, 
                 player,
                 spanModel);
@@ -375,7 +378,7 @@ public class GameManager : MonoBehaviour
                     {
                         gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                     });
-            this.playerToLerp.Simulator.AddJustNow(
+            this.Simulator.AddJustNow(
                 this.gameModelBuffer.ElapsedSeconds, 
                 player,
                 spanModel);
@@ -391,7 +394,7 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardsToHandFromPileModel(
                         player: player,
                         numberOfCards: 1);
-                this.playerToLerp.Simulator.AddJustNow(
+                this.Simulator.AddJustNow(
                     this.gameModelBuffer.ElapsedSeconds, 
                     player,
                     spanModel);
@@ -416,7 +419,7 @@ public class GameManager : MonoBehaviour
         // 間
         for (int player = 0; player < 2; player++)
         {
-            this.playerToLerp.Simulator.AddScheduleSeconds(player: player, seconds: interval);
+            this.Simulator.AddScheduleSeconds(player: player, seconds: interval);
         }
 
         // 登録：ピックアップ場札を、台札へ積み上げる
@@ -427,7 +430,7 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: player, // １プレイヤーが
                         place: right); // 右の
-                this.playerToLerp.Simulator.AddWithinScheduler(player, spanModel);
+                this.Simulator.AddWithinScheduler(player, spanModel);
             }
             {
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
@@ -435,14 +438,14 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: player, // ２プレイヤーが
                         place: left); // 左の;
-                this.playerToLerp.Simulator.AddWithinScheduler(player, spanModel);
+                this.Simulator.AddWithinScheduler(player, spanModel);
             }
         }
 
         // 間
         for (int player = 0; player < 2; player++)
         {
-            this.playerToLerp.Simulator.AddScheduleSeconds(player: player, seconds: interval);
+            this.Simulator.AddScheduleSeconds(player: player, seconds: interval);
         }
 
         // ゲーム・デモ開始
@@ -461,7 +464,7 @@ public class GameManager : MonoBehaviour
                             {
                                 gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                             });
-                    this.playerToLerp.Simulator.AddWithinScheduler(player, spanModel);
+                    this.Simulator.AddWithinScheduler(player, spanModel);
                 }
 
                 // ２プレイヤーの右隣のカードへフォーカスを移します
@@ -474,13 +477,13 @@ public class GameManager : MonoBehaviour
                             {
                                 gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;     // 更新
                             });
-                    this.playerToLerp.Simulator.AddWithinScheduler(player, spanModel);
+                    this.Simulator.AddWithinScheduler(player, spanModel);
                 }
 
                 // 間
                 for (int player = 0; player < 2; player++)
                 {
-                    this.playerToLerp.Simulator.AddScheduleSeconds(player: player, seconds: interval);
+                    this.Simulator.AddScheduleSeconds(player: player, seconds: interval);
                 }
             }
         }
@@ -492,21 +495,21 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: player, // １プレイヤーが
                         place: 1); // 左の台札
-                this.playerToLerp.Simulator.AddWithinScheduler(player, spanModel);
+                this.Simulator.AddWithinScheduler(player, spanModel);
             }
             {
                 var player = 1;
                 var spanModel = new MoveCardToCenterStackFromHandModel(
                         player: player, // ２プレイヤーが
                         place: 0); // 右の台札
-                this.playerToLerp.Simulator.AddWithinScheduler(player, spanModel);
+                this.Simulator.AddWithinScheduler(player, spanModel);
             }
         }
 
         // 間
         for (int player = 0; player < 2; player++)
         {
-            this.playerToLerp.Simulator.AddScheduleSeconds(player: player, seconds: interval);
+            this.Simulator.AddScheduleSeconds(player: player, seconds: interval);
         }
 
         // 登録：手札から１枚引く
@@ -517,7 +520,7 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardsToHandFromPileModel(
                         player: player,
                         numberOfCards: 1);
-                this.playerToLerp.Simulator.AddWithinScheduler(player, spanModel);
+                this.Simulator.AddWithinScheduler(player, spanModel);
             }
             {
                 // ２プレイヤーは手札から１枚抜いて、場札として置く
@@ -525,7 +528,7 @@ public class GameManager : MonoBehaviour
                 var spanModel = new MoveCardsToHandFromPileModel(
                         player: 1,
                         numberOfCards: 1);
-                this.playerToLerp.Simulator.AddWithinScheduler(player, spanModel);
+                this.Simulator.AddWithinScheduler(player, spanModel);
             }
         }
     }

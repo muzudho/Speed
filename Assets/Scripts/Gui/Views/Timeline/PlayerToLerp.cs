@@ -1,9 +1,7 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
-    using Assets.Scripts.Views;
     using System.Collections.Generic;
     using UnityEngine;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
     /// タイムライン・ビュー
@@ -14,14 +12,11 @@
     {
         // - その他（生成）
 
-        public PlayerToLerp(SimulatorsOfTimeline.Simulator simulator)
+        public PlayerToLerp()
         {
-            this.Simulator = simulator;
         }
 
         // - プロパティ
-
-        internal SimulatorsOfTimeline.Simulator Simulator { get; private set; }
 
         /// <summary>
         /// 補間を実行中の項目
