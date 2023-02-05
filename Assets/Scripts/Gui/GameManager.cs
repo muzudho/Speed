@@ -1,15 +1,13 @@
-﻿using Assets.Scripts.Gui.SpanOfLerp.Generator;
-using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
-using Assets.Scripts.ThikningEngine;
-using Assets.Scripts.ThikningEngine.CommandArgs;
+﻿using Assets.Scripts.Gui.SpanOfLerp;
 using Assets.Scripts.ThinkingEngine;
+using Assets.Scripts.ThinkingEngine.CommandArgs;
 using Assets.Scripts.Views;
 using Assets.Scripts.Views.Timeline;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
+using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 
 /// <summary>
@@ -19,7 +17,7 @@ using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    internal SimulatorsOfTimeline.ScheduleRegister ScheduleRegister { get; private set; }
+    internal TimedGeneratorOfSpanOfLearp.ScheduleRegister ScheduleRegister { get; private set; }
 
     ViewsOfTimeline.PlayerToLerp playerToLerp;
     GameModelBuffer gameModelBuffer;
@@ -92,7 +90,7 @@ public class GameManager : MonoBehaviour
         playerToLerp = new PlayerToLerp();
 
         // タイムライン・シミュレーターは、タイム・スパンを持つ。
-        ScheduleRegister = new SimulatorsOfTimeline.ScheduleRegister();
+        ScheduleRegister = new TimedGeneratorOfSpanOfLearp.ScheduleRegister();
         gameModelBuffer = new GameModelBuffer();
         gameModel = new GameModel(gameModelBuffer);
 
@@ -165,10 +163,10 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardsToPileFromCenterStacksModel(
                     place: right
                     );
-            var timedGenerator = new SimulatorsOfTimeline.TimedGenerator(
+            var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
                     startSeconds: 0.0f,
                     commandArgs: spanModel,
-                    spanGenerator: Specification.SpawnViewFromModel(spanModel.GetType()));
+                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(spanModel.GetType()));
             timedGenerator.SpanGenerator.CreateSpanToLerp(
                 timedGenerator,
                 gameModelBuffer,

@@ -1,9 +1,9 @@
 ﻿namespace Assets.Scripts.Gui.SpanOfLerp.TimedGenerator
 {
-    using Assets.Scripts.ThikningEngine.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
-    using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
+    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 
     /// <summary>
     /// シミュレーター
@@ -53,10 +53,10 @@
         /// <param name="spanModel">タイム・スパン</param>
         internal void AddJustNow(float startSeconds, ICommandArgs spanModel)
         {
-            var timedGenerator = new SimulatorsOfTimeline.TimedGenerator(
+            var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
                     startSeconds: startSeconds,
                     commandArgs: spanModel,
-                    spanGenerator: Specification.SpawnViewFromModel(spanModel.GetType()));
+                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(spanModel.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
         }
@@ -69,10 +69,10 @@
         /// <param name="spanModel">タイム・スパン</param>
         internal void AddWithinScheduler(int player, ICommandArgs spanModel)
         {
-            var timedGenerator = new SimulatorsOfTimeline.TimedGenerator(
+            var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
                     startSeconds: this.ScheduledSeconds[player],
                     commandArgs: spanModel,
-                    spanGenerator: Specification.SpawnViewFromModel(spanModel.GetType()));
+                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(spanModel.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
             this.ScheduledSeconds[player] += timedGenerator.Duration;

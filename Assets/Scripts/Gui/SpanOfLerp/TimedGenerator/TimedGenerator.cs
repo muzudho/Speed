@@ -1,7 +1,8 @@
 ﻿namespace Assets.Scripts.Gui.SpanOfLerp.TimedGenerator
 {
-    using Assets.Scripts.Gui.SpanOfLerp.Generator.Elements;
-    using Assets.Scripts.ThikningEngine.CommandArgs;
+    using Assets.Scripts.Gui.SpanOfLerp.GeneratorGenerator;
+    using Assets.Scripts.ThinkingEngine.CommandArgs;
+    using GeneratorOfSpanOpLear = Assets.Scripts.Gui.SpanOfLerp.Generator;
 
     /// <summary>
     /// コマンド引数と、スパン・ビューを紐づけます
@@ -32,7 +33,7 @@
         /// <summary>
         /// 持続時間（秒）
         /// </summary>
-        public float Duration => Specification.GetDurationBy(CommandArgs.GetType());
+        public float Duration => CommandArgsAndDurationMapping.GetDurationBy(CommandArgs.GetType());
 
         /// <summary>
         /// 終了時間（秒）

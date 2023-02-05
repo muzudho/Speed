@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThikningEngine.CommandArgs
+﻿namespace Assets.Scripts.ThinkingEngine.CommandArgs
 {
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する

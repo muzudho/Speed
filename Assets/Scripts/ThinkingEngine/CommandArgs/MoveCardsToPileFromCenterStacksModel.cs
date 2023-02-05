@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThikningEngine.CommandArgs
+﻿namespace Assets.Scripts.ThinkingEngine.CommandArgs
 {
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する

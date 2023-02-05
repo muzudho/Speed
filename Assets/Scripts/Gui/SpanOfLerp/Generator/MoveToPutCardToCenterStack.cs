@@ -1,7 +1,7 @@
-﻿namespace Assets.Scripts.Views.Moves
+﻿namespace Assets.Scripts.Gui.SpanOfLerp.Generator
 {
-    using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThinkingEngine;
+    using Assets.Scripts.Views;
     using Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;

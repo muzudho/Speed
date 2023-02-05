@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThikningEngine.CommandArgs
+﻿namespace Assets.Scripts.ThinkingEngine.CommandArgs
 {
     internal interface ICommandArgs
     {

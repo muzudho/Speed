@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.ThinkingEngine
 {
-    using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.Views;
     using System.Collections.Generic;
 
