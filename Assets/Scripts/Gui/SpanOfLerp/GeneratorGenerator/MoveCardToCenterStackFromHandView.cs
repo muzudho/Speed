@@ -88,30 +88,27 @@
                     // モデル更新：何枚目の場札をピックアップしているか
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextPick;
 
-                    // 場札からカードを抜く
-                    {
-
-                        // 場札の位置調整（をしないと歯抜けになる）
-                        ArrangeHandCards.Generate(
-                            startSeconds: timedGenerator.StartSeconds,
-                            duration: timedGenerator.Duration / 2.0f,
-                            player: player,
-                            indexOfPickup: indexOfNextPick, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
-                            idOfHandCards: idOfHandCardsAfterRemove,
-                            keepPickup: true,
-                            setSpanToLerp: setViewMovement); // 場札
-
-                        // TODO ★ ピックアップしている場札を持ち上げる
-                        {
-
-                        }
-                    }
-
-                    // 前の台札の天辺のカード
+                    // 確定：前の台札の天辺のカード
                     IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(place);
 
-                    // 次に、台札として置く
+                    // モデル更新：次に、台札として置く
                     gameModelBuffer.AddCardOfCenterStack(place, target);
+
+
+                    // 場札の位置調整（をしないと歯抜けになる）
+                    ArrangeHandCards.Generate(
+                        startSeconds: timedGenerator.StartSeconds,
+                        duration: timedGenerator.Duration / 2.0f,
+                        player: player,
+                        indexOfPickup: indexOfNextPick, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
+                        idOfHandCards: idOfHandCardsAfterRemove,
+                        keepPickup: true,
+                        setSpanToLerp: setViewMovement); // 場札
+
+                    // TODO ★ ピックアップしている場札を持ち上げる
+                    {
+
+                    }
 
                     // 台札へ置く
                     setViewMovement(PutCardToCenterStack.Generate(
