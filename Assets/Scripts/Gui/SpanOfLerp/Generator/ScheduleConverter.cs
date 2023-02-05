@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.GeneratorOfSpanOfLerp
+﻿namespace Assets.Scripts.Gui.SpanOfLerp.Generator
 {
     using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
@@ -43,7 +43,7 @@
                 scheduleRegister.RemoveAt(i);
 
                 // ゲーム画面の同期を始めます
-                timeSpan.SpanView.CreateSpanToLerp(
+                timeSpan.SpanGenerator.CreateSpanToLerp(
                     timeSpan,
                     gameModelBuffer,
                     setSpanToLerp: setSpanToLerp);

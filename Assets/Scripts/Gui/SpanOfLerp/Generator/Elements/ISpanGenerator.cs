@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.GeneratorOfSpanOfLerp.Elements
+﻿namespace Assets.Scripts.Gui.SpanOfLerp.Generator.Elements
 {
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.Views.Timeline;
@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         void CreateSpanToLerp(
-            SimulatorsOfTimeline.TimeSpan timeSpan,
+            SimulatorsOfTimeline.TimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanToLerp> setSpanToLerp);
     }

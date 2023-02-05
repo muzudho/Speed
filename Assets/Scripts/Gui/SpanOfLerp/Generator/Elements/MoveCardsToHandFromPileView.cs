@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.GeneratorOfSpanOfLerp.Elements
+﻿namespace Assets.Scripts.Gui.SpanOfLerp.Generator.Elements
 {
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThikningEngine.CommandArgs;
@@ -25,9 +25,9 @@
 
         // - プロパティ
 
-        MoveCardsToHandFromPileModel GetModel(SimulatorsOfTimeline.TimeSpan timeSpan)
+        MoveCardsToHandFromPileModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveCardsToHandFromPileModel)timeSpan.SpanModel;
+            return (MoveCardsToHandFromPileModel)timedGenerator.CommandArgs;
         }
 
         // - メソッド
@@ -39,28 +39,28 @@
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override void CreateSpanToLerp(
-            SimulatorsOfTimeline.TimeSpan timeSpan,
+            SimulatorsOfTimeline.TimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanToLerp> setViewMovement)
         {
-            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timeSpan).Player].Count; // 手札の枚数
+            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timedGenerator).Player].Count; // 手札の枚数
 
-            if (length < GetModel(timeSpan).NumberOfCards)
+            if (length < GetModel(timedGenerator).NumberOfCards)
             {
                 // できない指示は無視
                 Debug.Log("[MoveCardsToHandFromPileView OnEnter] できない指示は無視");
                 return;
             }
 
-            var player = GetModel(timeSpan).Player;
+            var player = GetModel(timedGenerator).Player;
 
             // TODO ★ 状態変更をして、ビューが再生する感じ？
             // TODO ★ ビューは、状態にアクセスせず再生できる必要がある
             // 天辺から取っていく
             gameModelBuffer.MoveCardsToHandFromPile(
                 player: player,
-                startIndex: length - GetModel(timeSpan).NumberOfCards,
-                numberOfCards: GetModel(timeSpan).NumberOfCards);
+                startIndex: length - GetModel(timedGenerator).NumberOfCards,
+                numberOfCards: GetModel(timedGenerator).NumberOfCards);
 
             // もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
             if (gameModelBuffer.IndexOfFocusedCardOfPlayers[player] == -1)
@@ -75,8 +75,8 @@
             if (0 < numberOfCards)
             {
                 MoveToArrangeHandCards.Generate(
-                    startSeconds: timeSpan.StartSeconds,
-                    duration: timeSpan.Duration,
+                    startSeconds: timedGenerator.StartSeconds,
+                    duration: timedGenerator.Duration,
                     player: player,
                     indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(player),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(player),

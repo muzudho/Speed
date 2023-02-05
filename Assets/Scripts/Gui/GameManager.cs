@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Gui.GeneratorOfSpanOfLerp;
+﻿using Assets.Scripts.Gui.SpanOfLerp.Generator;
 using Assets.Scripts.Simulators;
 using Assets.Scripts.ThikningEngine;
 using Assets.Scripts.ThikningEngine.CommandArgs;
@@ -165,12 +165,12 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardsToPileFromCenterStacksModel(
                     place: right
                     );
-            var timeSpan = new SimulatorsOfTimeline.TimeSpan(
+            var timedGenerator = new SimulatorsOfTimeline.TimedGenerator(
                     startSeconds: 0.0f,
-                    spanModel: spanModel,
-                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
-            timeSpan.SpanView.CreateSpanToLerp(
-                timeSpan,
+                    commandArgs: spanModel,
+                    spanGenerator: Specification.SpawnViewFromModel(spanModel.GetType()));
+            timedGenerator.SpanGenerator.CreateSpanToLerp(
+                timedGenerator,
                 gameModelBuffer,
                 setSpanToLerp: (movementViewModel) => movementViewModel.Lerp(1.0f));
         }

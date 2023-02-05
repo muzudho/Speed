@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.GeneratorOfSpanOfLerp.Elements
+﻿namespace Assets.Scripts.Gui.SpanOfLerp.Generator.Elements
 {
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThikningEngine.CommandArgs;
@@ -27,9 +27,9 @@
 
         // - プロパティ
 
-        MoveFocusToNextCardModel GetModel(SimulatorsOfTimeline.TimeSpan timeSpan)
+        MoveFocusToNextCardModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveFocusToNextCardModel)timeSpan.SpanModel;
+            return (MoveFocusToNextCardModel)timedGenerator.CommandArgs;
         }
 
         // - メソッド
@@ -42,15 +42,15 @@
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
         public override void CreateSpanToLerp(
-            SimulatorsOfTimeline.TimeSpan timeSpan,
+            SimulatorsOfTimeline.TimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanToLerp> setViewMovement)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
-            int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player]; // 下ろす場札
+            int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timedGenerator).Player]; // 下ろす場札
 
             int indexOfCurrent; // ピックアップする場札
-            var length = gameModelBuffer.IdOfCardsOfPlayersHand[GetModel(timeSpan).Player].Count;
+            var length = gameModelBuffer.IdOfCardsOfPlayersHand[GetModel(timedGenerator).Player].Count;
 
             if (length < 1)
             {
@@ -59,7 +59,7 @@
             }
             else
             {
-                switch (GetModel(timeSpan).Direction)
+                switch (GetModel(timedGenerator).Direction)
                 {
                     // 後ろへ
                     case 0:
@@ -95,27 +95,27 @@
 
             if (0 <= indexOfPrevious && indexOfPrevious < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timeSpan).Player, indexOfPrevious); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).Player, indexOfPrevious); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setViewMovement(MoveToDropHandCard.Generate(
-                    startSeconds: timeSpan.StartSeconds,
-                    duration: timeSpan.Duration,
+                    startSeconds: timedGenerator.StartSeconds,
+                    duration: timedGenerator.Duration,
                     idOfCard: idOfCard));
             }
 
             // モデル更新：ピックアップしている場札の、インデックス更新
-            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfCurrent;
+            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timedGenerator).Player] = indexOfCurrent;
 
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timeSpan).Player, indexOfCurrent); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).Player, indexOfCurrent); // ピックアップしている場札
                 var idOfGo = Definition.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
                 setViewMovement(MoveToPickupHandCard.Generate(
-                    startSeconds: timeSpan.StartSeconds,
-                    duration: timeSpan.Duration,
+                    startSeconds: timedGenerator.StartSeconds,
+                    duration: timedGenerator.Duration,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,

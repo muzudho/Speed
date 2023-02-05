@@ -26,13 +26,13 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<TimeSpan> timeSpans = new();
+        List<TimedGenerator> timedGenerators = new();
 
-        internal List<TimeSpan> TimeSpans
+        internal List<TimedGenerator> TimedGenerators
         {
             get
             {
-                return this.timeSpans;
+                return this.timedGenerators;
             }
         }
 
@@ -53,12 +53,12 @@
         /// <param name="spanModel">タイム・スパン</param>
         internal void AddJustNow(float startSeconds, ICommandArgs spanModel)
         {
-            var timeSpan = new SimulatorsOfTimeline.TimeSpan(
+            var timedGenerator = new SimulatorsOfTimeline.TimedGenerator(
                     startSeconds: startSeconds,
-                    spanModel: spanModel,
-                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
+                    commandArgs: spanModel,
+                    spanGenerator: Specification.SpawnViewFromModel(spanModel.GetType()));
 
-            this.TimeSpans.Add(timeSpan);
+            this.TimedGenerators.Add(timedGenerator);
         }
 
         /// <summary>
@@ -69,13 +69,13 @@
         /// <param name="spanModel">タイム・スパン</param>
         internal void AddWithinScheduler(int player, ICommandArgs spanModel)
         {
-            var timeSpan = new SimulatorsOfTimeline.TimeSpan(
+            var timedGenerator = new SimulatorsOfTimeline.TimedGenerator(
                     startSeconds: this.ScheduledSeconds[player],
-                    spanModel: spanModel,
-                    spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
+                    commandArgs: spanModel,
+                    spanGenerator: Specification.SpawnViewFromModel(spanModel.GetType()));
 
-            this.TimeSpans.Add(timeSpan);
-            this.ScheduledSeconds[player] += timeSpan.Duration;
+            this.TimedGenerators.Add(timedGenerator);
+            this.ScheduledSeconds[player] += timedGenerator.Duration;
         }
 
         internal void AddScheduleSeconds(int player, float seconds)
@@ -83,24 +83,24 @@
             this.ScheduledSeconds[player] += seconds;
         }
 
-        internal TimeSpan GetItemAt(int index)
+        internal TimedGenerator GetItemAt(int index)
         {
-            return this.TimeSpans[index];
+            return this.TimedGenerators[index];
         }
 
         internal int GetCountItems()
         {
-            return this.TimeSpans.Count;
+            return this.TimedGenerators.Count;
         }
 
         internal void RemoveAt(int index)
         {
-            this.TimeSpans.RemoveAt(index);
+            this.TimedGenerators.RemoveAt(index);
         }
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Simulators.Simulator DebugWrite] timedItems.Count:{timeSpans.Count}");
+            Debug.Log($"[Assets.Scripts.Simulators.Simulator DebugWrite] timedItems.Count:{timedGenerators.Count}");
         }
     }
 }

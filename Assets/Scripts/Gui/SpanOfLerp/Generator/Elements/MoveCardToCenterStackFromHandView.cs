@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.GeneratorOfSpanOfLerp.Elements
+﻿namespace Assets.Scripts.Gui.SpanOfLerp.Generator.Elements
 {
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThikningEngine.CommandArgs;
@@ -25,9 +25,9 @@
 
         // - プロパティ
 
-        MoveCardToCenterStackFromHandModel GetModel(SimulatorsOfTimeline.TimeSpan timeSpan)
+        MoveCardToCenterStackFromHandModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveCardToCenterStackFromHandModel)timeSpan.SpanModel;
+            return (MoveCardToCenterStackFromHandModel)timedGenerator.CommandArgs;
         }
 
         // - メソッド
@@ -40,12 +40,12 @@
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
         public override void CreateSpanToLerp(
-            SimulatorsOfTimeline.TimeSpan timeSpan,
+            SimulatorsOfTimeline.TimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanToLerp> setViewMovement)
         {
             var gameModel = new GameModel(gameModelBuffer);
-            var player = GetModel(timeSpan).Player;
+            var player = GetModel(timedGenerator).Player;
 
             // ピックアップしているカードがあるか？
             GetIndexOfFocusedHandCard(
@@ -53,7 +53,7 @@
                 player: player,
                 (indexToRemove) =>  // 確定：場札から抜くのは何枚目
                 {
-                    var place = GetModel(timeSpan).Place;
+                    var place = GetModel(timedGenerator).Place;
 
                     if (CanRemoveHandCardAt(
                         gameModelBuffer: gameModelBuffer,
@@ -99,8 +99,8 @@
 
                             // 場札の位置調整（をしないと歯抜けになる）
                             MoveToArrangeHandCards.Generate(
-                                startSeconds: timeSpan.StartSeconds,
-                                duration: timeSpan.Duration / 2.0f,
+                                startSeconds: timedGenerator.StartSeconds,
+                                duration: timedGenerator.Duration / 2.0f,
                                 player: player,
                                 indexOfPickup: indexOfNextPick, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                                 idOfHandCards: idOfHandCardsAfterRemove,
@@ -121,8 +121,8 @@
 
                         // 台札へ置く
                         setViewMovement(MoveToPutCardToCenterStack.Generate(
-                            startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
-                            duration: timeSpan.Duration / 2.0f,
+                            startSeconds: timedGenerator.StartSeconds + timedGenerator.Duration / 2.0f,
+                            duration: timedGenerator.Duration / 2.0f,
                             player: player,
                             place: place,
                             target: target,

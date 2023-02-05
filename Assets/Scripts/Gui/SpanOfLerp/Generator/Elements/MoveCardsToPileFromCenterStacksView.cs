@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.GeneratorOfSpanOfLerp.Elements
+﻿namespace Assets.Scripts.Gui.SpanOfLerp.Generator.Elements
 {
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThikningEngine.CommandArgs;
@@ -25,9 +25,9 @@
 
         // - プロパティ
 
-        MoveCardsToPileFromCenterStacksModel GetModel(SimulatorsOfTimeline.TimeSpan timeSpan)
+        MoveCardsToPileFromCenterStacksModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveCardsToPileFromCenterStacksModel)timeSpan.SpanModel;
+            return (MoveCardsToPileFromCenterStacksModel)timedGenerator.CommandArgs;
         }
 
         // - メソッド
@@ -40,18 +40,18 @@
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
         public override void CreateSpanToLerp(
-            SimulatorsOfTimeline.TimeSpan timeSpan,
+            SimulatorsOfTimeline.TimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanToLerp> setViewMovement)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
-            var length = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timeSpan).Place].Count; // 台札の枚数
+            var length = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timedGenerator).Place].Count; // 台札の枚数
             if (1 <= length)
             {
                 var startIndex = length - numberOfCards;
-                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timeSpan).Place][startIndex]; // 台札の１番上のカード
-                gameModelBuffer.RemoveCardAtOfCenterStack(GetModel(timeSpan).Place, startIndex);
+                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timedGenerator).Place][startIndex]; // 台札の１番上のカード
+                gameModelBuffer.RemoveCardAtOfCenterStack(GetModel(timedGenerator).Place, startIndex);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 int player;
@@ -76,8 +76,8 @@
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCardOfCenterStack);
 
                 setViewMovement(MoveToMoveCardsToPileFromCenterStacks.Generate(
-                    startSeconds: timeSpan.StartSeconds,
-                    duration: timeSpan.Duration,
+                    startSeconds: timedGenerator.StartSeconds,
+                    duration: timedGenerator.Duration,
                     player: player,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[player],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
