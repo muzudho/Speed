@@ -64,13 +64,9 @@
         /// <returns></returns>
         internal static Vector3 GetPositionOfCenterStackCard(
             int place,
-            IdOfPlayingCards previousTop,
-            LazyArgs.GetValue<ReadonlyList<IdOfPlayingCards>> getCenterStack)
+            IdOfPlayingCards previousTop)
         {
-            var centerStack = getCenterStack();
-
-            var length = centerStack.Count;
-            if (length < 1)
+            if (previousTop == IdOfPlayingCards.None)
             {
                 // 床上
                 return new Vector3(
@@ -79,9 +75,8 @@
                     z: positionOfCenterStacksOrigin[place].Z);
             }
 
-            // 台札の次の天辺の位置
-            var idOfLastCard = centerStack.ElementAt(length - 1);
-            var goLastCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfLastCard)];
+            // 置く前の台札の天辺
+            var goLastCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(previousTop)];
 
             return new Vector3(
                 x: (positionOfCenterStacksOrigin[place].X - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[place].X,

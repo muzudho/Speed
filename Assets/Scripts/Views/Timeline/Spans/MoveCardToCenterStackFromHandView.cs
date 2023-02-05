@@ -183,8 +183,7 @@
             // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
             Vector3 nextTop = GameView.GetPositionOfCenterStackCard(
                         place: place,
-                        previousTop: gameModel.GetTopOfCenterStack(place),
-                        getCenterStack: () => gameModel.GetCenterStack(place));
+                        previousTop: gameModel.GetTopOfCenterStack(place));
             // カードの厚み分、上へ
             nextTop = GameView.yOfCardThickness.Add(nextTop);
 
