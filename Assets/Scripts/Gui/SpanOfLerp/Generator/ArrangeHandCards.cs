@@ -7,16 +7,18 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    static class MoveToArrangeHandCards
+    /// <summary>
+    /// 場札を並べる
+    /// 
+    /// - ２段階モーション
+    ///     - １段階目：全ての場札を、少し扇状にカーブさせて整列させる
+    ///     - ２段階目：ピックアップしていた場札を下ろしてしまっているので、ピックアップし直す
+    /// - 左端は角度で言うと 112.0f
+    /// </summary>
+    static class ArrangeHandCards
     {
         /// <summary>
         /// ムーブメント生成
-        /// 
-        /// - 場札を並べる
-        /// - ２段階モーション
-        ///     - １段階目：全ての場札を、少し扇状にカーブさせて整列させる
-        ///     - ２段階目：ピックアップしていた場札を下ろしてしまっているので、ピックアップし直す
-        /// - 左端は角度で言うと 112.0f
         /// </summary>
         /// <param name="startSeconds"></param>
         /// <param name="duration"></param>
@@ -97,7 +99,7 @@
                     // ピックアップしている場札をキープ
 
                     // 目標地点　＋　ピックアップ操作
-                    setSpanToLerp(MoveToPickupHandCard.Generate(
+                    setSpanToLerp(PickupHandCard.Generate(
                         startSeconds: startSeconds,
                         duration: duration,
                         idOfCard: idOfPickupCard,

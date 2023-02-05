@@ -74,7 +74,7 @@
             int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player);
             if (0 < numberOfCards)
             {
-                MoveToArrangeHandCards.Generate(
+                ArrangeHandCards.Generate(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.Duration,
                     player: player,

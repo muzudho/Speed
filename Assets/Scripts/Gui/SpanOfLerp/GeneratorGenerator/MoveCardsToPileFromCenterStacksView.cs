@@ -75,7 +75,7 @@
                 // プレイヤーの手札を積み上げる
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCardOfCenterStack);
 
-                setViewMovement(MoveToMoveCardsToPileFromCenterStacks.Generate(
+                setViewMovement(PutCardToPile.Generate(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.Duration,
                     player: player,

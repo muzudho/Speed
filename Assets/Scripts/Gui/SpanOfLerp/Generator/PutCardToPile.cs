@@ -8,9 +8,9 @@
     using UnityEngine;
 
     /// <summary>
-    /// 台札から手札へのカードの移動
+    /// 指定のカード（台札を想定）を手札へ移動
     /// </summary>
-    internal static class MoveToMoveCardsToPileFromCenterStacks
+    internal static class PutCardToPile
     {
         /// <summary>
         /// ムーブメント生成

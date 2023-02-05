@@ -97,7 +97,7 @@
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).Player, indexOfPrevious); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
-                setViewMovement(MoveToDropHandCard.Generate(
+                setViewMovement(DropHandCard.Generate(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.Duration,
                     idOfCard: idOfCard));
@@ -112,7 +112,7 @@
                 var idOfGo = Definition.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
-                setViewMovement(MoveToPickupHandCard.Generate(
+                setViewMovement(PickupHandCard.Generate(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.Duration,
                     idOfCard: idOfCard,

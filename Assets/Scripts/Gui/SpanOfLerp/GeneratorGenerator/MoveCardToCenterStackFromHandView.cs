@@ -97,7 +97,7 @@
                         {
 
                             // 場札の位置調整（をしないと歯抜けになる）
-                            MoveToArrangeHandCards.Generate(
+                            ArrangeHandCards.Generate(
                                 startSeconds: timedGenerator.StartSeconds,
                                 duration: timedGenerator.Duration / 2.0f,
                                 player: player,
@@ -119,7 +119,7 @@
                         gameModelBuffer.AddCardOfCenterStack(place, target);
 
                         // 台札へ置く
-                        setViewMovement(MoveToPutCardToCenterStack.Generate(
+                        setViewMovement(PutCardToCenterStack.Generate(
                             startSeconds: timedGenerator.StartSeconds + timedGenerator.Duration / 2.0f,
                             duration: timedGenerator.Duration / 2.0f,
                             player: player,

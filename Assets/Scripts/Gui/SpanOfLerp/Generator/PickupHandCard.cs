@@ -6,12 +6,13 @@
     using System;
     using UnityEngine;
 
-    internal static class MoveToPickupHandCard
+    /// <summary>
+    /// 場札を持ち上げる
+    /// </summary>
+    internal static class PickupHandCard
     {
         /// <summary>
         /// ムーブメント生成
-        /// 
-        /// - 場札を持ち上げる
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>

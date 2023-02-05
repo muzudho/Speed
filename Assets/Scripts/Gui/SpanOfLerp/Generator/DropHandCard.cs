@@ -7,24 +7,23 @@
     using UnityEngine;
 
     /// <summary>
-    /// ピックアップした場札を下ろす動き
+    /// 指定のカードを下ろす
+    /// 
+    /// - ピックアップしている場札用
     /// </summary>
-    static class MoveToDropHandCard
+    static class DropHandCard
     {
         /// <summary>
         /// ムーブメント生成
-        /// 
-        /// - ピックアップしている場札を下ろす
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
-        /// <param name="idOfCard">カードId</param>
+        /// <param name="idOfCard">ピックアップしているカードのId</param>
         internal static SpanToLerp Generate(
             float startSeconds,
             float duration,
             IdOfPlayingCards idOfCard)
         {
-            // 逆をする
             var idOfGo = Definition.GetIdOfGameObject(idOfCard);
 
             Vector3? startPosition = null;

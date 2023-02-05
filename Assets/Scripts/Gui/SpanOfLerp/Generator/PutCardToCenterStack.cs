@@ -7,14 +7,14 @@
     using UnityEngine;
 
     /// <summary>
-    /// 台札へ置く
+    /// 指定のカードを、台札の上へ置く
+    /// 
+    /// - ピックアップしているカード用
     /// </summary>
-    internal static class MoveToPutCardToCenterStack
+    internal static class PutCardToCenterStack
     {
         /// <summary>
         /// ムーブメント生成
-        /// 
-        /// - ピックアップしているカードを台札の上へ置く
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
@@ -44,8 +44,8 @@
             Quaternion? endRotation = null;
 
             return new SpanToLerp(
-                startSeconds:startSeconds,
-                duration:duration,
+                startSeconds: startSeconds,
+                duration: duration,
                 target: targetGo,
                 getBegin: () => new PositionAndRotationLazy(
                     getPosition: () =>
