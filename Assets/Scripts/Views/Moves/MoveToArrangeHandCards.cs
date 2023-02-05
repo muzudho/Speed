@@ -33,6 +33,7 @@ namespace Assets.Scripts.Views.Movements
             int player,
             int indexOfPickup,
             List<IdOfPlayingCards> idOfHandCards,
+            bool keepPickup,
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             // 最大25枚の場札が並べるように調整してある
@@ -92,7 +93,18 @@ namespace Assets.Scripts.Views.Movements
                     getPosition: () => new Vector3(x, GameView.positionOfHandCardsOrigin[player].Y, z),
                     getRotation: () => Quaternion.Euler(0, angleY, cardAngleZ));
 
-                if (idOfHandCard != idOfPickupCard)
+                if (keepPickup && idOfHandCard == idOfPickupCard)
+                {
+                    // ピックアップしている場札をキープ
+
+                    // 目標地点　＋　ピックアップ操作
+                    setViewMovement(MoveToPickupHandCard.Generate(
+                        startSeconds: startSeconds,
+                        duration: duration,
+                        idOfCard: idOfPickupCard,
+                        getBegin: () => staticDestination));
+                }
+                else
                 {
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;
@@ -124,17 +136,6 @@ namespace Assets.Scripts.Views.Movements
                                 });
                         },
                         getEnd: () => staticDestination));
-                }
-                else
-                {
-                    // ピックアップしている場札
-
-                    // 目標地点　＋　ピックアップ操作
-                    setViewMovement(MoveToPickupHandCard.Generate(
-                        startSeconds: startSeconds,
-                        duration: duration,
-                        idOfCard: idOfPickupCard,
-                        getBegin: () => staticDestination));
                 }
 
                 // 更新

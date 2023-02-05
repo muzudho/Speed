@@ -51,24 +51,25 @@
                 return;
             }
 
+            var player = GetModel(timeSpan).Player;
+
             // TODO ★ 状態変更をして、ビューが再生する感じ？
             // TODO ★ ビューは、状態にアクセスせず再生できる必要がある
             // 天辺から取っていく
             gameModelBuffer.MoveCardsToHandFromPile(
-                player: GetModel(timeSpan).Player,
+                player: player,
                 startIndex: length - GetModel(timeSpan).NumberOfCards,
                 numberOfCards: GetModel(timeSpan).NumberOfCards);
 
             // もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
-            if (gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] == -1)
+            if (gameModelBuffer.IndexOfFocusedCardOfPlayers[player] == -1)
             {
-                gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = 0;
+                gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = 0;
             }
 
 
-            // 場札の位置の再調整（をしないと、手札から移動しない）
+            // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             GameModel gameModel = new GameModel(gameModelBuffer);
-            var player = GetModel(timeSpan).Player;
             int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player);
             if (0 < numberOfCards)
             {
@@ -78,7 +79,13 @@
                     player: player,
                     indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(player),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(player),
+                    keepPickup: true,
                     setViewMovement: setViewMovement);
+            }
+
+            // TODO ★ ピックアップしている場札を持ち上げる
+            {
+
             }
         }
     }
