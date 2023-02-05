@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Models;
 using Assets.Scripts.Simulators.Timeline;
+using Assets.Scripts.Views.Moves;
 using Assets.Scripts.Views.Timeline;
 using System;
 using System.Collections.Generic;
@@ -129,7 +130,7 @@ namespace Assets.Scripts.Views.Movements
                     // ピックアップしている場札
 
                     // 目標地点　＋　ピックアップ操作
-                    setViewMovement(MovementGenerator.PickupCardOfHand(
+                    setViewMovement(MoveToPickupHandCard.Generate(
                         startSeconds: startSeconds,
                         duration: duration,
                         idOfCard: idOfPickupCard,

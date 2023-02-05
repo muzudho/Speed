@@ -118,7 +118,7 @@
                 Quaternion? startRotation = null;
 
                 // 今回フォーカスするカードを持ち上げる
-                setViewMovement(MovementGenerator.PickupCardOfHand(
+                setViewMovement(MoveToPickupHandCard.Generate(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     idOfCard: idOfCard,
