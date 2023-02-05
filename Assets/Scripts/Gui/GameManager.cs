@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Gui.Simulators;
+﻿using Assets.Scripts.Gui.GeneratorOfSpanOfLerp;
 using Assets.Scripts.Simulators;
 using Assets.Scripts.ThikningEngine;
 using Assets.Scripts.ThikningEngine.CommandArgs;

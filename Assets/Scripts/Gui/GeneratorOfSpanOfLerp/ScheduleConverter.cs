@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.Simulators
+﻿namespace Assets.Scripts.Gui.GeneratorOfSpanOfLerp
 {
     using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;

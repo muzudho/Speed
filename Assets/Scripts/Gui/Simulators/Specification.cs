@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Simulators
 {
+    using Assets.Scripts.Gui.GeneratorOfSpanOfLerp.Elements;
     using Assets.Scripts.ThikningEngine.CommandArgs;
-    using Assets.Scripts.Views.SpanGenerators;
     using System;
     using System.Collections.Generic;
 

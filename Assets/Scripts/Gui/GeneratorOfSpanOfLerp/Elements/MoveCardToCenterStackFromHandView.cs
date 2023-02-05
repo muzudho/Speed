@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Views.SpanGenerators
+﻿namespace Assets.Scripts.Gui.GeneratorOfSpanOfLerp.Elements
 {
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThikningEngine.CommandArgs;

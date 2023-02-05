@@ -1,8 +1,7 @@
 ﻿namespace Assets.Scripts.Simulators
 {
+    using Assets.Scripts.Gui.GeneratorOfSpanOfLerp.Elements;
     using Assets.Scripts.ThikningEngine.CommandArgs;
-    using Assets.Scripts.Views.SpanGenerators;
-    using Assets.Scripts.Views.Timeline;
 
     /// <summary>
     /// コマンド引数と、スパン・ビューを紐づけます
