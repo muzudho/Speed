@@ -5039,4 +5039,22 @@ namespace Assets.Scripts.Models
 
 📅 2023-02-05 sat 18:10 end  
 
+# 📅2023-02-06 sun 02:06
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　３時間寝たと思ったら目が覚めた。練習しよ」  
+
+![202302_unity_06-0326--bug-fix-1.png](https://crieit.now.sh/upload_images/5c0e874300fea62638c208911a56889963dff522348ef.png)  
+
+📅 2023-02-06 mon 03:28  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　やることの順番を　少しでも　前後間違えると　違った動きをする。  
+直した」  
+
+📺 [開発中画面](https://twitter.com/muzudho1/status/1622302091426533381?s=20&t=f5EqhpedTJmS2Pkxi9oGIg)  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　👆　やったな！」  
+
 # // 書きかけ
