@@ -5001,4 +5001,27 @@ namespace Assets.Scripts.Models
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　今日は　ここまでだぜ」  
 
+# 📅2023-02-05 sun 12:27
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　バグ探ししてるだけで　進展なし」  
+
+![202302_unity_05-1752--modified-1.png](https://crieit.now.sh/upload_images/22a3541b196232b578691e0e3b01832363df6e92b1057.png)  
+
+📅 2023-02-05 sat 17:53  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　１か所　変更して　様子を見るぜ」  
+
+📺 [開発中画面](https://twitter.com/muzudho1/status/1622158274866057217?s=20&t=25NMt9VXXAmLnP4iA654jw)  
+
+📅 2023-02-05 sat 18:02  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　カードが飛び上がるのは　なくなったぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　連打を禁止したら　どうだぜ？  
+`Lerp` が重なってるケースがあるのでは？」  
+
 # // 書きかけ

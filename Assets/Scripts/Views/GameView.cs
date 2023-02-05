@@ -59,7 +59,7 @@
         /// </summary>
         readonly static Vector3Immutable[] positionOfCenterStacksOrigin = new Vector3Immutable[] {
             new Vector3Immutable(15.0f, 0.5f, 3.0f),
-            new Vector3Immutable(-15.0f, 2.5f, 9.0f),
+            new Vector3Immutable(-15.0f, 0.5f, 9.0f),
         };
 
         // - メソッド
