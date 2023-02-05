@@ -104,8 +104,8 @@
                     idOfCard: idOfCard));
             }
 
-            // （状態変更）ピックアップしている場札の、インデックス更新
-            GetModel(timeSpan).SetIndexOfNextFocusedHandCard(indexOfCurrent);
+            // モデル更新：ピックアップしている場札の、インデックス更新
+            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfCurrent;
 
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {

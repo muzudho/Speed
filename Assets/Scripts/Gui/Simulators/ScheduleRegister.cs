@@ -47,6 +47,8 @@
 
         /// <summary>
         /// 追加
+        /// 
+        /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="spanModel">タイム・スパン</param>
         internal void AddJustNow(float startSeconds, ISpanModel spanModel)
@@ -61,6 +63,8 @@
 
         /// <summary>
         /// 追加
+        /// 
+        /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="spanModel">タイム・スパン</param>
         internal void AddWithinScheduler(int player, ISpanModel spanModel)
