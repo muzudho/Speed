@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.Views.Timeline;
     using System;
     using System.Collections.Generic;
@@ -27,7 +28,7 @@
             IdOfPlayingCards idOfPlayingCard)
         {
             // 台札から手札へ移動するカードについて
-            var target = Specification.GetIdOfGameObject(idOfPlayingCard);
+            var target = Definition.GetIdOfGameObject(idOfPlayingCard);
 
             var lengthOfPile = idOfPlayerPileCards.Count;
             var idOfTopOfPile = idOfPlayerPileCards[lengthOfPile - 1]; // 手札の天辺
@@ -76,7 +77,7 @@
                                 // 既存の手札があれば
                                 else
                                 {
-                                    var goCardOfTop = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfTopOfPile)];
+                                    var goCardOfTop = GameObjectStorage.Items[Definition.GetIdOfGameObject(idOfTopOfPile)];
                                     // より、１枚分上
                                     endPosition = goCardOfTop.transform.position;
                                 }

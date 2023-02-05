@@ -3,6 +3,7 @@
     using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThikningEngine.CommandArgs;
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.Views;
     using Assets.Scripts.Views.Moves;
     using System;
@@ -109,7 +110,7 @@
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timeSpan).Player, indexOfCurrent); // ピックアップしている場札
-                var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+                var idOfGo = Definition.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
                 setViewMovement(MoveToPickupHandCard.Generate(

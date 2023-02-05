@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.Views.Moves;
     using Assets.Scripts.Views.Timeline;
     using System;
@@ -86,7 +87,7 @@
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
                 float z = range * Mathf.Sin(theta + playerTheta) + GameView.positionOfHandCardsOrigin[player].Z + offsetCircleCenterZ;
 
-                var idOfGo = Specification.GetIdOfGameObject(idOfHandCard);
+                var idOfGo = Definition.GetIdOfGameObject(idOfHandCard);
 
                 // 目標地点
                 var staticDestination = new PositionAndRotationLazy(

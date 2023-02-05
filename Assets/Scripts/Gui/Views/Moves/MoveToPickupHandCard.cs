@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;
@@ -32,7 +33,7 @@
             return new SpanToLerp(
                 startSeconds: startSeconds,
                 duration: duration,
-                target: Specification.GetIdOfGameObject(idOfCard),
+                target: Definition.GetIdOfGameObject(idOfCard),
                 getBegin: () =>
                 {
                     return new PositionAndRotationLazy(

@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;
@@ -36,7 +37,7 @@
                             previousTop: idOfPreviousTop);
             }
 
-            var targetGo = Specification.GetIdOfGameObject(target);
+            var targetGo = Definition.GetIdOfGameObject(target);
 
             Vector3? startPosition = null;
             Quaternion? startRotation = null;

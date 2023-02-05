@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;
@@ -25,7 +26,7 @@
             IdOfPlayingCards idOfCard)
         {
             // 逆をする
-            var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+            var idOfGo = Definition.GetIdOfGameObject(idOfCard);
 
             Vector3? startPosition = null;
             Quaternion? startRotation = null;

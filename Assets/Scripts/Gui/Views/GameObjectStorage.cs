@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Views
 {
-    using Assets.Scripts.Simulators;
+    using Assets.Scripts.ThinkingEngine;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -22,7 +22,7 @@
 
             foreach (var item in Items)
             {
-                if(Specification.TestPlayingCard(item.Key))
+                if(Definition.TestPlayingCard(item.Key))
                 {
                     list.Add(item.Key, item.Value);
                 }

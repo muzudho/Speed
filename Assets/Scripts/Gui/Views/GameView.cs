@@ -3,6 +3,7 @@
     using Assets.Scripts.Gui.Models;
     using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
+    using Assets.Scripts.ThinkingEngine;
     using System;
     using UnityEngine;
 
@@ -84,7 +85,7 @@
             }
 
             // 置く前の台札の天辺
-            var goLastCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(previousTop)];
+            var goLastCard = GameObjectStorage.Items[Definition.GetIdOfGameObject(previousTop)];
 
             var pos = new Vector3(
                 x: (positionOfCenterStacksOrigin[place].X - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[place].X,

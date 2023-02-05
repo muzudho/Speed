@@ -2,6 +2,7 @@
 using Assets.Scripts.Simulators;
 using Assets.Scripts.ThikningEngine;
 using Assets.Scripts.ThikningEngine.CommandArgs;
+using Assets.Scripts.ThinkingEngine;
 using Assets.Scripts.Views;
 using Assets.Scripts.Views.Timeline;
 using System;
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
             List<IdOfPlayingCards> cardsOfGame = new();
             foreach (var idOfGo in GameObjectStorage.CreatePlayingCards().Keys)
             {
-                cardsOfGame.Add(Specification.GetIdOfPlayingCard(idOfGo));
+                cardsOfGame.Add(Definition.GetIdOfPlayingCard(idOfGo));
             }
 
             // すべてのカードをシャッフル
@@ -128,7 +129,7 @@ public class GameManager : MonoBehaviour
                 gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
 
                 // 画面上の位置も調整
-                var goCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfCard)];
+                var goCard = GameObjectStorage.Items[Definition.GetIdOfGameObject(idOfCard)];
 
                 var length = gameModelBuffer.IdOfCardsOfPlayersPile[player].Count;
                 // 最初の１枚目
@@ -145,7 +146,7 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     var previousTopCard = gameModelBuffer.IdOfCardsOfPlayersPile[player][length - 2]; // 天辺より１つ下のカードが、前のカード
-                    var goPreviousTopCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(previousTopCard)];
+                    var goPreviousTopCard = GameObjectStorage.Items[Definition.GetIdOfGameObject(previousTopCard)];
                     goCard.transform.position = GameView.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
                                                                                                                        // 裏返す
                     goCard.transform.rotation = Quaternion.Euler(
