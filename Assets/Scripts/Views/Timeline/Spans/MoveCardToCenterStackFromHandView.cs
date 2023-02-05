@@ -4,6 +4,7 @@
     using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views;
+    using Assets.Scripts.Views.Movements;
     using System;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
@@ -34,7 +35,9 @@
         // - メソッド
 
         /// <summary>
-        /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
+        /// ゲーム画面の同期を始めます
+        /// 
+        /// - ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
         /// </summary>
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
@@ -99,7 +102,7 @@
                             gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard;
 
                             // 場札の位置調整（をしないと歯抜けになる）
-                            MovementGenerator.ArrangeHandCards(
+                            MoveToArrangeHandCards.Generate(
                                 startSeconds: timeSpan.StartSeconds,
                                 duration: timeSpan.Duration / 2.0f,
                                 player: GetModel(timeSpan).Player,

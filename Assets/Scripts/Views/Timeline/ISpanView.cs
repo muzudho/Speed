@@ -23,7 +23,7 @@
         // - メソッド
 
         /// <summary>
-        /// 開始時
+        /// ゲーム画面の同期を始めます
         /// </summary>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         void OnEnter(

@@ -215,7 +215,7 @@ public class GameManager : MonoBehaviour
         // モデルからビューへ、起動したタイム・スパンを引き継ぎたい
         var viewMovement = new List<ViewMovement>();
 
-        // 時限式で、コマンドを消化
+        // 時限式で、ゲーム画面の同期を始めます
         this.timelineView.Simulator.OnEnter(
             this.gameModelBuffer.ElapsedSeconds,
             gameModelBuffer,

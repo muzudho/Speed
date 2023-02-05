@@ -22,6 +22,12 @@
 
         // - メソッド
 
+        /// <summary>
+        /// ゲーム画面の同期を始めます
+        /// </summary>
+        /// <param name="timeSpan"></param>
+        /// <param name="gameModelBuffer"></param>
+        /// <param name="setViewMovement"></param>
         virtual public void OnEnter(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,

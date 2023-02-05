@@ -3,6 +3,7 @@
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Views;
+    using Assets.Scripts.Views.Movements;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
@@ -32,8 +33,9 @@
         // - メソッド
 
         /// <summary>
-        /// 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
+        /// ゲーム画面の同期を始めます
         /// 
+        /// - 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override void OnEnter(
@@ -71,7 +73,7 @@
             int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player);
             if (0 < numberOfCards)
             {
-                MovementGenerator.ArrangeHandCards(
+                MoveToArrangeHandCards.Generate(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     player: player,

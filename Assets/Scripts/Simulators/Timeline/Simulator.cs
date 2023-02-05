@@ -51,7 +51,7 @@
         // - メソッド
 
         /// <summary>
-        /// コマンドを消化
+        /// ゲーム画面の同期を始めます
         /// </summary>
         /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
@@ -82,7 +82,7 @@
                 // スケジュールから除去
                 this.RemoveAt(i);
 
-                // 実行
+                // ゲーム画面の同期を始めます
                 timeSpan.SpanView.OnEnter(
                     timeSpan,
                     gameModelBuffer,
