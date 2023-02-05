@@ -85,8 +85,6 @@
                 var lengthOfPile = gameModelBuffer.IdOfCardsOfPlayersPile[player].Count;
                 var idOfTopOfPile = gameModelBuffer.IdOfCardsOfPlayersPile[player][lengthOfPile - 1]; // 手札の天辺
 
-                Vector3? startPosition = null;
-                Quaternion? startRotation = null;
                 Vector3? endPosition = null;
                 Quaternion? endRotation = null;
 
@@ -94,25 +92,6 @@
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     target: idOfGameObjectOfCard,
-                    getBegin: () => new PositionAndRotationLazy(
-                        getPosition: () =>
-                        {
-                            // 初回アクセス時に、値固定
-                            if (startPosition == null)
-                            {
-                                startPosition = GameObjectStorage.Items[idOfGameObjectOfCard].transform.position;
-                            }
-                            return startPosition ?? throw new Exception();
-                        },
-                        getRotation: () =>
-                        {
-                            // 初回アクセス時に、値固定
-                            if (startRotation == null)
-                            {
-                                startRotation = GameObjectStorage.Items[idOfGameObjectOfCard].transform.rotation;
-                            }
-                            return startRotation ?? throw new Exception();
-                        }),
                     getEnd: () => new PositionAndRotationLazy(
                         getPosition: () =>
                         {
