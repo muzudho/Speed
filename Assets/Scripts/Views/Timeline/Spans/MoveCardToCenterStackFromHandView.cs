@@ -90,6 +90,8 @@
 
                         // 確定：場札の枚数
                         var lengthOfHandCards = gameModel.GetLengthOfPlayerHandCards(player);
+                        // 確定：抜いたあとの場札リスト
+                        var idOfHandCardsAfterRemove = gameModel.GetCardsOfPlayerHand(player);
 
                         // 場札からカードを抜く
                         {
@@ -101,9 +103,8 @@
                                 startSeconds: timeSpan.StartSeconds,
                                 duration: timeSpan.Duration / 2.0f,
                                 player: GetModel(timeSpan).Player,
-                                getNumberOfHandCards: () => lengthOfHandCards,// 場札の枚数
-                                getIndexOfPickup: () => indexOfHandToRemove,// 場札から抜くのは何枚目
-                                getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
+                                indexOfPickup: indexOfHandToRemove,// 場札から抜くのは何枚目
+                                idOfHandCards: idOfHandCardsAfterRemove,
                                 setViewMovement: setViewMovement); // 場札
                         }
 

@@ -146,18 +146,16 @@
         /// <param name="duration"></param>
         /// <param name="gameModel"></param>
         /// <param name="player"></param>
-        /// <param name="numberOfHandCards">場札の枚数</param>
         /// <param name="indexOfPickup">ピックアップしている場札は何番目</param>
-        /// <param name="idOfHands">場札のIdリスト</param>
+        /// <param name="idOfHandCards">場札のIdリスト</param>
         /// <param name="setViewMovement"></param>
         /// <exception cref="Exception"></exception>
         internal static void ArrangeHandCards(
             float startSeconds,
             float duration,
             int player,
-            LazyArgs.GetValue<int> getNumberOfHandCards,
-            LazyArgs.GetValue<int> getIndexOfPickup,
-            LazyArgs.GetValue<List<IdOfPlayingCards>> getIdOfHands,
+            int indexOfPickup,
+            List<IdOfPlayingCards> idOfHandCards,
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             // 最大25枚の場札が並べるように調整してある
@@ -170,7 +168,7 @@
             float angleY;
             float playerTheta;
             float angleStep = -1.83f;
-            float startTheta = (getNumberOfHandCards() * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
+            float startTheta = (idOfHandCards.Count * Mathf.Abs(angleStep) / 2 - Mathf.Abs(angleStep) / 2 + 90.0f) * Mathf.Deg2Rad;
             float thetaStep = angleStep * Mathf.Deg2Rad; ; // 時計回り
 
             float ox = 0.0f;
@@ -195,32 +193,29 @@
                     throw new Exception();
             }
 
-            var idOfHands = getIdOfHands();
-
             // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
-            var indexOfPickup = getIndexOfPickup();
             IdOfPlayingCards idOfPickupCard = IdOfPlayingCards.None;    // ピックアップしている場札
             Debug.Log($"[ArrangeHandCards] 再度持上げ handIndex:{indexOfPickup}");
-            if (0 <= indexOfPickup && indexOfPickup < getNumberOfHandCards()) // 範囲内なら
+            if (0 <= indexOfPickup && indexOfPickup < idOfHandCards.Count) // 範囲内なら
             {
-                idOfPickupCard = idOfHands[indexOfPickup];
+                idOfPickupCard = idOfHandCards[indexOfPickup];
             }
 
             float theta = startTheta;
             int i = 0;
-            foreach (var idOfCard in idOfHands) // 場札のIdリスト
+            foreach (var idOfHandCard in idOfHandCards) // 場札のIdリスト
             {
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
                 float z = range * Mathf.Sin(theta + playerTheta) + GameView.positionOfHandCardsOrigin[player].Z + offsetCircleCenterZ;
 
-                var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+                var idOfGo = Specification.GetIdOfGameObject(idOfHandCard);
 
                 // 目標地点
                 var staticDestination = new PositionAndRotationLazy(
                     getPosition: () => new Vector3(x, GameView.positionOfHandCardsOrigin[player].Y, z),
                     getRotation: () => Quaternion.Euler(0, angleY, cardAngleZ));
 
-                if (idOfCard != idOfPickupCard)
+                if (idOfHandCard != idOfPickupCard)
                 {
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;

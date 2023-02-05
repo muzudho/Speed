@@ -75,9 +75,8 @@
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     player: player,
-                    getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
-                    getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
-                    getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
+                    indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(player),
+                    idOfHandCards: gameModel.GetCardsOfPlayerHand(player),
                     setViewMovement: setViewMovement);
             }
         }
