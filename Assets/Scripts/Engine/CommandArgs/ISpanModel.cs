@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.Models.Timeline
+﻿namespace Assets.Scripts.Engine.CommandArgs
 {
     internal interface ISpanModel
     {

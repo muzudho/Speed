@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.Models.Timeline.Spans
+﻿namespace Assets.Scripts.Engine.CommandArgs
 {
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する

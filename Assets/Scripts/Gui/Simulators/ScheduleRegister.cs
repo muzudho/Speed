@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Simulators
 {
-    using Assets.Scripts.Gui.Models.Timeline;
+    using Assets.Scripts.Engine.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators;

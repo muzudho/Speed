@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.Models.Timeline.Spans
+﻿namespace Assets.Scripts.Engine.CommandArgs
 {
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します

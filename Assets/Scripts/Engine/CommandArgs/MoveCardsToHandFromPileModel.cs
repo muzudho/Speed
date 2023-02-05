@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.Models.Timeline.Spans
+﻿namespace Assets.Scripts.Engine.CommandArgs
 {
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
