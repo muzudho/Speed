@@ -113,22 +113,14 @@
                                 setViewMovement: setViewMovement); // 場札
                         }
 
-                        // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
-                        Vector3 nextTop = GameView.GetPositionOfCenterStackCard(
-                                    place: place,
-                                    getCenterStack: () => gameModel.GetCenterStack(place));
-                        // カードの厚み分、上へ
-                        nextTop = GameView.yOfCardThickness.Add(nextTop);
-
-
                         // 台札へ置く
                         AddCardOfCenterStack(
                             startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                             duration: timeSpan.Duration / 2.0f,
+                            gameModel,
                             target: target,
                             player: GetModel(timeSpan).Player,
                             place: place,
-                            nextTop: nextTop,
                             addCardOfCenterStack: (results) => gameModelBuffer.AddCardOfCenterStack(results.Item1, results.Item2),
                             setViewMovement: (movementModel) =>
                             {
@@ -181,13 +173,20 @@
         private void AddCardOfCenterStack(
             float startSeconds,
             float duration,
+            GameModel gameModel,
             IdOfPlayingCards target,
             int player,
             int place,
-            Vector3 nextTop,
             LazyArgs.SetValue<(int, IdOfPlayingCards)> addCardOfCenterStack,
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
+            // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
+            Vector3 nextTop = GameView.GetPositionOfCenterStackCard(
+                        place: place,
+                        getCenterStack: () => gameModel.GetCenterStack(place));
+            // カードの厚み分、上へ
+            nextTop = GameView.yOfCardThickness.Add(nextTop);
+
             addCardOfCenterStack((place, target));// 台札として置く
 
             setViewMovement(MoveCardToPutToCenterStack.Generate(
