@@ -80,32 +80,37 @@
                             indexOfNextFocusedHandCard = indexOfFocusedHandCard;
                         }
 
-                        var target = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexOfFocusedHandCard]; // 場札を１枚抜いて
+                        var target = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexOfFocusedHandCard];
+
+                        // 確定：場札から抜くのは何枚目
+                        var indexOfHandToRemove = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+
+                        // モデル更新：場札を１枚抜く
                         gameModelBuffer.RemoveCardAtOfPlayerHand(player, indexOfFocusedHandCard);
+
+                        // 確定：場札の枚数
+                        var lengthOfHandCards = gameModel.GetLengthOfPlayerHandCards(player);
 
                         // 場札からカードを抜く
                         {
-                            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
+                            // モデル更新：何枚目の場札をピックアップしているか
+                            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard;
 
-                            var player = GetModel(timeSpan).Player;
-                            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
-                            if (0 < numberOfCards)
-                            {
-                                // 場札の位置調整（をしないと歯抜けになる）
-                                MovementGenerator.ArrangeHandCards(
-                                    startSeconds: timeSpan.StartSeconds,
-                                    duration: timeSpan.Duration / 2.0f,
-                                    player: GetModel(timeSpan).Player,
-                                    getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
-                                    getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
-                                    getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
-                                    setViewMovement: setViewMovement); // 場札
-                            }
+                            // 場札の位置調整（をしないと歯抜けになる）
+                            MovementGenerator.ArrangeHandCards(
+                                startSeconds: timeSpan.StartSeconds,
+                                duration: timeSpan.Duration / 2.0f,
+                                player: GetModel(timeSpan).Player,
+                                getNumberOfHandCards: () => lengthOfHandCards,// 場札の枚数
+                                getIndexOfPickup: () => indexOfHandToRemove,// 場札から抜くのは何枚目
+                                getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
+                                setViewMovement: setViewMovement); // 場札
                         }
 
                         // 台札へ置く
                         AddCardOfCenterStack(
-                            timeSpan: timeSpan,
+                            startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
+                            duration: timeSpan.Duration / 2.0f,
                             target: target,
                             player: GetModel(timeSpan).Player,
                             place: place,
@@ -166,7 +171,8 @@
         /// <param name="addCardOfCenterStack"></param>
         /// <param name="setViewMovement"></param>
         private void AddCardOfCenterStack(
-            SimulatorsOfTimeline.TimeSpan timeSpan,
+            float startSeconds,
+            float duration,
             IdOfPlayingCards target,
             int player,
             int place,
@@ -194,8 +200,8 @@
             Quaternion? endRotation = null;
 
             setViewMovement(new ViewMovement(
-                startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
-                duration: timeSpan.Duration / 2.0f,
+                startSeconds: startSeconds,
+                duration: duration,
                 target: idOfGo,
                 getBegin: () => new PositionAndRotationLazy(
                     getPosition: () =>
