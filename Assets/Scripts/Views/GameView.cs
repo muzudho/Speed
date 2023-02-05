@@ -72,26 +72,28 @@
         /// <param name="getLengthOfCenterStackCards"></param>
         /// <param name="getLastCardOfCenterStack">天辺（最後）のカード</param>
         /// <returns></returns>
-        internal static Vector3 GetPositionOfCenterStackCard(
+        internal static Vector3 CreatePositionOfNewCenterStackCard(
             int place,
             IdOfPlayingCards previousTop)
         {
             if (previousTop == IdOfPlayingCards.None)
             {
                 // 床上
-                return new Vector3(
-                    x: positionOfCenterStacksOrigin[place].X,
-                    y: positionOfCenterStacksOrigin[place].Y,
-                    z: positionOfCenterStacksOrigin[place].Z);
+                return positionOfCenterStacksOrigin[place].ToMutable();
             }
 
             // 置く前の台札の天辺
             var goLastCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(previousTop)];
 
-            return new Vector3(
+            var pos = new Vector3(
                 x: (positionOfCenterStacksOrigin[place].X - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[place].X,
                 y: goLastCard.transform.position.y,
                 z: (positionOfCenterStacksOrigin[place].Z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[place].Z);
+
+            // カードの厚み分、上へ
+            pos = GameView.yOfCardThickness.Add(pos);
+
+            return pos;
         }
 
         /// <summary>

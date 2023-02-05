@@ -9,12 +9,12 @@
     /// <summary>
     /// 台札へ置く
     /// </summary>
-    internal static class MoveCardToPutToCenterStack
+    internal static class MoveToPutCardToCenterStack
     {
         /// <summary>
         /// ムーブメント生成
         /// 
-        /// - 場札を持ち上げる
+        /// - ピックアップしているカードを台札の上へ置く
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
@@ -28,11 +28,7 @@
             Vector3 nextTop,
             IdOfPlayingCards target)
         {
-            // 台札の位置をセット
             var targetGo = Specification.GetIdOfGameObject(target);
-
-            // 手ぶれ
-            var shakePosition = GameView.ShakePosition(place);
 
             Vector3? startPosition = null;
             Quaternion? startRotation = null;
@@ -68,7 +64,7 @@
                         // 初回アクセス時に、値固定
                         if (endPosition == null)
                         {
-                            endPosition = nextTop + shakePosition;
+                            endPosition = nextTop + GameView.ShakePosition(place);
                         }
                         return endPosition ?? throw new Exception();
                     },

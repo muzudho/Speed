@@ -119,21 +119,22 @@
                             }
                         }
 
+                        // 前の台札の天辺のカード
+                        IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(place);
+
+                        // 台札の新しい天辺の座標
                         Vector3 nextTop;
                         {
-                            // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
-                            nextTop = GameView.GetPositionOfCenterStackCard(
+                            nextTop = GameView.CreatePositionOfNewCenterStackCard(
                                         place: place,
-                                        previousTop: gameModel.GetTopOfCenterStack(place));
-                            // カードの厚み分、上へ
-                            nextTop = GameView.yOfCardThickness.Add(nextTop);
+                                        previousTop: idOfPreviousTop);
                         }
 
                         // 次に、台札として置く
                         gameModelBuffer.AddCardOfCenterStack(place, target);
 
                         // 台札へ置く
-                        setViewMovement(MoveCardToPutToCenterStack.Generate(
+                        setViewMovement(MoveToPutCardToCenterStack.Generate(
                             startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                             duration: timeSpan.Duration / 2.0f,
                             player: player,
