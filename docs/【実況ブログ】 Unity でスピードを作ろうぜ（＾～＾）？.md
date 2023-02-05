@@ -5024,4 +5024,19 @@ namespace Assets.Scripts.Models
 「　連打を禁止したら　どうだぜ？  
 `Lerp` が重なってるケースがあるのでは？」  
 
+![202302_unity_05-1808--input-manager-1.png](https://crieit.now.sh/upload_images/3e49488f553402bbbab28b9800855c9463df724eb7739.png)  
+
+📅 2023-02-05 sat 18:09  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　入力系は　こんがらがると　大変だろうから　ゲーム・マネージャーと分離するぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　疲れた　ラーメン食べに行く　いったん休憩！」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　おつ」  
+
+📅 2023-02-05 sat 18:10 end  
+
 # // 書きかけ
