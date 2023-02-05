@@ -98,10 +98,18 @@
                     // モデル更新：次に、台札として置く
                     gameModelBuffer.AddCardOfCenterStack(place, targetToRemove);
 
+                    // 台札へ置く
+                    setViewMovement(PutCardToCenterStack.Generate(
+                        startSeconds: timedGenerator.StartSeconds,
+                        duration: timedGenerator.Duration / 2.0f,
+                        player: player,
+                        place: place,
+                        target: targetToRemove,
+                        idOfPreviousTop));
 
                     // 場札の位置調整（をしないと歯抜けになる）
                     ArrangeHandCards.Generate(
-                        startSeconds: timedGenerator.StartSeconds,
+                        startSeconds: timedGenerator.StartSeconds + timedGenerator.Duration / 2.0f,
                         duration: timedGenerator.Duration / 2.0f,
                         player: player,
                         indexOfPickup: indexOfNextPick, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
@@ -113,15 +121,6 @@
                     {
 
                     }
-
-                    // 台札へ置く
-                    setViewMovement(PutCardToCenterStack.Generate(
-                        startSeconds: timedGenerator.StartSeconds + timedGenerator.Duration / 2.0f,
-                        duration: timedGenerator.Duration / 2.0f,
-                        player: player,
-                        place: place,
-                        target: targetToRemove,
-                        idOfPreviousTop));
 
                 });
         }
