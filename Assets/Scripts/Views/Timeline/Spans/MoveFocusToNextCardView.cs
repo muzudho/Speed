@@ -110,9 +110,7 @@
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timeSpan).Player, indexOfCurrent); // ピックアップしている場札
-
                 var idOfGo = Specification.GetIdOfGameObject(idOfCard);
-                var goCard = GameObjectStorage.Items[idOfGo];
 
                 Vector3? startPosition = null;
                 Quaternion? startRotation = null;
@@ -128,7 +126,7 @@
                             // 初回アクセス時に、値固定
                             if (startPosition == null)
                             {
-                                startPosition = goCard.transform.position;
+                                startPosition = GameObjectStorage.Items[idOfGo].transform.position;
                             }
                             return startPosition ?? throw new Exception();
                         },
@@ -137,7 +135,7 @@
                             // 初回アクセス時に、値固定
                             if (startRotation == null)
                             {
-                                startRotation = goCard.transform.rotation;
+                                startRotation = GameObjectStorage.Items[idOfGo].transform.rotation;
                             }
                             return startRotation ?? throw new Exception();
                         })));

@@ -24,10 +24,9 @@
             // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
             Vector3 lift = new Vector3(0.0f, 5.0f, 0.0f);
 
+            // 持ち上がっている状態は、初回アクセス時に確定
             Vector3? startPosition = null;
             Quaternion? startRotation = null;
-            Vector3? endStartPosition = null;
-            Quaternion? endStartRotation = null;
 
             return new ViewMovement(
                 startSeconds: startSeconds,
@@ -61,20 +60,20 @@
                         getPosition: () =>
                         {
                             // 初回アクセス時に、値固定
-                            if (endStartPosition == null)
+                            if (startPosition == null)
                             {
-                                endStartPosition = getBegin().GetPosition();
+                                startPosition = getBegin().GetPosition();
                             }
-                            return (endStartPosition ?? throw new Exception()) + lift;
+                            return (startPosition ?? throw new Exception()) + lift;
                         },
                         getRotation: () =>
                         {
                             // 初回アクセス時に、値固定
-                            if (endStartRotation == null)
+                            if (startRotation == null)
                             {
-                                endStartRotation = getBegin().GetRotation();
+                                startRotation = getBegin().GetRotation();
                             }
-                            var rot = endStartRotation ?? throw new Exception();
+                            var rot = startRotation ?? throw new Exception();
                             var rotateY = -5; // -5°傾ける
                             var rotateZ = -5; // -5°傾ける
                             return Quaternion.Euler(
