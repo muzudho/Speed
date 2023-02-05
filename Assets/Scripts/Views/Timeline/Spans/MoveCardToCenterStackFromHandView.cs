@@ -124,17 +124,13 @@
                         gameModelBuffer.AddCardOfCenterStack(place, target);
 
                         // 台札へ置く
-                        AddCardOfCenterStack(
+                        setViewMovement(MoveCardToPutToCenterStack.Generate(
                             startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                             duration: timeSpan.Duration / 2.0f,
-                            target: target,
                             player: GetModel(timeSpan).Player,
                             place: place,
                             nextTop: nextTop,
-                            setViewMovement: (movementModel) =>
-                            {
-                                setViewMovement(movementModel); // 台札
-                            });
+                            target: target));
                     }
 
                 });
@@ -168,32 +164,6 @@
 
 
             return true;
-        }
-
-        /// <summary>
-        /// 台札へ置く
-        /// </summary>
-        /// <param name="timeSpan"></param>
-        /// <param name="target"></param>
-        /// <param name="player"></param>
-        /// <param name="place"></param>
-        /// <param name="setViewMovement"></param>
-        private void AddCardOfCenterStack(
-            float startSeconds,
-            float duration,
-            IdOfPlayingCards target,
-            int player,
-            int place,
-            Vector3 nextTop,
-            LazyArgs.SetValue<ViewMovement> setViewMovement)
-        {
-            setViewMovement(MoveCardToPutToCenterStack.Generate(
-                startSeconds: startSeconds,
-                duration: duration,
-                player: player,
-                place: place,
-                nextTop: nextTop,
-                target: target));
         }
     }
 }
