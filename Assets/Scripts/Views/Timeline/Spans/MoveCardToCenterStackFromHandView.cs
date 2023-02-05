@@ -59,13 +59,35 @@
                         player: player,
                         getIndexOfHandCardToRemove: () => indexOfFocusedHandCard))
                     {
+                        // 抜いた後の場札の数
+                        int lengthAfterRemove;
+                        {
+                            // 抜く前の場札の数
+                            var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
+                            lengthAfterRemove = lengthBeforeRemove - 1;
+                        }
+
+                        // 抜いた後の次のピックアップするカードが先頭から何枚目か、先に算出
+                        int indexOfNextFocusedHandCard;
+                        if (lengthAfterRemove <= indexOfFocusedHandCard) // 範囲外アクセス防止対応
+                        {
+                            // 一旦、最後尾へ
+                            indexOfNextFocusedHandCard = lengthAfterRemove - 1;
+                        }
+                        else
+                        {
+                            // そのまま
+                            indexOfNextFocusedHandCard = indexOfFocusedHandCard;
+                        }
+
                         // 場札からカードを抜く
                         RemoveAtOfHandCard(
                             timeSpan: timeSpan,
                             gameModelBuffer: gameModelBuffer,
                             player: GetModel(timeSpan).Player,
                             place: place,
-                            getIndexOfHandCardToRemove: () => indexOfFocusedHandCard,
+                            indexOfHandCardToRemove: indexOfFocusedHandCard,
+                            indexOfNextFocusedHandCard: indexOfNextFocusedHandCard,
                             getNextTopOfCenterStackCard: () =>
                             {
                                 return GameView.GetPositionOfNextCenterStackCard(
@@ -143,35 +165,12 @@
             GameModelBuffer gameModelBuffer,
             int player,
             int place,
-            LazyArgs.GetValue<int> getIndexOfHandCardToRemove,
+            int indexOfHandCardToRemove,
+            int indexOfNextFocusedHandCard,
             LazyArgs.GetValue<Vector3> getNextTopOfCenterStackCard,
             LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard,
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
-            // 抜いた後の場札の数
-            int lengthAfterRemove;
-            {
-                // 抜く前の場札の数
-                var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
-                lengthAfterRemove = lengthBeforeRemove - 1;
-            }
-
-            // 抜く場札のインデックス
-            var indexOfHandCardToRemove = getIndexOfHandCardToRemove();
-
-            // 抜いた後の次のピックアップするカードが先頭から何枚目か、先に算出
-            int indexOfNextFocusedHandCard;
-            if (lengthAfterRemove <= indexOfHandCardToRemove) // 範囲外アクセス防止対応
-            {
-                // 一旦、最後尾へ
-                indexOfNextFocusedHandCard = lengthAfterRemove - 1;
-            }
-            else
-            {
-                // そのまま
-                indexOfNextFocusedHandCard = indexOfHandCardToRemove;
-            }
-
             var goCard = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexOfHandCardToRemove]; // 場札を１枚抜いて
             gameModelBuffer.RemoveCardAtOfPlayerHand(player, indexOfHandCardToRemove);
 
