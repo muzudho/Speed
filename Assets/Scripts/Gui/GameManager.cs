@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Gui.Models;
 using Assets.Scripts.Gui.Models.Timeline.Spans;
+using Assets.Scripts.Gui.Simulators;
 using Assets.Scripts.Simulators;
 using Assets.Scripts.Views;
 using Assets.Scripts.Views.Timeline;
@@ -167,10 +168,10 @@ public class GameManager : MonoBehaviour
                     startSeconds: 0.0f,
                     spanModel: spanModel,
                     spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
-            timeSpan.SpanView.OnEnter(
+            timeSpan.SpanView.CreateSpanToLerp(
                 timeSpan,
                 gameModelBuffer,
-                setViewMovement: (movementViewModel) => movementViewModel.Lerp(1.0f));
+                setSpanToLerp: (movementViewModel) => movementViewModel.Lerp(1.0f));
         }
 
         // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
@@ -209,19 +210,20 @@ public class GameManager : MonoBehaviour
     void OnTick()
     {
         // モデルからビューへ、起動したタイム・スパンを引き継ぎたい
-        var viewMovement = new List<SpanToLerp>();
+        var additionSpansToLerp = new List<SpanToLerp>();
 
-        // 時限式で、ゲーム画面の同期を始めます
-        this.ScheduleRegister.OnEnter(
+        // スケジュールを消化していきます
+        ScheduleConverter.ConvertToSpansToLerp(
+            this.ScheduleRegister,
             this.gameModelBuffer.ElapsedSeconds,
             gameModelBuffer,
-            setViewMovement: (movementViewModel) =>
+            setSpanToLerp: (spanToLerp) =>
             {
-                viewMovement.Add(movementViewModel);
+                additionSpansToLerp.Add(spanToLerp);
             });
 
         // モーションの補間
-        this.playerToLerp.Lerp(this.gameModelBuffer.ElapsedSeconds, viewMovement);
+        this.playerToLerp.Lerp(this.gameModelBuffer.ElapsedSeconds, additionSpansToLerp);
 
         this.ScheduleRegister.DebugWrite(); // TODO ★ 消す
         this.playerToLerp.DebugWrite(); // TODO ★ 消す

@@ -37,7 +37,7 @@
         /// - 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
         /// - 画面上の場札は位置調整される
         /// </summary>
-        public override void OnEnter(
+        public override void CreateSpanToLerp(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanToLerp> setViewMovement)

@@ -28,7 +28,7 @@
         /// <param name="timeSpan"></param>
         /// <param name="gameModelBuffer"></param>
         /// <param name="setViewMovement"></param>
-        virtual public void OnEnter(
+        virtual public void CreateSpanToLerp(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanToLerp> setViewMovement)

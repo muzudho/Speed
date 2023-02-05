@@ -41,7 +41,7 @@
         /// </summary>
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
-        public override void OnEnter(
+        public override void CreateSpanToLerp(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanToLerp> setViewMovement)

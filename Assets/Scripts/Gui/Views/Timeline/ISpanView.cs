@@ -26,9 +26,9 @@
         /// ゲーム画面の同期を始めます
         /// </summary>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
-        void OnEnter(
+        void CreateSpanToLerp(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<SpanToLerp> setViewMovement);
+            LazyArgs.SetValue<SpanToLerp> setSpanToLerp);
     }
 }

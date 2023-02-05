@@ -1,8 +1,6 @@
 ﻿namespace Assets.Scripts.Simulators
 {
-    using Assets.Scripts.Gui.Models;
     using Assets.Scripts.Gui.Models.Timeline;
-    using Assets.Scripts.Views.Timeline;
     using System.Collections.Generic;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators;
@@ -46,46 +44,6 @@
         internal float[] ScheduledSeconds { get; private set; } = { 0.0f, 0.0f };
 
         // - メソッド
-
-        /// <summary>
-        /// ゲーム画面の同期を始めます
-        /// </summary>
-        /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
-        /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
-        /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
-        internal void OnEnter(
-            float elapsedSeconds,
-            GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<SpanToLerp> setViewMovement)
-        {
-            // TODO ★ スレッド・セーフにしたい
-            // キューに溜まっている分を全て消化
-            int i = 0;
-            while (i < this.GetCountItems())
-            {
-                var timeSpan = this.GetItemAt(i);
-
-                // まだ
-                if (elapsedSeconds < timeSpan.StartSeconds)
-                {
-                    i++;
-                    continue;
-                }
-
-                // 起動
-                // ----
-                Debug.Log($"[Assets.Scripts.Gui.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{timeSpan.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
-
-                // スケジュールから除去
-                this.RemoveAt(i);
-
-                // ゲーム画面の同期を始めます
-                timeSpan.SpanView.OnEnter(
-                    timeSpan,
-                    gameModelBuffer,
-                    setViewMovement: setViewMovement);
-            }
-        }
 
         /// <summary>
         /// 追加

@@ -38,7 +38,7 @@
         /// - ゲーム開始時に使う
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        public override void OnEnter(
+        public override void CreateSpanToLerp(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanToLerp> setViewMovement)
