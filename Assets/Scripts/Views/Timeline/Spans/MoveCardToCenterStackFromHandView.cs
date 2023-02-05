@@ -101,24 +101,27 @@
                         // 場札からカードを抜く
                         {
                             // モデル更新：何枚目の場札をピックアップしているか
-                            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard;
+                            gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextFocusedHandCard;
 
                             // 場札の位置調整（をしないと歯抜けになる）
                             MoveToArrangeHandCards.Generate(
                                 startSeconds: timeSpan.StartSeconds,
                                 duration: timeSpan.Duration / 2.0f,
-                                player: GetModel(timeSpan).Player,
+                                player: player,
                                 indexOfPickup: indexOfHandToRemove,// 場札から抜くのは何枚目
                                 idOfHandCards: idOfHandCardsAfterRemove,
                                 setViewMovement: setViewMovement); // 場札
                         }
 
-                        // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
-                        Vector3 nextTop = GameView.GetPositionOfCenterStackCard(
-                                    place: place,
-                                    previousTop: gameModel.GetTopOfCenterStack(place));
-                        // カードの厚み分、上へ
-                        nextTop = GameView.yOfCardThickness.Add(nextTop);
+                        Vector3 nextTop;
+                        {
+                            // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
+                            nextTop = GameView.GetPositionOfCenterStackCard(
+                                        place: place,
+                                        previousTop: gameModel.GetTopOfCenterStack(place));
+                            // カードの厚み分、上へ
+                            nextTop = GameView.yOfCardThickness.Add(nextTop);
+                        }
 
                         // 次に、台札として置く
                         gameModelBuffer.AddCardOfCenterStack(place, target);
@@ -127,7 +130,7 @@
                         setViewMovement(MoveCardToPutToCenterStack.Generate(
                             startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                             duration: timeSpan.Duration / 2.0f,
-                            player: GetModel(timeSpan).Player,
+                            player: player,
                             place: place,
                             nextTop: nextTop,
                             target: target));
