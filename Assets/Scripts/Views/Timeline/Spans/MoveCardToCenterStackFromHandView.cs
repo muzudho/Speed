@@ -80,45 +80,46 @@
                             indexOfNextFocusedHandCard = indexOfFocusedHandCard;
                         }
 
+                        var target = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexOfFocusedHandCard]; // 場札を１枚抜いて
+                        gameModelBuffer.RemoveCardAtOfPlayerHand(player, indexOfFocusedHandCard);
+
                         // 場札からカードを抜く
-                        RemoveAtOfHandCard(
+                        {
+                            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
+
+                            var player = GetModel(timeSpan).Player;
+                            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
+                            if (0 < numberOfCards)
+                            {
+                                // 場札の位置調整（をしないと歯抜けになる）
+                                MovementGenerator.ArrangeHandCards(
+                                    startSeconds: timeSpan.StartSeconds,
+                                    duration: timeSpan.Duration / 2.0f,
+                                    player: GetModel(timeSpan).Player,
+                                    getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
+                                    getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
+                                    getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
+                                    setViewMovement: setViewMovement); // 場札
+                            }
+                        }
+
+                        // 台札へ置く
+                        AddCardOfCenterStack(
                             timeSpan: timeSpan,
-                            gameModelBuffer: gameModelBuffer,
+                            target: target,
                             player: GetModel(timeSpan).Player,
                             place: place,
-                            indexOfHandCardToRemove: indexOfFocusedHandCard,
-                            indexOfNextFocusedHandCard: indexOfNextFocusedHandCard,
                             getNextTopOfCenterStackCard: () =>
                             {
                                 return GameView.GetPositionOfNextCenterStackCard(
                                     place: place,
                                     getCenterStack: () => gameModel.GetCenterStack(place));
                             },
-                            setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                            {
-                                gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
-
-                                var player = GetModel(timeSpan).Player;
-                                int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
-                                if (0 < numberOfCards)
-                                {
-                                    // 場札の位置調整（をしないと歯抜けになる）
-                                    MovementGenerator.ArrangeHandCards(
-                                        startSeconds: timeSpan.StartSeconds,
-                                        duration: timeSpan.Duration / 2.0f,
-                                        player: GetModel(timeSpan).Player,
-                                        getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
-                                        getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
-                                        getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
-                                        setViewMovement: setViewMovement); // 場札
-                                }
-
-                            },
+                            addCardOfCenterStack: (results) => gameModelBuffer.AddCardOfCenterStack(results.Item1, results.Item2),
                             setViewMovement: (movementModel) =>
                             {
                                 setViewMovement(movementModel); // 台札
                             });
-
                     }
 
                 });
@@ -155,50 +156,18 @@
         }
 
         /// <summary>
-        /// 場札を抜いて、台札へ置く
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="indexOfHandCardToRemove"></param>
-        /// <param name="setIndexOfNextFocusedHandCard">抜いた後の次のピックアップするカードが先頭から何枚目か、先に算出</param>
-        private void RemoveAtOfHandCard(
-            SimulatorsOfTimeline.TimeSpan timeSpan,
-            GameModelBuffer gameModelBuffer,
-            int player,
-            int place,
-            int indexOfHandCardToRemove,
-            int indexOfNextFocusedHandCard,
-            LazyArgs.GetValue<Vector3> getNextTopOfCenterStackCard,
-            LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard,
-            LazyArgs.SetValue<ViewMovement> setViewMovement)
-        {
-            var goCard = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexOfHandCardToRemove]; // 場札を１枚抜いて
-            gameModelBuffer.RemoveCardAtOfPlayerHand(player, indexOfHandCardToRemove);
-
-            AddCardOfCenterStack2(
-                timeSpan: timeSpan,
-                idOfCard: goCard,
-                player: player,
-                place: place,
-                getNextTopOfCenterStackCard: getNextTopOfCenterStackCard,
-                addCardOfCenterStack: (results) => gameModelBuffer.AddCardOfCenterStack(results.Item1, results.Item2),
-                setViewMovement: setViewMovement); // 台札
-
-            setIndexOfNextFocusedHandCard(indexOfNextFocusedHandCard);
-        }
-
-        /// <summary>
         /// 台札へ置く
         /// </summary>
         /// <param name="timeSpan"></param>
-        /// <param name="idOfCard"></param>
+        /// <param name="target"></param>
         /// <param name="player"></param>
         /// <param name="place"></param>
         /// <param name="getNextTopOfCenterStackCard"></param>
         /// <param name="addCardOfCenterStack"></param>
         /// <param name="setViewMovement"></param>
-        private void AddCardOfCenterStack2(
+        private void AddCardOfCenterStack(
             SimulatorsOfTimeline.TimeSpan timeSpan,
-            IdOfPlayingCards idOfCard,
+            IdOfPlayingCards target,
             int player,
             int place,
             LazyArgs.GetValue<Vector3> getNextTopOfCenterStackCard,
@@ -212,12 +181,12 @@
             Vector3 nextTop = getNextTopOfCenterStackCard();
 
             // 抜いた場札
-            var goCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfCard)]; // TODO ビューが必要？
+            var goCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(target)]; // TODO ビューが必要？
 
-            addCardOfCenterStack((place, idOfCard));// 台札として置く
+            addCardOfCenterStack((place, target));// 台札として置く
 
             // 台札の位置をセット
-            var idOfGo = Specification.GetIdOfGameObject(idOfCard);
+            var idOfGo = Specification.GetIdOfGameObject(target);
 
             Vector3? startPosition = null;
             Quaternion? startRotation = null;
