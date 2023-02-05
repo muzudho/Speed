@@ -43,7 +43,8 @@
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanToLerp> setViewMovement)
         {
-            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timedGenerator).Player].Count; // 手札の枚数
+            // 確定：手札の枚数
+            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timedGenerator).Player].Count;
 
             if (length < GetModel(timedGenerator).NumberOfCards)
             {
@@ -54,24 +55,28 @@
 
             var player = GetModel(timedGenerator).Player;
 
-            // TODO ★ 状態変更をして、ビューが再生する感じ？
-            // TODO ★ ビューは、状態にアクセスせず再生できる必要がある
-            // 天辺から取っていく
+            // モデル更新：場札への移動
             gameModelBuffer.MoveCardsToHandFromPile(
                 player: player,
                 startIndex: length - GetModel(timedGenerator).NumberOfCards,
                 numberOfCards: GetModel(timedGenerator).NumberOfCards);
+            // 場札は１枚以上になる
 
-            // もし、場札が空っぽのところへ、手札を配ったのなら、先頭の場札をピックアップする
+            // モデル更新：もし、ピックアップ場札がなかったら、先頭の場札をピックアップする
+            //
+            // - 初回配布のケース
+            // - 場札無しの勝利後に配ったケース
             if (gameModelBuffer.IndexOfFocusedCardOfPlayers[player] == -1)
             {
                 gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = 0;
             }
 
+            GameModel gameModel = new GameModel(gameModelBuffer);
+
+            // 確定：場札の枚数
+            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player);
 
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
-            GameModel gameModel = new GameModel(gameModelBuffer);
-            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player);
             if (0 < numberOfCards)
             {
                 ArrangeHandCards.Generate(

@@ -98,6 +98,45 @@
                 {
                     // ピックアップしている場札をキープ
 
+                    Vector3? startPosition = null;
+                    Quaternion? startRotation = null;
+
+                    // TODO ★ ピックアップ後の座標を計算したい。ピックアップ前の座標は指定する
+                    var endPositionAndRotation = PickupHandCard.CalculateEnd(
+                        homePositionOfHand: staticDestination.GetPosition(),
+                        homeRotationOfHand: staticDestination.GetRotation());
+
+                    setSpanToLerp(new SpanToLerp(
+                        startSeconds: startSeconds,
+                        duration: duration,
+                        target: idOfGo,
+                        getBegin: () =>
+                        {
+                            return new PositionAndRotationLazy(
+                                getPosition: () =>
+                                {
+                                    // 初回アクセス時に、値固定
+                                    if (startPosition == null)
+                                    {
+                                        startPosition = GameObjectStorage.Items[idOfGo].transform.position;
+                                    }
+                                    return startPosition ?? throw new Exception();
+                                },
+                                getRotation: () =>
+                                {
+                                    // 初回アクセス時に、値固定
+                                    if (startRotation == null)
+                                    {
+                                        startRotation = GameObjectStorage.Items[idOfGo].transform.rotation;
+                                    }
+                                    return startRotation ?? throw new Exception();
+                                });
+                        },
+                        getEnd: () => new PositionAndRotationLazy(
+                            getPosition: ()=>endPositionAndRotation.Position,
+                            getRotation: ()=>endPositionAndRotation.Rotation
+                            )));
+
                     // 目標地点　＋　ピックアップ操作
                     setSpanToLerp(PickupHandCard.Generate(
                         startSeconds: startSeconds,

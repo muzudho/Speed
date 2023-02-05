@@ -8,9 +8,30 @@
 
     /// <summary>
     /// 場札を持ち上げる
+    /// 
+    /// - 場札のホーム・ポジション + 持ち上げる高さ
+    /// - 場札のホーム・ローテーション + 一定の傾き
     /// </summary>
     internal static class PickupHandCard
     {
+        /// <summary>
+        /// 前もって算出
+        /// </summary>
+        /// <param name="homePositionOfHand"></param>
+        /// <param name="homeRotationOfHand"></param>
+        /// <returns></returns>
+        internal static PositionAndRotation CalculateEnd(
+            Vector3 homePositionOfHand,
+            Quaternion homeRotationOfHand)
+        {
+            return new PositionAndRotation(
+                position: homePositionOfHand + GameView.yOfPickup.ToMutable(),
+                rotation: Quaternion.Euler(
+                    homeRotationOfHand.eulerAngles.x,
+                    homeRotationOfHand.eulerAngles.y + GameView.rotationOfPickup.EulerAnglesY,
+                    homeRotationOfHand.eulerAngles.z + GameView.rotationOfPickup.EulerAnglesZ));
+        }
+
         /// <summary>
         /// ムーブメント生成
         /// </summary>
