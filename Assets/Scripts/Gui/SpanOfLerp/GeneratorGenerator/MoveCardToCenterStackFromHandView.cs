@@ -54,34 +54,38 @@
                 {
                     var place = GetModel(timedGenerator).Place;
 
-                    // 抜いた後の場札の数
-                    int lengthAfterRemove;
-                    {
-                        // 抜く前の場札の数
-                        var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
-                        lengthAfterRemove = lengthBeforeRemove - 1;
-                    }
-
-                    // （抜いた後に）次にピックアップするカード（が先頭から何枚目か）
+                    // 確定：（抜いた後に）次にピックアップするカード（が先頭から何枚目か）
                     int indexOfNextPick;
-                    if (lengthAfterRemove <= indexToRemove) // 範囲外アクセス防止対応
                     {
-                        // 一旦、最後尾へ
-                        indexOfNextPick = lengthAfterRemove - 1;
-                    }
-                    else
-                    {
-                        // そのまま
-                        indexOfNextPick = indexToRemove;
+                        // 確定：抜いた後の場札の数
+                        int lengthAfterRemove;
+                        {
+                            // 抜く前の場札の数
+                            var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
+                            lengthAfterRemove = lengthBeforeRemove - 1;
+                        }
+
+                        if (lengthAfterRemove <= indexToRemove) // 範囲外アクセス防止対応
+                        {
+                            // 一旦、最後尾へ
+                            indexOfNextPick = lengthAfterRemove - 1;
+                        }
+                        else
+                        {
+                            // そのまま
+                            indexOfNextPick = indexToRemove;
+                        }
                     }
 
-                    var target = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexToRemove];
+                    // 確定：場札から台札へ移動するカード
+                    var targetToRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexToRemove];
 
                     // モデル更新：場札を１枚抜く
                     gameModelBuffer.RemoveCardAtOfPlayerHand(player, indexToRemove);
 
                     // 確定：場札の枚数
                     var lengthOfHandCards = gameModel.GetLengthOfPlayerHandCards(player);
+
                     // 確定：抜いたあとの場札リスト
                     var idOfHandCardsAfterRemove = gameModel.GetCardsOfPlayerHand(player);
 
@@ -92,7 +96,7 @@
                     IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(place);
 
                     // モデル更新：次に、台札として置く
-                    gameModelBuffer.AddCardOfCenterStack(place, target);
+                    gameModelBuffer.AddCardOfCenterStack(place, targetToRemove);
 
 
                     // 場札の位置調整（をしないと歯抜けになる）
@@ -116,7 +120,7 @@
                         duration: timedGenerator.Duration / 2.0f,
                         player: player,
                         place: place,
-                        target: target,
+                        target: targetToRemove,
                         idOfPreviousTop));
 
                 });
