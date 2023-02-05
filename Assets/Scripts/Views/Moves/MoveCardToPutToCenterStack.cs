@@ -24,12 +24,15 @@
             float startSeconds,
             float duration,
             int player,
+            int place,
             Vector3 nextTop,
-            Vector3 shakePosition,
             IdOfPlayingCards target)
         {
             // 台札の位置をセット
             var targetGo = Specification.GetIdOfGameObject(target);
+
+            // 手ぶれ
+            var shakePosition = GameView.ShakePosition(place);
 
             Vector3? startPosition = null;
             Quaternion? startRotation = null;

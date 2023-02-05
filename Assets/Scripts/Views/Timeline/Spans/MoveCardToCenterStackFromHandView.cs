@@ -188,17 +188,14 @@
             // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
             Vector3 nextTop = getNextTopOfCenterStackCard();
 
-            // 手ぶれ
-            var shakePosition = GameView.ShakePosition(place);
-
             addCardOfCenterStack((place, target));// 台札として置く
 
             setViewMovement(MoveCardToPutToCenterStack.Generate(
                 startSeconds: startSeconds,
                 duration: duration,
                 player: player,
+                place: place,
                 nextTop: nextTop,
-                shakePosition: shakePosition,
                 target: target));
         }
     }
