@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Views.Timeline.Spans
+﻿namespace Assets.Scripts.Views.SpanGenerators
 {
     using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
@@ -6,13 +6,14 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.Views;
     using Assets.Scripts.Views.Moves;
+    using Assets.Scripts.Views.Timeline;
     using System;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>
-    class MoveFocusToNextCardView : AbstractSpanView
+    class MoveFocusToNextCardView : AbstractSpanGenerator
     {
         // - 生成
 
@@ -20,7 +21,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn()
+        public override ISpanGenerator Spawn()
         {
             return new MoveFocusToNextCardView();
         }

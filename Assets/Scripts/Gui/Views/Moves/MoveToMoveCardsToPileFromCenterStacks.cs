@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Views.Moves
 {
-    using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.Views.Timeline;

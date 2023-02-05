@@ -1,8 +1,7 @@
 ﻿namespace Assets.Scripts.Simulators
 {
     using Assets.Scripts.ThikningEngine.CommandArgs;
-    using Assets.Scripts.Views.Timeline;
-    using Assets.Scripts.Views.Timeline.Spans;
+    using Assets.Scripts.Views.SpanGenerators;
     using System;
     using System.Collections.Generic;
 
@@ -37,7 +36,7 @@
 
         internal static Dictionary<int, float> DurationOfModels = new();
 
-        internal static Dictionary<int, ISpanView> ViewsFromModel = new();
+        internal static Dictionary<int, ISpanGenerator> ViewsFromModel = new();
 
         // - メソッド
 
@@ -46,7 +45,7 @@
             return DurationOfModels[type.GetHashCode()];
         }
 
-        internal static ISpanView SpawnViewFromModel(Type type)
+        internal static ISpanGenerator SpawnViewFromModel(Type type)
         {
             return ViewsFromModel[type.GetHashCode()].Spawn();
         }

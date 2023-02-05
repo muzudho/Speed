@@ -1,15 +1,16 @@
-﻿namespace Assets.Scripts.Views.Timeline.Spans
+﻿namespace Assets.Scripts.Views.SpanGenerators
 {
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThikningEngine.CommandArgs;
     using Assets.Scripts.Views.Moves;
+    using Assets.Scripts.Views.Timeline;
     using System;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    class MoveCardsToPileFromCenterStacksView : AbstractSpanView
+    class MoveCardsToPileFromCenterStacksView : AbstractSpanGenerator
     {
         // - 生成
 
@@ -17,7 +18,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn()
+        public override ISpanGenerator Spawn()
         {
             return new MoveCardsToPileFromCenterStacksView();
         }

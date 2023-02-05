@@ -1,15 +1,16 @@
-﻿namespace Assets.Scripts.Views.Timeline.Spans
+﻿namespace Assets.Scripts.Views.SpanGenerators
 {
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThikningEngine.CommandArgs;
     using Assets.Scripts.Views.Movements;
+    using Assets.Scripts.Views.Timeline;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    class MoveCardsToHandFromPileView : AbstractSpanView
+    class MoveCardsToHandFromPileView : AbstractSpanGenerator
     {
         // - その他（生成）
 
@@ -17,7 +18,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn()
+        public override ISpanGenerator Spawn()
         {
             return new MoveCardsToHandFromPileView();
         }
@@ -80,7 +81,7 @@
                     indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(player),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(player),
                     keepPickup: true,
-                    setViewMovement: setViewMovement);
+                    setSpanToLerp: setViewMovement);
             }
 
             // TODO ★ ピックアップしている場札を持ち上げる

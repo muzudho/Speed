@@ -1,10 +1,11 @@
 ﻿namespace Assets.Scripts.Simulators
 {
     using Assets.Scripts.ThikningEngine.CommandArgs;
+    using Assets.Scripts.Views.SpanGenerators;
     using Assets.Scripts.Views.Timeline;
 
     /// <summary>
-    /// スパン・モデルと、スパン・ビューを紐づけます
+    /// コマンド引数と、スパン・ビューを紐づけます
     /// </summary>
     internal class TimeSpan
     {
@@ -15,7 +16,7 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="spanModel">スパン・モデル</param>
-        public TimeSpan(float startSeconds, ICommandArgs spanModel, ISpanView spanView)
+        public TimeSpan(float startSeconds, ICommandArgs spanModel, ISpanGenerator spanView)
         {
             this.StartSeconds = startSeconds;
             this.SpanModel = spanModel;
@@ -41,6 +42,6 @@
 
         public ICommandArgs SpanModel { get; private set; }
 
-        public ISpanView SpanView { get; private set; }
+        public ISpanGenerator SpanView { get; private set; }
     }
 }

@@ -1,14 +1,15 @@
-﻿namespace Assets.Scripts.Views.Timeline
+﻿namespace Assets.Scripts.Views.SpanGenerators
 {
     using Assets.Scripts.ThikningEngine;
+    using Assets.Scripts.Views.Timeline;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
-    /// タイム・スパン
+    /// スパン生成器
     /// 
     /// - タイムライン上に配置されたもの
     /// </summary>
-    interface ISpanView
+    interface ISpanGenerator
     {
         // - その他
 
@@ -16,7 +17,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        ISpanView Spawn();
+        ISpanGenerator Spawn();
 
         // - プロパティ
 

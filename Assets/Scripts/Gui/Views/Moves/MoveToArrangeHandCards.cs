@@ -26,7 +26,7 @@
         /// <param name="player"></param>
         /// <param name="indexOfPickup">ピックアップしている場札は何番目</param>
         /// <param name="idOfHandCards">場札のIdリスト</param>
-        /// <param name="setViewMovement"></param>
+        /// <param name="setSpanToLerp"></param>
         /// <exception cref="Exception"></exception>
         internal static void Generate(
             float startSeconds,
@@ -35,7 +35,7 @@
             int indexOfPickup,
             List<IdOfPlayingCards> idOfHandCards,
             bool keepPickup,
-            LazyArgs.SetValue<SpanToLerp> setViewMovement)
+            LazyArgs.SetValue<SpanToLerp> setSpanToLerp)
         {
             // 最大25枚の場札が並べるように調整してある
 
@@ -99,7 +99,7 @@
                     // ピックアップしている場札をキープ
 
                     // 目標地点　＋　ピックアップ操作
-                    setViewMovement(MoveToPickupHandCard.Generate(
+                    setSpanToLerp(MoveToPickupHandCard.Generate(
                         startSeconds: startSeconds,
                         duration: duration,
                         idOfCard: idOfPickupCard,
@@ -110,7 +110,7 @@
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;
 
-                    setViewMovement(new SpanToLerp(
+                    setSpanToLerp(new SpanToLerp(
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,

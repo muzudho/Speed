@@ -1,15 +1,16 @@
-﻿namespace Assets.Scripts.Views.Timeline.Spans
+﻿namespace Assets.Scripts.Views.SpanGenerators
 {
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThikningEngine.CommandArgs;
     using Assets.Scripts.Views.Movements;
     using Assets.Scripts.Views.Moves;
+    using Assets.Scripts.Views.Timeline;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
     /// </summary>
-    class MoveCardToCenterStackFromHandView : AbstractSpanView
+    class MoveCardToCenterStackFromHandView : AbstractSpanGenerator
     {
         // - 生成
 
@@ -17,7 +18,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanView Spawn()
+        public override ISpanGenerator Spawn()
         {
             return new MoveCardToCenterStackFromHandView();
         }
@@ -104,7 +105,7 @@
                                 indexOfPickup: indexOfNextPick, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                                 idOfHandCards: idOfHandCardsAfterRemove,
                                 keepPickup: true,
-                                setViewMovement: setViewMovement); // 場札
+                                setSpanToLerp: setViewMovement); // 場札
 
                             // TODO ★ ピックアップしている場札を持ち上げる
                             {
