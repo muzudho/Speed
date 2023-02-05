@@ -2,7 +2,7 @@
 {
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.Views.Timeline;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
+    using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 
     /// <summary>
     /// スパン生成器

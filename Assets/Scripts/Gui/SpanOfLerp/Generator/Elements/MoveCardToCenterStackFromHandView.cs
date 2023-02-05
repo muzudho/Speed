@@ -5,7 +5,7 @@
     using Assets.Scripts.Views.Movements;
     using Assets.Scripts.Views.Moves;
     using Assets.Scripts.Views.Timeline;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
+    using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する

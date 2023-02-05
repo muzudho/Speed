@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Gui.SpanOfLerp.Generator
 {
-    using Assets.Scripts.Simulators;
+    using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.Views.Timeline;
     using UnityEngine;

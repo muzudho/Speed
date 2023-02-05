@@ -5,7 +5,7 @@
     using Assets.Scripts.Views.Movements;
     using Assets.Scripts.Views.Timeline;
     using UnityEngine;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
+    using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動

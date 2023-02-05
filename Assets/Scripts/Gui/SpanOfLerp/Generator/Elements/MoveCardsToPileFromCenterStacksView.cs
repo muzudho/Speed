@@ -5,7 +5,7 @@
     using Assets.Scripts.Views.Moves;
     using Assets.Scripts.Views.Timeline;
     using System;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
+    using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する

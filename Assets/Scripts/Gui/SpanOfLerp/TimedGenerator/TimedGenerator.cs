@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Simulators
+﻿namespace Assets.Scripts.Gui.SpanOfLerp.TimedGenerator
 {
     using Assets.Scripts.Gui.SpanOfLerp.Generator.Elements;
     using Assets.Scripts.ThikningEngine.CommandArgs;

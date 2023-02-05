@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.Views
 {
     using Assets.Scripts.Gui.Models;
-    using Assets.Scripts.Simulators;
     using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThinkingEngine;
     using System;

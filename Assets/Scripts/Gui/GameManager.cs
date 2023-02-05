@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Gui.SpanOfLerp.Generator;
-using Assets.Scripts.Simulators;
+using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 using Assets.Scripts.ThikningEngine;
 using Assets.Scripts.ThikningEngine.CommandArgs;
 using Assets.Scripts.ThinkingEngine;
@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using SimulatorsOfTimeline = Assets.Scripts.Simulators;
+using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 
 /// <summary>

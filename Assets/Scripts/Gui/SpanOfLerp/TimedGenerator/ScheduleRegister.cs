@@ -1,9 +1,9 @@
-﻿namespace Assets.Scripts.Simulators
+﻿namespace Assets.Scripts.Gui.SpanOfLerp.TimedGenerator
 {
     using Assets.Scripts.ThikningEngine.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
+    using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 
     /// <summary>
     /// シミュレーター
@@ -100,7 +100,7 @@
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Simulators.Simulator DebugWrite] timedItems.Count:{timedGenerators.Count}");
+            Debug.Log($"[Assets.Scripts.Gui.SpanOfLerp.TimedGenerator.Simulator DebugWrite] timedItems.Count:{timedGenerators.Count}");
         }
     }
 }

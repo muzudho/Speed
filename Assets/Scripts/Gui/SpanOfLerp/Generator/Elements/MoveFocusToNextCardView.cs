@@ -7,7 +7,7 @@
     using Assets.Scripts.Views.Moves;
     using Assets.Scripts.Views.Timeline;
     using System;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
+    using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
