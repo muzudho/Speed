@@ -1,6 +1,9 @@
 ﻿namespace Assets.Scripts.Models
 {
+    using Assets.Scripts.Simulators.Timeline;
+    using Assets.Scripts.Views;
     using System.Collections.Generic;
+    using Unity.VisualScripting;
 
     /// <summary>
     /// ゲーム・モデル
@@ -9,12 +12,18 @@
     /// </summary>
     class GameModel
     {
-        GameModelBuffer gameModelBuffer;
+        // - その他
 
         public GameModel(GameModelBuffer gameModel)
         {
             this.gameModelBuffer = gameModel;
         }
+
+        // - フィールド
+
+        GameModelBuffer gameModelBuffer;
+
+        // - メソッド
 
         internal ReadonlyList<IdOfPlayingCards> GetCenterStack(int place)
         {
@@ -51,6 +60,28 @@
         internal int GetLengthOfCenterStackCards(int place)
         {
             return this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count;
+        }
+
+        /// <summary>
+        /// 台札の天辺
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="getLengthOfCenterStackCards"></param>
+        /// <param name="getLastCardOfCenterStack">天辺（最後）のカード</param>
+        /// <returns></returns>
+        internal IdOfPlayingCards GetTopOfCenterStack(int place)
+        {
+            var centerStack = this.gameModelBuffer.IdOfCardsOfCenterStacks[place];
+
+            var length = centerStack.Count;
+            if (length < 1)
+            {
+                // 床上
+                return IdOfPlayingCards.None;
+            }
+
+            // 台札の天辺
+            return centerStack[length - 1];
         }
 
         /// <summary>

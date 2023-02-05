@@ -64,6 +64,7 @@
         /// <returns></returns>
         internal static Vector3 GetPositionOfCenterStackCard(
             int place,
+            IdOfPlayingCards previousTop,
             LazyArgs.GetValue<ReadonlyList<IdOfPlayingCards>> getCenterStack)
         {
             var centerStack = getCenterStack();
