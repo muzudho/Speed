@@ -122,14 +122,6 @@
                         // 前の台札の天辺のカード
                         IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(place);
 
-                        // 台札の新しい天辺の座標
-                        Vector3 nextTop;
-                        {
-                            nextTop = GameView.CreatePositionOfNewCenterStackCard(
-                                        place: place,
-                                        previousTop: idOfPreviousTop);
-                        }
-
                         // 次に、台札として置く
                         gameModelBuffer.AddCardOfCenterStack(place, target);
 
@@ -139,8 +131,8 @@
                             duration: timeSpan.Duration / 2.0f,
                             player: player,
                             place: place,
-                            nextTop: nextTop,
-                            target: target));
+                            target: target,
+                            idOfPreviousTop));
                     }
 
                 });

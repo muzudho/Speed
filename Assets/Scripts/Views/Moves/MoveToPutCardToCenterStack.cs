@@ -25,9 +25,17 @@
             float duration,
             int player,
             int place,
-            Vector3 nextTop,
-            IdOfPlayingCards target)
+            IdOfPlayingCards target,
+            IdOfPlayingCards idOfPreviousTop)
         {
+            // 台札の新しい天辺の座標
+            Vector3 nextTop;
+            {
+                nextTop = GameView.CreatePositionOfNewCenterStackCard(
+                            place: place,
+                            previousTop: idOfPreviousTop);
+            }
+
             var targetGo = Specification.GetIdOfGameObject(target);
 
             Vector3? startPosition = null;
