@@ -113,15 +113,24 @@
                                 setViewMovement: setViewMovement); // 場札
                         }
 
+                        // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
+                        Vector3 nextTop = GameView.GetPositionOfCenterStackCard(
+                                    place: place,
+                                    previousTop: gameModel.GetTopOfCenterStack(place));
+                        // カードの厚み分、上へ
+                        nextTop = GameView.yOfCardThickness.Add(nextTop);
+
+                        // 次に、台札として置く
+                        gameModelBuffer.AddCardOfCenterStack(place, target);
+
                         // 台札へ置く
                         AddCardOfCenterStack(
                             startSeconds: timeSpan.StartSeconds + timeSpan.Duration / 2.0f,
                             duration: timeSpan.Duration / 2.0f,
-                            gameModel,
                             target: target,
                             player: GetModel(timeSpan).Player,
                             place: place,
-                            addCardOfCenterStack: (results) => gameModelBuffer.AddCardOfCenterStack(results.Item1, results.Item2),
+                            nextTop: nextTop,
                             setViewMovement: (movementModel) =>
                             {
                                 setViewMovement(movementModel); // 台札
@@ -168,27 +177,16 @@
         /// <param name="target"></param>
         /// <param name="player"></param>
         /// <param name="place"></param>
-        /// <param name="addCardOfCenterStack"></param>
         /// <param name="setViewMovement"></param>
         private void AddCardOfCenterStack(
             float startSeconds,
             float duration,
-            GameModel gameModel,
             IdOfPlayingCards target,
             int player,
             int place,
-            LazyArgs.SetValue<(int, IdOfPlayingCards)> addCardOfCenterStack,
+            Vector3 nextTop,
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
-            // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
-            Vector3 nextTop = GameView.GetPositionOfCenterStackCard(
-                        place: place,
-                        previousTop: gameModel.GetTopOfCenterStack(place));
-            // カードの厚み分、上へ
-            nextTop = GameView.yOfCardThickness.Add(nextTop);
-
-            addCardOfCenterStack((place, target));// 台札として置く
-
             setViewMovement(MoveCardToPutToCenterStack.Generate(
                 startSeconds: startSeconds,
                 duration: duration,
