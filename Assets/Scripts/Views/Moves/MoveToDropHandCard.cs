@@ -24,14 +24,7 @@
             float duration,
             IdOfPlayingCards idOfCard)
         {
-            var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
-            var rotateY = GameView.rotationOfPickup.EulerAnglesY;
-            var rotateZ = GameView.rotationOfPickup.EulerAnglesZ;
-
             // 逆をする
-            liftY = -liftY;
-            rotateY = -rotateY;
-            rotateZ = -rotateZ;
             var idOfGo = Specification.GetIdOfGameObject(idOfCard);
 
             Vector3? startPosition = null;
@@ -69,7 +62,7 @@
                         if (endPosition == null)
                         {
                             var goCard = GameObjectStorage.Items[idOfGo];
-                            endPosition = new Vector3(goCard.transform.position.x, goCard.transform.position.y + liftY, goCard.transform.position.z);
+                            endPosition = goCard.transform.position - GameView.yOfPickup.ToMutable();
                         }
                         return endPosition ?? throw new Exception();
                     },
@@ -79,7 +72,10 @@
                         if (endRotation == null)
                         {
                             var goCard = GameObjectStorage.Items[idOfGo];
-                            endRotation = Quaternion.Euler(goCard.transform.rotation.eulerAngles.x, goCard.transform.rotation.eulerAngles.y + rotateY, goCard.transform.eulerAngles.z + rotateZ);
+                            endRotation = Quaternion.Euler(
+                                x: goCard.transform.eulerAngles.x,
+                                y: goCard.transform.eulerAngles.y - GameView.rotationOfPickup.EulerAnglesY,
+                                z: goCard.transform.eulerAngles.z - GameView.rotationOfPickup.EulerAnglesZ);
                         }
                         return endRotation ?? throw new Exception();
                     }));
