@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
-    using Assets.Scripts.Engine;
-    using Assets.Scripts.Gui.Models;
+    using Assets.Scripts.ThikningEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>

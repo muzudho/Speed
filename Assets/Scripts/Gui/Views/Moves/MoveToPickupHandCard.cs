@@ -1,11 +1,10 @@
 ﻿namespace Assets.Scripts.Views.Moves
 {
-    using Assets.Scripts.Gui.Models;
     using Assets.Scripts.Simulators;
+    using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;
-    using UnityEngine.UIElements;
 
     internal static class MoveToPickupHandCard
     {

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.Models
+﻿namespace Assets.Scripts.ThikningEngine
 {
     /// <summary>
     /// カードのスート（絵柄）

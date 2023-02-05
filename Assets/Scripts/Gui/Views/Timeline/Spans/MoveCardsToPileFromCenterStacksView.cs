@@ -1,8 +1,7 @@
 ﻿namespace Assets.Scripts.Views.Timeline.Spans
 {
-    using Assets.Scripts.Engine;
+    using Assets.Scripts.ThikningEngine;
     using Assets.Scripts.ThikningEngine.CommandArgs;
-    using Assets.Scripts.Gui.Models;
     using Assets.Scripts.Views.Moves;
     using System;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators;

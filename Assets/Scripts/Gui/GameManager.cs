@@ -1,8 +1,7 @@
-﻿using Assets.Scripts.Engine;
-using Assets.Scripts.ThikningEngine.CommandArgs;
-using Assets.Scripts.Gui.Models;
-using Assets.Scripts.Gui.Simulators;
+﻿using Assets.Scripts.Gui.Simulators;
 using Assets.Scripts.Simulators;
+using Assets.Scripts.ThikningEngine;
+using Assets.Scripts.ThikningEngine.CommandArgs;
 using Assets.Scripts.Views;
 using Assets.Scripts.Views.Timeline;
 using System;

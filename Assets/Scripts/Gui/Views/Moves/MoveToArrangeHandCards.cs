@@ -1,13 +1,13 @@
-﻿using Assets.Scripts.Gui.Models;
-using Assets.Scripts.Simulators;
-using Assets.Scripts.Views.Moves;
-using Assets.Scripts.Views.Timeline;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Assets.Scripts.Views.Movements
+﻿namespace Assets.Scripts.Views.Movements
 {
+    using Assets.Scripts.Simulators;
+    using Assets.Scripts.ThikningEngine;
+    using Assets.Scripts.Views.Moves;
+    using Assets.Scripts.Views.Timeline;
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+
     static class MoveToArrangeHandCards
     {
         /// <summary>

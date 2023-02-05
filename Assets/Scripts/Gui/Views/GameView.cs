@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Gui.Models;
     using Assets.Scripts.Simulators;
+    using Assets.Scripts.ThikningEngine;
     using System;
     using UnityEngine;
 

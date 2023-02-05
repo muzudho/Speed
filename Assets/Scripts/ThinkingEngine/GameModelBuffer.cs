@@ -1,6 +1,5 @@
-﻿namespace Assets.Scripts.Engine
+﻿namespace Assets.Scripts.ThikningEngine
 {
-    using Assets.Scripts.Gui.Models;
     using System.Collections.Generic;
 
     /// <summary>
