@@ -110,7 +110,7 @@
                                 player: player,
                                 indexOfPickup: indexOfHandToRemove,// 場札から抜くのは何枚目
                                 idOfHandCards: idOfHandCardsAfterRemove,
-                                keepPickup: false,
+                                keepPickup: true,
                                 setViewMovement: setViewMovement); // 場札
 
                             // TODO ★ ピックアップしている場札を持ち上げる
