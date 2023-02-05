@@ -1,9 +1,9 @@
-﻿namespace Assets.Scripts.Engine.CommandArgs
+﻿namespace Assets.Scripts.ThikningEngine.CommandArgs
 {
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    internal class MoveCardsToHandFromPileModel : ISpanModel
+    internal class MoveCardsToHandFromPileModel : ICommandArgs
     {
         // - その他（生成）
 

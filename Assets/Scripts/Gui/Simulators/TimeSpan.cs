@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Simulators
 {
-    using Assets.Scripts.Engine.CommandArgs;
+    using Assets.Scripts.ThikningEngine.CommandArgs;
     using Assets.Scripts.Views.Timeline;
 
     /// <summary>
@@ -15,7 +15,7 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="spanModel">スパン・モデル</param>
-        public TimeSpan(float startSeconds, ISpanModel spanModel, ISpanView spanView)
+        public TimeSpan(float startSeconds, ICommandArgs spanModel, ISpanView spanView)
         {
             this.StartSeconds = startSeconds;
             this.SpanModel = spanModel;
@@ -39,7 +39,7 @@
         /// </summary>
         public float EndSeconds => StartSeconds + Duration;
 
-        public ISpanModel SpanModel { get; private set; }
+        public ICommandArgs SpanModel { get; private set; }
 
         public ISpanView SpanView { get; private set; }
     }

@@ -1,9 +1,7 @@
-﻿namespace Assets.Scripts.Gui.Models
+﻿namespace Assets.Scripts.Engine
 {
-    using Assets.Scripts.Simulators;
-    using Assets.Scripts.Views;
+    using Assets.Scripts.Gui.Models;
     using System.Collections.Generic;
-    using Unity.VisualScripting;
 
     /// <summary>
     /// ゲーム・モデル

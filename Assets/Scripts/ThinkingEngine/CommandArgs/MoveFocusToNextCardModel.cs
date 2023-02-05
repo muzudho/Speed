@@ -1,9 +1,9 @@
-﻿namespace Assets.Scripts.Engine.CommandArgs
+﻿namespace Assets.Scripts.ThikningEngine.CommandArgs
 {
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>
-    internal class MoveFocusToNextCardModel : ISpanModel
+    internal class MoveFocusToNextCardModel : ICommandArgs
     {
         // - 生成
 

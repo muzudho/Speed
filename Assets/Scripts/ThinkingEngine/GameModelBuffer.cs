@@ -1,5 +1,6 @@
-﻿namespace Assets.Scripts.Gui.Models
+﻿namespace Assets.Scripts.Engine
 {
+    using Assets.Scripts.Gui.Models;
     using System.Collections.Generic;
 
     /// <summary>

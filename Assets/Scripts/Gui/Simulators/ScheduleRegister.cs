@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Simulators
 {
-    using Assets.Scripts.Engine.CommandArgs;
+    using Assets.Scripts.ThikningEngine.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators;
@@ -51,7 +51,7 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="spanModel">タイム・スパン</param>
-        internal void AddJustNow(float startSeconds, ISpanModel spanModel)
+        internal void AddJustNow(float startSeconds, ICommandArgs spanModel)
         {
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: startSeconds,
@@ -67,7 +67,7 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="spanModel">タイム・スパン</param>
-        internal void AddWithinScheduler(int player, ISpanModel spanModel)
+        internal void AddWithinScheduler(int player, ICommandArgs spanModel)
         {
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: this.ScheduledSeconds[player],

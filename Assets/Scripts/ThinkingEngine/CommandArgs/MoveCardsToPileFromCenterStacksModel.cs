@@ -1,9 +1,9 @@
-﻿namespace Assets.Scripts.Engine.CommandArgs
+﻿namespace Assets.Scripts.ThikningEngine.CommandArgs
 {
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    internal class MoveCardsToPileFromCenterStacksModel : ISpanModel
+    internal class MoveCardsToPileFromCenterStacksModel : ICommandArgs
     {
         // - 生成
 
