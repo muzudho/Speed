@@ -12,7 +12,9 @@
     static class MoveToDropHandCard
     {
         /// <summary>
-        /// ピックアップしている場札を下ろす
+        /// ムーブメント生成
+        /// 
+        /// - ピックアップしている場札を下ろす
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
