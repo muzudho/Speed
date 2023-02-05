@@ -24,13 +24,6 @@ public class GameManager : MonoBehaviour
     // ゲーム内単位時間
     float tickSeconds = 1.0f / 60.0f;
 
-    /// <summary>
-    /// 持続時間
-    /// 
-    /// - 隣のカードをピックアップする
-    /// </summary>
-    float durationOfMoveFocusToNextCard = 0.15f;
-
     // Start is called before the first frame update
     void Start()
     {

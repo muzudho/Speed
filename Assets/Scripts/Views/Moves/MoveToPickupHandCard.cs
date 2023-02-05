@@ -5,6 +5,7 @@
     using Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;
+    using UnityEngine.UIElements;
 
     internal static class MoveToPickupHandCard
     {
@@ -23,12 +24,11 @@
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
             IdOfPlayingCards idOfCard)
         {
-            // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
-            Vector3 lift = new Vector3(0.0f, 5.0f, 0.0f);
-
             // 持ち上がっている状態は、初回アクセス時に確定
             Vector3? startPosition = null;
             Quaternion? startRotation = null;
+            Vector3? endPosition = null;
+            Quaternion? endRotation = null;
 
             return new ViewMovement(
                 startSeconds: startSeconds,
@@ -62,27 +62,26 @@
                         getPosition: () =>
                         {
                             // 初回アクセス時に、値固定
-                            if (startPosition == null)
+                            if (endPosition == null)
                             {
-                                startPosition = getBegin().GetPosition();
+                                endPosition = getBegin().GetPosition() + GameView.yOfPickup.ToMutable();
                             }
-                            return (startPosition ?? throw new Exception()) + lift;
+                            return endPosition ?? throw new Exception();
                         },
                         getRotation: () =>
                         {
                             // 初回アクセス時に、値固定
-                            if (startRotation == null)
+                            if (endRotation == null)
                             {
-                                startRotation = getBegin().GetRotation();
-                            }
-                            var rot = startRotation ?? throw new Exception();
-                            var rotateY = GameView.rotationOfPickup.EulerAnglesY;
-                            var rotateZ = GameView.rotationOfPickup.EulerAnglesZ;
+                                var rot = getBegin().GetRotation();
 
-                            return Quaternion.Euler(
-                                rot.eulerAngles.x,
-                                rot.eulerAngles.y + rotateY,
-                                rot.eulerAngles.z + rotateZ);
+                                endRotation = Quaternion.Euler(
+                                    rot.eulerAngles.x,
+                                    rot.eulerAngles.y + GameView.rotationOfPickup.EulerAnglesY,
+                                    rot.eulerAngles.z + GameView.rotationOfPickup.EulerAnglesZ);
+                            }
+
+                            return endRotation ?? throw new Exception();
                         });
                 });
         }
