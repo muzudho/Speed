@@ -112,33 +112,14 @@
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timeSpan).Player, indexOfCurrent); // ピックアップしている場札
                 var idOfGo = Specification.GetIdOfGameObject(idOfCard);
 
-                Vector3? startPosition = null;
-                Quaternion? startRotation = null;
-
                 // 今回フォーカスするカードを持ち上げる
                 setViewMovement(MoveToPickupHandCard.Generate(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
-                        getPosition: () =>
-                        {
-                            // 初回アクセス時に、値固定
-                            if (startPosition == null)
-                            {
-                                startPosition = GameObjectStorage.Items[idOfGo].transform.position;
-                            }
-                            return startPosition ?? throw new Exception();
-                        },
-                        getRotation: () =>
-                        {
-                            // 初回アクセス時に、値固定
-                            if (startRotation == null)
-                            {
-                                startRotation = GameObjectStorage.Items[idOfGo].transform.rotation;
-                            }
-                            return startRotation ?? throw new Exception();
-                        })));
+                        getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,
+                        getRotation: () => GameObjectStorage.Items[idOfGo].transform.rotation)));
             }
         }
     }
