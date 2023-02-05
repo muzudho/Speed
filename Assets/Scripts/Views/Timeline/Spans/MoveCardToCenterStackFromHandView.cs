@@ -8,6 +8,7 @@
     using Assets.Scripts.Views.Moves;
     using System;
     using UnityEngine;
+    using UnityEngine.UIElements;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>
@@ -113,9 +114,12 @@
                         }
 
                         // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
-                        Vector3 nextTop = GameView.GetPositionOfNextCenterStackCard(
+                        Vector3 nextTop = GameView.GetPositionOfCenterStackCard(
                                     place: place,
                                     getCenterStack: () => gameModel.GetCenterStack(place));
+                        // カードの厚み分、上へ
+                        nextTop = GameView.yOfCardThickness.Add(nextTop);
+
 
                         // 台札へ置く
                         AddCardOfCenterStack(

@@ -62,7 +62,7 @@
         /// <param name="getLengthOfCenterStackCards"></param>
         /// <param name="getLastCardOfCenterStack">天辺（最後）のカード</param>
         /// <returns></returns>
-        internal static Vector3 GetPositionOfNextCenterStackCard(
+        internal static Vector3 GetPositionOfCenterStackCard(
             int place,
             LazyArgs.GetValue<ReadonlyList<IdOfPlayingCards>> getCenterStack)
         {
@@ -82,13 +82,10 @@
             var idOfLastCard = centerStack.ElementAt(length - 1);
             var goLastCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(idOfLastCard)];
 
-            var position = new Vector3(
+            return new Vector3(
                 x: (positionOfCenterStacksOrigin[place].X - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[place].X,
                 y: goLastCard.transform.position.y,
                 z: (positionOfCenterStacksOrigin[place].Z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[place].Z);
-
-            // カードの厚み分、上へ
-            return yOfCardThickness.Add(position);
         }
 
         /// <summary>
