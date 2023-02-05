@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Views.Movements
 {
-    internal static class MoveToArrangeHandCards
+    static class MoveToArrangeHandCards
     {
         /// <summary>
         /// ムーブメント生成

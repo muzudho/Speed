@@ -4,6 +4,7 @@
     using Assets.Scripts.Models.Timeline.Spans;
     using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views;
+    using Assets.Scripts.Views.Moves;
     using System;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
@@ -97,7 +98,7 @@
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timeSpan).Player, indexOfPrevious); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
-                setViewMovement(MovementGenerator.PutDownCardOfHand(
+                setViewMovement(MoveToDropHandCard.Generate(
                     startSeconds: timeSpan.StartSeconds,
                     duration: timeSpan.Duration,
                     idOfCard: idOfCard));
