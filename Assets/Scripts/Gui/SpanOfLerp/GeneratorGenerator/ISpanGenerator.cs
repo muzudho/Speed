@@ -1,8 +1,8 @@
 ﻿namespace Assets.Scripts.Gui.SpanOfLerp.GeneratorGenerator
 {
     using Assets.Scripts.ThinkingEngine;
-    using Assets.Scripts.Views.Timeline;
     using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
+    using SpanOfLeap = Assets.Scripts.Gui.SpanOfLerp;
 
     /// <summary>
     /// スパン生成器
@@ -30,6 +30,6 @@
         void CreateSpanToLerp(
             SimulatorsOfTimeline.TimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<SpanToLerp> setSpanToLerp);
+            LazyArgs.SetValue<SpanOfLeap.Model> setSpanToLerp);
     }
 }

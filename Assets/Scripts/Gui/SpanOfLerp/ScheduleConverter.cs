@@ -2,8 +2,8 @@
 {
     using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
     using Assets.Scripts.ThinkingEngine;
-    using Assets.Scripts.Views.Timeline;
     using UnityEngine;
+    using SpanOfLeap = Assets.Scripts.Gui.SpanOfLerp;
 
     internal static class ScheduleConverter
     {
@@ -19,7 +19,7 @@
             ScheduleRegister scheduleRegister,
             float elapsedSeconds,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<SpanToLerp> setSpanToLerp)
+            LazyArgs.SetValue<SpanOfLeap.Model> setSpanToLerp)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化

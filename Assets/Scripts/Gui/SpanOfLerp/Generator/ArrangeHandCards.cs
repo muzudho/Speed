@@ -2,10 +2,10 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.Views;
-    using Assets.Scripts.Views.Timeline;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
+    using SpanOfLeap = Assets.Scripts.Gui.SpanOfLerp;
 
     /// <summary>
     /// 場札を並べる
@@ -35,7 +35,7 @@
             int indexOfPickup,
             List<IdOfPlayingCards> idOfHandCards,
             bool keepPickup,
-            LazyArgs.SetValue<SpanToLerp> setSpanToLerp)
+            LazyArgs.SetValue<SpanOfLeap.Model> setSpanToLerp)
         {
             // 最大25枚の場札が並べるように調整してある
 
@@ -106,7 +106,7 @@
                         homePositionOfHand: staticDestination.GetPosition(),
                         homeRotationOfHand: staticDestination.GetRotation());
 
-                    setSpanToLerp(new SpanToLerp(
+                    setSpanToLerp(new SpanOfLeap.Model(
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,
@@ -136,20 +136,13 @@
                             getPosition: ()=>endPositionAndRotation.Position,
                             getRotation: ()=>endPositionAndRotation.Rotation
                             )));
-
-                    // 目標地点　＋　ピックアップ操作
-                    setSpanToLerp(PickupHandCard.Generate(
-                        startSeconds: startSeconds,
-                        duration: duration,
-                        idOfCard: idOfPickupCard,
-                        getBegin: () => staticDestination));
                 }
                 else
                 {
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;
 
-                    setSpanToLerp(new SpanToLerp(
+                    setSpanToLerp(new SpanOfLeap.Model(
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,

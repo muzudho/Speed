@@ -3,9 +3,9 @@
     using Assets.Scripts.Gui.SpanOfLerp.Generator;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.CommandArgs;
-    using Assets.Scripts.Views.Timeline;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
+    using SpanOfLeap = Assets.Scripts.Gui.SpanOfLerp;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -41,7 +41,7 @@
         public override void CreateSpanToLerp(
             SimulatorsOfTimeline.TimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<SpanToLerp> setViewMovement)
+            LazyArgs.SetValue<SpanOfLeap.Model> setViewMovement)
         {
             // 確定：手札の枚数
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timedGenerator).Player].Count;

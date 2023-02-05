@@ -4,9 +4,9 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.CommandArgs;
     using Assets.Scripts.Views;
-    using Assets.Scripts.Views.Timeline;
     using System;
     using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
+    using SpanOfLeap = Assets.Scripts.Gui.SpanOfLerp;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
@@ -43,7 +43,7 @@
         public override void CreateSpanToLerp(
             SimulatorsOfTimeline.TimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<SpanToLerp> setViewMovement)
+            LazyArgs.SetValue<SpanOfLeap.Model> setViewMovement)
         {
             GameModel gameModel = new GameModel(gameModelBuffer);
             int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timedGenerator).Player]; // 下ろす場札

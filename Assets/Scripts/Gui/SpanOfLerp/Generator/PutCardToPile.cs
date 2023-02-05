@@ -2,10 +2,10 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.Views;
-    using Assets.Scripts.Views.Timeline;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
+    using SpanOfLeap = Assets.Scripts.Gui.SpanOfLerp;
 
     /// <summary>
     /// 指定のカード（台札を想定）を手札へ移動
@@ -19,7 +19,7 @@
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="target">ゲーム・オブジェクトId</param>
         /// <returns></returns>
-        internal static SpanToLerp Generate(
+        internal static SpanOfLeap.Model Generate(
             float startSeconds,
             float duration,
             int player,
@@ -37,7 +37,7 @@
             Vector3? endPosition = null;
             Quaternion? endRotation = null;
 
-            return new SpanToLerp(
+            return new SpanOfLeap.Model(
                 startSeconds: startSeconds,
                 duration: duration,
                 target: target,

@@ -1,5 +1,6 @@
-﻿namespace Assets.Scripts.Views.Timeline
+﻿namespace Assets.Scripts.Gui.SpanOfLerp
 {
+    using Assets.Scripts.Views;
     using UnityEngine;
 
     /// <summary>
@@ -7,7 +8,7 @@
     /// 
     /// - Lerpに使うもの
     /// </summary>
-    internal class SpanToLerp
+    internal class Model
     {
         // - その他（生成）
 
@@ -19,7 +20,7 @@
         /// <param name="target">ゲーム・オブジェクトId</param>
         /// <param name="getBegin">開始時の位置と回転</param>
         /// <param name="getEnd">終了時の位置と回転</param>
-        public SpanToLerp(
+        public Model(
             float startSeconds,
             float duration,
             IdOfGameObjects target,

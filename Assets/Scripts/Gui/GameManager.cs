@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using SpanOfLeap = Assets.Scripts.Gui.SpanOfLerp;
 using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
 
@@ -209,7 +210,7 @@ public class GameManager : MonoBehaviour
     void OnTick()
     {
         // モデルからビューへ、起動したタイム・スパンを引き継ぎたい
-        var additionSpansToLerp = new List<SpanToLerp>();
+        var additionSpansToLerp = new List<SpanOfLeap.Model>();
 
         // スケジュールを消化していきます
         ScheduleConverter.ConvertToSpansToLerp(
