@@ -2,11 +2,8 @@
 {
     using Assets.Scripts.Models;
     using Assets.Scripts.Models.Timeline.Spans;
-    using Assets.Scripts.Simulators.Timeline;
-    using Assets.Scripts.Views;
     using Assets.Scripts.Views.Moves;
     using System;
-    using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
 
     /// <summary>

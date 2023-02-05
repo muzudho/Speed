@@ -5,6 +5,7 @@
     using Assets.Scripts.Simulators.Timeline;
     using Assets.Scripts.Views;
     using Assets.Scripts.Views.Movements;
+    using Assets.Scripts.Views.Moves;
     using System;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
@@ -184,85 +185,21 @@
             LazyArgs.SetValue<(int, IdOfPlayingCards)> addCardOfCenterStack,
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
-            // 手ぶれ
-            var shakePosition = GameView.ShakePosition(place);
-
             // 台札の次の天辺（一番後ろ）のカードの中心座標 X, Z
             Vector3 nextTop = getNextTopOfCenterStackCard();
 
-            // 抜いた場札
-            var goCard = GameObjectStorage.Items[Specification.GetIdOfGameObject(target)]; // TODO ビューが必要？
+            // 手ぶれ
+            var shakePosition = GameView.ShakePosition(place);
 
             addCardOfCenterStack((place, target));// 台札として置く
 
-            // 台札の位置をセット
-            var idOfGo = Specification.GetIdOfGameObject(target);
-
-            Vector3? startPosition = null;
-            Quaternion? startRotation = null;
-            Vector3? endPosition = null;
-            Quaternion? endRotation = null;
-
-            setViewMovement(new ViewMovement(
+            setViewMovement(MoveCardToPutToCenterStack.Generate(
                 startSeconds: startSeconds,
                 duration: duration,
-                target: idOfGo,
-                getBegin: () => new PositionAndRotationLazy(
-                    getPosition: () =>
-                    {
-                        // 初回アクセス時に、値固定
-                        if (startPosition == null)
-                        {
-                            startPosition = goCard.transform.position;
-                        }
-                        return startPosition ?? throw new Exception();
-                    },
-                    getRotation: () =>
-                    {
-                        // 初回アクセス時に、値固定
-                        if (startRotation == null)
-                        {
-                            startRotation = goCard.transform.rotation;
-                        }
-                        return startRotation ?? throw new Exception();
-                    }),
-                getEnd: () => new PositionAndRotationLazy(
-                    getPosition: () =>
-                    {
-                        // 初回アクセス時に、値固定
-                        if (endPosition == null)
-                        {
-                            endPosition = nextTop + shakePosition;
-                        }
-                        return endPosition ?? throw new Exception();
-                    },
-                    getRotation: () =>
-                    {
-                        // 初回アクセス時に、値固定
-                        if (endRotation == null)
-                        {
-                            // １プレイヤー、２プレイヤーでカードの向きが違う
-                            // また、元の捻りを保存していないと、補間で大回転してしまうようだ
-
-                            var src = goCard.transform.rotation;
-                            var shake = GameView.ShakeRotation();
-                            float yByPlayer;
-                            if (player == 0) // １プレイヤーの方を 180°回転させる
-                            {
-                                yByPlayer = 180.0f;
-                            }
-                            else
-                            {
-                                yByPlayer = 0.0f;
-                            }
-
-                            endRotation = Quaternion.Euler(
-                                x: src.x + shake.x,
-                                y: src.y + shake.y + yByPlayer,
-                                z: src.z + shake.z);
-                        }
-                        return endRotation ?? throw new Exception();
-                    })));
+                player: player,
+                nextTop: nextTop,
+                shakePosition: shakePosition,
+                target: target));
         }
     }
 }
