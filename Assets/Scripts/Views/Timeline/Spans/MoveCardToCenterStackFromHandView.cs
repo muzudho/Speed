@@ -44,50 +44,61 @@
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
             var gameModel = new GameModel(gameModelBuffer);
+            var player = GetModel(timeSpan).Player;
 
             // ピックアップしているカードがあるか？
             GetIndexOfFocusedHandCard(
                 gameModelBuffer: gameModelBuffer,
-                player: GetModel(timeSpan).Player,
+                player: player,
                 (indexOfFocusedHandCard) =>
                 {
                     var place = GetModel(timeSpan).Place;
-                    RemoveAtOfHandCard(
-                        timeSpan: timeSpan,
+
+                    if (CanRemoveHandCardAt(
                         gameModelBuffer: gameModelBuffer,
-                        player: GetModel(timeSpan).Player,
-                        place: place,
-                        getIndexOfHandCardToRemove: () => indexOfFocusedHandCard,
-                        getNextTopOfCenterStackCard: () =>
-                        {
-                            return GameView.GetPositionOfNextCenterStackCard(
-                                place: place,
-                                getCenterStack: () => gameModel.GetCenterStack(place));
-                        },
-                        setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
-                        {
-                            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
-
-                            var player = GetModel(timeSpan).Player;
-                            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
-                            if (0 < numberOfCards)
+                        player: player,
+                        getIndexOfHandCardToRemove: () => indexOfFocusedHandCard))
+                    {
+                        // 場札からカードを抜く
+                        RemoveAtOfHandCard(
+                            timeSpan: timeSpan,
+                            gameModelBuffer: gameModelBuffer,
+                            player: GetModel(timeSpan).Player,
+                            place: place,
+                            getIndexOfHandCardToRemove: () => indexOfFocusedHandCard,
+                            getNextTopOfCenterStackCard: () =>
                             {
-                                // 場札の位置調整（をしないと歯抜けになる）
-                                MovementGenerator.ArrangeHandCards(
-                                    startSeconds: timeSpan.StartSeconds,
-                                    duration: timeSpan.Duration / 2.0f,
-                                    player: GetModel(timeSpan).Player,
-                                    getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
-                                    getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
-                                    getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
-                                    setViewMovement: setViewMovement); // 場札
-                            }
+                                return GameView.GetPositionOfNextCenterStackCard(
+                                    place: place,
+                                    getCenterStack: () => gameModel.GetCenterStack(place));
+                            },
+                            setIndexOfNextFocusedHandCard: (indexOfNextFocusedHandCard) =>
+                            {
+                                gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timeSpan).Player] = indexOfNextFocusedHandCard; // 更新：何枚目の場札をピックアップしているか
 
-                        },
-                        setViewMovement: (movementModel) =>
-                        {
-                            setViewMovement(movementModel); // 台札
-                        });
+                                var player = GetModel(timeSpan).Player;
+                                int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player); // 場札の枚数
+                                if (0 < numberOfCards)
+                                {
+                                    // 場札の位置調整（をしないと歯抜けになる）
+                                    MovementGenerator.ArrangeHandCards(
+                                        startSeconds: timeSpan.StartSeconds,
+                                        duration: timeSpan.Duration / 2.0f,
+                                        player: GetModel(timeSpan).Player,
+                                        getNumberOfHandCards: () => gameModel.GetLengthOfPlayerHandCards(player),// 場札の枚数
+                                        getIndexOfPickup: () => gameModel.GetIndexOfFocusedCardOfPlayer(player),
+                                        getIdOfHands: () => gameModel.GetCardsOfPlayerHand(player),
+                                        setViewMovement: setViewMovement); // 場札
+                                }
+
+                            },
+                            setViewMovement: (movementModel) =>
+                            {
+                                setViewMovement(movementModel); // 台札
+                            });
+
+                    }
+
                 });
         }
 
@@ -102,13 +113,31 @@
             setIndex(handIndex);
         }
 
+        private bool CanRemoveHandCardAt(
+            GameModelBuffer gameModelBuffer,
+            int player,
+            LazyArgs.GetValue<int> getIndexOfHandCardToRemove)
+        {
+            var indexOfHandCardToRemove = getIndexOfHandCardToRemove();
+
+            // 抜く前の場札の数
+            var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
+            if (indexOfHandCardToRemove < 0 || lengthBeforeRemove <= indexOfHandCardToRemove)
+            {
+                // 抜くのに失敗
+                return false;
+            }
+
+
+            return true;
+        }
 
         /// <summary>
         /// 場札を抜いて、台札へ置く
         /// </summary>
         /// <param name="player"></param>
         /// <param name="indexOfHandCardToRemove"></param>
-        /// <param name="setIndexOfNextFocusedHandCard"></param>
+        /// <param name="setIndexOfNextFocusedHandCard">抜いた後の次のピックアップするカードが先頭から何枚目か、先に算出</param>
         private void RemoveAtOfHandCard(
             SimulatorsOfTimeline.TimeSpan timeSpan,
             GameModelBuffer gameModelBuffer,
@@ -119,18 +148,16 @@
             LazyArgs.SetValue<int> setIndexOfNextFocusedHandCard,
             LazyArgs.SetValue<ViewMovement> setViewMovement)
         {
-            var indexOfHandCardToRemove = getIndexOfHandCardToRemove();
-
-            // 抜く前の場札の数
-            var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
-            if (indexOfHandCardToRemove < 0 || lengthBeforeRemove <= indexOfHandCardToRemove)
+            // 抜いた後の場札の数
+            int lengthAfterRemove;
             {
-                // 抜くのに失敗
-                return;
+                // 抜く前の場札の数
+                var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
+                lengthAfterRemove = lengthBeforeRemove - 1;
             }
 
-            // 抜いた後の場札の数
-            var lengthAfterRemove = lengthBeforeRemove - 1;
+            // 抜く場札のインデックス
+            var indexOfHandCardToRemove = getIndexOfHandCardToRemove();
 
             // 抜いた後の次のピックアップするカードが先頭から何枚目か、先に算出
             int indexOfNextFocusedHandCard;
