@@ -25,8 +25,8 @@
             IdOfPlayingCards idOfCard)
         {
             var liftY = 5.0f; // 持ち上げる（パースペクティブがかかっていて、持ち上げすぎると北へ移動したように見える）
-            var rotateY = -5; // -5°傾ける
-            var rotateZ = -5; // -5°傾ける
+            var rotateY = GameView.rotationOfPickup.EulerAnglesY;
+            var rotateZ = GameView.rotationOfPickup.EulerAnglesZ;
 
             // 逆をする
             liftY = -liftY;

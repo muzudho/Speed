@@ -25,6 +25,12 @@
 
         // - プロパティ
 
+        public float EulerAnglesX => me.eulerAngles.x;
+
+        public float EulerAnglesY => me.eulerAngles.y;
+
+        public float EulerAnglesZ => me.eulerAngles.z;
+
         // - メソッド
 
         public Quaternion ToMutable()

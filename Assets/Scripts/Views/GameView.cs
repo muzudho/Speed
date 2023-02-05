@@ -23,6 +23,11 @@
         internal static readonly Vector3Immutable yOfCardThickness = new Vector3Immutable(0f, 0.2f, 0f);
 
         /// <summary>
+        /// ピックアップしているカードの捻り。 -5°
+        /// </summary>
+        internal static readonly QuaternionImmutable rotationOfPickup = QuaternionImmutable.Euler(0f, -5.0f, -5.0f);
+
+        /// <summary>
         /// 場札の原点
         /// 
         /// - 扇状を作るため、画面外の遠くにある

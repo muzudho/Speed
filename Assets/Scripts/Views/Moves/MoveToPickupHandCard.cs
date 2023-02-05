@@ -76,8 +76,9 @@
                                 startRotation = getBegin().GetRotation();
                             }
                             var rot = startRotation ?? throw new Exception();
-                            var rotateY = -5; // -5°傾ける
-                            var rotateZ = -5; // -5°傾ける
+                            var rotateY = GameView.rotationOfPickup.EulerAnglesY;
+                            var rotateZ = GameView.rotationOfPickup.EulerAnglesZ;
+
                             return Quaternion.Euler(
                                 rot.eulerAngles.x,
                                 rot.eulerAngles.y + rotateY,
