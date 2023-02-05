@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Views.Timeline
 {
     using Assets.Scripts.Gui.Models;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// タイム・スパン

@@ -4,7 +4,7 @@
     using Assets.Scripts.Gui.Models.Timeline.Spans;
     using Assets.Scripts.Views.Moves;
     using System;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する

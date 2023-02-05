@@ -4,7 +4,7 @@
     using Assets.Scripts.Gui.Models.Timeline.Spans;
     using Assets.Scripts.Views.Movements;
     using UnityEngine;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動

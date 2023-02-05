@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Simulators.Timeline
+﻿namespace Assets.Scripts.Simulators
 {
     using Assets.Scripts.Gui.Models;
     using Assets.Scripts.Gui.Models.Timeline.Spans;
@@ -7,7 +7,7 @@
     using Assets.Scripts.Views.Timeline.Spans;
     using System;
     using System.Collections.Generic;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// モデルには時間、空間の概念がないので、

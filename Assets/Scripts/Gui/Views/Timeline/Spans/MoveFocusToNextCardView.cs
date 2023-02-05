@@ -2,12 +2,12 @@
 {
     using Assets.Scripts.Gui.Models;
     using Assets.Scripts.Gui.Models.Timeline.Spans;
-    using Assets.Scripts.Simulators.Timeline;
+    using Assets.Scripts.Simulators;
     using Assets.Scripts.Views;
     using Assets.Scripts.Views.Moves;
     using System;
     using UnityEngine;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します

@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Views.Moves
 {
     using Assets.Scripts.Gui.Models;
-    using Assets.Scripts.Simulators.Timeline;
+    using Assets.Scripts.Simulators;
     using Assets.Scripts.Views.Timeline;
     using System;
     using UnityEngine;

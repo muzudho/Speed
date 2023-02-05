@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Gui.Models
 {
-    using Assets.Scripts.Simulators.Timeline;
+    using Assets.Scripts.Simulators;
     using Assets.Scripts.Views;
     using System.Collections.Generic;
     using Unity.VisualScripting;

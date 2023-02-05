@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Views
 {
-    using Assets.Scripts.Simulators.Timeline;
+    using Assets.Scripts.Simulators;
     using System.Collections.Generic;
     using UnityEngine;
 

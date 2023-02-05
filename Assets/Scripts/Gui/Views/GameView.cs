@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Views
 {
     using Assets.Scripts.Gui.Models;
-    using Assets.Scripts.Simulators.Timeline;
+    using Assets.Scripts.Simulators;
     using System;
     using UnityEngine;
 

@@ -1,22 +1,22 @@
-﻿namespace Assets.Scripts.Simulators.Timeline
+﻿namespace Assets.Scripts.Simulators
 {
     using Assets.Scripts.Gui.Models;
     using Assets.Scripts.Gui.Models.Timeline;
     using Assets.Scripts.Views.Timeline;
     using System.Collections.Generic;
     using UnityEngine;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// シミュレーター
     /// 
     /// - 編集可能（Mutable）
     /// </summary>
-    internal class Simulator
+    internal class ScheduleRegister
     {
         // - その他（生成）
 
-        public Simulator()
+        public ScheduleRegister()
         {
         }
 
@@ -28,13 +28,13 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<TimeSpan> scheduledItemModels = new();
+        List<TimeSpan> timeSpans = new();
 
-        internal List<TimeSpan> ScheduledItems
+        internal List<TimeSpan> TimeSpans
         {
             get
             {
-                return this.scheduledItemModels;
+                return this.timeSpans;
             }
         }
 
@@ -91,14 +91,14 @@
         /// 追加
         /// </summary>
         /// <param name="spanModel">タイム・スパン</param>
-        internal void AddJustNow(float startSeconds, int player, ISpanModel spanModel)
+        internal void AddJustNow(float startSeconds, ISpanModel spanModel)
         {
             var timeSpan = new SimulatorsOfTimeline.TimeSpan(
                     startSeconds: startSeconds,
                     spanModel: spanModel,
                     spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
 
-            this.ScheduledItems.Add(timeSpan);
+            this.TimeSpans.Add(timeSpan);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@
                     spanModel: spanModel,
                     spanView: Specification.SpawnViewFromModel(spanModel.GetType()));
 
-            this.ScheduledItems.Add(timeSpan);
+            this.TimeSpans.Add(timeSpan);
             this.ScheduledSeconds[player] += timeSpan.Duration;
         }
 
@@ -123,22 +123,22 @@
 
         internal TimeSpan GetItemAt(int index)
         {
-            return this.ScheduledItems[index];
+            return this.TimeSpans[index];
         }
 
         internal int GetCountItems()
         {
-            return this.ScheduledItems.Count;
+            return this.TimeSpans.Count;
         }
 
         internal void RemoveAt(int index)
         {
-            this.ScheduledItems.RemoveAt(index);
+            this.TimeSpans.RemoveAt(index);
         }
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Simulators.Timeline.Simulator DebugWrite] timedItems.Count:{scheduledItemModels.Count}");
+            Debug.Log($"[Assets.Scripts.Simulators.Simulator DebugWrite] timedItems.Count:{timeSpans.Count}");
         }
     }
 }

@@ -4,7 +4,7 @@
     using Assets.Scripts.Gui.Models.Timeline.Spans;
     using Assets.Scripts.Views.Movements;
     using Assets.Scripts.Views.Moves;
-    using SimulatorsOfTimeline = Assets.Scripts.Simulators.Timeline;
+    using SimulatorsOfTimeline = Assets.Scripts.Simulators;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
