@@ -20,6 +20,10 @@
 
         GameModelBuffer gameModelBuffer;
 
+        // - プロパティ
+
+        internal float ElapsedSeconds => gameModelBuffer.ElapsedSeconds;
+
         // - メソッド
 
         internal ReadonlyList<IdOfPlayingCards> GetCenterStack(int place)

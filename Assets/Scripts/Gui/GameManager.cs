@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     // - プロパティ
 
-    internal float ElapsedSeconds => gameModelBuffer.ElapsedSeconds;
+    internal GameModel Model => gameModel;
 
     // - メソッド
 

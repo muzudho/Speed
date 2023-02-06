@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    // - フィールド
+
     GameManager gameManager;
+
+    // - イベントハンドラ
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +37,7 @@ public class InputManager : MonoBehaviour
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
             gameManager.ScheduleRegister.AddJustNow(
-                gameManager.ElapsedSeconds,
+                gameManager.Model.ElapsedSeconds,
                 commandArgs: new MoveCardToCenterStackFromHandModel(
                     player: 0,      // １プレイヤーが
                     place: right)); // 右の
@@ -44,7 +48,7 @@ public class InputManager : MonoBehaviour
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
             gameManager.ScheduleRegister.AddJustNow(
-                gameManager.ElapsedSeconds,
+                gameManager.Model.ElapsedSeconds,
                 commandArgs: new MoveCardToCenterStackFromHandModel(
                     player: 1, // ２プレイヤーが
                     place: right)); // 右の
@@ -59,7 +63,7 @@ public class InputManager : MonoBehaviour
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
             gameManager.ScheduleRegister.AddJustNow(
-                gameManager.ElapsedSeconds,
+                gameManager.Model.ElapsedSeconds,
                 commandArgs: new MoveCardToCenterStackFromHandModel(
                     player: 1,      // ２プレイヤーが
                     place: left));  // 左の
@@ -71,7 +75,7 @@ public class InputManager : MonoBehaviour
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
             gameManager.ScheduleRegister.AddJustNow(
-                gameManager.ElapsedSeconds,
+                gameManager.Model.ElapsedSeconds,
                 commandArgs: new MoveCardToCenterStackFromHandModel(
                     player: 0, // １プレイヤーが
                     place: left));  // 左の
@@ -90,7 +94,7 @@ public class InputManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
             gameManager.ScheduleRegister.AddJustNow(
-                gameManager.ElapsedSeconds,
+                gameManager.Model.ElapsedSeconds,
                 commandArgs: new MoveFocusToNextCardModel(
                     player: 0,
                     direction: 1));
@@ -99,7 +103,7 @@ public class InputManager : MonoBehaviour
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
             gameManager.ScheduleRegister.AddJustNow(
-                gameManager.ElapsedSeconds,
+                gameManager.Model.ElapsedSeconds,
                 commandArgs: new MoveFocusToNextCardModel(
                     player: 0,
                     direction: 0));
@@ -114,7 +118,7 @@ public class InputManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
             gameManager.ScheduleRegister.AddJustNow(
-                gameManager.ElapsedSeconds,
+                gameManager.Model.ElapsedSeconds,
                 commandArgs: new MoveFocusToNextCardModel(
                     player: 1,
                     direction: 1));
@@ -123,7 +127,7 @@ public class InputManager : MonoBehaviour
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
             gameManager.ScheduleRegister.AddJustNow(
-                gameManager.ElapsedSeconds,
+                gameManager.Model.ElapsedSeconds,
                 commandArgs: new MoveFocusToNextCardModel(
                     player: 1,
                     direction: 0));
@@ -137,7 +141,7 @@ public class InputManager : MonoBehaviour
             {
                 // 場札を並べる
                 gameManager.ScheduleRegister.AddJustNow(
-                    gameManager.ElapsedSeconds,
+                    gameManager.Model.ElapsedSeconds,
                     commandArgs: new MoveCardsToHandFromPileModel(
                         player: player,
                         numberOfCards: 1));
