@@ -54,7 +54,7 @@
             return new SpanOfLeap.Model(
                 startSeconds: startSeconds,
                 duration: duration,
-                target: Definition.GetIdOfGameObject(idOfCard),
+                target: IdMapping.GetIdOfGameObject(idOfCard),
                 getBegin: () =>
                 {
                     return new PositionAndRotationLazy(

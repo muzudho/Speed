@@ -24,7 +24,7 @@
             float duration,
             IdOfPlayingCards idOfCard)
         {
-            var idOfGo = Definition.GetIdOfGameObject(idOfCard);
+            var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
             Vector3? startPosition = null;
             Quaternion? startRotation = null;

@@ -11,9 +11,11 @@ public class LegalManager : MonoBehaviour
 
     // - メソッド
 
-    internal bool CanPutToCenterStack(int number)
+    internal bool CanPutToCenterStack(int place, int number)
     {
-        return true; // gameManager.
+        var idOfLastCard = gameModel.GetLastCardOfCenterStack(place);
+
+        return true; // TODO ★
     }
 
     // - イベントハンドラ

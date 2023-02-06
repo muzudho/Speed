@@ -22,7 +22,7 @@
 
             foreach (var item in Items)
             {
-                if(Definition.TestPlayingCard(item.Key))
+                if(IdMapping.TestPlayingCard(item.Key))
                 {
                     list.Add(item.Key, item.Value);
                 }

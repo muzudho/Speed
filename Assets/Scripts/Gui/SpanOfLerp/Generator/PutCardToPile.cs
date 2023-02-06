@@ -27,7 +27,7 @@
             IdOfPlayingCards idOfPlayingCard)
         {
             // 台札から手札へ移動するカードについて
-            var target = Definition.GetIdOfGameObject(idOfPlayingCard);
+            var target = IdMapping.GetIdOfGameObject(idOfPlayingCard);
 
             var lengthOfPile = idOfPlayerPileCards.Count;
             var idOfTopOfPile = idOfPlayerPileCards[lengthOfPile - 1]; // 手札の天辺
@@ -76,7 +76,7 @@
                                 // 既存の手札があれば
                                 else
                                 {
-                                    var goCardOfTop = GameObjectStorage.Items[Definition.GetIdOfGameObject(idOfTopOfPile)];
+                                    var goCardOfTop = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(idOfTopOfPile)];
                                     // より、１枚分上
                                     endPosition = goCardOfTop.transform.position;
                                 }

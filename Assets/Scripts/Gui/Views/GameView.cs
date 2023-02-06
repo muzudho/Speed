@@ -83,7 +83,7 @@
             }
 
             // 置く前の台札の天辺
-            var goLastCard = GameObjectStorage.Items[Definition.GetIdOfGameObject(previousTop)];
+            var goLastCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(previousTop)];
 
             var pos = new Vector3(
                 x: (positionOfCenterStacksOrigin[place].X - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[place].X,

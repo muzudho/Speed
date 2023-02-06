@@ -109,7 +109,7 @@
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).Player, indexOfCurrent); // ピックアップしている場札
-                var idOfGo = Definition.GetIdOfGameObject(idOfCard);
+                var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
                 setViewMovement(PickupHandCard.Generate(

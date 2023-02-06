@@ -3,11 +3,14 @@
     using Assets.Scripts.Views;
     using System.Collections.Generic;
 
-    internal static class Definition
+    /// <summary>
+    /// Id の紐づけ
+    /// </summary>
+    internal static class IdMapping
     {
         // - その他
 
-        static Definition()
+        static IdMapping()
         {
             Bind(IdOfPlayingCards.Clubs1, IdOfGameObjects.Clubs1);
             Bind(IdOfPlayingCards.Clubs2, IdOfGameObjects.Clubs2);

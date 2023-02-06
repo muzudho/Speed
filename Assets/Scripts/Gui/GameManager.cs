@@ -262,7 +262,7 @@ public class GameManager : MonoBehaviour
             List<IdOfPlayingCards> cardsOfGame = new();
             foreach (var idOfGo in GameObjectStorage.CreatePlayingCards().Keys)
             {
-                cardsOfGame.Add(Definition.GetIdOfPlayingCard(idOfGo));
+                cardsOfGame.Add(IdMapping.GetIdOfPlayingCard(idOfGo));
             }
 
             // すべてのカードをシャッフル
@@ -289,7 +289,7 @@ public class GameManager : MonoBehaviour
                 modelBuffer.AddCardOfPlayersPile(player, idOfCard);
 
                 // 画面上の位置も調整
-                var goCard = GameObjectStorage.Items[Definition.GetIdOfGameObject(idOfCard)];
+                var goCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(idOfCard)];
 
                 var length = modelBuffer.IdOfCardsOfPlayersPile[player].Count;
                 // 最初の１枚目
@@ -306,7 +306,7 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     var previousTopCard = modelBuffer.IdOfCardsOfPlayersPile[player][length - 2]; // 天辺より１つ下のカードが、前のカード
-                    var goPreviousTopCard = GameObjectStorage.Items[Definition.GetIdOfGameObject(previousTopCard)];
+                    var goPreviousTopCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(previousTopCard)];
                     goCard.transform.position = GameView.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
                                                                                                                      // 裏返す
                     goCard.transform.rotation = Quaternion.Euler(

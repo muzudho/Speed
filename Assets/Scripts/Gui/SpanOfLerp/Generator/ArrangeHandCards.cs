@@ -87,7 +87,7 @@
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
                 float z = range * Mathf.Sin(theta + playerTheta) + GameView.positionOfHandCardsOrigin[player].Z + offsetCircleCenterZ;
 
-                var idOfGo = Definition.GetIdOfGameObject(idOfHandCard);
+                var idOfGo = IdMapping.GetIdOfGameObject(idOfHandCard);
 
                 // 目標地点
                 var staticDestination = new PositionAndRotationLazy(

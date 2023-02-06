@@ -36,7 +36,7 @@
                             previousTop: idOfPreviousTop);
             }
 
-            var targetGo = Definition.GetIdOfGameObject(target);
+            var targetGo = IdMapping.GetIdOfGameObject(target);
 
             Vector3? startPosition = null;
             Quaternion? startRotation = null;
