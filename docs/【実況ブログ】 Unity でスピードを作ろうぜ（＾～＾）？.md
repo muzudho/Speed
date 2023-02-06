@@ -5057,4 +5057,14 @@ namespace Assets.Scripts.Models
 ![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
 「　👆　やったな！」  
 
+📺 [開発中画面](https://twitter.com/muzudho1/status/1622312190270402560?s=20&t=f5EqhpedTJmS2Pkxi9oGIg)  
+
+📅 2023-02-06 mon 04:13  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　今朝は　ここまで」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　おつ」  
+
 # // 書きかけ
