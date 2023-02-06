@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gui.SpanOfLerp;
+using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 using Assets.Scripts.ThinkingEngine;
 using Assets.Scripts.ThinkingEngine.CommandArgs;
 using Assets.Scripts.Views;
@@ -20,20 +21,50 @@ public class GameManager : MonoBehaviour
 {
     // - フィールド
 
-    internal TimedGeneratorOfSpanOfLearp.ScheduleRegister ScheduleRegister { get; private set; }
-
     ViewsOfTimeline.PlayerToLerp playerToLerp;
-
-    GameModelBuffer gameModelBuffer;
-
-    GameModel gameModel;
 
     // ゲーム内単位時間
     float tickSeconds = 1.0f / 60.0f;
 
     // - プロパティ
 
-    internal GameModel Model => gameModel;
+    // モデル・バッファー
+    GameModelBuffer modelBuffer = new GameModelBuffer();
+
+    /// <summary>
+    /// ゲーム・モデル
+    /// </summary>
+    internal GameModel Model
+    {
+        get
+        {
+            if (model == null)
+            {
+                // ゲーム・モデルは、ゲーム・モデル・バッファーを持つ
+                model = new GameModel(modelBuffer);
+            }
+            return model;
+        }
+    }
+    GameModel model;
+
+
+    /// <summary>
+    /// スケジュール・レジスター
+    /// </summary>
+    internal ScheduleRegister ScheduleRegister
+    {
+        get
+        {
+            if (scheduleRegister == null)
+            {
+                // スケジューラー・レジスターは、ゲーム・モデルを持つ。
+                scheduleRegister = new TimedGeneratorOfSpanOfLearp.ScheduleRegister(this.Model);
+            }
+            return scheduleRegister;
+        }
+    }
+    ScheduleRegister scheduleRegister;
 
     // - メソッド
 
@@ -225,11 +256,6 @@ public class GameManager : MonoBehaviour
         // Lerp を実行するだけのクラス
         playerToLerp = new PlayerToLerp();
 
-        // タイムライン・シミュレーターは、タイム・スパンを持つ。
-        ScheduleRegister = new TimedGeneratorOfSpanOfLearp.ScheduleRegister();
-        gameModelBuffer = new GameModelBuffer();
-        gameModel = new GameModel(gameModelBuffer);
-
         // ゲーム初期状態へセット
         {
             // ゲーム開始時、とりあえず、すべてのカードを集める
@@ -260,12 +286,12 @@ public class GameManager : MonoBehaviour
                         throw new Exception();
                 }
 
-                gameModelBuffer.AddCardOfPlayersPile(player, idOfCard);
+                modelBuffer.AddCardOfPlayersPile(player, idOfCard);
 
                 // 画面上の位置も調整
                 var goCard = GameObjectStorage.Items[Definition.GetIdOfGameObject(idOfCard)];
 
-                var length = gameModelBuffer.IdOfCardsOfPlayersPile[player].Count;
+                var length = modelBuffer.IdOfCardsOfPlayersPile[player].Count;
                 // 最初の１枚目
                 if (length == 1)
                 {
@@ -279,7 +305,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    var previousTopCard = gameModelBuffer.IdOfCardsOfPlayersPile[player][length - 2]; // 天辺より１つ下のカードが、前のカード
+                    var previousTopCard = modelBuffer.IdOfCardsOfPlayersPile[player][length - 2]; // 天辺より１つ下のカードが、前のカード
                     var goPreviousTopCard = GameObjectStorage.Items[Definition.GetIdOfGameObject(previousTopCard)];
                     goCard.transform.position = GameView.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
                                                                                                                      // 裏返す
@@ -293,7 +319,7 @@ public class GameManager : MonoBehaviour
 
         const int right = 0;// 台札の右
                             // const int left = 1;// 台札の左
-        while (0 < gameModel.GetLengthOfCenterStackCards(right))
+        while (0 < model.GetLengthOfCenterStackCards(right))
         {
             // 即実行
             var spanModel = new MoveCardsToPileFromCenterStacksModel(
@@ -305,7 +331,7 @@ public class GameManager : MonoBehaviour
                     spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(spanModel.GetType()));
             timedGenerator.SpanGenerator.CreateSpanToLerp(
                 timedGenerator,
-                gameModelBuffer,
+                modelBuffer,
                 setSpanToLerp: (movementViewModel) => movementViewModel.Lerp(1.0f));
         }
 
@@ -348,19 +374,19 @@ public class GameManager : MonoBehaviour
         // スケジュールを消化していきます
         ScheduleConverter.ConvertToSpansToLerp(
             this.ScheduleRegister,
-            this.gameModelBuffer.ElapsedSeconds,
-            gameModelBuffer,
+            modelBuffer.ElapsedSeconds,
+            modelBuffer,
             setSpanToLerp: (spanToLerp) =>
             {
                 additionSpansToLerp.Add(spanToLerp);
             });
 
         // モーションの補間
-        this.playerToLerp.Lerp(this.gameModelBuffer.ElapsedSeconds, additionSpansToLerp);
+        this.playerToLerp.Lerp(modelBuffer.ElapsedSeconds, additionSpansToLerp);
 
         this.ScheduleRegister.DebugWrite(); // TODO ★ 消す
         this.playerToLerp.DebugWrite(); // TODO ★ 消す
 
-        this.gameModelBuffer.ElapsedSeconds += tickSeconds;
+        modelBuffer.ElapsedSeconds += tickSeconds;
     }
 }

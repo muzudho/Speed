@@ -1,3 +1,4 @@
+using Assets.Scripts.ThinkingEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ public class LegalManager : MonoBehaviour
 {
     // - フィールド
 
-    GameManager gameManager;
+    GameModel gameModel;
 
     // - メソッド
 
@@ -20,7 +21,7 @@ public class LegalManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        gameModel = GameObject.Find("Game Manager").GetComponent<GameManager>().Model;
     }
 
     // Update is called once per frame

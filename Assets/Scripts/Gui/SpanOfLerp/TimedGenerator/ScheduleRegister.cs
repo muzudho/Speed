@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.Gui.SpanOfLerp.TimedGenerator
 {
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
@@ -14,11 +15,14 @@
     {
         // - その他（生成）
 
-        public ScheduleRegister()
+        public ScheduleRegister(GameModel gameModel)
         {
+            this.gameModel = gameModel;
         }
 
         // - プロパティ
+
+        GameModel gameModel;
 
         /// <summary>
         /// スケジュールに登録されている残りの項目
@@ -50,11 +54,11 @@
         /// 
         /// - タイムを自動的に付ける
         /// </summary>
-        /// <param name="commandArgs">タイム・スパン</param>
-        internal void AddJustNow(float startSeconds, ICommandArgs commandArgs)
+        /// <param name="commandArgs">コマンド</param>
+        internal void AddJustNow(ICommandArgs commandArgs)
         {
             var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
-                    startSeconds: startSeconds,
+                    startSeconds: gameModel.ElapsedSeconds,
                     commandArgs: commandArgs,
                     spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(commandArgs.GetType()));
 
