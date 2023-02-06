@@ -17,12 +17,12 @@
 
         public ScheduleRegister(GameModel gameModel)
         {
-            this.gameModel = gameModel;
+            this.GameModel = gameModel;
         }
 
         // - プロパティ
 
-        GameModel gameModel;
+        internal GameModel GameModel { get; private set; }
 
         /// <summary>
         /// スケジュールに登録されている残りの項目
@@ -58,7 +58,7 @@
         internal void AddJustNow(ICommandArgs commandArgs)
         {
             var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
-                    startSeconds: gameModel.ElapsedSeconds,
+                    startSeconds: GameModel.ElapsedSeconds,
                     commandArgs: commandArgs,
                     spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(commandArgs.GetType()));
 

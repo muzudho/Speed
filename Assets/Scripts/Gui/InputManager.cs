@@ -1,4 +1,6 @@
+using Assets.Scripts.Gui.SpanOfLerp;
 using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
+using Assets.Scripts.ThinkingEngine;
 using Assets.Scripts.ThinkingEngine.CommandArgs;
 using UnityEngine;
 
@@ -8,15 +10,12 @@ public class InputManager : MonoBehaviour
 
     ScheduleRegister scheduleRegister;
 
-    LegalManager legalManager;
-
     // - イベントハンドラ
 
     // Start is called before the first frame update
     void Start()
     {
         scheduleRegister = GameObject.Find("Game Manager").GetComponent<GameManager>().ScheduleRegister;
-        legalManager = GameObject.Find("Legal Manager").GetComponent<LegalManager>();
     }
 
     /// <summary>
@@ -37,7 +36,8 @@ public class InputManager : MonoBehaviour
         // （ボタン押下が同時なら）右の台札は１プレイヤー優先
         // ==================================================
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && legalManager.CanPutToCenterStack(
+        if (Input.GetKeyDown(KeyCode.DownArrow) && LegalMove.CanPutToCenterStack(
+            gameModel: scheduleRegister.GameModel,
             player: 0,      // １プレイヤーが
             place: right))  // 右の
         {
@@ -48,7 +48,8 @@ public class InputManager : MonoBehaviour
             handled1player = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && legalManager.CanPutToCenterStack(
+        if (Input.GetKeyDown(KeyCode.W) && LegalMove.CanPutToCenterStack(
+            gameModel: scheduleRegister.GameModel,
             player: 1,      // ２プレイヤーが
             place: right))  // 右の)
         {
@@ -63,7 +64,8 @@ public class InputManager : MonoBehaviour
         // ==================================================
 
         // ２プレイヤー
-        if (Input.GetKeyDown(KeyCode.S) && legalManager.CanPutToCenterStack(
+        if (Input.GetKeyDown(KeyCode.S) && LegalMove.CanPutToCenterStack(
+            gameModel: scheduleRegister.GameModel,
             player: 1,      // ２プレイヤーが
             place: left))
         {
@@ -75,7 +77,8 @@ public class InputManager : MonoBehaviour
         }
 
         // １プレイヤー
-        if (Input.GetKeyDown(KeyCode.UpArrow) && legalManager.CanPutToCenterStack(
+        if (Input.GetKeyDown(KeyCode.UpArrow) && LegalMove.CanPutToCenterStack(
+            gameModel: scheduleRegister.GameModel,
             player: 0,      // １プレイヤーが
             place: left))
         {
