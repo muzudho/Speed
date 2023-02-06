@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Gui.SpanOfLerp
+﻿namespace Assets.Scripts.Gui.TimedCommandArgs
 {
     using Assets.Scripts.ThinkingEngine.CommandArgs;
     using System;
@@ -7,11 +7,11 @@
     /// <summary>
     /// コマンド引数に、推定実行時間を紐づけます
     /// </summary>
-    internal class CommandArgsAndDurationMapping
+    internal class DurationMapping
     {
         // - その他
 
-        static CommandArgsAndDurationMapping()
+        static DurationMapping()
         {
             // 隣の場札をピックアップする秒
             float durationOfMoveFocusToNextCard = 0.15f;

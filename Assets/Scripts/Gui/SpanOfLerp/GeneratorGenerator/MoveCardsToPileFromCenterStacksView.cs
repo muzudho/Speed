@@ -27,7 +27,7 @@
 
         MoveCardsToPileFromCenterStacksModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveCardsToPileFromCenterStacksModel)timedGenerator.CommandArgs;
+            return (MoveCardsToPileFromCenterStacksModel)timedGenerator.TimedCommandArg.CommandArgs;
         }
 
         // - メソッド
@@ -77,7 +77,7 @@
 
                 setViewMovement(PutCardToPile.Generate(
                     startSeconds: timedGenerator.StartSeconds,
-                    duration: timedGenerator.Duration,
+                    duration: timedGenerator.TimedCommandArg.Duration,
                     player: player,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[player],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード

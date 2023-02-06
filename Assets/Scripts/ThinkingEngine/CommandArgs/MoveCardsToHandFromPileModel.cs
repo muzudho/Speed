@@ -3,7 +3,7 @@
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    internal class MoveCardsToHandFromPileModel : ICommandArgs
+    internal class MoveCardsToHandFromPileModel : ICommandArg
     {
         // - その他（生成）
 

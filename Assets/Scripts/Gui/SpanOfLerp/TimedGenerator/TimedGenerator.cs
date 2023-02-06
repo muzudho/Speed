@@ -1,8 +1,7 @@
 ﻿namespace Assets.Scripts.Gui.SpanOfLerp.TimedGenerator
 {
     using Assets.Scripts.Gui.SpanOfLerp.GeneratorGenerator;
-    using Assets.Scripts.ThinkingEngine.CommandArgs;
-    using GeneratorOfSpanOpLear = Assets.Scripts.Gui.SpanOfLerp.Generator;
+    using GuiOfTimedCommandArgs = Assets.Scripts.Gui.TimedCommandArgs;
 
     /// <summary>
     /// コマンド引数と、スパン・ビューを紐づけます
@@ -15,11 +14,11 @@
         /// 
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="commandArgs">スパン・モデル</param>
-        public TimedGenerator(float startSeconds, ICommandArgs commandArgs, ISpanGenerator spanGenerator)
+        /// <param name="timedCommandArg">スパン・モデル</param>
+        public TimedGenerator(float startSeconds, GuiOfTimedCommandArgs.Model timedCommandArg, ISpanGenerator spanGenerator)
         {
             this.StartSeconds = startSeconds;
-            this.CommandArgs = commandArgs;
+            this.TimedCommandArg = timedCommandArg;
             this.SpanGenerator = spanGenerator;
         }
 
@@ -31,16 +30,11 @@
         public float StartSeconds { get; private set; }
 
         /// <summary>
-        /// 持続時間（秒）
-        /// </summary>
-        public float Duration => CommandArgsAndDurationMapping.GetDurationBy(CommandArgs.GetType());
-
-        /// <summary>
         /// 終了時間（秒）
         /// </summary>
-        public float EndSeconds => StartSeconds + Duration;
+        public float EndSeconds => StartSeconds + this.TimedCommandArg.Duration;
 
-        public ICommandArgs CommandArgs { get; private set; }
+        public GuiOfTimedCommandArgs.Model TimedCommandArg { get; private set; }
 
         public ISpanGenerator SpanGenerator { get; private set; }
     }

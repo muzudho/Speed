@@ -28,7 +28,7 @@
 
         MoveFocusToNextCardModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveFocusToNextCardModel)timedGenerator.CommandArgs;
+            return (MoveFocusToNextCardModel)timedGenerator.TimedCommandArg.CommandArgs;
         }
 
         // - メソッド
@@ -99,7 +99,7 @@
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setViewMovement(DropHandCard.Generate(
                     startSeconds: timedGenerator.StartSeconds,
-                    duration: timedGenerator.Duration,
+                    duration: timedGenerator.TimedCommandArg.Duration,
                     idOfCard: idOfCard));
             }
 
@@ -114,7 +114,7 @@
                 // 今回フォーカスするカードを持ち上げる
                 setViewMovement(PickupHandCard.Generate(
                     startSeconds: timedGenerator.StartSeconds,
-                    duration: timedGenerator.Duration,
+                    duration: timedGenerator.TimedCommandArg.Duration,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,

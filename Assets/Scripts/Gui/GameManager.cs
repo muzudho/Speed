@@ -11,6 +11,7 @@ using UnityEngine;
 using SpanOfLeap = Assets.Scripts.Gui.SpanOfLerp;
 using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 using ViewsOfTimeline = Assets.Scripts.Views.Timeline;
+using GuiOfTimedCommandArgs = Assets.Scripts.Gui.TimedCommandArgs;
 
 /// <summary>
 /// ゲーム・マネージャー
@@ -322,13 +323,13 @@ public class GameManager : MonoBehaviour
         while (0 < model.GetLengthOfCenterStackCards(right))
         {
             // 即実行
-            var spanModel = new MoveCardsToPileFromCenterStacksModel(
+            var timedCommandArg = new GuiOfTimedCommandArgs.Model( new MoveCardsToPileFromCenterStacksModel(
                     place: right
-                    );
+                    ));
             var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
                     startSeconds: 0.0f,
-                    commandArgs: spanModel,
-                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(spanModel.GetType()));
+                    timedCommandArg: timedCommandArg,
+                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(timedCommandArg.GetType()));
             timedGenerator.SpanGenerator.CreateSpanToLerp(
                 timedGenerator,
                 modelBuffer,

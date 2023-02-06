@@ -3,7 +3,7 @@
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    internal class MoveCardsToPileFromCenterStacksModel : ICommandArgs
+    internal class MoveCardsToPileFromCenterStacksModel : ICommandArg
     {
         // - 生成
 

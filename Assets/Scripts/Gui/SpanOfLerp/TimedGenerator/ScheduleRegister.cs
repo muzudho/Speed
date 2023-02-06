@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using UnityEngine;
     using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
+    using GuiOfTimedCommandArgs = Assets.Scripts.Gui.TimedCommandArgs;
 
     /// <summary>
     /// シミュレーター
@@ -54,13 +55,13 @@
         /// 
         /// - タイムを自動的に付ける
         /// </summary>
-        /// <param name="commandArgs">コマンド</param>
-        internal void AddJustNow(ICommandArgs commandArgs)
+        /// <param name="commandArg">コマンド引数</param>
+        internal void AddJustNow(ICommandArg commandArg)
         {
             var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
                     startSeconds: GameModel.ElapsedSeconds,
-                    commandArgs: commandArgs,
-                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(commandArgs.GetType()));
+                    timedCommandArg: new GuiOfTimedCommandArgs.Model(commandArg),
+                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(commandArg.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
         }
@@ -70,16 +71,16 @@
         /// 
         /// - タイムを自動的に付ける
         /// </summary>
-        /// <param name="spanModel">タイム・スパン</param>
-        internal void AddWithinScheduler(int player, ICommandArgs spanModel)
+        /// <param name="commandArg">コマンド引数</param>
+        internal void AddWithinScheduler(int player, ICommandArg commandArg)
         {
             var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
                     startSeconds: this.ScheduledSeconds[player],
-                    commandArgs: spanModel,
-                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(spanModel.GetType()));
+                    timedCommandArg: new GuiOfTimedCommandArgs.Model(commandArg),
+                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(commandArg.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
-            this.ScheduledSeconds[player] += timedGenerator.Duration;
+            this.ScheduledSeconds[player] += timedGenerator.TimedCommandArg.Duration;
         }
 
         internal void AddScheduleSeconds(int player, float seconds)

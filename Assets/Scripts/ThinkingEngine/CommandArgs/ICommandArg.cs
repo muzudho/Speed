@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.CommandArgs
 {
-    internal interface ICommandArgs
+    internal interface ICommandArg
     {
     }
 }

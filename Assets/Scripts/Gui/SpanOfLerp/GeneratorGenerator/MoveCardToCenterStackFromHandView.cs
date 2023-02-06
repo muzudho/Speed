@@ -26,7 +26,7 @@
 
         MoveCardToCenterStackFromHandModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveCardToCenterStackFromHandModel)timedGenerator.CommandArgs;
+            return (MoveCardToCenterStackFromHandModel)timedGenerator.TimedCommandArg.CommandArgs;
         }
 
         // - メソッド
@@ -101,7 +101,7 @@
                     // 台札へ置く
                     setViewMovement(PutCardToCenterStack.Generate(
                         startSeconds: timedGenerator.StartSeconds,
-                        duration: timedGenerator.Duration / 2.0f,
+                        duration: timedGenerator.TimedCommandArg.Duration / 2.0f,
                         player: player,
                         place: place,
                         target: targetToRemove,
@@ -109,8 +109,8 @@
 
                     // 場札の位置調整（をしないと歯抜けになる）
                     ArrangeHandCards.Generate(
-                        startSeconds: timedGenerator.StartSeconds + timedGenerator.Duration / 2.0f,
-                        duration: timedGenerator.Duration / 2.0f,
+                        startSeconds: timedGenerator.StartSeconds + timedGenerator.TimedCommandArg.Duration / 2.0f,
+                        duration: timedGenerator.TimedCommandArg.Duration / 2.0f,
                         player: player,
                         indexOfPickup: indexOfNextPick, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,

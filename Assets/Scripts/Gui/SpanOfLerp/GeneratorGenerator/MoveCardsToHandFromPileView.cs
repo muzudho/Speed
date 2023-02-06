@@ -27,7 +27,7 @@
 
         MoveCardsToHandFromPileModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveCardsToHandFromPileModel)timedGenerator.CommandArgs;
+            return (MoveCardsToHandFromPileModel)timedGenerator.TimedCommandArg.CommandArgs;
         }
 
         // - メソッド
@@ -81,7 +81,7 @@
             {
                 ArrangeHandCards.Generate(
                     startSeconds: timedGenerator.StartSeconds,
-                    duration: timedGenerator.Duration,
+                    duration: timedGenerator.TimedCommandArg.Duration,
                     player: player,
                     indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(player),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(player),
