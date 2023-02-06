@@ -5067,4 +5067,394 @@ namespace Assets.Scripts.Models
 ![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
 「　おつ」  
 
+# 📅2023-02-07 tue 03:59
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　睡眠が　長続きせず　途切れてしまった。　練習するか」  
+
+![202302_unity_07-0459--getter-1.png](https://crieit.now.sh/upload_images/43558fdfe0f08ea345a3f39d2b7ed1b963e15caa8f265.png)  
+
+📅 2023-02-06 mon 05:03  
+
+`Assets/Scripts/Gui/GameManager.cs` file:  
+
+```csharp
+    // - プロパティ
+
+    // モデル・バッファー
+    GameModelBuffer modelBuffer = new GameModelBuffer();
+
+    /// <summary>
+    /// ゲーム・モデル
+    /// </summary>
+    internal GameModel Model
+    {
+        get
+        {
+            if (model == null)
+            {
+                // ゲーム・モデルは、ゲーム・モデル・バッファーを持つ
+                model = new GameModel(modelBuffer);
+            }
+            return model;
+        }
+    }
+    GameModel model;
+
+
+    /// <summary>
+    /// スケジュール・レジスター
+    /// </summary>
+    internal ScheduleRegister ScheduleRegister
+    {
+        get
+        {
+            if (scheduleRegister == null)
+            {
+                // スケジューラー・レジスターは、ゲーム・モデルを持つ。
+                scheduleRegister = new TimedGeneratorOfSpanOfLearp.ScheduleRegister(this.Model);
+            }
+            return scheduleRegister;
+        }
+    }
+    ScheduleRegister scheduleRegister;
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　プロパティは、ゲットしたタイミングで生成されるようにするぜ。  
+どのゲーム・オブジェクトの `Start()` イベントハンドラから実行されるか　順番が不定なケースではこうする」  
+
+`Assets/Scripts/Gui/InputManager.cs` file:  
+
+```csharp
+using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
+using Assets.Scripts.ThinkingEngine.CommandArgs;
+using UnityEngine;
+
+public class InputManager : MonoBehaviour
+{
+    // - フィールド
+
+    ScheduleRegister scheduleRegister;
+
+    // - イベントハンドラ
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        scheduleRegister = GameObject.Find("Game Manager").GetComponent<GameManager>().ScheduleRegister;
+    }
+
+    /// <summary>
+    /// Update is called once per frame
+    /// 
+    /// - 入力は、すぐに実行は、しません
+    /// - 入力は、コマンドに変換して、タイムラインへ登録します
+    /// </summary>
+    void Update()
+    {
+        const int right = 0;// 台札の右
+        const int left = 1;// 台札の左
+        bool handled1player = false;
+        bool handled2player = false;
+
+        // 先に登録したコマンドの方が早く実行される
+
+        // （ボタン押下が同時なら）右の台札は１プレイヤー優先
+        // ==================================================
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+            scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
+                player: 0,      // １プレイヤーが
+                place: right)); // 右の
+            handled1player = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+            scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
+                player: 1, // ２プレイヤーが
+                place: right)); // 右の
+            handled2player = true;
+        }
+
+        // （ボタン押下が同時なら）左の台札は２プレイヤー優先
+        // ==================================================
+
+        // ２プレイヤー
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
+            scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
+                player: 1,      // ２プレイヤーが
+                place: left));  // 左の
+            handled2player = true;
+        }
+
+        // １プレイヤー
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
+            scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
+                player: 0, // １プレイヤーが
+                place: left));  // 左の
+            handled1player = true;
+        }
+
+        // それ以外のキー入力は、同時でも勝敗に関係しない
+        // ==============================================
+
+        // １プレイヤー
+        if (handled1player)
+        {
+
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
+            scheduleRegister.AddJustNow(new MoveFocusToNextCardModel(
+                player: 0,
+                direction: 1));
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
+            scheduleRegister.AddJustNow(new MoveFocusToNextCardModel(
+                player: 0,
+                direction: 0));
+        }
+
+        // ２プレイヤー
+        if (handled2player)
+        {
+
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
+            scheduleRegister.AddJustNow(new MoveFocusToNextCardModel(
+                player: 1,
+                direction: 1));
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
+            scheduleRegister.AddJustNow(new MoveFocusToNextCardModel(
+                player: 1,
+                direction: 0));
+        }
+
+        // デバッグ用
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // 両プレイヤーは手札から１枚抜いて、場札として置く
+            for (var player = 0; player < 2; player++)
+            {
+                // 場札を並べる
+                scheduleRegister.AddJustNow(new MoveCardsToHandFromPileModel(
+                    player: player,
+                    numberOfCards: 1));
+            }
+        }
+    }
+}
+```
+
+📅 2023-02-07 tue 05:03  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　入力は、入力されたらすぐ実行するということはせず、  
+入力時のゲーム時間を付けて、スケジュール・レジスターに　コマンドを登録するぜ」  
+
+![202302_unity_07-0423--legal-manager-1.png](https://crieit.now.sh/upload_images/d56cdbb9a549ba31c837c6fb9188077d63e1561093086.png)  
+
+📅 2023-02-07 tue 05:04  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　入力の中に、ゲームの制約を書き込むと　読みづらくなるので、  
+`LegalManager` というのを別途作って、こっちに　ゲームの制約を組み込んでいくぜ」  
+
+`Assets/Scripts/ThinkingEngine/IdOfPlayingCards.cs` file:  
+
+```csharp
+namespace Assets.Scripts.ThinkingEngine
+{
+    using System;
+
+    /// <summary>
+    /// トランプのカード
+    /// 
+    /// - ジョーカーを除く
+    /// </summary>
+    internal enum IdOfPlayingCards
+    { // ...
+    }
+
+    static class IdOfPlayingCardsExtensions
+    {
+        public static IdOfCardSuits Suit(this IdOfPlayingCards idOfCard)
+        { // ...
+        }
+
+        public static int Number(this IdOfPlayingCards idOfCard)
+        {
+            switch (idOfCard)
+            {
+                case IdOfPlayingCards.Clubs1:
+                case IdOfPlayingCards.Diamonds1:
+                case IdOfPlayingCards.Hearts1:
+                case IdOfPlayingCards.Spades1:
+                    return 1;
+
+                case IdOfPlayingCards.Clubs2:
+                case IdOfPlayingCards.Diamonds2:
+                case IdOfPlayingCards.Hearts2:
+                case IdOfPlayingCards.Spades2:
+                    return 2;
+
+                case IdOfPlayingCards.Clubs3:
+                case IdOfPlayingCards.Diamonds3:
+                case IdOfPlayingCards.Hearts3:
+                case IdOfPlayingCards.Spades3:
+                    return 3;
+
+                case IdOfPlayingCards.Clubs4:
+                case IdOfPlayingCards.Diamonds4:
+                case IdOfPlayingCards.Hearts4:
+                case IdOfPlayingCards.Spades4:
+                    return 4;
+
+                case IdOfPlayingCards.Clubs5:
+                case IdOfPlayingCards.Diamonds5:
+                case IdOfPlayingCards.Hearts5:
+                case IdOfPlayingCards.Spades5:
+                    return 5;
+
+                case IdOfPlayingCards.Clubs6:
+                case IdOfPlayingCards.Diamonds6:
+                case IdOfPlayingCards.Hearts6:
+                case IdOfPlayingCards.Spades6:
+                    return 6;
+
+                case IdOfPlayingCards.Clubs7:
+                case IdOfPlayingCards.Diamonds7:
+                case IdOfPlayingCards.Hearts7:
+                case IdOfPlayingCards.Spades7:
+                    return 7;
+
+                case IdOfPlayingCards.Clubs8:
+                case IdOfPlayingCards.Diamonds8:
+                case IdOfPlayingCards.Hearts8:
+                case IdOfPlayingCards.Spades8:
+                    return 8;
+
+                case IdOfPlayingCards.Clubs9:
+                case IdOfPlayingCards.Diamonds9:
+                case IdOfPlayingCards.Hearts9:
+                case IdOfPlayingCards.Spades9:
+                    return 9;
+
+                case IdOfPlayingCards.Clubs10:
+                case IdOfPlayingCards.Diamonds10:
+                case IdOfPlayingCards.Hearts10:
+                case IdOfPlayingCards.Spades10:
+                    return 10;
+
+                case IdOfPlayingCards.Clubs11:
+                case IdOfPlayingCards.Diamonds11:
+                case IdOfPlayingCards.Hearts11:
+                case IdOfPlayingCards.Spades11:
+                    return 11;
+
+                case IdOfPlayingCards.Clubs12:
+                case IdOfPlayingCards.Diamonds12:
+                case IdOfPlayingCards.Hearts12:
+                case IdOfPlayingCards.Spades12:
+                    return 12;
+
+                case IdOfPlayingCards.Clubs13:
+                case IdOfPlayingCards.Diamonds13:
+                case IdOfPlayingCards.Hearts13:
+                case IdOfPlayingCards.Spades13:
+                    return 13;
+
+                default: throw new ArgumentOutOfRangeException("idOfCard");
+            }
+        }
+    }
+}
+```
+
+📅 2023-02-07 tue 05:24  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　トランプ・カードのIdを、数に変える方法が無かったので、作っておくぜ」  
+
+`Assets/Scripts/ThinkingEngine/LegalMove.cs` file:  
+
+```csharp
+namespace Assets.Scripts.ThinkingEngine
+{
+    internal class LegalMove
+    {
+        // - メソッド
+
+        internal static bool CanPutToCenterStack(GameModel gameModel, int player, int place)
+        {
+            int index = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+            if (index == -1)
+            {
+                return false;
+            }
+
+            IdOfPlayingCards topCard = gameModel.GetLastCardOfCenterStack(place);
+            if (topCard == IdOfPlayingCards.None)
+            {
+                return false;
+            }
+
+            var numberOfPickup = gameModel.GetCardsOfPlayerHand(player)[index].Number();
+            int numberOfTopCard = topCard.Number();
+
+            // とりあえず差分を取る。
+            // 負数が出ると、負数の剰余はプログラムによって結果が異なるので、面倒だ。
+            // 割る数を先に足しておけば、剰余をしても負数にはならない
+            int divisor = 13; // 法
+            int remainder = (numberOfTopCard - numberOfPickup + divisor) % divisor;
+
+            return remainder == 1 || remainder == divisor - 1;
+        }
+    }
+}
+```
+
+📅 2023-02-07 tue 06:10
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`LegalManager` というゲーム・オブジェクトにアタッチする C#スクリプトは止めて、  
+`LegalMove` という静的クラスを作ったぜ」  
+
+```csharp
+        // （ボタン押下が同時なら）右の台札は１プレイヤー優先
+        // ==================================================
+
+        if (Input.GetKeyDown(KeyCode.DownArrow) && LegalMove.CanPutToCenterStack(
+            gameModel: scheduleRegister.GameModel,
+            player: 0,      // １プレイヤーが
+            place: right))  // 右の
+        {
+            // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+            scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
+                player: 0,      // １プレイヤーが
+                place: right)); // 右の
+            handled1player = true;
+        }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　こんな風に、入力に制約を付ける感じで使う」  
+
 # // 書きかけ
