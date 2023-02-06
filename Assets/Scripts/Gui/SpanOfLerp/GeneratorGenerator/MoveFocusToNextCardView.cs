@@ -28,7 +28,7 @@
 
         MoveFocusToNextCardModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveFocusToNextCardModel)timedGenerator.TimedCommandArg.CommandArgs;
+            return (MoveFocusToNextCardModel)timedGenerator.TimedCommandArg.CommandArg;
         }
 
         // - メソッド

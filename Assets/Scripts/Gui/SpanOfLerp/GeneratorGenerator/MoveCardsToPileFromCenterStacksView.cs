@@ -27,7 +27,7 @@
 
         MoveCardsToPileFromCenterStacksModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveCardsToPileFromCenterStacksModel)timedGenerator.TimedCommandArg.CommandArgs;
+            return (MoveCardsToPileFromCenterStacksModel)timedGenerator.TimedCommandArg.CommandArg;
         }
 
         // - メソッド

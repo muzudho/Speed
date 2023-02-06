@@ -3,6 +3,7 @@ using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
 using Assets.Scripts.ThinkingEngine;
 using Assets.Scripts.ThinkingEngine.CommandArgs;
 using UnityEngine;
+using GuiOfTimedCommandArgs = Assets.Scripts.Gui.TimedCommandArgs;
 
 public class InputManager : MonoBehaviour
 {
@@ -42,9 +43,9 @@ public class InputManager : MonoBehaviour
             place: right))  // 右の
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-            scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
+            scheduleRegister.AddJustNow(new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                 player: 0,      // １プレイヤーが
-                place: right)); // 右の
+                place: right))); // 右の
             handled1player = true;
         }
 
@@ -54,9 +55,9 @@ public class InputManager : MonoBehaviour
             place: right))  // 右の)
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-            scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
+            scheduleRegister.AddJustNow(new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                 player: 1, // ２プレイヤーが
-                place: right)); // 右の
+                place: right))); // 右の
             handled2player = true;
         }
 
@@ -70,9 +71,9 @@ public class InputManager : MonoBehaviour
             place: left))
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-            scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
+            scheduleRegister.AddJustNow(new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                 player: 1,      // ２プレイヤーが
-                place: left));  // 左の
+                place: left)));  // 左の
             handled2player = true;
         }
 
@@ -83,9 +84,9 @@ public class InputManager : MonoBehaviour
             place: left))
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-            scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
+            scheduleRegister.AddJustNow(new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                 player: 0, // １プレイヤーが
-                place: left));  // 左の
+                place: left)));  // 左の
             handled1player = true;
         }
 
@@ -100,16 +101,16 @@ public class InputManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
-            scheduleRegister.AddJustNow(new MoveFocusToNextCardModel(
+            scheduleRegister.AddJustNow(new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                 player: 0,
-                direction: 1));
+                direction: 1)));
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
-            scheduleRegister.AddJustNow(new MoveFocusToNextCardModel(
+            scheduleRegister.AddJustNow(new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                 player: 0,
-                direction: 0));
+                direction: 0)));
         }
 
         // ２プレイヤー
@@ -120,16 +121,16 @@ public class InputManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.A))
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
-            scheduleRegister.AddJustNow(new MoveFocusToNextCardModel(
+            scheduleRegister.AddJustNow(new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                 player: 1,
-                direction: 1));
+                direction: 1)));
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
             // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
-            scheduleRegister.AddJustNow(new MoveFocusToNextCardModel(
+            scheduleRegister.AddJustNow(new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                 player: 1,
-                direction: 0));
+                direction: 0)));
         }
 
         // デバッグ用
@@ -139,9 +140,9 @@ public class InputManager : MonoBehaviour
             for (var player = 0; player < 2; player++)
             {
                 // 場札を並べる
-                scheduleRegister.AddJustNow(new MoveCardsToHandFromPileModel(
+                scheduleRegister.AddJustNow(new GuiOfTimedCommandArgs.Model(new MoveCardsToHandFromPileModel(
                     player: player,
-                    numberOfCards: 1));
+                    numberOfCards: 1)));
             }
         }
     }

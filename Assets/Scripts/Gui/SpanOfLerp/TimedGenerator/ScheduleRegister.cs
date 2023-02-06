@@ -56,12 +56,12 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="commandArg">コマンド引数</param>
-        internal void AddJustNow(ICommandArg commandArg)
+        internal void AddJustNow(GuiOfTimedCommandArgs.Model timedCommandArg)
         {
             var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
                     startSeconds: GameModel.ElapsedSeconds,
-                    timedCommandArg: new GuiOfTimedCommandArgs.Model(commandArg),
-                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(commandArg.GetType()));
+                    timedCommandArg: timedCommandArg,
+                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(timedCommandArg.CommandArg.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
         }

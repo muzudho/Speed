@@ -6,15 +6,15 @@
     {
         // - その他
 
-        internal Model(ICommandArg commandArgs)
+        internal Model(ICommandArg commandArg)
         {
-            this.CommandArgs = commandArgs;
-            this.Duration = DurationMapping.GetDurationBy(CommandArgs.GetType());
+            this.CommandArg = commandArg;
+            this.Duration = DurationMapping.GetDurationBy(CommandArg.GetType());
         }
 
         // - プロパティ
 
-        internal ICommandArg CommandArgs { get; private set; }
+        internal ICommandArg CommandArg { get; private set; }
 
         /// <summary>
         /// 持続時間（秒）

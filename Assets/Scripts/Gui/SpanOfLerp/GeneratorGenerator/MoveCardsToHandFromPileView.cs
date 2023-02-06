@@ -27,7 +27,7 @@
 
         MoveCardsToHandFromPileModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveCardsToHandFromPileModel)timedGenerator.TimedCommandArg.CommandArgs;
+            return (MoveCardsToHandFromPileModel)timedGenerator.TimedCommandArg.CommandArg;
         }
 
         // - メソッド

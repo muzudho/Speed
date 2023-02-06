@@ -26,7 +26,7 @@
 
         MoveCardToCenterStackFromHandModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (MoveCardToCenterStackFromHandModel)timedGenerator.TimedCommandArg.CommandArgs;
+            return (MoveCardToCenterStackFromHandModel)timedGenerator.TimedCommandArg.CommandArg;
         }
 
         // - メソッド
