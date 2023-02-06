@@ -35,11 +35,17 @@
         /// 右（または左）の天辺の台札
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        /// <returns></returns>
+        /// <returns>無ければ None</returns>
         internal IdOfPlayingCards GetLastCardOfCenterStack(int place)
         {
             var length = this.GetLengthOfCenterStackCards(place);
             var startIndex = length - 1;
+
+            if (this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count <= startIndex)
+            {
+                return IdOfPlayingCards.None;
+            }
+
             return this.gameModelBuffer.IdOfCardsOfCenterStacks[place][startIndex]; // 最後のカード
         }
 

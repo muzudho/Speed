@@ -8,12 +8,15 @@ public class InputManager : MonoBehaviour
 
     ScheduleRegister scheduleRegister;
 
+    LegalManager legalManager;
+
     // - イベントハンドラ
 
     // Start is called before the first frame update
     void Start()
     {
         scheduleRegister = GameObject.Find("Game Manager").GetComponent<GameManager>().ScheduleRegister;
+        legalManager = GameObject.Find("Legal Manager").GetComponent<LegalManager>();
     }
 
     /// <summary>
@@ -34,7 +37,9 @@ public class InputManager : MonoBehaviour
         // （ボタン押下が同時なら）右の台札は１プレイヤー優先
         // ==================================================
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) && legalManager.CanPutToCenterStack(
+            player: 0,      // １プレイヤーが
+            place: right))  // 右の
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
             scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
@@ -43,7 +48,9 @@ public class InputManager : MonoBehaviour
             handled1player = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) && legalManager.CanPutToCenterStack(
+            player: 1,      // ２プレイヤーが
+            place: right))  // 右の)
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
             scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
@@ -56,7 +63,9 @@ public class InputManager : MonoBehaviour
         // ==================================================
 
         // ２プレイヤー
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) && legalManager.CanPutToCenterStack(
+            player: 1,      // ２プレイヤーが
+            place: left))
         {
             // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
             scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(
@@ -66,7 +75,9 @@ public class InputManager : MonoBehaviour
         }
 
         // １プレイヤー
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) && legalManager.CanPutToCenterStack(
+            player: 0,      // １プレイヤーが
+            place: left))
         {
             // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
             scheduleRegister.AddJustNow(new MoveCardToCenterStackFromHandModel(

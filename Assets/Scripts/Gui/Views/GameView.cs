@@ -36,11 +36,12 @@
         /// 場札の原点
         /// 
         /// - 扇状を作るため、画面外の遠くにある
+        /// - y は 0.5 だと、カードを傾けたときに端が盤にめり込んでしまう
         /// </summary>
         internal static readonly Vector3Immutable[] positionOfHandCardsOrigin = new Vector3Immutable[]
         {
-            new Vector3Immutable(0f,0.5f,-28.0f),
-            new Vector3Immutable(0f,0.5f, 42.0f),
+            new Vector3Immutable(0f, 1f, -28.0f),
+            new Vector3Immutable(0f, 1f,  42.0f),
         };
 
         /// <summary>
