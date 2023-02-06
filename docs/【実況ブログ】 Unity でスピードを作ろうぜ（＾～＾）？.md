@@ -5474,4 +5474,71 @@ namespace Assets.Scripts.ThinkingEngine
 「　すべての入力は　コマンドに変換してから実行されるという　建付け　にしておけば、  
 入力による　必要な待機時間は　決まるな」  
 
+```csharp
+    // - フィールド
+    // ...
+
+    float[] spamSeconds = new[] { 0f, 0f };
+
+    // - イベントハンドラ
+    // ...
+
+    void Update()
+    {
+        // もう入力できないなら真
+        bool[] handled = { false, false };
+
+        for (var player = 0; player < 2; player++)
+        {
+            // 前判定
+            // もう入力できないなら真
+            handled[player] = 0 < spamSeconds[player];
+
+            // スパン時間消化
+            if (0 < spamSeconds[player])
+            {
+                // 負数になっても気にしない
+                spamSeconds[player] -= Time.deltaTime;
+            }
+        }
+
+        const int right = 0;// 台札の右
+        const int left = 1;// 台札の左
+
+        // 先に登録したコマンドの方が早く実行される
+
+        // （ボタン押下が同時なら）右の台札は１プレイヤー優先
+        // ==================================================
+
+        // １プレイヤー
+        {
+            var player = 0;
+            if (!handled[player] && Input.GetKeyDown(KeyCode.DownArrow) && LegalMove.CanPutToCenterStack(
+                gameModel: scheduleRegister.GameModel,
+                player: player,
+                place: right))  // 右の
+            {
+                // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    player: player,      // １プレイヤーが
+                    place: right)); // 右の
+
+                spamSeconds[player] = timedCommandArg.Duration;
+                scheduleRegister.AddJustNow(timedCommandArg);
+                handled[player] = true;
+            }
+        }
+
+// ...
+```
+
+📅 2023-02-07 tue 08:15  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　キー入力したら、コマンドに対応づく持続時間を覚えておいて、  
+その時間を消化しきるまで　次の入力ができないようにするぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　今朝は　ここまで」  
+
 # // 書きかけ
