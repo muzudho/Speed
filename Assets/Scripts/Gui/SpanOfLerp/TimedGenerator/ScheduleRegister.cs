@@ -50,13 +50,13 @@
         /// 
         /// - タイムを自動的に付ける
         /// </summary>
-        /// <param name="spanModel">タイム・スパン</param>
-        internal void AddJustNow(float startSeconds, ICommandArgs spanModel)
+        /// <param name="commandArgs">タイム・スパン</param>
+        internal void AddJustNow(float startSeconds, ICommandArgs commandArgs)
         {
             var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
                     startSeconds: startSeconds,
-                    commandArgs: spanModel,
-                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(spanModel.GetType()));
+                    commandArgs: commandArgs,
+                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(commandArgs.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
         }
