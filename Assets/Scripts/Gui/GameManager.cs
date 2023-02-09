@@ -87,35 +87,6 @@ public class GameManager : MonoBehaviour
             this.ScheduleRegister.AddScheduleSeconds(player: player, seconds: interval);
         }
 
-        const int right = 0;// 台札の右
-        const int left = 1;// 台札の左
-
-        // 登録：ピックアップ場札を、台札へ積み上げる
-        {
-            {
-                // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
-                var player = 0;
-                var spanModel = new MoveCardToCenterStackFromHandModel(
-                        player: player, // １プレイヤーが
-                        place: right); // 右の
-                this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-            }
-            {
-                // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
-                var player = 1;
-                var spanModel = new MoveCardToCenterStackFromHandModel(
-                        player: player, // ２プレイヤーが
-                        place: left); // 左の;
-                this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-            }
-        }
-
-        // 間
-        for (int player = 0; player < 2; player++)
-        {
-            this.ScheduleRegister.AddScheduleSeconds(player: player, seconds: interval);
-        }
-
         // ゲーム・デモ開始
 
         // 登録：カード選択
@@ -320,7 +291,8 @@ public class GameManager : MonoBehaviour
         }
 
         const int right = 0;// 台札の右
-                            // const int left = 1;// 台札の左
+        const int left = 1;// 台札の左
+
         while (0 < model.GetLengthOfCenterStackCards(right))
         {
             // 即実行
@@ -353,12 +325,52 @@ public class GameManager : MonoBehaviour
             this.ScheduleRegister.AddWithinScheduler(player, spanModel);
         }
 
+        // 間
+        float interval = 0.85f;
+
+        // 間
+        {
+            for (int player = 0; player < 2; player++)
+            {
+                this.ScheduleRegister.AddScheduleSeconds(player: player, seconds: interval);
+            }
+        }
+
+        // 登録：ピックアップ場札を、台札へ積み上げる
+        {
+            {
+                // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
+                var player = 0;
+                var spanModel = new MoveCardToCenterStackFromHandModel(
+                        player: player, // １プレイヤーが
+                        place: right); // 右の
+                this.ScheduleRegister.AddWithinScheduler(player, spanModel);
+            }
+            {
+                // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
+                var player = 1;
+                var spanModel = new MoveCardToCenterStackFromHandModel(
+                        player: player, // ２プレイヤーが
+                        place: left); // 左の;
+                this.ScheduleRegister.AddWithinScheduler(player, spanModel);
+            }
+        }
+
         // 対局開始の合図
         {
-            var player = 0; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
             var spanModel = new SetGameActive(
                 isGameActive: true);
-            this.ScheduleRegister.AddWithinScheduler(player, spanModel);
+
+            {
+                var player = 0; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
+                this.ScheduleRegister.AddWithinScheduler(player, spanModel);
+            }
+            {
+                var player = 1; // プレイヤー２も、間を合わせる
+                this.ScheduleRegister.AddScheduleSeconds(
+                    player: player,
+                    seconds: new GuiOfTimedCommandArgs.Model(spanModel).Duration);
+            }
         }
 
         // 以下、デモ・プレイを登録

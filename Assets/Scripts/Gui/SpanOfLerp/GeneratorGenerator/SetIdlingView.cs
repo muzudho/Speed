@@ -6,9 +6,9 @@
     using SpanOfLeap = Assets.Scripts.Gui.SpanOfLerp;
 
     /// <summary>
-    /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
+    /// なんにもしません
     /// </summary>
-    class SetGameActiveView : AbstractSpanGenerator
+    class SetIdlingView : AbstractSpanGenerator
     {
         // - その他（生成）
 
@@ -18,18 +18,16 @@
         /// <returns></returns>
         public override ISpanGenerator Spawn()
         {
-            return new SetGameActiveView();
+            return new SetIdlingView();
         }
 
         // - フィールド
 
-        bool handled;
-
         // - プロパティ
 
-        SetGameActive GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
+        SetIdling GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
         {
-            return (SetGameActive)timedGenerator.TimedCommandArg.CommandArg;
+            return (SetIdling)timedGenerator.TimedCommandArg.CommandArg;
         }
 
         // - メソッド
@@ -42,16 +40,7 @@
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanOfLeap.Model> setViewMovement)
         {
-            if(handled)
-            {
-                return;
-            }
-
-            // モデル更新：１回実行すれば充分
-            gameModelBuffer.IsGameActive = GetModel(timedGenerator).IsGameActive;
-            handled = true;
-
-            // ビュー更新：なし
+            // なんにもしません
         }
     }
 }

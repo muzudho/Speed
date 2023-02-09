@@ -24,6 +24,7 @@
             DurationOfModels.Add(typeof(MoveCardToCenterStackFromHandModel).GetHashCode(), 0.15f + durationOfMoveFocusToNextCard);
             DurationOfModels.Add(typeof(MoveFocusToNextCardModel).GetHashCode(), durationOfMoveFocusToNextCard);
             DurationOfModels.Add(typeof(SetGameActive).GetHashCode(), forMoment);
+            DurationOfModels.Add(typeof(SetIdling).GetHashCode(), forMoment); // Idling の duration は可変の想定
         }
 
         // - プロパティ

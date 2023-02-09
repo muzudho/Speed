@@ -14,6 +14,7 @@
             ViewsFromModel.Add(typeof(MoveCardToCenterStackFromHandModel).GetHashCode(), new MoveCardToCenterStackFromHandView());
             ViewsFromModel.Add(typeof(MoveFocusToNextCardModel).GetHashCode(), new MoveFocusToNextCardView());
             ViewsFromModel.Add(typeof(SetGameActive).GetHashCode(), new SetGameActiveView());
+            ViewsFromModel.Add(typeof(SetIdling).GetHashCode(), new SetIdlingView());
         }
 
         // - プロパティ
