@@ -1460,7 +1460,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 401405363}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 609273098}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: On1pVs2p
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &401405363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1851,7 +1863,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 594785555}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 609273098}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: OnComVsCom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &594785555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3101,7 +3125,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 925465712}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 609273098}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: OnComVs2p
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &925465712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5789,7 +5825,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1931339613}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 609273098}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: On1pVsCom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1931339613
 MonoBehaviour:
   m_ObjectHideFlags: 0

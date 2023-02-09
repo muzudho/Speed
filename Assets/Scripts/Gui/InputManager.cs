@@ -21,9 +21,11 @@ public class InputManager : MonoBehaviour
 
     /// <summary>
     /// コンピューター・プレイヤーか？
+    /// 
+    /// - コンピューターなら Computer インスタンス
+    /// - コンピューターでなければヌル
     /// </summary>
-    Computer[] Computers { get; set; } = new Computer[] { new Computer(0), new Computer(1), };
-    // Computer[] Computers { get; set; } = new Computer[] { null, null, };
+    internal Computer[] Computers { get; set; } = new Computer[] { new Computer(0), new Computer(1), };
 
     GuiOfInputManager.ToMeaning inputToMeaning = new GuiOfInputManager.ToMeaning();
 
