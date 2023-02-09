@@ -5564,4 +5564,509 @@ COM vs COM
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　Shader を `UI/Default` にすると半透明にできるの、ノーヒントでは　気づかないよな」  
 
+![202302_unity_09-1857--ui-manager-1.png](https://crieit.now.sh/upload_images/68cfdc5dbaae0e4d63316bcf379fffa363e4c3f541982.png)  
+
+📅 2023-02-09 thu 18:57  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`UIManager` を作るぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　大改造」  
+
+![202302_unity_09-2243--to-meaning-1.png](https://crieit.now.sh/upload_images/4894f35fd236d41538658b4b49979a2463e4f9ba21c07.png)  
+
+📅 2023-02-09 thu 22:48  
+
+`Assets/Scripts/Gui/InputManager/ToMeaning.cs` file:  
+
+```csharp
+namespace Assets.Scripts.Gui.InputManager
+{
+    using UnityEngine;
+
+    /// <summary>
+    /// キー入力の解析
+    /// </summary>
+    internal class ToMeaning
+    {
+        // - プロパティ
+
+        /// <summary>
+        /// 自分に近い方の台札へ置く
+        /// </summary>
+        internal bool[] MoveCardToCenterStackNearMe { get; private set; } = new[] { false, false };
+
+        /// <summary>
+        /// 自分から遠い方の台札へ置く
+        /// </summary>
+        internal bool[] MoveCardToFarCenterStack { get; private set; } = new[] { false, false };
+
+        /// <summary>
+        /// 自分から見て（今ピックアップしているカードの）右隣のカードをピックアップ
+        /// </summary>
+        internal bool[] PickupCardToForward { get; private set; } = new[] { false, false };
+
+        /// <summary>
+        /// 自分から見て（今ピックアップしているカードの）左隣のカードをピックアップ
+        /// </summary>
+        internal bool[] PickupCardToBackward { get; private set; } = new[] { false, false };
+
+        /// <summary>
+        /// 手札から場札を補充する
+        /// </summary>
+        internal bool Drawing { get; private set; } = false;
+
+        // - メソッド
+
+        /// <summary>
+        /// 解析結果を全部消す
+        /// </summary>
+        internal void Clear()
+        {
+            for (var player = 0; player < 2; player++)
+            {
+                MoveCardToCenterStackNearMe[player] = false;
+                MoveCardToFarCenterStack[player] = false;
+                PickupCardToForward[player] = false;
+                PickupCardToBackward[player] = false;
+            }
+
+            Drawing = false;
+        }
+
+        /// <summary>
+        /// 物理的なキー入力を、意味的に置き換える
+        /// </summary>
+        /// <param name="player"></param>
+        internal void UpdateFromInput(int player)
+        {
+            if (player == 0)
+            {
+                MoveCardToCenterStackNearMe[player] = Input.GetKeyDown(KeyCode.DownArrow);
+                MoveCardToFarCenterStack[player] = Input.GetKeyDown(KeyCode.UpArrow);
+                PickupCardToForward[player] = Input.GetKeyDown(KeyCode.RightArrow);
+                PickupCardToBackward[player] = Input.GetKeyDown(KeyCode.LeftArrow);
+            }
+            else
+            {
+                MoveCardToCenterStackNearMe[player] = Input.GetKeyDown(KeyCode.S);
+                MoveCardToFarCenterStack[player] = Input.GetKeyDown(KeyCode.W);
+                PickupCardToForward[player] = Input.GetKeyDown(KeyCode.D);
+                PickupCardToBackward[player] = Input.GetKeyDown(KeyCode.A);
+            }
+
+            Drawing = Input.GetKeyDown(KeyCode.Space); // １プレイヤーと、２プレイヤーの２回判定されてしまう
+        }
+
+        /// <summary>
+        /// 解析結果を全部上書きする
+        /// </summary>
+        internal void Overwrite(
+            int player,
+            bool moveCardToCenterStackNearMe,
+            bool moveCardToFarCenterStack,
+            bool pickupCardToForward,
+            bool pickupCardToBackward,
+            bool drawing)
+        {
+            MoveCardToCenterStackNearMe[player] = moveCardToCenterStackNearMe;
+            MoveCardToFarCenterStack[player] = moveCardToFarCenterStack;
+            PickupCardToForward[player] = pickupCardToForward;
+            PickupCardToBackward[player] = pickupCardToBackward;
+            Drawing = drawing;
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　何キーを押したかではなく、どういう意図で押したかで　データを持つクラスを作るぜ」  
+
+![202302_unity_09-2251--computer-1.png](https://crieit.now.sh/upload_images/f64f0c7d52606cfc27594a855d8f17b863e4fa99794f0.png)  
+
+📅 2023-02-09 thu 22:51  
+
+`Assets/Scripts/ThinkingEngine/Computer.cs` file:  
+
+```csharp
+namespace Assets.Scripts.ThinkingEngine
+{
+    using Assets.Scripts.ThinkingEngine.Model;
+
+    /// <summary>
+    /// コンピューター・プレイヤー
+    /// </summary>
+    internal class Computer
+    {
+        // - その他
+
+        internal Computer(int number)
+        {
+            this.Number = number;
+        }
+
+        // - プロパティ
+
+        /// <summary>
+        /// プレイヤー番号
+        /// 
+        /// - 1プレイヤーなら0
+        /// </summary>
+        public int Number { get; private set; }
+
+        /// <summary>
+        /// 自分に近い方の台札へ置く
+        /// </summary>
+        internal bool MoveCardToCenterStackNearMe { get; private set; }
+
+        /// <summary>
+        /// 自分から遠い方の台札へ置く
+        /// </summary>
+        internal bool MoveCardToFarCenterStack { get; private set; }
+
+        /// <summary>
+        /// 自分から見て（今ピックアップしているカードの）右隣のカードをピックアップ
+        /// </summary>
+        internal bool PickupCardToForward { get; private set; }
+
+        /// <summary>
+        /// 自分から見て（今ピックアップしているカードの）左隣のカードをピックアップ
+        /// </summary>
+        internal bool PickupCardToBackward { get; private set; }
+
+        /// <summary>
+        /// 手札から場札を補充する
+        /// </summary>
+        internal bool Drawing { get; private set; }
+
+        // - メソッド
+
+        /// <summary>
+        /// コンピューター・プレイヤーが思考して、操作を決める
+        /// </summary>
+        /// <param name="gameModel">現在の局面</param>
+        internal void Think(GameModel gameModel)
+        {
+            // 今回の入力予定
+            var moveCardToCenterStackNearMe = false;
+            var moveCardToFarCenterStack = false;
+            var pickupCardToForward = false;
+            var pickupCardToBackward = false;
+            var drawing = false;
+
+            // 順繰りにやってるだけ
+            if (this.MoveCardToCenterStackNearMe == false && this.MoveCardToFarCenterStack == false && this.PickupCardToForward == false && this.Drawing == false)
+            {
+                moveCardToCenterStackNearMe = true;
+            }
+            else if (this.MoveCardToCenterStackNearMe)
+            {
+                moveCardToCenterStackNearMe = false;
+                moveCardToFarCenterStack = true;
+            }
+            else if (this.MoveCardToFarCenterStack)
+            {
+                moveCardToFarCenterStack = false;
+                pickupCardToForward = true;
+            }
+            else if (this.PickupCardToForward)
+            {
+                pickupCardToForward = false;
+                drawing = true;
+            }
+            else if (this.Drawing)
+            {
+                drawing = false;
+                moveCardToCenterStackNearMe = true;
+            }
+
+            // 今回の入力
+            this.MoveCardToCenterStackNearMe = moveCardToCenterStackNearMe;
+            this.MoveCardToFarCenterStack = moveCardToFarCenterStack;
+            this.PickupCardToForward = pickupCardToForward;
+            this.PickupCardToBackward = pickupCardToBackward;
+            this.Drawing = drawing;
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　コンピューターは　順繰りに　キーを押してるだけ」  
+
+![202302_unity_09-2254--input-manager-1.png](https://crieit.now.sh/upload_images/6a7301f5d50bc1f499bc80fa551a7c9d63e4fb4852de9.png)  
+
+📅 2023-02-09 thu 22:54  
+
+`Assets/Scripts/Gui/InputManager.cs` file:  
+
+```csharp
+using GuiOfInputManager = Assets.Scripts.Gui.InputManager;
+using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
+using Assets.Scripts.ThinkingEngine.Model;
+using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+using UnityEngine;
+using GuiOfTimedCommandArgs = Assets.Scripts.Gui.TimedCommandArgs;
+using Assets.Scripts.ThinkingEngine;
+
+public class InputManager : MonoBehaviour
+{
+    // - フィールド
+
+    ScheduleRegister scheduleRegister;
+
+    /// <summary>
+    /// コンピューター・プレイヤー用
+    /// </summary>
+    GameModel gameModel;
+
+    float[] spamSeconds = new[] { 0f, 0f };
+
+    /// <summary>
+    /// コンピューター・プレイヤーか？
+    /// 
+    /// - コンピューターなら Computer インスタンス
+    /// - コンピューターでなければヌル
+    /// </summary>
+    internal Computer[] Computers { get; set; } = new Computer[] { new Computer(0), new Computer(1), };
+
+    GuiOfInputManager.ToMeaning inputToMeaning = new GuiOfInputManager.ToMeaning();
+
+    // - イベントハンドラ
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        scheduleRegister = gameManager.ScheduleRegister;
+        gameModel = gameManager.Model;
+    }
+
+    /// <summary>
+    /// Update is called once per frame
+    /// 
+    /// - 入力は、すぐに実行は、しません
+    /// - 入力は、コマンドに変換して、タイムラインへ登録します
+    /// </summary>
+    void Update()
+    {
+        // キー入力の解析：クリアー
+        inputToMeaning.Clear();
+
+        // もう入力できないなら真
+        bool[] handled = { false, false };
+
+        for (var player = 0; player < 2; player++)
+        {
+            // 前判定：もう入力できないなら真
+            //
+            // - スパム中
+            // - 対局停止中
+            handled[player] = 0 < spamSeconds[player] || !gameModel.IsGameActive;
+
+            if (!handled[player])
+            {
+                if (Computers[player] == null)
+                {
+                    // キー入力の解析：人間の入力を受付
+                    inputToMeaning.UpdateFromInput(player);
+                }
+                else
+                {
+                    // コンピューター・プレイヤーが思考して、操作を決める
+                    Computers[player].Think(gameModel);
+
+                    // キー入力の解析：コンピューターからの入力を受付
+                    inputToMeaning.Overwrite(
+                        player: player,
+                        moveCardToCenterStackNearMe: Computers[player].MoveCardToCenterStackNearMe,
+                        moveCardToFarCenterStack: Computers[player].MoveCardToFarCenterStack,
+                        pickupCardToForward: Computers[player].PickupCardToForward,
+                        pickupCardToBackward: Computers[player].PickupCardToBackward,
+                        drawing: Computers[player].Drawing);
+                }
+            }
+
+            // スパン時間消化
+            if (0 < spamSeconds[player])
+            {
+                // 負数になっても気にしない
+                spamSeconds[player] -= Time.deltaTime;
+            }
+        }
+
+        const int right = 0;// 台札の右
+        const int left = 1;// 台札の左
+
+        // 先に登録したコマンドの方が早く実行される
+
+        // （ボタン押下が同時なら）右の台札は１プレイヤー優先
+        // ==================================================
+
+        // １プレイヤー
+        {
+            var player = 0;
+            if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && LegalMove.CanPutToCenterStack(
+                gameModel: scheduleRegister.GameModel,
+                player: player,
+                place: right))  // 右の
+            {
+                // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    player: player,      // １プレイヤーが
+                    place: right)); // 右の
+
+                spamSeconds[player] = timedCommandArg.Duration;
+                scheduleRegister.AddJustNow(timedCommandArg);
+                handled[player] = true;
+            }
+        }
+
+        // ２プレイヤー
+        {
+            var player = 1;
+            if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && LegalMove.CanPutToCenterStack(
+                gameModel: scheduleRegister.GameModel,
+                player: player,
+                place: right))  // 右の)
+            {
+                // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    player: player,      // ２プレイヤーが
+                    place: right)); // 右の
+
+                spamSeconds[player] = timedCommandArg.Duration;
+                scheduleRegister.AddJustNow(timedCommandArg);
+                handled[player] = true;
+            }
+        }
+
+        // （ボタン押下が同時なら）左の台札は２プレイヤー優先
+        // ==================================================
+
+        // ２プレイヤー
+        {
+            var player = 1;
+            if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && LegalMove.CanPutToCenterStack(
+                gameModel: scheduleRegister.GameModel,
+                player: player,
+                place: left))
+            {
+                // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
+                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    player: player,      // ２プレイヤーが
+                    place: left));  // 左の
+
+                spamSeconds[player] = timedCommandArg.Duration;
+                scheduleRegister.AddJustNow(timedCommandArg);
+                handled[player] = true;
+            }
+        }
+
+        // １プレイヤー
+        {
+            var player = 0;
+            if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && LegalMove.CanPutToCenterStack(
+                gameModel: scheduleRegister.GameModel,
+                player: player,
+                place: left))
+            {
+                // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
+                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    player: player,      // １プレイヤーが
+                    place: left));  // 左の
+
+                spamSeconds[player] = timedCommandArg.Duration;
+                scheduleRegister.AddJustNow(timedCommandArg);
+                handled[player] = true;
+            }
+        }
+
+        // それ以外のキー入力は、同時でも勝敗に関係しない
+        // ==============================================
+
+        // １プレイヤー
+        {
+            var player = 0;
+
+            if (handled[player])
+            {
+
+            }
+            else if (inputToMeaning.PickupCardToBackward[player])
+            {
+                // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
+                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                    player: player,
+                    direction: 1));
+
+                spamSeconds[player] = timedCommandArg.Duration;
+                scheduleRegister.AddJustNow(timedCommandArg);
+            }
+            else if (inputToMeaning.PickupCardToForward[player])
+            {
+                // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
+                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                    player: player,
+                    direction: 0));
+
+                spamSeconds[player] = timedCommandArg.Duration;
+                scheduleRegister.AddJustNow(timedCommandArg);
+            }
+        }
+
+        // ２プレイヤー
+        {
+            var player = 1;
+
+            if (handled[player])
+            {
+
+            }
+            else if (inputToMeaning.PickupCardToBackward[player])
+            {
+                // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
+                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                    player: player,
+                    direction: 1));
+
+                spamSeconds[player] = timedCommandArg.Duration;
+                scheduleRegister.AddJustNow(timedCommandArg);
+            }
+            else if (inputToMeaning.PickupCardToForward[player])
+            {
+                // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
+                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                    player: player,
+                    direction: 0));
+
+                spamSeconds[player] = timedCommandArg.Duration;
+                scheduleRegister.AddJustNow(timedCommandArg);
+            }
+        }
+
+        // デバッグ用
+        if (inputToMeaning.Drawing)
+        {
+            // 両プレイヤーは手札から１枚抜いて、場札として置く
+            for (var player = 0; player < 2; player++)
+            {
+                // 場札を並べる
+                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardsToHandFromPileModel(
+                    player: player,
+                    numberOfCards: 1));
+
+                spamSeconds[player] = timedCommandArg.Duration;
+                scheduleRegister.AddJustNow(timedCommandArg);
+            }
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　人間のキー入力も、コンピューターのキー入力も、  
+同じルーチンに合流するように　しておくぜ」  
+
 # // 書きかけ
