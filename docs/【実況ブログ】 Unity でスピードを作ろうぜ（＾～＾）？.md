@@ -5541,4 +5541,27 @@ namespace Assets.Scripts.ThinkingEngine
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　今朝は　ここまで」  
 
+# 📅2023-02-09 thu 18:26
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　動作テストを勝手にしてくれるＡＩを入れたいぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　右、上、下、スペース　を押してくれるだけで　いいんじゃない？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　じゃあ　ひとまず、
+１P vs ２P、
+１P vs COM、
+COM vs ２P、
+COM vs COM
+のボタンを作るかだぜ？」  
+
+![202302_unity_09-1851--ui-default-1.png](https://crieit.now.sh/upload_images/56fcfed0aebd37033778b7701a124b1163e4c288508ff.png)  
+
+📅 2023-02-09 thu 18:54  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　Shader を `UI/Default` にすると半透明にできるの、ノーヒントでは　気づかないよな」  
+
 # // 書きかけ

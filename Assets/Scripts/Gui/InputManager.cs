@@ -12,6 +12,11 @@ public class InputManager : MonoBehaviour
 
     float[] spamSeconds = new[] { 0f, 0f };
 
+    /// <summary>
+    /// コンピューター・プレイヤーか？
+    /// </summary>
+    bool[] ComputerPlayer { get; set; } = new bool[] { false, false, };
+
     // - イベントハンドラ
 
     // Start is called before the first frame update
@@ -28,6 +33,13 @@ public class InputManager : MonoBehaviour
     /// </summary>
     void Update()
     {
+        // キー入力の解析
+        bool[] moveCardToCenterStackNearMe = new[] { false, false };
+        bool[] moveCardToFarCenterStack = new[] { false, false };
+        bool[] pickupCardToForward = new[] { false, false };
+        bool[] pickupCardToBackward = new[] { false, false };
+
+
         // もう入力できないなら真
         bool[] handled = { false, false };
 
@@ -36,6 +48,25 @@ public class InputManager : MonoBehaviour
             // 前判定
             // もう入力できないなら真
             handled[player] = 0 < spamSeconds[player];
+
+            if (!handled[player] && !ComputerPlayer[player])
+            {
+                // 人間の入力を受付
+                if (player == 0)
+                {
+                    moveCardToCenterStackNearMe[player] = Input.GetKeyDown(KeyCode.DownArrow);
+                    moveCardToFarCenterStack[player] = Input.GetKeyDown(KeyCode.UpArrow);
+                    pickupCardToForward[player] = Input.GetKeyDown(KeyCode.RightArrow);
+                    pickupCardToBackward[player] = Input.GetKeyDown(KeyCode.LeftArrow);
+                }
+                else
+                {
+                    moveCardToCenterStackNearMe[player] = Input.GetKeyDown(KeyCode.S);
+                    moveCardToFarCenterStack[player] = Input.GetKeyDown(KeyCode.W);
+                    pickupCardToForward[player] = Input.GetKeyDown(KeyCode.D);
+                    pickupCardToBackward[player] = Input.GetKeyDown(KeyCode.A);
+                }
+            }
 
             // スパン時間消化
             if (0 < spamSeconds[player])
@@ -56,7 +87,7 @@ public class InputManager : MonoBehaviour
         // １プレイヤー
         {
             var player = 0;
-            if (!handled[player] && Input.GetKeyDown(KeyCode.DownArrow) && LegalMove.CanPutToCenterStack(
+            if (!handled[player] && moveCardToCenterStackNearMe[player] && LegalMove.CanPutToCenterStack(
                 gameModel: scheduleRegister.GameModel,
                 player: player,
                 place: right))  // 右の
@@ -75,7 +106,7 @@ public class InputManager : MonoBehaviour
         // ２プレイヤー
         {
             var player = 1;
-            if (!handled[player] && Input.GetKeyDown(KeyCode.W) && LegalMove.CanPutToCenterStack(
+            if (!handled[player] && moveCardToFarCenterStack[player] && LegalMove.CanPutToCenterStack(
                 gameModel: scheduleRegister.GameModel,
                 player: player,
                 place: right))  // 右の)
@@ -97,7 +128,7 @@ public class InputManager : MonoBehaviour
         // ２プレイヤー
         {
             var player = 1;
-            if (!handled[player] && Input.GetKeyDown(KeyCode.S) && LegalMove.CanPutToCenterStack(
+            if (!handled[player] && moveCardToCenterStackNearMe[player] && LegalMove.CanPutToCenterStack(
                 gameModel: scheduleRegister.GameModel,
                 player: player,
                 place: left))
@@ -116,7 +147,7 @@ public class InputManager : MonoBehaviour
         // １プレイヤー
         {
             var player = 0;
-            if (!handled[player] && Input.GetKeyDown(KeyCode.UpArrow) && LegalMove.CanPutToCenterStack(
+            if (!handled[player] && moveCardToFarCenterStack[player] && LegalMove.CanPutToCenterStack(
                 gameModel: scheduleRegister.GameModel,
                 player: player,
                 place: left))
@@ -143,7 +174,7 @@ public class InputManager : MonoBehaviour
             {
 
             }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            else if (pickupCardToBackward[player])
             {
                 // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
                 var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
@@ -153,7 +184,7 @@ public class InputManager : MonoBehaviour
                 spamSeconds[player] = timedCommandArg.Duration;
                 scheduleRegister.AddJustNow(timedCommandArg);
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else if (pickupCardToForward[player])
             {
                 // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
                 var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
@@ -173,7 +204,7 @@ public class InputManager : MonoBehaviour
             {
 
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (pickupCardToBackward[player])
             {
                 // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
                 var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
@@ -183,7 +214,7 @@ public class InputManager : MonoBehaviour
                 spamSeconds[player] = timedCommandArg.Duration;
                 scheduleRegister.AddJustNow(timedCommandArg);
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (pickupCardToForward[player])
             {
                 // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
                 var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(

@@ -323,7 +323,7 @@ public class GameManager : MonoBehaviour
         while (0 < model.GetLengthOfCenterStackCards(right))
         {
             // 即実行
-            var timedCommandArg = new GuiOfTimedCommandArgs.Model( new MoveCardsToPileFromCenterStacksModel(
+            var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
                     place: right
                     ));
             var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
