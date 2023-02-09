@@ -6069,4 +6069,70 @@ public class InputManager : MonoBehaviour
 「　👆　人間のキー入力も、コンピューターのキー入力も、  
 同じルーチンに合流するように　しておくぜ」  
 
+![202302_unity_09-2259--game-manager-1.png](https://crieit.now.sh/upload_images/4ddd22bdc1f702f7824e91ba18737a6e63e4fc8a2d089.png)  
+
+📅 2023-02-09 thu 22:59  
+
+`Assets/Scripts/Gui/GameManager.cs` file:  
+
+```csharp
+// ... 前略 ...
+
+        // 登録：ピックアップ場札を、台札へ積み上げる
+        {
+            {
+                // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
+                var player = 0;
+                var spanModel = new MoveCardToCenterStackFromHandModel(
+                        player: player, // １プレイヤーが
+                        place: right); // 右の
+                this.ScheduleRegister.AddWithinScheduler(player, spanModel);
+            }
+            {
+                // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
+                var player = 1;
+                var spanModel = new MoveCardToCenterStackFromHandModel(
+                        player: player, // ２プレイヤーが
+                        place: left); // 左の;
+                this.ScheduleRegister.AddWithinScheduler(player, spanModel);
+            }
+        }
+
+        // 対局開始の合図
+        {
+            var spanModel = new SetGameActive(
+                isGameActive: true);
+
+            {
+                var player = 0; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
+                this.ScheduleRegister.AddWithinScheduler(player, spanModel);
+            }
+            {
+                var player = 1; // プレイヤー２も、間を合わせる
+                this.ScheduleRegister.AddScheduleSeconds(
+                    player: player,
+                    seconds: new GuiOfTimedCommandArgs.Model(spanModel).Duration);
+            }
+        }
+
+        // 以下、デモ・プレイを登録
+        // SetupDemo();
+
+        // OnTick を 1.0 秒後に呼び出し、以降は tickSeconds 秒毎に実行
+        InvokeRepeating(nameof(OnTick), 1.0f, tickSeconds);
+    }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　**対局開始コマンド** というのを追加した。  
+これがないと　コンピューターが　ゲーム起動直後から　台札置くのも　すっとばして　場札をいじりだしてしまうぜ」  
+
+📺 [開発中画面](https://twitter.com/muzudho1/status/1623684569303257088?s=20&t=ribcP0tlx-bgwQ1pUug2MQ)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　とりあえず　こんなもんで」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　今日は　ここまでだぜ」  
+
 # // 書きかけ
