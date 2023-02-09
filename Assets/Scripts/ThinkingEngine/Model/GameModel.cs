@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine
+﻿namespace Assets.Scripts.ThinkingEngine.Model
 {
     using System.Collections.Generic;
 
@@ -11,9 +11,9 @@
     {
         // - その他
 
-        public GameModel(GameModelBuffer gameModel)
+        public GameModel(GameModelBuffer gameModelBuffer)
         {
-            this.gameModelBuffer = gameModel;
+            this.gameModelBuffer = gameModelBuffer;
         }
 
         // - フィールド
@@ -120,6 +120,48 @@
         internal IdOfPlayingCards GetCardAtOfPlayerHand(int player, int handIndex)
         {
             return this.gameModelBuffer.IdOfCardsOfPlayersHand[player][handIndex];
+        }
+
+        /// <summary>
+        /// TODO 本当は JSON か何かで出力して、 GameModelBuffer が JSON を読込むような感じにしたい
+        /// </summary>
+        /// <returns></returns>
+        internal GameModelBuffer CreateGameModelBuffer()
+        {
+            // ディープ・コピー
+            return new GameModelBuffer()
+            {
+                // ゲーム内経過時間
+                ElapsedSeconds = this.gameModelBuffer.ElapsedSeconds,
+
+                // 台札
+                IdOfCardsOfCenterStacks = new List<List<IdOfPlayingCards>>()
+                {
+                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfCenterStacks[0].ToArray()),
+                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfCenterStacks[1].ToArray()),
+                },
+
+                // 手札
+                IdOfCardsOfPlayersPile = new List<List<IdOfPlayingCards>>()
+                {
+                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersPile[0].ToArray()),
+                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersPile[1].ToArray()),
+                },
+
+                // 場札
+                IdOfCardsOfPlayersHand = new List<List<IdOfPlayingCards>>()
+                {
+                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersHand[0].ToArray()),
+                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersHand[1].ToArray()),
+                },
+
+                // ピックアップ場札
+                IndexOfFocusedCardOfPlayers = new int[]
+                {
+                    this.gameModelBuffer.IndexOfFocusedCardOfPlayers[0],
+                    this.gameModelBuffer.IndexOfFocusedCardOfPlayers[1],
+                }
+            };
         }
     }
 }

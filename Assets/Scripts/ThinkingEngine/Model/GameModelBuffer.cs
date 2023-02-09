@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine
+﻿namespace Assets.Scripts.ThinkingEngine.Model
 {
     using System.Collections.Generic;
 
@@ -15,11 +15,13 @@
         internal float ElapsedSeconds { get; set; } = 0.0f;
 
         /// <summary>
-        /// ｎプレイヤーが選択している場札は、先頭から何枚目
+        /// 台札
         /// 
-        /// - 選択中の場札が無いなら、-1
+        /// - 画面中央に積んでいる札
+        /// - 0: 右
+        /// - 1: 左
         /// </summary>
-        internal int[] IndexOfFocusedCardOfPlayers { get; set; } = { -1, -1 };
+        internal List<List<IdOfPlayingCards>> IdOfCardsOfCenterStacks { get; set; } = new() { new(), new() };
 
         /// <summary>
         /// 手札
@@ -40,13 +42,13 @@
         internal List<List<IdOfPlayingCards>> IdOfCardsOfPlayersHand { get; set; } = new() { new(), new() };
 
         /// <summary>
-        /// 台札
+        /// ｎプレイヤーが選択している場札は、先頭から何枚目
         /// 
-        /// - 画面中央に積んでいる札
-        /// - 0: 右
-        /// - 1: 左
+        /// - 選択中の場札が無いなら、-1
         /// </summary>
-        internal List<List<IdOfPlayingCards>> IdOfCardsOfCenterStacks { get; set; } = new() { new(), new() };
+        internal int[] IndexOfFocusedCardOfPlayers { get; set; } = { -1, -1 };
+
+        // - メソッド
 
         /// <summary>
         /// 台札を削除

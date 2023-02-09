@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine.CommandArgs
+﻿namespace Assets.Scripts.ThinkingEngine.Model.CommandArgs
 {
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します

@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Gui.SpanOfLerp.TimedGenerator
 {
-    using Assets.Scripts.ThinkingEngine;
-    using Assets.Scripts.ThinkingEngine.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Model;
+    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
     using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;

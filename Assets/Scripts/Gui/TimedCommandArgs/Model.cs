@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Gui.TimedCommandArgs
 {
-    using Assets.Scripts.ThinkingEngine.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
 
     internal class Model
     {

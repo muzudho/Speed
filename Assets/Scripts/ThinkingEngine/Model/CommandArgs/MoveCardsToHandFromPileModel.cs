@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine.CommandArgs
+﻿namespace Assets.Scripts.ThinkingEngine.Model.CommandArgs
 {
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動

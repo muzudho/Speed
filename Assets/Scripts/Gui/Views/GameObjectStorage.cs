@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Views
 {
-    using Assets.Scripts.ThinkingEngine;
+    using Assets.Scripts.ThinkingEngine.Model;
     using System.Collections.Generic;
     using UnityEngine;
 

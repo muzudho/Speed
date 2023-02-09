@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Gui.SpanOfLerp.Generator
 {
-    using Assets.Scripts.ThinkingEngine;
+    using Assets.Scripts.ThinkingEngine.Model;
     using Assets.Scripts.Views;
     using System;
     using UnityEngine;

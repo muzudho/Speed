@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine
+﻿namespace Assets.Scripts.ThinkingEngine.Model
 {
     /// <summary>
     /// カードのスート（絵柄）

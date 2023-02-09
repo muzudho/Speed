@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Gui.SpanOfLerp.GeneratorGenerator
 {
-    using Assets.Scripts.ThinkingEngine;
+    using Assets.Scripts.ThinkingEngine.Model;
     using SimulatorsOfTimeline = Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
     using SpanOfLeap = Assets.Scripts.Gui.SpanOfLerp;
 

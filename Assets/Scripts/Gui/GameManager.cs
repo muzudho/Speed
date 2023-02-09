@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Gui.SpanOfLerp;
 using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
-using Assets.Scripts.ThinkingEngine;
-using Assets.Scripts.ThinkingEngine.CommandArgs;
+using Assets.Scripts.ThinkingEngine.Model;
+using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
 using Assets.Scripts.Views;
 using Assets.Scripts.Views.Timeline;
 using System;
