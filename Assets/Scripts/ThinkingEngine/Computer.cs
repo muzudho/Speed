@@ -43,6 +43,11 @@
         /// </summary>
         internal bool PickupCardToBackward { get; private set; }
 
+        /// <summary>
+        /// 手札から場札を補充する
+        /// </summary>
+        internal bool Drawing { get; private set; }
+
         // - メソッド
 
         /// <summary>
@@ -56,9 +61,10 @@
             var moveCardToFarCenterStack = false;
             var pickupCardToForward = false;
             var pickupCardToBackward = false;
+            var drawing = false;
 
             // 順繰りにやってるだけ
-            if (this.MoveCardToCenterStackNearMe == false && this.MoveCardToFarCenterStack == false && this.PickupCardToForward == false)
+            if (this.MoveCardToCenterStackNearMe == false && this.MoveCardToFarCenterStack == false && this.PickupCardToForward == false && this.Drawing == false)
             {
                 moveCardToCenterStackNearMe = true;
             }
@@ -75,6 +81,11 @@
             else if (this.PickupCardToForward)
             {
                 pickupCardToForward = false;
+                drawing = true;
+            }
+            else if (this.Drawing)
+            {
+                drawing = false;
                 moveCardToCenterStackNearMe = true;
             }
 
@@ -83,6 +94,7 @@
             this.MoveCardToFarCenterStack = moveCardToFarCenterStack;
             this.PickupCardToForward = pickupCardToForward;
             this.PickupCardToBackward = pickupCardToBackward;
+            this.Drawing = drawing;
         }
     }
 }

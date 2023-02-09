@@ -29,6 +29,11 @@
         /// </summary>
         internal bool[] PickupCardToBackward { get; private set; } = new[] { false, false };
 
+        /// <summary>
+        /// 手札から場札を補充する
+        /// </summary>
+        internal bool Drawing { get; private set; } = false;
+
         // - メソッド
 
         /// <summary>
@@ -43,6 +48,8 @@
                 PickupCardToForward[player] = false;
                 PickupCardToBackward[player] = false;
             }
+
+            Drawing = false;
         }
 
         /// <summary>
@@ -65,6 +72,8 @@
                 PickupCardToForward[player] = Input.GetKeyDown(KeyCode.D);
                 PickupCardToBackward[player] = Input.GetKeyDown(KeyCode.A);
             }
+
+            Drawing = Input.GetKeyDown(KeyCode.Space); // １プレイヤーと、２プレイヤーの２回判定されてしまう
         }
 
         /// <summary>
@@ -75,12 +84,14 @@
             bool moveCardToCenterStackNearMe,
             bool moveCardToFarCenterStack,
             bool pickupCardToForward,
-            bool pickupCardToBackward)
+            bool pickupCardToBackward,
+            bool drawing)
         {
             MoveCardToCenterStackNearMe[player] = moveCardToCenterStackNearMe;
             MoveCardToFarCenterStack[player] = moveCardToFarCenterStack;
             PickupCardToForward[player] = pickupCardToForward;
             PickupCardToBackward[player] = pickupCardToBackward;
+            Drawing = drawing;
         }
     }
 }

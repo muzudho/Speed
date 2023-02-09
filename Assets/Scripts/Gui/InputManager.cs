@@ -77,7 +77,8 @@ public class InputManager : MonoBehaviour
                         moveCardToCenterStackNearMe: Computers[player].MoveCardToCenterStackNearMe,
                         moveCardToFarCenterStack: Computers[player].MoveCardToFarCenterStack,
                         pickupCardToForward: Computers[player].PickupCardToForward,
-                        pickupCardToBackward: Computers[player].PickupCardToBackward);
+                        pickupCardToBackward: Computers[player].PickupCardToBackward,
+                        drawing: Computers[player].Drawing);
                 }
             }
 
@@ -240,7 +241,7 @@ public class InputManager : MonoBehaviour
         }
 
         // デバッグ用
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (inputToMeaning.Drawing)
         {
             // 両プレイヤーは手札から１枚抜いて、場札として置く
             for (var player = 0; player < 2; player++)
