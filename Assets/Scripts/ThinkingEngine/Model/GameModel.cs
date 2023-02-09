@@ -25,6 +25,12 @@
 
         internal float ElapsedSeconds => gameModelBuffer.ElapsedSeconds;
 
+        /// <summary>
+        /// 対局中か？
+        /// </summary>
+        /// <returns></returns>
+        internal bool IsGameActive => this.gameModelBuffer.IsGameActive;
+
         // - メソッド
 
         internal ReadonlyList<IdOfPlayingCards> GetCenterStack(int place)
@@ -42,7 +48,7 @@
             var length = this.GetLengthOfCenterStackCards(place);
             var startIndex = length - 1;
 
-            if (startIndex==-1 || this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count <= startIndex)
+            if (startIndex == -1 || this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count <= startIndex)
             {
                 return IdOfPlayingCards.None;
             }

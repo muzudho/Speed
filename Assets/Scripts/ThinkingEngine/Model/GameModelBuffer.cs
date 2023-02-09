@@ -11,6 +11,11 @@
     {
         // - プロパティ
 
+        /// <summary>
+        /// 対局中か？
+        /// </summary>
+        public bool IsGameActive { get; set; }
+
         // ゲーム内経過時間
         internal float ElapsedSeconds { get; set; } = 0.0f;
 

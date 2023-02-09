@@ -13,6 +13,9 @@
 
         static DurationMapping()
         {
+            // 一瞬
+            float forMoment = 0.16f;
+
             // 隣の場札をピックアップする秒
             float durationOfMoveFocusToNextCard = 0.15f;
 
@@ -20,6 +23,7 @@
             DurationOfModels.Add(typeof(MoveCardsToPileFromCenterStacksModel).GetHashCode(), 0.3f);
             DurationOfModels.Add(typeof(MoveCardToCenterStackFromHandModel).GetHashCode(), 0.15f + durationOfMoveFocusToNextCard);
             DurationOfModels.Add(typeof(MoveFocusToNextCardModel).GetHashCode(), durationOfMoveFocusToNextCard);
+            DurationOfModels.Add(typeof(SetGameActive).GetHashCode(), forMoment);
         }
 
         // - プロパティ

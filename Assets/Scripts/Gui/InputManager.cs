@@ -53,9 +53,11 @@ public class InputManager : MonoBehaviour
 
         for (var player = 0; player < 2; player++)
         {
-            // 前判定
-            // もう入力できないなら真
-            handled[player] = 0 < spamSeconds[player];
+            // 前判定：もう入力できないなら真
+            //
+            // - スパム中
+            // - 対局停止中
+            handled[player] = 0 < spamSeconds[player] || !gameModel.IsGameActive;
 
             if (!handled[player])
             {

@@ -77,8 +77,6 @@ public class GameManager : MonoBehaviour
     void SetupDemo()
     {
         // 卓準備
-        const int right = 0;// 台札の右
-        const int left = 1;// 台札の左
 
         // 間
         float interval = 0.85f;
@@ -88,6 +86,9 @@ public class GameManager : MonoBehaviour
         {
             this.ScheduleRegister.AddScheduleSeconds(player: player, seconds: interval);
         }
+
+        const int right = 0;// 台札の右
+        const int left = 1;// 台札の左
 
         // 登録：ピックアップ場札を、台札へ積み上げる
         {
@@ -349,6 +350,14 @@ public class GameManager : MonoBehaviour
             var spanModel = new MoveCardsToHandFromPileModel(
                     player: player,
                     numberOfCards: 5);
+            this.ScheduleRegister.AddWithinScheduler(player, spanModel);
+        }
+
+        // 対局開始の合図
+        {
+            var player = 0; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
+            var spanModel = new SetGameActive(
+                isGameActive: true);
             this.ScheduleRegister.AddWithinScheduler(player, spanModel);
         }
 
