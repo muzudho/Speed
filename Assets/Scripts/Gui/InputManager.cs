@@ -4,6 +4,7 @@ using Assets.Scripts.ThinkingEngine.Model;
 using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
 using UnityEngine;
 using GuiOfTimedCommandArgs = Assets.Scripts.Gui.TimedCommandArgs;
+using Assets.Scripts.ThinkingEngine;
 
 public class InputManager : MonoBehaviour
 {
@@ -11,12 +12,18 @@ public class InputManager : MonoBehaviour
 
     ScheduleRegister scheduleRegister;
 
+    /// <summary>
+    /// コンピューター・プレイヤー用
+    /// </summary>
+    GameModel gameModel;
+
     float[] spamSeconds = new[] { 0f, 0f };
 
     /// <summary>
     /// コンピューター・プレイヤーか？
     /// </summary>
-    bool[] ComputerPlayer { get; set; } = new bool[] { false, false, };
+    Computer[] Computers { get; set; } = new Computer[] { new Computer(0), new Computer(1), };
+    // Computer[] Computers { get; set; } = new Computer[] { null, null, };
 
     GuiOfInputManager.ToMeaning inputToMeaning = new GuiOfInputManager.ToMeaning();
 
@@ -25,7 +32,9 @@ public class InputManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        scheduleRegister = GameObject.Find("Game Manager").GetComponent<GameManager>().ScheduleRegister;
+        var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        scheduleRegister = gameManager.ScheduleRegister;
+        gameModel = gameManager.Model;
     }
 
     /// <summary>
@@ -39,7 +48,6 @@ public class InputManager : MonoBehaviour
         // キー入力の解析：クリアー
         inputToMeaning.Clear();
 
-
         // もう入力できないなら真
         bool[] handled = { false, false };
 
@@ -51,15 +59,23 @@ public class InputManager : MonoBehaviour
 
             if (!handled[player])
             {
-                if (!ComputerPlayer[player])
+                if (Computers[player] == null)
                 {
                     // キー入力の解析：人間の入力を受付
                     inputToMeaning.UpdateFromInput(player);
                 }
                 else
                 {
-                    // TODO ★ キー入力の解析：コンピューターからの入力を受付
+                    // コンピューター・プレイヤーが思考して、操作を決める
+                    Computers[player].Think(gameModel);
 
+                    // キー入力の解析：コンピューターからの入力を受付
+                    inputToMeaning.Overwrite(
+                        player: player,
+                        moveCardToCenterStackNearMe: Computers[player].MoveCardToCenterStackNearMe,
+                        moveCardToFarCenterStack: Computers[player].MoveCardToFarCenterStack,
+                        pickupCardToForward: Computers[player].PickupCardToForward,
+                        pickupCardToBackward: Computers[player].PickupCardToBackward);
                 }
             }
 

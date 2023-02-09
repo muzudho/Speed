@@ -66,5 +66,21 @@
                 PickupCardToBackward[player] = Input.GetKeyDown(KeyCode.A);
             }
         }
+
+        /// <summary>
+        /// 解析結果を全部上書きする
+        /// </summary>
+        internal void Overwrite(
+            int player,
+            bool moveCardToCenterStackNearMe,
+            bool moveCardToFarCenterStack,
+            bool pickupCardToForward,
+            bool pickupCardToBackward)
+        {
+            MoveCardToCenterStackNearMe[player] = moveCardToCenterStackNearMe;
+            MoveCardToFarCenterStack[player] = moveCardToFarCenterStack;
+            PickupCardToForward[player] = pickupCardToForward;
+            PickupCardToBackward[player] = pickupCardToBackward;
+        }
     }
 }

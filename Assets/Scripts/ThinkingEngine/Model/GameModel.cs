@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Model
 {
     using System.Collections.Generic;
+    using UnityEngine;
 
     /// <summary>
     /// ゲーム・モデル
@@ -41,11 +42,12 @@
             var length = this.GetLengthOfCenterStackCards(place);
             var startIndex = length - 1;
 
-            if (this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count <= startIndex)
+            if (startIndex==-1 || this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count <= startIndex)
             {
                 return IdOfPlayingCards.None;
             }
 
+            Debug.Log($"[GameModel GetLastCardOfCenterStack] place:{place} stack-count:{this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count} startIndex:{startIndex}");
             return this.gameModelBuffer.IdOfCardsOfCenterStacks[place][startIndex]; // 最後のカード
         }
 

@@ -353,7 +353,7 @@ public class GameManager : MonoBehaviour
         }
 
         // 以下、デモ・プレイを登録
-        SetupDemo();
+        // SetupDemo();
 
         // OnTick を 1.0 秒後に呼び出し、以降は tickSeconds 秒毎に実行
         InvokeRepeating(nameof(OnTick), 1.0f, tickSeconds);
