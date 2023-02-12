@@ -1501,8 +1501,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 609273098}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 609273100}
+        m_TargetAssemblyTypeName: Assets.Scripts.Vision.UserInterface.Manager, Assembly-CSharp
         m_MethodName: On1pVs2p
         m_Mode: 1
         m_Arguments:
@@ -1938,8 +1938,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 609273098}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 609273100}
+        m_TargetAssemblyTypeName: Assets.Scripts.Vision.UserInterface.Manager, Assembly-CSharp
         m_MethodName: OnComVsCom
         m_Mode: 1
         m_Arguments:
@@ -1997,7 +1997,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 609273099}
-  - component: {fileID: 609273098}
+  - component: {fileID: 609273100}
   m_Layer: 0
   m_Name: UI Manager
   m_TagString: Untagged
@@ -2005,22 +2005,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &609273098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609273097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e540950e306d5ef4e8796197c02de2f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSelectBackground: {fileID: 1168505503}
-  playerButtons: {fileID: 330212593}
-  p1Keys: {fileID: 1975332019}
-  p2Keys: {fileID: 1431097749}
 --- !u!4 &609273099
 Transform:
   m_ObjectHideFlags: 0
@@ -2036,6 +2020,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &609273100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609273097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d33e9c9dd29f74590c6f2871a58cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSelectBackground: {fileID: 1168505503}
+  playerButtons: {fileID: 330212593}
+  p1Keys: {fileID: 1975332019}
+  p2Keys: {fileID: 1431097749}
 --- !u!1001 &618347984
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3204,8 +3204,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 609273098}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 609273100}
+        m_TargetAssemblyTypeName: Assets.Scripts.Vision.UserInterface.Manager, Assembly-CSharp
         m_MethodName: OnComVs2p
         m_Mode: 1
         m_Arguments:
@@ -4051,7 +4051,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1133995061}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4891329119c85744d993f13733fd2d45, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d6948a5ea9850a42affa81a95301f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1133995063
@@ -4558,7 +4558,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1375586346}
-  - component: {fileID: 1375586345}
+  - component: {fileID: 1375586347}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -4566,18 +4566,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1375586345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1375586344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5d90b9ff13134347a5e4b67a88dd595, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1375586346
 Transform:
   m_ObjectHideFlags: 0
@@ -4593,6 +4581,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1375586347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375586344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0a628676ee77e2458294cd20dbd8015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1379999465
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5937,8 +5937,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 609273098}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 609273100}
+        m_TargetAssemblyTypeName: Assets.Scripts.Vision.UserInterface.Manager, Assembly-CSharp
         m_MethodName: On1pVsCom
         m_Mode: 1
         m_Arguments:
