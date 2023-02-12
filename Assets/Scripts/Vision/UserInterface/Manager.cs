@@ -3,6 +3,7 @@ namespace Assets.Scripts.Vision.UserInterface
     using Assets.Scripts.ThinkingEngine;
     using UnityEngine;
     using VisionOfInput = Assets.Scripts.Vision.Input;
+    using VisionOfWorld = Assets.Scripts.Vision.World;
 
     /// <summary>
     /// ユーザー・インターフェース・マネージャー
@@ -16,6 +17,7 @@ namespace Assets.Scripts.Vision.UserInterface
         [SerializeField] GameObject p1Keys;
         [SerializeField] GameObject p2Keys;
 
+        VisionOfWorld.GameManager gameManager;
         VisionOfInput.Manager inputManager;
 
         // - メソッド
@@ -27,6 +29,7 @@ namespace Assets.Scripts.Vision.UserInterface
             playerButtons.SetActive(false);
             p1Keys.SetActive(true);
             p2Keys.SetActive(true);
+            gameManager.StartGame();
         }
 
         public void On1pVsCom()
@@ -35,6 +38,7 @@ namespace Assets.Scripts.Vision.UserInterface
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p1Keys.SetActive(true);
+            gameManager.StartGame();
         }
 
         public void OnComVs2p()
@@ -43,6 +47,7 @@ namespace Assets.Scripts.Vision.UserInterface
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p2Keys.SetActive(true);
+            gameManager.StartGame();
         }
 
         public void OnComVsCom()
@@ -50,6 +55,7 @@ namespace Assets.Scripts.Vision.UserInterface
             inputManager.Computers = new Computer[] { new Computer(0), new Computer(1) };
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
+            gameManager.StartGame();
         }
 
         // - イベントハンドラ
@@ -57,6 +63,7 @@ namespace Assets.Scripts.Vision.UserInterface
         // Start is called before the first frame update
         void Start()
         {
+            gameManager = GameObject.Find("Game Manager").GetComponent<VisionOfWorld.GameManager>();
             inputManager = GameObject.Find("Input Manager").GetComponent<VisionOfInput.Manager>();
 
             p1Keys.SetActive(false);

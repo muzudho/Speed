@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.World
+﻿namespace Assets.Scripts.Coding
 {
     /// <summary>
     /// コーディングのテクニックのための仕込み

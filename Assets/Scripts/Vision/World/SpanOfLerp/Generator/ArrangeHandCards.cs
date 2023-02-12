@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.Generator
 {
+    using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Model;
     using Assets.Scripts.Vision.World.Views;
     using System;

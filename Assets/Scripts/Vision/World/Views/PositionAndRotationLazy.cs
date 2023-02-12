@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.World.Views
 {
+    using Assets.Scripts.Coding;
     using UnityEngine;
 
     internal class PositionAndRotationLazy

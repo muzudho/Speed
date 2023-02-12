@@ -70,6 +70,26 @@
 
         // - メソッド
 
+        /// <summary>
+        /// 対局開始
+        /// </summary>
+        internal void StartGame()
+        {
+            // 開始局面まで登録
+            SetStartPosition.DoIt(
+                modelBuffer,
+                this.ScheduleRegister);
+
+            // 以下、デモ・プレイを登録
+            // SetupDemo(this.ScheduleRegister);
+
+            // 【OnTick を ○秒後に呼び出し、以降は tickSeconds 秒毎に実行】
+            InvokeRepeating(
+                methodName: nameof(OnTick),
+                time: this.ScheduleRegister.LastSeconds(),
+                repeatRate: tickSeconds);
+        }
+
         // - イベントハンドラ
 
         // Start is called before the first frame update
@@ -196,19 +216,8 @@
                 }
             }
 
-            // 開始局面まで登録
-            SetStartPosition.DoIt(
-                modelBuffer,
-                this.ScheduleRegister);
-
-            // 以下、デモ・プレイを登録
-            // SetupDemo(this.ScheduleRegister);
-
-            // 【OnTick を ○秒後に呼び出し、以降は tickSeconds 秒毎に実行】
-            InvokeRepeating(
-                methodName: nameof(OnTick),
-                time: this.ScheduleRegister.LastSeconds(),
-                repeatRate: tickSeconds);
+            // UI ボタンを押下して、ゲーム開始
+            // this.StartGame();
         }
 
         // Update is called once per frame
