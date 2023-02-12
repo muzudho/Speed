@@ -5,7 +5,8 @@ public class UIManager : MonoBehaviour
 {
     // フィールド
 
-    GameManager gameManager;
+    [SerializeField] GameObject playerSelectBackground;
+
     InputManager inputManager;
 
     // - メソッド
@@ -13,21 +14,25 @@ public class UIManager : MonoBehaviour
     public void On1pVs2p()
     {
         inputManager.Computers = new Computer[] { null, null };
+        playerSelectBackground.SetActive(false);
     }
 
     public void On1pVsCom()
     {
         inputManager.Computers = new Computer[] { null, new Computer(1) };
+        playerSelectBackground.SetActive(false);
     }
 
     public void OnComVs2p()
     {
         inputManager.Computers = new Computer[] { new Computer(0), null };
+        playerSelectBackground.SetActive(false);
     }
 
     public void OnComVsCom()
     {
         inputManager.Computers = new Computer[] { new Computer(0), new Computer(1) };
+        playerSelectBackground.SetActive(false);
     }
 
     // - イベントハンドラ
@@ -35,7 +40,6 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
     }
 

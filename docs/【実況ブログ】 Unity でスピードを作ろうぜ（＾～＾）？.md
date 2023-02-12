@@ -1,4 +1,4 @@
-# 📅2023-01-23 mon 21:00
+~~# 📅2023-01-23 mon 21:00
 
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　Unity で スピードのモックアップを作ろうぜ？」  
@@ -6135,4 +6135,92 @@ public class InputManager : MonoBehaviour
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　今日は　ここまでだぜ」  
 
-# // 書きかけ
+# 📅 2023-02-12 sun 17:52
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　１プレイヤーと　２プレイヤーのどちらも　カードを置けなくなったら、どうすんだっけ？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　いっせー　のー　せっ！　の掛け声で一緒に出すんじゃないの？」  
+
+📖 [遊びかた：スピード](https://www.nintendo.co.jp/others/playing_cards/howtoplay/speed/index.html)  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　👆　手札から補充する、手札がなければ　場札から補充する、とあるぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　じゃあ、どちらも置けなくなったら、以下のケースがあるわけだぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　手札が残っている方は、手札の頂上から１枚　自動的に　出す」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　手札が残っていない方は、場札を１枚　手動的に選んで　出す」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　後出しが　できるんじゃない？」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　出さない、というケースもあるのでは？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　どちらかが　カード出したら、残っている方は、３秒後に　ピックアップしてる場札　勝手に出す、ということで　いいのでは？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　カウントダウン　作んなきゃいけないわね」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　じゃあ、置く札がない状況、仮に **ステイルメイト**（Stalemate）　とでも呼ぶとして、  
+Stalemate かどうか判断する関数を１つ作ろうぜ？」  
+
+📅 2023-02-12 sun 18:07 ↑  
+
+![202302_unity_12-1821--player-select.png](https://crieit.now.sh/upload_images/b64d921c905fa5b3d80f6fbdc1b331a063e8afaeb87bf.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　その前にこの　画面サイズに関係なく　ボタンサイズがある、という  
+GUI　なんとかならないの？」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　画面サイズが縮んだのなら、ボタンも縮むべきだろ」  
+
+![202302_unity_12-1824--ui-layer-1.png](https://crieit.now.sh/upload_images/0fa06cd42b6a96be7c9d325dcbea96c263e8b08d18169.png)  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　👆　UI レイヤーのこと　よく分かってないのよね」  
+
+📖 [複数の解像度のための UI 設計](https://docs.unity3d.com/ja/2020.3/Manual/HOWTO-UIMultiResolution.html)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　勉強しようぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　**Canvas Scaler** コンポーネントというものがあるらしい。なんだぜそれ？」  
+
+📖 [Canvas Scaler](https://docs.unity3d.com/ja/2023.1/Manual/script-CanvasScaler.html)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　スクリプトなのかな？」  
+
+![202302_unity_12-1835--canvas-scaler-1.png](https://crieit.now.sh/upload_images/fc234b56fd12ce567cb2d50c89c447e463e8b32c393e2.png)  
+
+📅 2023-02-12 sun 18:35  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　追加しようと思ったけど、もう追加されてた……」  
+
+![202302_unity_12-1838--scale-with-screen-size-1.png](https://crieit.now.sh/upload_images/1d609babc701100661b9d5e622e4462263e8b3c8770d3.png)  
+
+📅 2023-02-12 sun 18:39  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`Scale with Screen Size` にしたら　いいのかな？」  
+
+![202302_unity_12-1840--scale-with-screen-size-1.png](https://crieit.now.sh/upload_images/091c39b5c84bb2b6ddeea074ee94e00263e8b4612bd12.png)  
+
+📅 2023-02-12 sun 18:42  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　とりあえず　これで」  
+
+# // 書きかけ~~

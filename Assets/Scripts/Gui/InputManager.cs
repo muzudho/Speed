@@ -1,10 +1,10 @@
-using GuiOfInputManager = Assets.Scripts.Gui.InputManager;
 using Assets.Scripts.Gui.SpanOfLerp.TimedGenerator;
+using Assets.Scripts.ThinkingEngine;
 using Assets.Scripts.ThinkingEngine.Model;
 using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
 using UnityEngine;
+using GuiOfInputManager = Assets.Scripts.Gui.InputManager;
 using GuiOfTimedCommandArgs = Assets.Scripts.Gui.TimedCommandArgs;
-using Assets.Scripts.ThinkingEngine;
 
 public class InputManager : MonoBehaviour
 {
@@ -25,7 +25,8 @@ public class InputManager : MonoBehaviour
     /// - コンピューターなら Computer インスタンス
     /// - コンピューターでなければヌル
     /// </summary>
-    internal Computer[] Computers { get; set; } = new Computer[] { new Computer(0), new Computer(1), };
+    internal Computer[] Computers { get; set; } = new Computer[] { null, null, };
+    // internal Computer[] Computers { get; set; } = new Computer[] { new Computer(0), new Computer(1), };
 
     GuiOfInputManager.ToMeaning inputToMeaning = new GuiOfInputManager.ToMeaning();
 
