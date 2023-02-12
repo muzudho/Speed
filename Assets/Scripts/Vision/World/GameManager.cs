@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.World
 {
     using Assets.Scripts.ThinkingEngine.Model;
-    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+    using Assets.Scripts.Vision.World.Replays;
     using Assets.Scripts.Vision.World.SpanOfLerp;
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using Assets.Scripts.Vision.World.Views;
@@ -10,7 +10,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
     using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
     using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using ViewsOfTimeline = Assets.Scripts.Vision.World.Views.Timeline;
@@ -70,101 +69,6 @@
         ScheduleRegister scheduleRegister;
 
         // - メソッド
-
-        /// <summary>
-        /// タイムライン作成
-        /// 
-        /// - デモ
-        /// </summary>
-        void SetupDemo()
-        {
-            // 卓準備
-
-            // 間
-            float interval = 0.85f;
-
-            // 間
-            for (int player = 0; player < 2; player++)
-            {
-                this.ScheduleRegister.AddScheduleSeconds(player: player, seconds: interval);
-            }
-
-            // ゲーム・デモ開始
-
-            // 登録：カード選択
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    // １プレイヤーの右隣のカードへフォーカスを移します
-                    {
-                        var player = 0;
-                        var spanModel = new MoveFocusToNextCardModel(
-                                player: player,
-                                direction: 0);
-                        this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-                    }
-
-                    // ２プレイヤーの右隣のカードへフォーカスを移します
-                    {
-                        var player = 1;
-                        var spanModel = new MoveFocusToNextCardModel(
-                                player: player,
-                                direction: 0);
-                        this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-                    }
-
-                    // 間
-                    for (int player = 0; player < 2; player++)
-                    {
-                        this.ScheduleRegister.AddScheduleSeconds(player: player, seconds: interval);
-                    }
-                }
-            }
-
-            // 登録：台札を積み上げる
-            {
-                {
-                    var player = 0;
-                    var spanModel = new MoveCardToCenterStackFromHandModel(
-                            player: player, // １プレイヤーが
-                            place: 1); // 左の台札
-                    this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-                }
-                {
-                    var player = 1;
-                    var spanModel = new MoveCardToCenterStackFromHandModel(
-                            player: player, // ２プレイヤーが
-                            place: 0); // 右の台札
-                    this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-                }
-            }
-
-            // 間
-            for (int player = 0; player < 2; player++)
-            {
-                this.ScheduleRegister.AddScheduleSeconds(player: player, seconds: interval);
-            }
-
-            // 登録：手札から１枚引く
-            {
-                {
-                    // １プレイヤーは手札から１枚抜いて、場札として置く
-                    var player = 0;
-                    var spanModel = new MoveCardsToHandFromPileModel(
-                            player: player,
-                            numberOfCards: 1);
-                    this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-                }
-                {
-                    // ２プレイヤーは手札から１枚抜いて、場札として置く
-                    var player = 1;
-                    var spanModel = new MoveCardsToHandFromPileModel(
-                            player: 1,
-                            numberOfCards: 1);
-                    this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-                }
-            }
-        }
 
         // - イベントハンドラ
 
@@ -292,94 +196,19 @@
                 }
             }
 
-            const int right = 0;// 台札の右
-            const int left = 1;// 台札の左
-
-            while (0 < Model.GetLengthOfCenterStackCards(right))
-            {
-                // 即実行
-                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
-                        place: right
-                        ));
-                var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
-                        startSeconds: 0.0f,
-                        timedCommandArg: timedCommandArg,
-                        spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(timedCommandArg.GetType()));
-                timedGenerator.SpanGenerator.CreateSpanToLerp(
-                    timedGenerator,
-                    modelBuffer,
-                    setSpanToLerp: (movementViewModel) => movementViewModel.Lerp(1.0f));
-            }
-
-            // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
-            {
-                var player = 0;
-                var spanModel = new MoveCardsToHandFromPileModel(
-                        player: player,
-                        numberOfCards: 5);
-                this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-            }
-            {
-                var player = 1;
-                var spanModel = new MoveCardsToHandFromPileModel(
-                        player: player,
-                        numberOfCards: 5);
-                this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-            }
-
-            // 間
-            float interval = 0.85f;
-
-            // 間
-            {
-                for (int player = 0; player < 2; player++)
-                {
-                    this.ScheduleRegister.AddScheduleSeconds(player: player, seconds: interval);
-                }
-            }
-
-            // 登録：ピックアップ場札を、台札へ積み上げる
-            {
-                {
-                    // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
-                    var player = 0;
-                    var spanModel = new MoveCardToCenterStackFromHandModel(
-                            player: player, // １プレイヤーが
-                            place: right); // 右の
-                    this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-                }
-                {
-                    // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
-                    var player = 1;
-                    var spanModel = new MoveCardToCenterStackFromHandModel(
-                            player: player, // ２プレイヤーが
-                            place: left); // 左の;
-                    this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-                }
-            }
-
-            // 対局開始の合図
-            {
-                var spanModel = new SetGameActive(
-                    isGameActive: true);
-
-                {
-                    var player = 0; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
-                    this.ScheduleRegister.AddWithinScheduler(player, spanModel);
-                }
-                {
-                    var player = 1; // プレイヤー２も、間を合わせる
-                    this.ScheduleRegister.AddScheduleSeconds(
-                        player: player,
-                        seconds: new GuiOfTimedCommandArgs.Model(spanModel).Duration);
-                }
-            }
+            // 開始局面まで登録
+            SetStartPosition.DoIt(
+                modelBuffer,
+                this.ScheduleRegister);
 
             // 以下、デモ・プレイを登録
-            // SetupDemo();
+            // SetupDemo(this.ScheduleRegister);
 
-            // OnTick を 1.0 秒後に呼び出し、以降は tickSeconds 秒毎に実行
-            InvokeRepeating(nameof(OnTick), 1.0f, tickSeconds);
+            // 【OnTick を ○秒後に呼び出し、以降は tickSeconds 秒毎に実行】
+            InvokeRepeating(
+                methodName: nameof(OnTick),
+                time: this.ScheduleRegister.LastSeconds(),
+                repeatRate: tickSeconds);
         }
 
         // Update is called once per frame

@@ -107,5 +107,7 @@
         {
             Debug.Log($"[Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator.Simulator DebugWrite] timedItems.Count:{timedGenerators.Count}");
         }
+
+        internal float LastSeconds() => Mathf.Max(this.ScheduledSeconds[0], ScheduledSeconds[1]);
     }
 }
