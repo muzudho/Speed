@@ -1,4 +1,4 @@
-~~# 📅2023-01-23 mon 21:00
+# 📅2023-01-23 mon 21:00
 
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　Unity で スピードのモックアップを作ろうぜ？」  
@@ -6222,5 +6222,55 @@ GUI　なんとかならないの？」
 
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　とりあえず　これで」  
+
+## ゲーム開始処理の変更
+
+📅 2023-02-12 sun 21:11  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　ゲーム開始処理を　ごっそり　変えたので説明する」  
+
+![202302_unity_12-2114--namespaces-1.png](https://crieit.now.sh/upload_images/db14f85afafb9e729ee13bdf3ab3003963e8d85354d18.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　大まかに、スクリプトを　`ThinkingEngine` と `Vision` に分けることにする。  
+`ThinkingEngine` というのは 画面なしで動くようなもので、  
+`Vision` というのは 画面で動くようなゲームが入ってるところだぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　その `Vision` の中は、さらに３つに分けることにする。  
+`Input` というのは キーボードからの入力だな。  
+`UserInterface` というのは、画面上のボタンとかだぜ。  
+`World` は、まあ　その他　ぐらいに思えだぜ」  
+
+![202302_unity_12-2118--start-game-1.png](https://crieit.now.sh/upload_images/a1baf14cc65e410bc91d0d7211bb925963e8d94861c08.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　今までは　勝手にゲームが始まっていたが、  
+`StartGame()` メソッドを呼び出すまで　始まらないように変更する」  
+
+![202302_unity_12-2120--ui-manager-1.png](https://crieit.now.sh/upload_images/7929874c531f9d8737d7ae571172f92663e8d9ced7bec.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　じゃあ　どこで始まるの？　というと、  
+ボタンを押したときに　始まるようにする。  
+これらは `Assets.Scripts.Vision.UserInterface.Manager` クラスにまとめてある」  
+
+![202302_unity_12-2125--on-click-1.png](https://crieit.now.sh/upload_images/668127cacbe38167a7afa54b308f1bd963e8dafbbe32f.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　ボタンを押すと On Click() のリストに登録したメソッドが実行される仕組みは　覚えておいてくれだぜ」  
+
+![202302_unity_12-2130--game.png](https://crieit.now.sh/upload_images/a20cfc73c354dc80a7ce9e01c003cdb863e8dc14060d8.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　開始時のカードも片づけたぜ」  
+
+📺 [開発中画面](https://twitter.com/muzudho1/status/1624749016222420993?s=20&t=99Y5KYaBck67kX1tB9qGQw)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　今日は　ここまでだぜ」  
+
+📅 2023-02-12 sun 21:36 end  
 
 # // 書きかけ~~
