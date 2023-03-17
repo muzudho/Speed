@@ -6273,4 +6273,49 @@ GUI　なんとかならないの？」
 
 📅 2023-02-12 sun 21:36 end  
 
-# // 書きかけ~~
+# 📅2023-03-17 fri 21:00
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　おっ、１か月ぶりか。  
+Unity の画面を見るのも嫌になってるが、  
+既知の不具合を１つ　直そうぜ？」  
+
+![202303_unity_17-2109--input-1.png](https://crieit.now.sh/upload_images/8d6cdae7f6cc77b0523831eee6efd16d641458da7041d.png)  
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　入力したことを　そのまま実行されると  
+おかしくなることがあるので、制約を付けたいんだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　場札が１枚のときは、左には場札は無いしな」  
+
+![202303_unity_17-2305--constraint-1.png](https://crieit.now.sh/upload_images/5155d78be4152a279a1a32f181315d59641473f57a9ee.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　行動に制約を付けると　こんな感じだぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　制約は　そんなもんで　いいんじゃないの？」  
+
+![202303_unity_17-2311--stalemate.png](https://crieit.now.sh/upload_images/f49c55cedf8ecf866bd9bfd7bf7ce9196414751f3c50b.png)  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　👆　それより　ステールメート（※置けるカードがない）したら　どうすんの？」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　カードを引きたくても、手札（自分の側に積んでいたカード）も　無くなってるぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　スピードのルールかあ。調べるかだぜ」  
+
+📖 [トランプ【スピード】のルールを教えてくだし。](https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q1346665563)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　せーの、で　場札の好きなカードを１枚　捨てれるみたいだな」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　今、ステールメートしてるかどうか判定するアルゴリズムを書いてくれだぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　大変なんで、また今度な」  
+
+# // 書きかけ
