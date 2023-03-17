@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Vision.Input
+ï»¿namespace Assets.Scripts.Vision.Input
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Model;
@@ -10,33 +10,33 @@ namespace Assets.Scripts.Vision.Input
     using VisionOfInput = Assets.Scripts.Vision.Input;
 
     /// <summary>
-    /// “ü—Íƒ}ƒl[ƒWƒƒ[
+    /// å…¥åŠ›ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
     /// </summary>
     public class Manager : MonoBehaviour
     {
-        // - ƒtƒB[ƒ‹ƒh
+        // - ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
 
         ScheduleRegister scheduleRegister;
 
         /// <summary>
-        /// ƒRƒ“ƒsƒ…[ƒ^[EƒvƒŒƒCƒ„[—p
+        /// ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ãƒ¼ãƒ»ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç”¨
         /// </summary>
         GameModel gameModel;
 
         float[] spamSeconds = new[] { 0f, 0f };
 
         /// <summary>
-        /// ƒRƒ“ƒsƒ…[ƒ^[EƒvƒŒƒCƒ„[‚©H
+        /// ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ãƒ¼ãƒ»ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ï¼Ÿ
         /// 
-        /// - ƒRƒ“ƒsƒ…[ƒ^[‚È‚ç Computer ƒCƒ“ƒXƒ^ƒ“ƒX
-        /// - ƒRƒ“ƒsƒ…[ƒ^[‚Å‚È‚¯‚ê‚Îƒkƒ‹
+        /// - ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ãƒ¼ãªã‚‰ Computer ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+        /// - ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ãƒ¼ã§ãªã‘ã‚Œã°ãƒŒãƒ«
         /// </summary>
         internal Computer[] Computers { get; set; } = new Computer[] { null, null, };
         // internal Computer[] Computers { get; set; } = new Computer[] { new Computer(0), new Computer(1), };
 
         VisionOfInput.ToMeaning inputToMeaning = new VisionOfInput.ToMeaning();
 
-        // - ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
+        // - ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
 
         // Start is called before the first frame update
         void Start()
@@ -49,38 +49,38 @@ namespace Assets.Scripts.Vision.Input
         /// <summary>
         /// Update is called once per frame
         /// 
-        /// - “ü—Í‚ÍA‚·‚®‚ÉÀs‚ÍA‚µ‚Ü‚¹‚ñ
-        /// - “ü—Í‚ÍAƒRƒ}ƒ“ƒh‚É•ÏŠ·‚µ‚ÄAƒ^ƒCƒ€ƒ‰ƒCƒ“‚Ö“o˜^‚µ‚Ü‚·
+        /// - å…¥åŠ›ã¯ã€ã™ãã«å®Ÿè¡Œã¯ã€ã—ã¾ã›ã‚“
+        /// - å…¥åŠ›ã¯ã€ã‚³ãƒãƒ³ãƒ‰ã«å¤‰æ›ã—ã¦ã€ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³ã¸ç™»éŒ²ã—ã¾ã™
         /// </summary>
         void Update()
         {
-            // ƒL[“ü—Í‚Ì‰ğÍFƒNƒŠƒA[
+            // ã‚­ãƒ¼å…¥åŠ›ã®è§£æï¼šã‚¯ãƒªã‚¢ãƒ¼
             inputToMeaning.Clear();
 
-            // ‚à‚¤“ü—Í‚Å‚«‚È‚¢‚È‚ç^
+            // ã‚‚ã†å…¥åŠ›ã§ããªã„ãªã‚‰çœŸ
             bool[] handled = { false, false };
 
             for (var player = 0; player < 2; player++)
             {
-                // ‘O”»’èF‚à‚¤“ü—Í‚Å‚«‚È‚¢‚È‚ç^
+                // å‰åˆ¤å®šï¼šã‚‚ã†å…¥åŠ›ã§ããªã„ãªã‚‰çœŸ
                 //
-                // - ƒXƒpƒ€’†
-                // - ‘Î‹Ç’â~’†
+                // - ã‚¹ãƒ‘ãƒ ä¸­
+                // - å¯¾å±€åœæ­¢ä¸­
                 handled[player] = 0 < spamSeconds[player] || !gameModel.IsGameActive;
 
                 if (!handled[player])
                 {
                     if (Computers[player] == null)
                     {
-                        // ƒL[“ü—Í‚Ì‰ğÍFlŠÔ‚Ì“ü—Í‚ğó•t
+                        // ã‚­ãƒ¼å…¥åŠ›ã®è§£æï¼šäººé–“ã®å…¥åŠ›ã‚’å—ä»˜
                         inputToMeaning.UpdateFromInput(player);
                     }
                     else
                     {
-                        // ƒRƒ“ƒsƒ…[ƒ^[EƒvƒŒƒCƒ„[‚ªvl‚µ‚ÄA‘€ì‚ğŒˆ‚ß‚é
+                        // ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ãƒ¼ãƒ»ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ€è€ƒã—ã¦ã€æ“ä½œã‚’æ±ºã‚ã‚‹
                         Computers[player].Think(gameModel);
 
-                        // ƒL[“ü—Í‚Ì‰ğÍFƒRƒ“ƒsƒ…[ƒ^[‚©‚ç‚Ì“ü—Í‚ğó•t
+                        // ã‚­ãƒ¼å…¥åŠ›ã®è§£æï¼šã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ãƒ¼ã‹ã‚‰ã®å…¥åŠ›ã‚’å—ä»˜
                         inputToMeaning.Overwrite(
                             player: player,
                             moveCardToCenterStackNearMe: Computers[player].MoveCardToCenterStackNearMe,
@@ -91,35 +91,35 @@ namespace Assets.Scripts.Vision.Input
                     }
                 }
 
-                // ƒXƒpƒ“ŠÔÁ‰»
+                // ã‚¹ãƒ‘ãƒ³æ™‚é–“æ¶ˆåŒ–
                 if (0 < spamSeconds[player])
                 {
-                    // •‰”‚É‚È‚Á‚Ä‚à‹C‚É‚µ‚È‚¢
+                    // è² æ•°ã«ãªã£ã¦ã‚‚æ°—ã«ã—ãªã„
                     spamSeconds[player] -= Time.deltaTime;
                 }
             }
 
-            const int right = 0;// ‘äD‚Ì‰E
-            const int left = 1;// ‘äD‚Ì¶
+            const int right = 0;// å°æœ­ã®å³
+            const int left = 1;// å°æœ­ã®å·¦
 
-            // æ‚É“o˜^‚µ‚½ƒRƒ}ƒ“ƒh‚Ì•û‚ª‘‚­Às‚³‚ê‚é
+            // å…ˆã«ç™»éŒ²ã—ãŸã‚³ãƒãƒ³ãƒ‰ã®æ–¹ãŒæ—©ãå®Ÿè¡Œã•ã‚Œã‚‹
 
-            // iƒ{ƒ^ƒ“‰Ÿ‰º‚ª“¯‚È‚çj‰E‚Ì‘äD‚Í‚PƒvƒŒƒCƒ„[—Dæ
+            // ï¼ˆãƒœã‚¿ãƒ³æŠ¼ä¸‹ãŒåŒæ™‚ãªã‚‰ï¼‰å³ã®å°æœ­ã¯ï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å„ªå…ˆ
             // ==================================================
 
-            // - ‚PƒvƒŒƒCƒ„[
-            // - ©•ª‚Ì‹ß‚¢•û‚Ì‘äD‚Ö’u‚­
+            // - ï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+            // - è‡ªåˆ†ã®è¿‘ã„æ–¹ã®å°æœ­ã¸ç½®ã
             {
                 var player = 0;
                 if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && LegalMove.CanPutToCenterStack(
                     gameModel: scheduleRegister.GameModel,
                     player: player,
-                    place: right))  // ‰E‚Ì
+                    place: right))  // å³ã®
                 {
-                    // ‚PƒvƒŒƒCƒ„[‚ªAƒsƒbƒNƒAƒbƒv’†‚ÌêD‚ğ”²‚¢‚ÄAi‚PƒvƒŒƒCƒ„[‚©‚çŒ©‚Äj‰E‚Ì‘äD‚ÖÏ‚İã‚°‚é
+                    // ï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã€ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ä¸­ã®å ´æœ­ã‚’æŠœã„ã¦ã€ï¼ˆï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰è¦‹ã¦ï¼‰å³ã®å°æœ­ã¸ç©ã¿ä¸Šã’ã‚‹
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
-                        player: player,      // ‚PƒvƒŒƒCƒ„[‚ª
-                        place: right)); // ‰E‚Ì
+                        player: player,      // ï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒ
+                        place: right)); // å³ã®
 
                     spamSeconds[player] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
@@ -127,19 +127,19 @@ namespace Assets.Scripts.Vision.Input
                 }
             }
 
-            // - ‚QƒvƒŒƒCƒ„[
-            // - ©•ª‚©‚ç‰“‚¢•û‚Ì‘äD‚Ö’u‚­
+            // - ï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+            // - è‡ªåˆ†ã‹ã‚‰é ã„æ–¹ã®å°æœ­ã¸ç½®ã
             {
                 var player = 1;
                 if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && LegalMove.CanPutToCenterStack(
                     gameModel: scheduleRegister.GameModel,
                     player: player,
-                    place: right))  // ‰E‚Ì)
+                    place: right))  // å³ã®)
                 {
-                    // ‚QƒvƒŒƒCƒ„[‚ªAƒsƒbƒNƒAƒbƒv’†‚ÌêD‚ğ”²‚¢‚ÄAi‚PƒvƒŒƒCƒ„[‚©‚çŒ©‚Äj‰E‚Ì‘äD‚ÖÏ‚İã‚°‚é
+                    // ï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã€ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ä¸­ã®å ´æœ­ã‚’æŠœã„ã¦ã€ï¼ˆï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰è¦‹ã¦ï¼‰å³ã®å°æœ­ã¸ç©ã¿ä¸Šã’ã‚‹
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
-                        player: player,      // ‚QƒvƒŒƒCƒ„[‚ª
-                        place: right)); // ‰E‚Ì
+                        player: player,      // ï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒ
+                        place: right)); // å³ã®
 
                     spamSeconds[player] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
@@ -147,11 +147,11 @@ namespace Assets.Scripts.Vision.Input
                 }
             }
 
-            // iƒ{ƒ^ƒ“‰Ÿ‰º‚ª“¯‚È‚çj¶‚Ì‘äD‚Í‚QƒvƒŒƒCƒ„[—Dæ
+            // ï¼ˆãƒœã‚¿ãƒ³æŠ¼ä¸‹ãŒåŒæ™‚ãªã‚‰ï¼‰å·¦ã®å°æœ­ã¯ï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å„ªå…ˆ
             // ==================================================
 
-            // - ‚QƒvƒŒƒCƒ„[
-            // - ©•ª‚Ì‹ß‚¢•û‚Ì‘äD‚Ö’u‚­
+            // - ï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+            // - è‡ªåˆ†ã®è¿‘ã„æ–¹ã®å°æœ­ã¸ç½®ã
             {
                 var player = 1;
                 if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && LegalMove.CanPutToCenterStack(
@@ -159,10 +159,10 @@ namespace Assets.Scripts.Vision.Input
                     player: player,
                     place: left))
                 {
-                    // ‚QƒvƒŒƒCƒ„[‚ªAƒsƒbƒNƒAƒbƒv’†‚ÌêD‚ğ”²‚¢‚ÄAi‚PƒvƒŒƒCƒ„[‚©‚çŒ©‚Äj¶‚Ì‘äD‚ÖÏ‚İã‚°‚é
+                    // ï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã€ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ä¸­ã®å ´æœ­ã‚’æŠœã„ã¦ã€ï¼ˆï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰è¦‹ã¦ï¼‰å·¦ã®å°æœ­ã¸ç©ã¿ä¸Šã’ã‚‹
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
-                        player: player,      // ‚QƒvƒŒƒCƒ„[‚ª
-                        place: left));  // ¶‚Ì
+                        player: player,      // ï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒ
+                        place: left));  // å·¦ã®
 
                     spamSeconds[player] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
@@ -170,8 +170,8 @@ namespace Assets.Scripts.Vision.Input
                 }
             }
 
-            // - ‚PƒvƒŒƒCƒ„[
-            // - ©•ª‚©‚ç‰“‚¢•û‚Ì‘äD‚Ö’u‚­
+            // - ï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+            // - è‡ªåˆ†ã‹ã‚‰é ã„æ–¹ã®å°æœ­ã¸ç½®ã
             {
                 var player = 0;
                 if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && LegalMove.CanPutToCenterStack(
@@ -179,10 +179,10 @@ namespace Assets.Scripts.Vision.Input
                     player: player,
                     place: left))
                 {
-                    // ‚PƒvƒŒƒCƒ„[‚ªAƒsƒbƒNƒAƒbƒv’†‚ÌêD‚ğ”²‚¢‚ÄAi‚PƒvƒŒƒCƒ„[‚©‚çŒ©‚Äj¶‚Ì‘äD‚ÖÏ‚İã‚°‚é
+                    // ï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã€ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ä¸­ã®å ´æœ­ã‚’æŠœã„ã¦ã€ï¼ˆï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰è¦‹ã¦ï¼‰å·¦ã®å°æœ­ã¸ç©ã¿ä¸Šã’ã‚‹
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
-                        player: player,      // ‚PƒvƒŒƒCƒ„[‚ª
-                        place: left));  // ¶‚Ì
+                        player: player,      // ï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒ
+                        place: left));  // å·¦ã®
 
                     spamSeconds[player] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
@@ -190,10 +190,10 @@ namespace Assets.Scripts.Vision.Input
                 }
             }
 
-            // ‚»‚êˆÈŠO‚ÌƒL[“ü—Í‚ÍA“¯‚Å‚àŸ”s‚ÉŠÖŒW‚µ‚È‚¢
+            // ãã‚Œä»¥å¤–ã®ã‚­ãƒ¼å…¥åŠ›ã¯ã€åŒæ™‚ã§ã‚‚å‹æ•—ã«é–¢ä¿‚ã—ãªã„
             // ==============================================
 
-            // ‚PƒvƒŒƒCƒ„[
+            // ï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
             {
                 var player = 0;
 
@@ -201,13 +201,13 @@ namespace Assets.Scripts.Vision.Input
                 {
 
                 }
-                // s“®F
-                //      ‚PƒvƒŒƒCƒ„[‚ÌƒsƒbƒNƒAƒbƒv‚µ‚Ä‚¢‚éƒJ[ƒh‚©‚çŒ©‚ÄAi‚PƒvƒŒƒCƒ„[‚©‚çŒ©‚Äj
-                //      ¶—×‚ÌƒJ[ƒh‚ğƒsƒbƒNƒAƒbƒv‚·‚é‚æ‚¤‚É•Ï‚¦‚Ü‚·
+                // è¡Œå‹•ï¼š
+                //      ï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ã—ã¦ã„ã‚‹ã‚«ãƒ¼ãƒ‰ã‹ã‚‰è¦‹ã¦ã€ï¼ˆï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰è¦‹ã¦ï¼‰
+                //      å·¦éš£ã®ã‚«ãƒ¼ãƒ‰ã‚’ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ã™ã‚‹ã‚ˆã†ã«å¤‰ãˆã¾ã™
                 else if (inputToMeaning.PickupCardToBackward[player])
                 {
-                    // §–ñF
-                    //      êD‚ª‚Q–‡ˆÈã‚ ‚é‚Æ‚«‚ÉŒÀ‚é
+                    // åˆ¶ç´„ï¼š
+                    //      å ´æœ­ãŒï¼’æšä»¥ä¸Šã‚ã‚‹ã¨ãã«é™ã‚‹
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
@@ -218,13 +218,13 @@ namespace Assets.Scripts.Vision.Input
                         scheduleRegister.AddJustNow(timedCommandArg);
                     }
                 }
-                // s“®F
-                //      ‚PƒvƒŒƒCƒ„[‚ÌƒsƒbƒNƒAƒbƒv‚µ‚Ä‚¢‚éƒJ[ƒh‚©‚çŒ©‚ÄAi‚PƒvƒŒƒCƒ„[‚©‚çŒ©‚Äj
-                //      ‰E—×‚ÌƒJ[ƒh‚ğƒsƒbƒNƒAƒbƒv‚·‚é‚æ‚¤‚É•Ï‚¦‚Ü‚·
+                // è¡Œå‹•ï¼š
+                //      ï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ã—ã¦ã„ã‚‹ã‚«ãƒ¼ãƒ‰ã‹ã‚‰è¦‹ã¦ã€ï¼ˆï¼‘ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰è¦‹ã¦ï¼‰
+                //      å³éš£ã®ã‚«ãƒ¼ãƒ‰ã‚’ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ã™ã‚‹ã‚ˆã†ã«å¤‰ãˆã¾ã™
                 else if (inputToMeaning.PickupCardToForward[player])
                 {
-                    // §–ñF
-                    //      êD‚ª‚Q–‡ˆÈã‚ ‚é‚Æ‚«‚ÉŒÀ‚é
+                    // åˆ¶ç´„ï¼š
+                    //      å ´æœ­ãŒï¼’æšä»¥ä¸Šã‚ã‚‹ã¨ãã«é™ã‚‹
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
@@ -237,7 +237,7 @@ namespace Assets.Scripts.Vision.Input
                 }
             }
 
-            // ‚QƒvƒŒƒCƒ„[
+            // ï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
             {
                 var player = 1;
 
@@ -245,13 +245,13 @@ namespace Assets.Scripts.Vision.Input
                 {
 
                 }
-                // s“®F
-                //      ‚QƒvƒŒƒCƒ„[‚ÌƒsƒbƒNƒAƒbƒv‚µ‚Ä‚¢‚éƒJ[ƒh‚©‚çŒ©‚ÄAi‚QƒvƒŒƒCƒ„[‚©‚çŒ©‚Äj
-                //      ¶—×‚ÌƒJ[ƒh‚ğƒsƒbƒNƒAƒbƒv‚·‚é‚æ‚¤‚É•Ï‚¦‚Ü‚·
+                // è¡Œå‹•ï¼š
+                //      ï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ã—ã¦ã„ã‚‹ã‚«ãƒ¼ãƒ‰ã‹ã‚‰è¦‹ã¦ã€ï¼ˆï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰è¦‹ã¦ï¼‰
+                //      å·¦éš£ã®ã‚«ãƒ¼ãƒ‰ã‚’ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ã™ã‚‹ã‚ˆã†ã«å¤‰ãˆã¾ã™
                 else if (inputToMeaning.PickupCardToBackward[player])
                 {
-                    // §–ñF
-                    //      êD‚ª‚Q–‡ˆÈã‚ ‚é‚Æ‚«‚ÉŒÀ‚é
+                    // åˆ¶ç´„ï¼š
+                    //      å ´æœ­ãŒï¼’æšä»¥ä¸Šã‚ã‚‹ã¨ãã«é™ã‚‹
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
@@ -262,13 +262,13 @@ namespace Assets.Scripts.Vision.Input
                         scheduleRegister.AddJustNow(timedCommandArg);
                     }
                 }
-                // s“®F
-                //      ‚QƒvƒŒƒCƒ„[‚ÌƒsƒbƒNƒAƒbƒv‚µ‚Ä‚¢‚éƒJ[ƒh‚©‚çŒ©‚ÄAi‚QƒvƒŒƒCƒ„[‚©‚çŒ©‚Äj
-                //      ‰E—×‚ÌƒJ[ƒh‚ğƒsƒbƒNƒAƒbƒv‚·‚é‚æ‚¤‚É•Ï‚¦‚Ü‚·
+                // è¡Œå‹•ï¼š
+                //      ï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ã—ã¦ã„ã‚‹ã‚«ãƒ¼ãƒ‰ã‹ã‚‰è¦‹ã¦ã€ï¼ˆï¼’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰è¦‹ã¦ï¼‰
+                //      å³éš£ã®ã‚«ãƒ¼ãƒ‰ã‚’ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—ã™ã‚‹ã‚ˆã†ã«å¤‰ãˆã¾ã™
                 else if (inputToMeaning.PickupCardToForward[player])
                 {
-                    // §–ñF
-                    //      êD‚ª‚Q–‡ˆÈã‚ ‚é‚Æ‚«‚ÉŒÀ‚é
+                    // åˆ¶ç´„ï¼š
+                    //      å ´æœ­ãŒï¼’æšä»¥ä¸Šã‚ã‚‹ã¨ãã«é™ã‚‹
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
@@ -281,13 +281,13 @@ namespace Assets.Scripts.Vision.Input
                 }
             }
 
-            // ƒfƒoƒbƒO—p
+            // ãƒ‡ãƒãƒƒã‚°ç”¨
             if (inputToMeaning.Drawing)
             {
-                // —¼ƒvƒŒƒCƒ„[‚ÍèD‚©‚ç‚P–‡”²‚¢‚ÄAêD‚Æ‚µ‚Ä’u‚­
+                // ä¸¡ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¯æ‰‹æœ­ã‹ã‚‰ï¼‘æšæŠœã„ã¦ã€å ´æœ­ã¨ã—ã¦ç½®ã
                 for (var player = 0; player < 2; player++)
                 {
-                    // êD‚ğ•À‚×‚é
+                    // å ´æœ­ã‚’ä¸¦ã¹ã‚‹
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardsToHandFromPileModel(
                         player: player,
                         numberOfCards: 1));
