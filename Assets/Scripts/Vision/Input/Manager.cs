@@ -107,7 +107,8 @@ namespace Assets.Scripts.Vision.Input
             // （ボタン押下が同時なら）右の台札は１プレイヤー優先
             // ==================================================
 
-            // １プレイヤー
+            // - １プレイヤー
+            // - 自分の近い方の台札へ置く
             {
                 var player = 0;
                 if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && LegalMove.CanPutToCenterStack(
@@ -126,7 +127,8 @@ namespace Assets.Scripts.Vision.Input
                 }
             }
 
-            // ２プレイヤー
+            // - ２プレイヤー
+            // - 自分から遠い方の台札へ置く
             {
                 var player = 1;
                 if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && LegalMove.CanPutToCenterStack(
@@ -148,7 +150,8 @@ namespace Assets.Scripts.Vision.Input
             // （ボタン押下が同時なら）左の台札は２プレイヤー優先
             // ==================================================
 
-            // ２プレイヤー
+            // - ２プレイヤー
+            // - 自分の近い方の台札へ置く
             {
                 var player = 1;
                 if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && LegalMove.CanPutToCenterStack(
@@ -167,7 +170,8 @@ namespace Assets.Scripts.Vision.Input
                 }
             }
 
-            // １プレイヤー
+            // - １プレイヤー
+            // - 自分から遠い方の台札へ置く
             {
                 var player = 0;
                 if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && LegalMove.CanPutToCenterStack(
@@ -197,25 +201,39 @@ namespace Assets.Scripts.Vision.Input
                 {
 
                 }
+                // 行動：
+                //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
+                //      左隣のカードをピックアップするように変えます
                 else if (inputToMeaning.PickupCardToBackward[player])
                 {
-                    // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）左隣のカードをピックアップするように変えます
-                    var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
-                        player: player,
-                        direction: 1));
+                    // 制約：
+                    //      場札が２枚以上あるときに限る
+                    if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
+                    {
+                        var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                            player: player,
+                            direction: 1));
 
-                    spamSeconds[player] = timedCommandArg.Duration;
-                    scheduleRegister.AddJustNow(timedCommandArg);
+                        spamSeconds[player] = timedCommandArg.Duration;
+                        scheduleRegister.AddJustNow(timedCommandArg);
+                    }
                 }
+                // 行動：
+                //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
+                //      右隣のカードをピックアップするように変えます
                 else if (inputToMeaning.PickupCardToForward[player])
                 {
-                    // １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）右隣のカードをピックアップするように変えます
-                    var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
-                        player: player,
-                        direction: 0));
+                    // 制約：
+                    //      場札が２枚以上あるときに限る
+                    if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
+                    {
+                        var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                            player: player,
+                            direction: 0));
 
-                    spamSeconds[player] = timedCommandArg.Duration;
-                    scheduleRegister.AddJustNow(timedCommandArg);
+                        spamSeconds[player] = timedCommandArg.Duration;
+                        scheduleRegister.AddJustNow(timedCommandArg);
+                    }
                 }
             }
 
@@ -227,25 +245,39 @@ namespace Assets.Scripts.Vision.Input
                 {
 
                 }
+                // 行動：
+                //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
+                //      左隣のカードをピックアップするように変えます
                 else if (inputToMeaning.PickupCardToBackward[player])
                 {
-                    // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）左隣のカードをピックアップするように変えます
-                    var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
-                        player: player,
-                        direction: 1));
+                    // 制約：
+                    //      場札が２枚以上あるときに限る
+                    if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
+                    {
+                        var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                            player: player,
+                            direction: 1));
 
-                    spamSeconds[player] = timedCommandArg.Duration;
-                    scheduleRegister.AddJustNow(timedCommandArg);
+                        spamSeconds[player] = timedCommandArg.Duration;
+                        scheduleRegister.AddJustNow(timedCommandArg);
+                    }
                 }
+                // 行動：
+                //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
+                //      右隣のカードをピックアップするように変えます
                 else if (inputToMeaning.PickupCardToForward[player])
                 {
-                    // ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）右隣のカードをピックアップするように変えます
-                    var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
-                        player: player,
-                        direction: 0));
+                    // 制約：
+                    //      場札が２枚以上あるときに限る
+                    if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
+                    {
+                        var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                            player: player,
+                            direction: 0));
 
-                    spamSeconds[player] = timedCommandArg.Duration;
-                    scheduleRegister.AddJustNow(timedCommandArg);
+                        spamSeconds[player] = timedCommandArg.Duration;
+                        scheduleRegister.AddJustNow(timedCommandArg);
+                    }
                 }
             }
 
