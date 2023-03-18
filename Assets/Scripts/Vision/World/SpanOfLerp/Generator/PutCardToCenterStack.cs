@@ -24,7 +24,7 @@
             float startSeconds,
             float duration,
             Player playerObj,
-            int place,
+            CenterStackPlace placeObj,
             IdOfPlayingCards target,
             IdOfPlayingCards idOfPreviousTop)
         {
@@ -32,7 +32,7 @@
             Vector3 nextTop;
             {
                 nextTop = GameView.CreatePositionOfNewCenterStackCard(
-                            place: place,
+                            placeObj: placeObj,
                             previousTop: idOfPreviousTop);
             }
 
@@ -72,7 +72,7 @@
                         // 初回アクセス時に、値固定
                         if (endPosition == null)
                         {
-                            endPosition = nextTop + GameView.ShakePosition(place);
+                            endPosition = nextTop + GameView.ShakePosition(placeObj);
                         }
                         return endPosition ?? throw new Exception();
                     },

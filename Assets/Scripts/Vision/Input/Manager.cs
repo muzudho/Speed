@@ -110,15 +110,12 @@
                 }
             }
 
-            const int right = 0;// 台札の右
-            const int left = 1;// 台札の左
-
             // ステールメートしてるかどうかの判定
             // ==================================
-            bool player1CanPutToRightCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, right); // 1Pは右の台札にカードを置ける
-            bool player1CanPutToLeftCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, left);   // 1Pは左の台札にカードを置ける
-            bool player2CanPutToRightCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, right); // 2Pは右の台札にカードを置ける
-            bool player2CanPutToLeftCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, left);   // 2Pは左の台札にカードを置ける
+            bool player1CanPutToRightCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, Commons.RightCenterStack); // 1Pは右の台札にカードを置ける
+            bool player1CanPutToLeftCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, Commons.LeftCenterStack);   // 1Pは左の台札にカードを置ける
+            bool player2CanPutToRightCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, Commons.RightCenterStack); // 2Pは右の台札にカードを置ける
+            bool player2CanPutToLeftCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, Commons.LeftCenterStack);   // 2Pは左の台札にカードを置ける
 
             // ステールメートしているとき
             if (!player1CanPutToRightCenterStack &&
@@ -144,7 +141,7 @@
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // １プレイヤーが
-                        place: right)); // 右の
+                        placeObj: Commons.RightCenterStack)); // 右の
 
                     spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
@@ -161,7 +158,7 @@
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // ２プレイヤーが
-                        place: right)); // 右の
+                        placeObj: Commons.RightCenterStack)); // 右の
 
                     spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
@@ -181,7 +178,7 @@
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // ２プレイヤーが
-                        place: left));  // 左の
+                        placeObj: Commons.LeftCenterStack));  // 左の
 
                     spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
@@ -198,7 +195,7 @@
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // １プレイヤーが
-                        place: left));  // 左の
+                        placeObj: Commons.LeftCenterStack));  // 左の
 
                     spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);

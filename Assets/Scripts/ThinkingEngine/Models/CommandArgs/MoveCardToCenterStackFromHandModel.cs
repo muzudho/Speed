@@ -11,16 +11,16 @@
         /// 生成
         /// </summary>
         /// <param name="playerObj"></param>
-        /// <param name="place"></param>
-        internal MoveCardToCenterStackFromHandModel(Player playerObj, int place)
+        /// <param name="placeObj"></param>
+        internal MoveCardToCenterStackFromHandModel(Player playerObj, CenterStackPlace placeObj)
         {
             this.PlayerObj = playerObj;
-            this.Place = place;
+            this.PlaceObj = placeObj;
         }
 
         // - プロパティ
 
         internal Player PlayerObj { get; private set; }
-        internal int Place { get; private set; }
+        internal CenterStackPlace PlaceObj { get; private set; }
     }
 }

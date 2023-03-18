@@ -1,12 +1,13 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Models
 {
     /// <summary>
-    /// プレイヤーの配列の添え字
+    /// 台札の配列の添え字
     /// 
-    /// - プレイヤー1 は 0
-    /// - プレイヤー2 は 1
+    /// - １プレイヤーから見て
+    ///     - 右 は 0
+    ///     - 左 は 1
     /// </summary>
-    class Player
+    class CenterStackPlace
     {
         // - 演算子のオーバーロード
 
@@ -14,7 +15,7 @@
         // 📖 [自作クラスの演算子をオーバーロードする](https://dobon.net/vb/dotnet/beginner/operator.html)
         // 📖 [自作クラスのEqualsメソッドをオーバーライドして、等価の定義を変更する](https://dobon.net/vb/dotnet/beginner/equals.html)
 
-        public static bool operator ==(Player c1, Player c2)
+        public static bool operator ==(CenterStackPlace c1, CenterStackPlace c2)
         {
             // nullの確認（構造体のようにNULLにならない型では不要）
             // 両方nullか（参照元が同じか）
@@ -34,7 +35,7 @@
             return (c1.source == c2.source) && (c1.source == c2.source);
         }
 
-        public static bool operator !=(Player c1, Player c2)
+        public static bool operator !=(CenterStackPlace c1, CenterStackPlace c2)
         {
             // (c1 != c2)とすると、無限ループ
             return !(c1 == c2);
@@ -53,10 +54,10 @@
                 return false;
             }
             //この型が継承できないクラスや構造体であれば、次のようにできる
-            //if (!(obj is Player))
+            //if (!(obj is CenterStackPlace))
 
             //Numberで比較する
-            Player c = (Player)obj;
+            CenterStackPlace c = (CenterStackPlace)obj;
             return (this.source == c.source);
             //または、
             //return (this.Number.Equals(c.Number));
@@ -71,7 +72,7 @@
 
         // - その他
 
-        internal Player(int source)
+        internal CenterStackPlace(int source)
         {
             this.source = source;
         }

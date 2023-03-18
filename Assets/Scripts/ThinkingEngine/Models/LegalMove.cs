@@ -9,7 +9,7 @@
         internal static bool CanPutToCenterStack(
             ModelOfGame.Default gameModel,
             Player playerObj,
-            int placeOfCenterStack)
+            CenterStackPlace placeOfCenterStackObj)
         {
             int index = gameModel.GetIndexOfFocusedCardOfPlayer(playerObj);
             if (index == -1)
@@ -17,7 +17,7 @@
                 return false;
             }
 
-            IdOfPlayingCards topCard = gameModel.GetLastCardOfCenterStack(placeOfCenterStack);
+            IdOfPlayingCards topCard = gameModel.GetLastCardOfCenterStack(placeOfCenterStackObj);
             if (topCard == IdOfPlayingCards.None)
             {
                 return false;

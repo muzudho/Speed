@@ -68,11 +68,11 @@
         /// <summary>
         /// 台札を追加
         /// </summary>
-        /// <param name="place"></param>
+        /// <param name="placeObj"></param>
         /// <param name="idOfCard"></param>
-        internal void AddCardOfCenterStack(int place, IdOfPlayingCards idOfCard)
+        internal void AddCardOfCenterStack(CenterStackPlace placeObj, IdOfPlayingCards idOfCard)
         {
-            this.IdOfCardsOfCenterStacks[place].Add(idOfCard);
+            this.IdOfCardsOfCenterStacks[placeObj.AsInt].Add(idOfCard);
         }
 
         /// <summary>

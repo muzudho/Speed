@@ -10,14 +10,14 @@
         /// <summary>
         /// 生成
         /// </summary>
-        /// <param name="place"></param>
-        internal MoveCardsToPileFromCenterStacksModel(int place)
+        /// <param name="placeObj"></param>
+        internal MoveCardsToPileFromCenterStacksModel(CenterStackPlace placeObj)
         {
-            this.Place = place;
+            this.PlaceObj = placeObj;
         }
 
         // - プロパティ
 
-        internal int Place { get; private set; }
+        internal CenterStackPlace PlaceObj { get; private set; }
     }
 }

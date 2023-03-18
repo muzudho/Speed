@@ -54,7 +54,7 @@
                 playerObj: playerObj,
                 (indexToRemove) =>  // 確定：場札から抜くのは何枚目
                 {
-                    var place = GetModel(timedGenerator).Place;
+                    var placeObj = GetModel(timedGenerator).PlaceObj;
 
                     // 確定：（抜いた後に）次にピックアップするカード（が先頭から何枚目か）
                     int indexOfNextPick;
@@ -95,17 +95,17 @@
                     gameModelBuffer.IndexOfFocusedCardOfPlayers[playerObj.AsInt] = indexOfNextPick;
 
                     // 確定：前の台札の天辺のカード
-                    IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(place);
+                    IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(placeObj);
 
                     // モデル更新：次に、台札として置く
-                    gameModelBuffer.AddCardOfCenterStack(place, targetToRemove);
+                    gameModelBuffer.AddCardOfCenterStack(placeObj, targetToRemove);
 
                     // 台札へ置く
                     setViewMovement(PutCardToCenterStack.Generate(
                         startSeconds: timedGenerator.StartSeconds,
                         duration: timedGenerator.TimedCommandArg.Duration / 2.0f,
                         playerObj: playerObj,
-                        place: place,
+                        placeObj: placeObj,
                         target: targetToRemove,
                         idOfPreviousTop));
 

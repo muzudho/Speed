@@ -47,12 +47,12 @@
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
-            var length = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timedGenerator).Place].Count; // 台札の枚数
+            var length = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timedGenerator).PlaceObj.AsInt].Count; // 台札の枚数
             if (1 <= length)
             {
                 var startIndex = length - numberOfCards;
-                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timedGenerator).Place][startIndex]; // 台札の１番上のカード
-                gameModelBuffer.RemoveCardAtOfCenterStack(GetModel(timedGenerator).Place, startIndex);
+                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timedGenerator).PlaceObj.AsInt][startIndex]; // 台札の１番上のカード
+                gameModelBuffer.RemoveCardAtOfCenterStack(GetModel(timedGenerator).PlaceObj.AsInt, startIndex);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 int player;

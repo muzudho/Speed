@@ -69,27 +69,27 @@
         /// 台札の次の天辺の位置
         /// </summary>
         /// <param name="gameModel"></param>
-        /// <param name="place"></param>
+        /// <param name="placeObj"></param>
         /// <param name="getLengthOfCenterStackCards"></param>
         /// <param name="getLastCardOfCenterStack">天辺（最後）のカード</param>
         /// <returns></returns>
         internal static Vector3 CreatePositionOfNewCenterStackCard(
-            int place,
+            CenterStackPlace placeObj,
             IdOfPlayingCards previousTop)
         {
             if (previousTop == IdOfPlayingCards.None)
             {
                 // 床上
-                return positionOfCenterStacksOrigin[place].ToMutable();
+                return positionOfCenterStacksOrigin[placeObj.AsInt].ToMutable();
             }
 
             // 置く前の台札の天辺
             var goLastCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(previousTop)];
 
             var pos = new Vector3(
-                x: (positionOfCenterStacksOrigin[place].X - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[place].X,
+                x: (positionOfCenterStacksOrigin[placeObj.AsInt].X - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[placeObj.AsInt].X,
                 y: goLastCard.transform.position.y,
-                z: (positionOfCenterStacksOrigin[place].Z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[place].Z);
+                z: (positionOfCenterStacksOrigin[placeObj.AsInt].Z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[placeObj.AsInt].Z);
 
             // カードの厚み分、上へ
             pos = GameView.yOfCardThickness.Add(pos);
@@ -102,9 +102,9 @@
         /// 
         /// - １プレイヤー、２プレイヤーのどちらも右利きと仮定
         /// </summary>
-        /// <param name="player"></param>
+        /// <param name="playerObj"></param>
         /// <returns></returns>
-        internal static Vector3 ShakePosition(int player)
+        internal static Vector3 ShakePosition(CenterStackPlace playerObj)
         {
             // １プレイヤーから見て。左上にずれていくだろう
             var left = -1.5f;
@@ -112,7 +112,7 @@
             var bottom = -0.5f;
             var top = 1.5f;
 
-            switch (player)
+            switch (playerObj.AsInt)
             {
                 case 0:
                     return new Vector3(UnityEngine.Random.Range(left, right), 0.0f, UnityEngine.Random.Range(bottom, top));

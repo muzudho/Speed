@@ -64,14 +64,14 @@
                     var playerObj = Commons.Player1;
                     var spanModel = new MoveCardToCenterStackFromHandModel(
                             playerObj: playerObj, // １プレイヤーが
-                            place: 1); // 左の台札
+                            placeObj: Commons.LeftCenterStack); // 左の台札
                     scheduleRegister.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
                     var playerObj = Commons.Player2;
                     var spanModel = new MoveCardToCenterStackFromHandModel(
                             playerObj: playerObj, // ２プレイヤーが
-                            place: 0); // 右の台札
+                            placeObj: Commons.RightCenterStack); // 右の台札
                     scheduleRegister.AddWithinScheduler(playerObj, spanModel);
                 }
             }

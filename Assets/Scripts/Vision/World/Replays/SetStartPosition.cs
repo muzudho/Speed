@@ -17,14 +17,11 @@
         {
             var model = new ModelOfGame.Default(modelBuffer);
 
-            const int right = 0;// 台札の右
-            const int left = 1;// 台札の左
-
-            while (0 < model.GetLengthOfCenterStackCards(right))
+            while (0 < model.GetLengthOfCenterStackCards(Commons.RightCenterStack))
             {
                 // 即実行
                 var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
-                        place: right
+                        placeObj: Commons.RightCenterStack
                         ));
                 var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
                         startSeconds: 0.0f,
@@ -70,7 +67,7 @@
                     var playerObj = Commons.Player1;
                     var spanModel = new MoveCardToCenterStackFromHandModel(
                             playerObj: playerObj, // １プレイヤーが
-                            place: right); // 右の
+                            placeObj: Commons.RightCenterStack); // 右の
                     scheduleRegister.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
@@ -78,7 +75,7 @@
                     var playerObj = Commons.Player2;
                     var spanModel = new MoveCardToCenterStackFromHandModel(
                             playerObj: playerObj, // ２プレイヤーが
-                            place: left); // 左の;
+                            placeObj: Commons.LeftCenterStack); // 左の;
                     scheduleRegister.AddWithinScheduler(playerObj, spanModel);
                 }
             }
