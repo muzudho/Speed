@@ -11,8 +11,8 @@
             Player playerObj,
             CenterStackPlace placeOfCenterStackObj)
         {
-            int index = gameModel.GetIndexOfFocusedCardOfPlayer(playerObj);
-            if (index == -1)
+            var index = gameModel.GetIndexOfFocusedCardOfPlayer(playerObj);
+            if (index == Commons.HandCardIndexNoSelected)
             {
                 return false;
             }
@@ -23,7 +23,7 @@
                 return false;
             }
 
-            var numberOfPickup = gameModel.GetCardsOfPlayerHand(playerObj)[index].Number();
+            var numberOfPickup = gameModel.GetCardsOfPlayerHand(playerObj)[index.AsInt].Number();
             int numberOfTopCard = topCard.Number();
 
             // とりあえず差分を取る。

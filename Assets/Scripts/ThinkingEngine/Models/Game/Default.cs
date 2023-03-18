@@ -66,10 +66,10 @@
                 },
 
                 // ピックアップ場札
-                IndexOfFocusedCardOfPlayers = new int[]
+                IndexOfFocusedCardOfPlayersObj = new HandCardIndex[]
                 {
-                    this.gameModelBuffer.IndexOfFocusedCardOfPlayers[0],
-                    this.gameModelBuffer.IndexOfFocusedCardOfPlayers[1],
+                    this.gameModelBuffer.IndexOfFocusedCardOfPlayersObj[0],
+                    this.gameModelBuffer.IndexOfFocusedCardOfPlayersObj[1],
                 }
             };
         }

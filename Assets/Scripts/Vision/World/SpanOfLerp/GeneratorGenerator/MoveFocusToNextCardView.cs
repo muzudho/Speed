@@ -49,40 +49,40 @@
             LazyArgs.SetValue<SpanOfLeap.Model> setViewMovement)
         {
             ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
-            int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timedGenerator).PlayerObj.AsInt]; // 下ろす場札
+            var indexOfPreviousObj = gameModelBuffer.IndexOfFocusedCardOfPlayersObj[GetModel(timedGenerator).PlayerObj.AsInt]; // 下ろす場札
 
-            int indexOfCurrent; // ピックアップする場札
+            HandCardIndex indexOfCurrentObj; // ピックアップする場札
             var length = gameModelBuffer.IdOfCardsOfPlayersHand[GetModel(timedGenerator).PlayerObj.AsInt].Count;
 
             if (length < 1)
             {
                 // 場札が無いなら、何もピックアップされていません
-                indexOfCurrent = -1;
+                indexOfCurrentObj = Commons.HandCardIndexNoSelected;
             }
             else
             {
-                if (GetModel(timedGenerator).DirectionObj== Commons.PickRight)
+                if (GetModel(timedGenerator).DirectionObj == Commons.PickRight)
                 {
-                    if (indexOfPrevious == -1 || length <= indexOfPrevious + 1)
+                    if (indexOfPreviousObj == Commons.HandCardIndexNoSelected || length <= indexOfPreviousObj.AsInt + 1)
                     {
                         // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
-                        indexOfCurrent = 0;
+                        indexOfCurrentObj = Commons.HandCardIndexFirst;
                     }
                     else
                     {
-                        indexOfCurrent = indexOfPrevious + 1;
+                        indexOfCurrentObj = new HandCardIndex(indexOfPreviousObj.AsInt + 1);
                     }
                 }
                 else if (GetModel(timedGenerator).DirectionObj == Commons.PickLeft)
                 {
-                    if (indexOfPrevious - 1 < 0)
+                    if (indexOfPreviousObj.AsInt - 1 < 0)
                     {
                         // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
-                        indexOfCurrent = length - 1;
+                        indexOfCurrentObj = new HandCardIndex(length - 1);
                     }
                     else
                     {
-                        indexOfCurrent = indexOfPrevious - 1;
+                        indexOfCurrentObj = new HandCardIndex(indexOfPreviousObj.AsInt - 1);
                     }
                 }
                 else
@@ -91,9 +91,9 @@
                 }
             }
 
-            if (0 <= indexOfPrevious && indexOfPrevious < length) // 範囲内なら
+            if (Commons.HandCardIndexFirst <= indexOfPreviousObj && indexOfPreviousObj.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).PlayerObj.AsInt, indexOfPrevious); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).PlayerObj, indexOfPreviousObj); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setViewMovement(DropHandCard.Generate(
@@ -103,11 +103,11 @@
             }
 
             // モデル更新：ピックアップしている場札の、インデックス更新
-            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timedGenerator).PlayerObj.AsInt] = indexOfCurrent;
+            gameModelBuffer.IndexOfFocusedCardOfPlayersObj[GetModel(timedGenerator).PlayerObj.AsInt] = indexOfCurrentObj;
 
-            if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
+            if (Commons.HandCardIndexFirst <= indexOfCurrentObj && indexOfCurrentObj.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).PlayerObj.AsInt, indexOfCurrent); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).PlayerObj, indexOfCurrentObj); // ピックアップしている場札
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる

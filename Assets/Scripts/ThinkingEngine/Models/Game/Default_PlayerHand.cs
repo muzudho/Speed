@@ -15,9 +15,9 @@
         /// - 選択中の場札が無いなら、-1
         /// </summary>
         /// <param name="playerObj">プレイヤー</param>
-        internal int GetIndexOfFocusedCardOfPlayer(Player playerObj)
+        internal HandCardIndex GetIndexOfFocusedCardOfPlayer(Player playerObj)
         {
-            return this.gameModelBuffer.IndexOfFocusedCardOfPlayers[playerObj.AsInt];
+            return this.gameModelBuffer.IndexOfFocusedCardOfPlayersObj[playerObj.AsInt];
         }
 
         /// <summary>
@@ -43,12 +43,12 @@
         /// <summary>
         /// ｎプレイヤーの、ｍ枚目の場札を取得
         /// </summary>
-        /// <param name="player"></param>
-        /// <param name="handIndex"></param>
+        /// <param name="playerObj"></param>
+        /// <param name="handIndexObj"></param>
         /// <returns></returns>
-        internal IdOfPlayingCards GetCardAtOfPlayerHand(int player, int handIndex)
+        internal IdOfPlayingCards GetCardAtOfPlayerHand(Player playerObj, HandCardIndex handIndexObj)
         {
-            return this.gameModelBuffer.IdOfCardsOfPlayersHand[player][handIndex];
+            return this.gameModelBuffer.IdOfCardsOfPlayersHand[playerObj.AsInt][handIndexObj.AsInt];
         }
     }
 }

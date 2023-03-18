@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.Generator
 {
     using Assets.Scripts.Coding;
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.World.Views;
     using System;
@@ -25,7 +26,7 @@
         /// <param name="duration"></param>
         /// <param name="gameModel"></param>
         /// <param name="playerObj"></param>
-        /// <param name="indexOfPickup">ピックアップしている場札は何番目</param>
+        /// <param name="indexOfPickupObj">ピックアップしている場札は何番目</param>
         /// <param name="idOfHandCards">場札のIdリスト</param>
         /// <param name="setSpanToLerp"></param>
         /// <exception cref="Exception"></exception>
@@ -33,7 +34,7 @@
             float startSeconds,
             float duration,
             Player playerObj,
-            int indexOfPickup,
+            HandCardIndex indexOfPickupObj,
             List<IdOfPlayingCards> idOfHandCards,
             bool keepPickup,
             LazyArgs.SetValue<SpanOfLeap.Model> setSpanToLerp)
@@ -76,9 +77,9 @@
             // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
             IdOfPlayingCards idOfPickupCard = IdOfPlayingCards.None;    // ピックアップしている場札
             // Debug.Log($"[ArrangeHandCards] 再度持上げ handIndex:{indexOfPickup}");
-            if (0 <= indexOfPickup && indexOfPickup < idOfHandCards.Count) // 範囲内なら
+            if (Commons.HandCardIndexFirst <= indexOfPickupObj && indexOfPickupObj.AsInt < idOfHandCards.Count) // 範囲内なら
             {
-                idOfPickupCard = idOfHandCards[indexOfPickup];
+                idOfPickupCard = idOfHandCards[indexOfPickupObj.AsInt];
             }
 
             float theta = startTheta;

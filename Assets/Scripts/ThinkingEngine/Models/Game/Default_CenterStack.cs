@@ -4,9 +4,9 @@
     {
         // - メソッド
 
-        internal ReadonlyList<IdOfPlayingCards> GetCenterStack(int place)
+        internal ReadonlyList<IdOfPlayingCards> GetCenterStack(CenterStackPlace placeObj)
         {
-            return new ReadonlyList<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfCenterStacks[place]);
+            return new ReadonlyList<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfCenterStacks[placeObj.AsInt]);
         }
 
         /// <summary>

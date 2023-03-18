@@ -8,6 +8,7 @@
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
+    using Assets.Scripts.ThinkingEngine;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -68,9 +69,9 @@
             //
             // - 初回配布のケース
             // - 場札無しの勝利後に配ったケース
-            if (gameModelBuffer.IndexOfFocusedCardOfPlayers[playerObj.AsInt] == -1)
+            if (gameModelBuffer.IndexOfFocusedCardOfPlayersObj[playerObj.AsInt] == Commons.HandCardIndexNoSelected)
             {
-                gameModelBuffer.IndexOfFocusedCardOfPlayers[playerObj.AsInt] = 0;
+                gameModelBuffer.IndexOfFocusedCardOfPlayersObj[playerObj.AsInt] = Commons.HandCardIndexFirst;
             }
 
             ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
@@ -85,7 +86,7 @@
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.TimedCommandArg.Duration,
                     playerObj: playerObj,
-                    indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
+                    indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
                     keepPickup: true,
                     setSpanToLerp: setViewMovement);

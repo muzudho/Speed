@@ -51,7 +51,7 @@
         /// 
         /// - 選択中の場札が無いなら、-1
         /// </summary>
-        internal int[] IndexOfFocusedCardOfPlayers { get; set; } = { -1, -1 };
+        internal HandCardIndex[] IndexOfFocusedCardOfPlayersObj { get; set; } = { Commons.HandCardIndexNoSelected, Commons.HandCardIndexNoSelected };
 
         // - メソッド
 
@@ -110,10 +110,10 @@
         /// 場札を削除
         /// </summary>
         /// <param name="playerObj"></param>
-        /// <param name="handIndex"></param>
-        internal void RemoveCardAtOfPlayerHand(Player playerObj, int handIndex)
+        /// <param name="handIndexObj"></param>
+        internal void RemoveCardAtOfPlayerHand(Player playerObj, HandCardIndex handIndexObj)
         {
-            this.IdOfCardsOfPlayersHand[playerObj.AsInt].RemoveAt(handIndex);
+            this.IdOfCardsOfPlayersHand[playerObj.AsInt].RemoveAt(handIndexObj.AsInt);
         }
 
         /// <summary>
