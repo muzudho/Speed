@@ -9,9 +9,9 @@
         internal static bool CanPutToCenterStack(
             ModelOfGame.Default gameModel,
             Player playerObj,
+            HandCardIndex indexObj,
             CenterStackPlace placeOfCenterStackObj)
         {
-            var indexObj = gameModel.GetIndexOfFocusedCardOfPlayer(playerObj);
             if (indexObj == Commons.HandCardIndexNoSelected)
             {
                 return false;

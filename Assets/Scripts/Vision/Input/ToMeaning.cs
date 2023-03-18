@@ -1,5 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Input
 {
+    using Assets.Scripts.ThinkingEngine;
+    using Assets.Scripts.ThinkingEngine.Models;
     using UnityEngine;
 
     /// <summary>
@@ -55,22 +57,22 @@
         /// <summary>
         /// 物理的なキー入力を、意味的に置き換える
         /// </summary>
-        /// <param name="player"></param>
-        internal void UpdateFromInput(int player)
+        /// <param name="playerObj"></param>
+        internal void UpdateFromInput(Player playerObj)
         {
-            if (player == 0)
+            if (playerObj == Commons.Player1)
             {
-                MoveCardToCenterStackNearMe[player] = Input.GetKeyDown(KeyCode.DownArrow);
-                MoveCardToFarCenterStack[player] = Input.GetKeyDown(KeyCode.UpArrow);
-                PickupCardToForward[player] = Input.GetKeyDown(KeyCode.RightArrow);
-                PickupCardToBackward[player] = Input.GetKeyDown(KeyCode.LeftArrow);
+                MoveCardToCenterStackNearMe[playerObj.AsInt] = Input.GetKeyDown(KeyCode.DownArrow);
+                MoveCardToFarCenterStack[playerObj.AsInt] = Input.GetKeyDown(KeyCode.UpArrow);
+                PickupCardToForward[playerObj.AsInt] = Input.GetKeyDown(KeyCode.RightArrow);
+                PickupCardToBackward[playerObj.AsInt] = Input.GetKeyDown(KeyCode.LeftArrow);
             }
             else
             {
-                MoveCardToCenterStackNearMe[player] = Input.GetKeyDown(KeyCode.S);
-                MoveCardToFarCenterStack[player] = Input.GetKeyDown(KeyCode.W);
-                PickupCardToForward[player] = Input.GetKeyDown(KeyCode.D);
-                PickupCardToBackward[player] = Input.GetKeyDown(KeyCode.A);
+                MoveCardToCenterStackNearMe[playerObj.AsInt] = Input.GetKeyDown(KeyCode.S);
+                MoveCardToFarCenterStack[playerObj.AsInt] = Input.GetKeyDown(KeyCode.W);
+                PickupCardToForward[playerObj.AsInt] = Input.GetKeyDown(KeyCode.D);
+                PickupCardToBackward[playerObj.AsInt] = Input.GetKeyDown(KeyCode.A);
             }
 
             Drawing = Input.GetKeyDown(KeyCode.Space); // １プレイヤーと、２プレイヤーの２回判定されてしまう
@@ -80,17 +82,17 @@
         /// 解析結果を全部上書きする
         /// </summary>
         internal void Overwrite(
-            int player,
+            Player playerObj,
             bool moveCardToCenterStackNearMe,
             bool moveCardToFarCenterStack,
             bool pickupCardToForward,
             bool pickupCardToBackward,
             bool drawing)
         {
-            MoveCardToCenterStackNearMe[player] = moveCardToCenterStackNearMe;
-            MoveCardToFarCenterStack[player] = moveCardToFarCenterStack;
-            PickupCardToForward[player] = pickupCardToForward;
-            PickupCardToBackward[player] = pickupCardToBackward;
+            MoveCardToCenterStackNearMe[playerObj.AsInt] = moveCardToCenterStackNearMe;
+            MoveCardToFarCenterStack[playerObj.AsInt] = moveCardToFarCenterStack;
+            PickupCardToForward[playerObj.AsInt] = pickupCardToForward;
+            PickupCardToBackward[playerObj.AsInt] = pickupCardToBackward;
             Drawing = drawing;
         }
     }
