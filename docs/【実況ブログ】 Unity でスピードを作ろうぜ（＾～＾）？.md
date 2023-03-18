@@ -6318,4 +6318,116 @@ Unity の画面を見るのも嫌になってるが、
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　大変なんで、また今度な」  
 
+# 📅2023-03-18 sat 12:41 - Stalemate
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　気分乗らないけど、  
+ステールメートしてるかどうか　判定するアルゴリズムを考えるか……」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　メソッドのシグニチャーから　決めたらいいんじゃない？」  
+
+```plaintext
+入力：
+　　1P の場札
+　　2P の場札
+　　右の台札
+　　左の台札
+出力：
+　　Yes／No
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　まあ、こんなもんだろ。  
+次は中身だな」  
+
+```plaintext
+置ける数の配列＝［
+　　（右札の台札の数＋１ー１）　mod　１３，
+　　（右札の台札の数ー１ー１）　mod　１３，
+　　（左札の台札の数＋１ー１）　mod　１３，
+　　（左札の台札の数ー１ー１）　mod　１３］
+```
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　👆　最小２つ～最大４つの数を、プレイヤーのどっちかが持ってれば　結果は　No　だぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　１Pの場札、２Pの場札を　愚直に調べるしかないかだぜ？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　場札は　１００枚も無いでしょ。愚直で　すぐよ」  
+
+![202303_unity_18-1307--canPutToCenterStack-1.png](https://crieit.now.sh/upload_images/7d69bced9806f610741f86e812324478641539339b230.png)  
+
+`Assets/Scripts/ThinkingEngine/Model/LegalMove.cs`:  
+
+```csharp
+namespace Assets.Scripts.ThinkingEngine.Model
+{
+    internal class LegalMove
+    {
+        // - メソッド
+
+        internal static bool CanPutToCenterStack(GameModel gameModel, int player, int place)
+        {
+            int index = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+            if (index == -1)
+            {
+                return false;
+            }
+
+            IdOfPlayingCards topCard = gameModel.GetLastCardOfCenterStack(place);
+            if (topCard == IdOfPlayingCards.None)
+            {
+                return false;
+            }
+
+            var numberOfPickup = gameModel.GetCardsOfPlayerHand(player)[index].Number();
+            int numberOfTopCard = topCard.Number();
+
+            // とりあえず差分を取る。
+            // 負数が出ると、負数の剰余はプログラムによって結果が異なるので、面倒だ。
+            // 割る数を先に足しておけば、剰余をしても負数にはならない
+            int divisor = 13; // 法
+            int remainder = (numberOfTopCard - numberOfPickup + divisor) % divisor;
+
+            return remainder == 1 || remainder == divisor - 1;
+        }
+    }
+}
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　台札に置けるか、というメソッドをもう作ってあった。これを使えばいいだけかも」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　じゃあ使えだぜ」  
+
+![202303_unity_18-1317--inputManager-1.png](https://crieit.now.sh/upload_images/c3cb02dfbffe998f95a3dd10fc8a951964153b75b776f.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　ステールメートの判定は、 インプット・マネージャーに書けばいいかな」  
+
+![202303_unity_18-1321--stalemate.png](https://crieit.now.sh/upload_images/f63fca79390797c934d930fd044157b464153c613c412.png)  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　`TODO` コメントを使って　日本語でプログラムのプレースホルダーを書いていくぜ」  
+
+![202303_unity_18-1336--stalemate-1.png](https://crieit.now.sh/upload_images/8e69b82d6b3e26cea182e1ba958f4efb6415400faee2d.png)  
+
+📅 2023-03-18 sat 13:39  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　既存のコードと同じものを２回書くぐらいなら、共通化するぜ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　カウント・ダウン・タイマーという　新しい要素を　追加しないといけないわよ？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　コルーチンで作れるかな？　大変そうだな……」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　手札があるときは、手札の天辺の札を取れよ。忘れるなよ」  
+
 # // 書きかけ

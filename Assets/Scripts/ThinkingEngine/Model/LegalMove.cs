@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Model
 {
-    internal class LegalMove
+    static class LegalMove
     {
         // - メソッド
 

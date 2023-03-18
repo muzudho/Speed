@@ -60,6 +60,7 @@
             // もう入力できないなら真
             bool[] handled = { false, false };
 
+            // キー入力を翻訳する
             for (var player = 0; player < 2; player++)
             {
                 // 前判定：もう入力できないなら真
@@ -102,6 +103,22 @@
             const int right = 0;// 台札の右
             const int left = 1;// 台札の左
 
+            // ステールメートしてるかどうかの判定
+            // ==================================
+            bool player1CanPutToRightCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, 0, right); // 1Pは右の台札にカードを置ける
+            bool player1CanPutToLeftCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, 0, left);   // 1Pは左の台札にカードを置ける
+            bool player2CanPutToRightCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, 1, right); // 2Pは右の台札にカードを置ける
+            bool player2CanPutToLeftCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, 1, left);   // 2Pは左の台札にカードを置ける
+
+            // ステールメートしているとき
+            if (!player1CanPutToRightCenterStack &&
+                !player1CanPutToLeftCenterStack &&
+                !player2CanPutToRightCenterStack &&
+                !player2CanPutToLeftCenterStack)
+            {
+                // TODO ★ カウントダウン・タイマーを表示。０になったら、ピックアップ中の場札を強制的に台札へ置く
+            }
+
             // 先に登録したコマンドの方が早く実行される
 
             // （ボタン押下が同時なら）右の台札は１プレイヤー優先
@@ -111,10 +128,7 @@
             // - 自分の近い方の台札へ置く
             {
                 var player = 0;
-                if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && LegalMove.CanPutToCenterStack(
-                    gameModel: scheduleRegister.GameModel,
-                    player: player,
-                    place: right))  // 右の
+                if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && player1CanPutToRightCenterStack)  // 右の
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
@@ -131,10 +145,7 @@
             // - 自分から遠い方の台札へ置く
             {
                 var player = 1;
-                if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && LegalMove.CanPutToCenterStack(
-                    gameModel: scheduleRegister.GameModel,
-                    player: player,
-                    place: right))  // 右の)
+                if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && player2CanPutToRightCenterStack)  // 右の)
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
@@ -154,10 +165,7 @@
             // - 自分の近い方の台札へ置く
             {
                 var player = 1;
-                if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && LegalMove.CanPutToCenterStack(
-                    gameModel: scheduleRegister.GameModel,
-                    player: player,
-                    place: left))
+                if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && player2CanPutToLeftCenterStack)
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
@@ -174,10 +182,7 @@
             // - 自分から遠い方の台札へ置く
             {
                 var player = 0;
-                if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && LegalMove.CanPutToCenterStack(
-                    gameModel: scheduleRegister.GameModel,
-                    player: player,
-                    place: left))
+                if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && player1CanPutToLeftCenterStack)
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
