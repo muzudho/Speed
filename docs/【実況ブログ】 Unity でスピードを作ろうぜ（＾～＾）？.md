@@ -6609,4 +6609,46 @@ namespace Assets.Scripts.ThinkingEngine
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　よく使う値を　予め作っておくぜ」  
 
+## 📅 2023-03-18 sat 22:45
+
+`Assets/Scripts/Vision/Input/Manager.cs` :  
+
+```csharp
+            // ステールメートしてるかどうかの判定
+            // ==================================
+
+            // ステールメートしているとき
+            bool isStalemate = true;
+            // 反例を探す
+            foreach (var playerObj in Commons.Players)
+            {
+                foreach (var centerStackPlace in Commons.CenterStacks)
+                {
+                    var max = this.gameModel.GetCardsOfPlayerHand(playerObj).Count;
+                    for (int i = 0; i < max; i++)
+                    {
+                        if (LegalMove.CanPutToCenterStack(
+                            this.gameModel,
+                            playerObj,
+                            new HandCardIndex(i),
+                            centerStackPlace))
+                        {
+                            isStalemate = false;
+                            goto end_loop;
+                        }
+                    }
+                }
+            }
+        end_loop:
+
+            if (isStalemate)
+            {
+                // TODO ★ カウントダウン・タイマーを表示。０になったら、ピックアップ中の場札を強制的に台札へ置く
+                this.reopeningManager.DoIt();
+            }
+```
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　コードの掲載は　省いていくが、雰囲気は　こんな感じ」  
+
 # // 書きかけ
