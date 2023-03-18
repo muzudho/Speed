@@ -225,7 +225,7 @@
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
-                            direction: 1));
+                            directionObj: Commons.PickLeft));
 
                         spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                         scheduleRegister.AddJustNow(timedCommandArg);
@@ -242,7 +242,7 @@
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
-                            direction: 0));
+                            directionObj: Commons.PickRight));
 
                         spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                         scheduleRegister.AddJustNow(timedCommandArg);
@@ -269,7 +269,7 @@
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
-                            direction: 1));
+                            directionObj: Commons.PickLeft));
 
                         spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                         scheduleRegister.AddJustNow(timedCommandArg);
@@ -286,7 +286,7 @@
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
-                            direction: 0));
+                            directionObj: Commons.PickRight));
 
                         spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                         scheduleRegister.AddJustNow(timedCommandArg);

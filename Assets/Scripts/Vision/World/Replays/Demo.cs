@@ -37,7 +37,7 @@
                         var playerObj = Commons.Player1;
                         var spanModel = new MoveFocusToNextCardModel(
                                 playerObj: playerObj,
-                                direction: 0);
+                                directionObj: Commons.PickRight);
                         scheduleRegister.AddWithinScheduler(playerObj, spanModel);
                     }
 
@@ -46,7 +46,7 @@
                         var playerObj = Commons.Player2;
                         var spanModel = new MoveFocusToNextCardModel(
                                 playerObj: playerObj,
-                                direction: 0);
+                                directionObj: Commons.PickRight);
                         scheduleRegister.AddWithinScheduler(playerObj, spanModel);
                     }
 

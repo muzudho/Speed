@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator
 {
     using Assets.Scripts.Coding;
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.World.SpanOfLerp.Generator;
@@ -60,39 +61,35 @@
             }
             else
             {
-                switch (GetModel(timedGenerator).Direction)
+                if (GetModel(timedGenerator).DirectionObj== Commons.PickRight)
                 {
-                    // 後ろへ
-                    case 0:
-                        if (indexOfPrevious == -1 || length <= indexOfPrevious + 1)
-                        {
-                            // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
-                            indexOfCurrent = 0;
-                        }
-                        else
-                        {
-                            indexOfCurrent = indexOfPrevious + 1;
-                        }
-                        break;
-
-                    // 前へ
-                    case 1:
-                        if (indexOfPrevious - 1 < 0)
-                        {
-                            // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
-                            indexOfCurrent = length - 1;
-                        }
-                        else
-                        {
-                            indexOfCurrent = indexOfPrevious - 1;
-                        }
-                        break;
-
-                    default:
-                        throw new Exception();
+                    if (indexOfPrevious == -1 || length <= indexOfPrevious + 1)
+                    {
+                        // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
+                        indexOfCurrent = 0;
+                    }
+                    else
+                    {
+                        indexOfCurrent = indexOfPrevious + 1;
+                    }
+                }
+                else if (GetModel(timedGenerator).DirectionObj == Commons.PickLeft)
+                {
+                    if (indexOfPrevious - 1 < 0)
+                    {
+                        // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
+                        indexOfCurrent = length - 1;
+                    }
+                    else
+                    {
+                        indexOfCurrent = indexOfPrevious - 1;
+                    }
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
-
 
             if (0 <= indexOfPrevious && indexOfPrevious < length) // 範囲内なら
             {

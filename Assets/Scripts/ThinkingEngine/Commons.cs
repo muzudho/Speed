@@ -25,5 +25,16 @@
             RightCenterStack,
             LeftCenterStack,
         };
+
+        /// <summary>
+        /// 1プレイヤーから見て右側の台札
+        /// </summary>
+        internal static readonly PickingDirection PickRight = new PickingDirection(0);
+        internal static readonly PickingDirection PickLeft = new PickingDirection(1);
+        internal static readonly PickingDirection[] PickingDirections = new PickingDirection[]
+        {
+            PickRight,
+            PickLeft,
+        };
     }
 }

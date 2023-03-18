@@ -11,17 +11,17 @@
         /// 生成
         /// </summary>
         /// <param name="playerObj"></param>
-        /// <param name="direction"></param>
-        internal MoveFocusToNextCardModel(Player playerObj, int direction)
+        /// <param name="directionObj"></param>
+        internal MoveFocusToNextCardModel(Player playerObj, PickingDirection directionObj)
         {
             this.PlayerObj = playerObj;
-            this.Direction = direction;
+            this.DirectionObj = directionObj;
         }
 
         // - プロパティ
 
         internal Player PlayerObj { get; private set; }
 
-        internal int Direction { get; private set; }
+        internal PickingDirection DirectionObj { get; private set; }
     }
 }
