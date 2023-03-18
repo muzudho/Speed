@@ -8,10 +8,10 @@
 
         internal static bool CanPutToCenterStack(
             ModelOfGame.Default gameModel,
-            int player,
+            Player playerObj,
             int placeOfCenterStack)
         {
-            int index = gameModel.GetIndexOfFocusedCardOfPlayer(player);
+            int index = gameModel.GetIndexOfFocusedCardOfPlayer(playerObj);
             if (index == -1)
             {
                 return false;
@@ -23,7 +23,7 @@
                 return false;
             }
 
-            var numberOfPickup = gameModel.GetCardsOfPlayerHand(player)[index].Number();
+            var numberOfPickup = gameModel.GetCardsOfPlayerHand(playerObj)[index].Number();
             int numberOfTopCard = topCard.Number();
 
             // とりあえず差分を取る。

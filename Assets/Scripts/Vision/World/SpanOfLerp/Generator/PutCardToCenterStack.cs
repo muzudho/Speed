@@ -23,7 +23,7 @@
         internal static SpanOfLeap.Model Generate(
             float startSeconds,
             float duration,
-            int player,
+            Player playerObj,
             int place,
             IdOfPlayingCards target,
             IdOfPlayingCards idOfPreviousTop)
@@ -87,7 +87,7 @@
                             var src = GameObjectStorage.Items[targetGo].transform.rotation; // 抜いた場札
                             var shake = GameView.ShakeRotation();
                             float yByPlayer;
-                            if (player == 0) // １プレイヤーの方を 180°回転させる
+                            if (playerObj.AsInt == 0) // １プレイヤーの方を 180°回転させる
                             {
                                 yByPlayer = 180.0f;
                             }

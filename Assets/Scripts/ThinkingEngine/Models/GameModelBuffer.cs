@@ -88,46 +88,46 @@
         /// <summary>
         /// 手札を削除
         /// </summary>
-        /// <param name="player"></param>
+        /// <param name="playerObj"></param>
         /// <param name="startIndex"></param>
         /// <param name="numberOfCards"></param>
-        internal void RemoveRangeCardsOfPlayerPile(int player, int startIndex, int numberOfCards)
+        internal void RemoveRangeCardsOfPlayerPile(Player playerObj, int startIndex, int numberOfCards)
         {
-            this.IdOfCardsOfPlayersPile[player].RemoveRange(startIndex, numberOfCards);
+            this.IdOfCardsOfPlayersPile[playerObj.AsInt].RemoveRange(startIndex, numberOfCards);
         }
 
         /// <summary>
         /// 場札を追加
         /// </summary>
-        /// <param name="player"></param>
+        /// <param name="playerObj"></param>
         /// <param name="idOfCards"></param>
-        internal void AddRangeCardsOfPlayerHand(int player, List<IdOfPlayingCards> idOfCards)
+        internal void AddRangeCardsOfPlayerHand(Player playerObj, List<IdOfPlayingCards> idOfCards)
         {
-            this.IdOfCardsOfPlayersHand[player].AddRange(idOfCards);
+            this.IdOfCardsOfPlayersHand[playerObj.AsInt].AddRange(idOfCards);
         }
 
         /// <summary>
         /// 場札を削除
         /// </summary>
-        /// <param name="player"></param>
+        /// <param name="playerObj"></param>
         /// <param name="handIndex"></param>
-        internal void RemoveCardAtOfPlayerHand(int player, int handIndex)
+        internal void RemoveCardAtOfPlayerHand(Player playerObj, int handIndex)
         {
-            this.IdOfCardsOfPlayersHand[player].RemoveAt(handIndex);
+            this.IdOfCardsOfPlayersHand[playerObj.AsInt].RemoveAt(handIndex);
         }
 
         /// <summary>
         /// 手札から場札へ移動
         /// </summary>
-        /// <param name="player"></param>
+        /// <param name="playerObj"></param>
         /// <param name="startIndex"></param>
         /// <param name="numberOfCards"></param>
-        internal void MoveCardsToHandFromPile(int player, int startIndex, int numberOfCards)
+        internal void MoveCardsToHandFromPile(Player playerObj, int startIndex, int numberOfCards)
         {
-            var idOfCards = this.IdOfCardsOfPlayersPile[player].GetRange(startIndex, numberOfCards);
+            var idOfCards = this.IdOfCardsOfPlayersPile[playerObj.AsInt].GetRange(startIndex, numberOfCards);
 
-            this.RemoveRangeCardsOfPlayerPile(player, startIndex, numberOfCards);
-            this.AddRangeCardsOfPlayerHand(player, idOfCards);
+            this.RemoveRangeCardsOfPlayerPile(playerObj, startIndex, numberOfCards);
+            this.AddRangeCardsOfPlayerHand(playerObj, idOfCards);
         }
     }
 }

@@ -24,7 +24,7 @@
         /// <param name="startSeconds"></param>
         /// <param name="duration"></param>
         /// <param name="gameModel"></param>
-        /// <param name="player"></param>
+        /// <param name="playerObj"></param>
         /// <param name="indexOfPickup">ピックアップしている場札は何番目</param>
         /// <param name="idOfHandCards">場札のIdリスト</param>
         /// <param name="setSpanToLerp"></param>
@@ -32,7 +32,7 @@
         internal static void Generate(
             float startSeconds,
             float duration,
-            int player,
+            Player playerObj,
             int indexOfPickup,
             List<IdOfPlayingCards> idOfHandCards,
             bool keepPickup,
@@ -53,7 +53,7 @@
 
             float ox = 0.0f;
 
-            switch (player)
+            switch (playerObj.AsInt)
             {
                 case 0:
                     // １プレイヤー
@@ -75,7 +75,7 @@
 
             // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
             IdOfPlayingCards idOfPickupCard = IdOfPlayingCards.None;    // ピックアップしている場札
-            Debug.Log($"[ArrangeHandCards] 再度持上げ handIndex:{indexOfPickup}");
+            // Debug.Log($"[ArrangeHandCards] 再度持上げ handIndex:{indexOfPickup}");
             if (0 <= indexOfPickup && indexOfPickup < idOfHandCards.Count) // 範囲内なら
             {
                 idOfPickupCard = idOfHandCards[indexOfPickup];
@@ -86,13 +86,13 @@
             foreach (var idOfHandCard in idOfHandCards) // 場札のIdリスト
             {
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
-                float z = range * Mathf.Sin(theta + playerTheta) + GameView.positionOfHandCardsOrigin[player].Z + offsetCircleCenterZ;
+                float z = range * Mathf.Sin(theta + playerTheta) + GameView.positionOfHandCardsOrigin[playerObj.AsInt].Z + offsetCircleCenterZ;
 
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfHandCard);
 
                 // 目標地点
                 var staticDestination = new PositionAndRotationLazy(
-                    getPosition: () => new Vector3(x, GameView.positionOfHandCardsOrigin[player].Y, z),
+                    getPosition: () => new Vector3(x, GameView.positionOfHandCardsOrigin[playerObj.AsInt].Y, z),
                     getRotation: () => Quaternion.Euler(0, angleY, cardAngleZ));
 
                 if (keepPickup && idOfHandCard == idOfPickupCard)

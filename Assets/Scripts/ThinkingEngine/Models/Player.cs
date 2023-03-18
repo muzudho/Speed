@@ -1,6 +1,12 @@
-﻿namespace Assets.Scripts.ThinkingEngine
+﻿namespace Assets.Scripts.ThinkingEngine.Models
 {
-    internal class Player
+    /// <summary>
+    /// プレイヤーの配列の添え字
+    /// 
+    /// - プレイヤー1 は 0
+    /// - プレイヤー2 は 1
+    /// </summary>
+    class Player
     {
         // - 演算子のオーバーロード
 

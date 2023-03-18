@@ -10,6 +10,7 @@
     using UnityEngine;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
     using VisionOfInput = Assets.Scripts.Vision.Input;
+    using static UnityEditor.Experimental.GraphView.GraphView;
 
     /// <summary>
     /// 入力マネージャー
@@ -114,10 +115,10 @@
 
             // ステールメートしてるかどうかの判定
             // ==================================
-            bool player1CanPutToRightCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, 0, right); // 1Pは右の台札にカードを置ける
-            bool player1CanPutToLeftCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, 0, left);   // 1Pは左の台札にカードを置ける
-            bool player2CanPutToRightCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, 1, right); // 2Pは右の台札にカードを置ける
-            bool player2CanPutToLeftCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, 1, left);   // 2Pは左の台札にカードを置ける
+            bool player1CanPutToRightCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, right); // 1Pは右の台札にカードを置ける
+            bool player1CanPutToLeftCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, left);   // 1Pは左の台札にカードを置ける
+            bool player2CanPutToRightCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, right); // 2Pは右の台札にカードを置ける
+            bool player2CanPutToLeftCenterStack = LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, left);   // 2Pは左の台札にカードを置ける
 
             // ステールメートしているとき
             if (!player1CanPutToRightCenterStack &&
@@ -137,34 +138,34 @@
             // - １プレイヤー
             // - 自分の近い方の台札へ置く
             {
-                var player = 0;
-                if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && player1CanPutToRightCenterStack)  // 右の
+                var playerObj = Commons.Player1;
+                if (!handled[playerObj.AsInt] && inputToMeaning.MoveCardToCenterStackNearMe[playerObj.AsInt] && player1CanPutToRightCenterStack)  // 右の
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
-                        player: player,      // １プレイヤーが
+                        playerObj: playerObj,      // １プレイヤーが
                         place: right)); // 右の
 
-                    spamSeconds[player] = timedCommandArg.Duration;
+                    spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
-                    handled[player] = true;
+                    handled[playerObj.AsInt] = true;
                 }
             }
 
             // - ２プレイヤー
             // - 自分から遠い方の台札へ置く
             {
-                var player = 1;
-                if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && player2CanPutToRightCenterStack)  // 右の)
+                var playerObj = Commons.Player2;
+                if (!handled[playerObj.AsInt] && inputToMeaning.MoveCardToFarCenterStack[playerObj.AsInt] && player2CanPutToRightCenterStack)  // 右の)
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
-                        player: player,      // ２プレイヤーが
+                        playerObj: playerObj,      // ２プレイヤーが
                         place: right)); // 右の
 
-                    spamSeconds[player] = timedCommandArg.Duration;
+                    spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
-                    handled[player] = true;
+                    handled[playerObj.AsInt] = true;
                 }
             }
 
@@ -174,34 +175,34 @@
             // - ２プレイヤー
             // - 自分の近い方の台札へ置く
             {
-                var player = 1;
-                if (!handled[player] && inputToMeaning.MoveCardToCenterStackNearMe[player] && player2CanPutToLeftCenterStack)
+                var playerObj = Commons.Player2;
+                if (!handled[playerObj.AsInt] && inputToMeaning.MoveCardToCenterStackNearMe[playerObj.AsInt] && player2CanPutToLeftCenterStack)
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
-                        player: player,      // ２プレイヤーが
+                        playerObj: playerObj,      // ２プレイヤーが
                         place: left));  // 左の
 
-                    spamSeconds[player] = timedCommandArg.Duration;
+                    spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
-                    handled[player] = true;
+                    handled[playerObj.AsInt] = true;
                 }
             }
 
             // - １プレイヤー
             // - 自分から遠い方の台札へ置く
             {
-                var player = 0;
-                if (!handled[player] && inputToMeaning.MoveCardToFarCenterStack[player] && player1CanPutToLeftCenterStack)
+                var playerObj = Commons.Player1;
+                if (!handled[playerObj.AsInt] && inputToMeaning.MoveCardToFarCenterStack[playerObj.AsInt] && player1CanPutToLeftCenterStack)
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
-                        player: player,      // １プレイヤーが
+                        playerObj: playerObj,      // １プレイヤーが
                         place: left));  // 左の
 
-                    spamSeconds[player] = timedCommandArg.Duration;
+                    spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
-                    handled[player] = true;
+                    handled[playerObj.AsInt] = true;
                 }
             }
 
@@ -210,43 +211,43 @@
 
             // １プレイヤー
             {
-                var player = 0;
+                var playerObj = Commons.Player1;
 
-                if (handled[player])
+                if (handled[playerObj.AsInt])
                 {
 
                 }
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
                 //      左隣のカードをピックアップするように変えます
-                else if (inputToMeaning.PickupCardToBackward[player])
+                else if (inputToMeaning.PickupCardToBackward[playerObj.AsInt])
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
-                    if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
+                    if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
-                            player: player,
+                            playerObj: playerObj,
                             direction: 1));
 
-                        spamSeconds[player] = timedCommandArg.Duration;
+                        spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                         scheduleRegister.AddJustNow(timedCommandArg);
                     }
                 }
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
                 //      右隣のカードをピックアップするように変えます
-                else if (inputToMeaning.PickupCardToForward[player])
+                else if (inputToMeaning.PickupCardToForward[playerObj.AsInt])
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
-                    if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
+                    if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
-                            player: player,
+                            playerObj: playerObj,
                             direction: 0));
 
-                        spamSeconds[player] = timedCommandArg.Duration;
+                        spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                         scheduleRegister.AddJustNow(timedCommandArg);
                     }
                 }
@@ -254,43 +255,43 @@
 
             // ２プレイヤー
             {
-                var player = 1;
+                var playerObj = Commons.Player2;
 
-                if (handled[player])
+                if (handled[playerObj.AsInt])
                 {
 
                 }
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
                 //      左隣のカードをピックアップするように変えます
-                else if (inputToMeaning.PickupCardToBackward[player])
+                else if (inputToMeaning.PickupCardToBackward[playerObj.AsInt])
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
-                    if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
+                    if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
-                            player: player,
+                            playerObj: playerObj,
                             direction: 1));
 
-                        spamSeconds[player] = timedCommandArg.Duration;
+                        spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                         scheduleRegister.AddJustNow(timedCommandArg);
                     }
                 }
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
                 //      右隣のカードをピックアップするように変えます
-                else if (inputToMeaning.PickupCardToForward[player])
+                else if (inputToMeaning.PickupCardToForward[playerObj.AsInt])
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
-                    if (2 <= this.gameModel.GetCardsOfPlayerHand(player).Count)
+                    if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
                         var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveFocusToNextCardModel(
-                            player: player,
+                            playerObj: playerObj,
                             direction: 0));
 
-                        spamSeconds[player] = timedCommandArg.Duration;
+                        spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                         scheduleRegister.AddJustNow(timedCommandArg);
                     }
                 }
@@ -300,14 +301,14 @@
             if (inputToMeaning.Drawing)
             {
                 // 両プレイヤーは手札から１枚抜いて、場札として置く
-                for (var player = 0; player < 2; player++)
+                foreach (var playerObj in Commons.Players)
                 {
                     // 場札を並べる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardsToHandFromPileModel(
-                        player: player,
-                        numberOfCards: 1));
+                        playerObj: playerObj,
+                    numberOfCards: 1));
 
-                    spamSeconds[player] = timedCommandArg.Duration;
+                    spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);
                 }
             }

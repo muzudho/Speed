@@ -46,12 +46,12 @@
             LazyArgs.SetValue<SpanOfLeap.Model> setViewMovement)
         {
             var gameModel = new ModelOfGame.Default(gameModelBuffer);
-            var player = GetModel(timedGenerator).Player;
+            var playerObj = GetModel(timedGenerator).PlayerObj;
 
             // ピックアップしているカードは、場札から抜くカード
             GetIndexOfFocusedHandCard(
                 gameModelBuffer: gameModelBuffer,
-                player: player,
+                playerObj: playerObj,
                 (indexToRemove) =>  // 確定：場札から抜くのは何枚目
                 {
                     var place = GetModel(timedGenerator).Place;
@@ -63,7 +63,7 @@
                         int lengthAfterRemove;
                         {
                             // 抜く前の場札の数
-                            var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
+                            var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[playerObj.AsInt].Count;
                             lengthAfterRemove = lengthBeforeRemove - 1;
                         }
 
@@ -80,19 +80,19 @@
                     }
 
                     // 確定：場札から台札へ移動するカード
-                    var targetToRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player][indexToRemove];
+                    var targetToRemove = gameModelBuffer.IdOfCardsOfPlayersHand[playerObj.AsInt][indexToRemove];
 
                     // モデル更新：場札を１枚抜く
-                    gameModelBuffer.RemoveCardAtOfPlayerHand(player, indexToRemove);
+                    gameModelBuffer.RemoveCardAtOfPlayerHand(playerObj, indexToRemove);
 
                     // 確定：場札の枚数
-                    var lengthOfHandCards = gameModel.GetLengthOfPlayerHandCards(player);
+                    var lengthOfHandCards = gameModel.GetLengthOfPlayerHandCards(playerObj);
 
                     // 確定：抜いたあとの場札リスト
-                    var idOfHandCardsAfterRemove = gameModel.GetCardsOfPlayerHand(player);
+                    var idOfHandCardsAfterRemove = gameModel.GetCardsOfPlayerHand(playerObj);
 
                     // モデル更新：何枚目の場札をピックアップしているか
-                    gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = indexOfNextPick;
+                    gameModelBuffer.IndexOfFocusedCardOfPlayers[playerObj.AsInt] = indexOfNextPick;
 
                     // 確定：前の台札の天辺のカード
                     IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(place);
@@ -104,7 +104,7 @@
                     setViewMovement(PutCardToCenterStack.Generate(
                         startSeconds: timedGenerator.StartSeconds,
                         duration: timedGenerator.TimedCommandArg.Duration / 2.0f,
-                        player: player,
+                        playerObj: playerObj,
                         place: place,
                         target: targetToRemove,
                         idOfPreviousTop));
@@ -113,7 +113,7 @@
                     ArrangeHandCards.Generate(
                         startSeconds: timedGenerator.StartSeconds + timedGenerator.TimedCommandArg.Duration / 2.0f,
                         duration: timedGenerator.TimedCommandArg.Duration / 2.0f,
-                        player: player,
+                        playerObj: playerObj,
                         indexOfPickup: indexOfNextPick, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,
                         keepPickup: true,
@@ -127,10 +127,10 @@
                 });
         }
 
-        private void GetIndexOfFocusedHandCard(GameModelBuffer gameModelBuffer, int player, LazyArgs.SetValue<int> setIndex)
+        private void GetIndexOfFocusedHandCard(GameModelBuffer gameModelBuffer, Player playerObj, LazyArgs.SetValue<int> setIndex)
         {
-            int handIndex = gameModelBuffer.IndexOfFocusedCardOfPlayers[player]; // 何枚目の場札をピックアップしているか
-            if (handIndex < 0 || gameModelBuffer.IdOfCardsOfPlayersHand[player].Count <= handIndex) // 範囲外は無視
+            int handIndex = gameModelBuffer.IndexOfFocusedCardOfPlayers[playerObj.AsInt]; // 何枚目の場札をピックアップしているか
+            if (handIndex < 0 || gameModelBuffer.IdOfCardsOfPlayersHand[playerObj.AsInt].Count <= handIndex) // 範囲外は無視
             {
                 return;
             }

@@ -6,6 +6,7 @@
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
     using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
+    using Assets.Scripts.ThinkingEngine;
 
     /// <summary>
     /// 開始局面まで
@@ -37,18 +38,18 @@
 
             // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
             {
-                var player = 0;
+                var playerObj = Commons.Player1;
                 var spanModel = new MoveCardsToHandFromPileModel(
-                        player: player,
+                        playerObj: playerObj,
                         numberOfCards: 5);
-                scheduleRegister.AddWithinScheduler(player, spanModel);
+                scheduleRegister.AddWithinScheduler(playerObj, spanModel);
             }
             {
-                var player = 1;
+                var playerObj = Commons.Player2;
                 var spanModel = new MoveCardsToHandFromPileModel(
-                        player: player,
+                        playerObj: playerObj,
                         numberOfCards: 5);
-                scheduleRegister.AddWithinScheduler(player, spanModel);
+                scheduleRegister.AddWithinScheduler(playerObj, spanModel);
             }
 
             // 間
@@ -56,9 +57,9 @@
 
             // 間
             {
-                for (int player = 0; player < 2; player++)
+                foreach (var playerObj in Commons.Players)
                 {
-                    scheduleRegister.AddScheduleSeconds(player: player, seconds: interval);
+                    scheduleRegister.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
                 }
             }
 
@@ -66,19 +67,19 @@
             {
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
-                    var player = 0;
+                    var playerObj = Commons.Player1;
                     var spanModel = new MoveCardToCenterStackFromHandModel(
-                            player: player, // １プレイヤーが
+                            playerObj: playerObj, // １プレイヤーが
                             place: right); // 右の
-                    scheduleRegister.AddWithinScheduler(player, spanModel);
+                    scheduleRegister.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
-                    var player = 1;
+                    var playerObj = Commons.Player2;
                     var spanModel = new MoveCardToCenterStackFromHandModel(
-                            player: player, // ２プレイヤーが
+                            playerObj: playerObj, // ２プレイヤーが
                             place: left); // 左の;
-                    scheduleRegister.AddWithinScheduler(player, spanModel);
+                    scheduleRegister.AddWithinScheduler(playerObj, spanModel);
                 }
             }
 
@@ -88,13 +89,13 @@
                     isGameActive: true);
 
                 {
-                    var player = 0; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
-                    scheduleRegister.AddWithinScheduler(player, spanModel);
+                    var playerObj = Commons.Player1; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
+                    scheduleRegister.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
-                    var player = 1; // プレイヤー２も、間を合わせる
+                    var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
                     scheduleRegister.AddScheduleSeconds(
-                        player: player,
+                        playerObj: playerObj,
                         seconds: new GuiOfTimedCommandArgs.Model(spanModel).Duration);
                 }
             }

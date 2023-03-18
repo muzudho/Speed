@@ -46,7 +46,7 @@
             LazyArgs.SetValue<SpanOfLeap.Model> setViewMovement)
         {
             // 確定：手札の枚数
-            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timedGenerator).Player].Count;
+            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timedGenerator).PlayerObj.AsInt].Count;
 
             if (length < GetModel(timedGenerator).NumberOfCards)
             {
@@ -55,11 +55,11 @@
                 return;
             }
 
-            var player = GetModel(timedGenerator).Player;
+            var playerObj = GetModel(timedGenerator).PlayerObj;
 
             // モデル更新：場札への移動
             gameModelBuffer.MoveCardsToHandFromPile(
-                player: player,
+                playerObj: playerObj,
                 startIndex: length - GetModel(timedGenerator).NumberOfCards,
                 numberOfCards: GetModel(timedGenerator).NumberOfCards);
             // 場札は１枚以上になる
@@ -68,15 +68,15 @@
             //
             // - 初回配布のケース
             // - 場札無しの勝利後に配ったケース
-            if (gameModelBuffer.IndexOfFocusedCardOfPlayers[player] == -1)
+            if (gameModelBuffer.IndexOfFocusedCardOfPlayers[playerObj.AsInt] == -1)
             {
-                gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = 0;
+                gameModelBuffer.IndexOfFocusedCardOfPlayers[playerObj.AsInt] = 0;
             }
 
             ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
 
             // 確定：場札の枚数
-            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player);
+            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(playerObj);
 
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
@@ -84,9 +84,9 @@
                 ArrangeHandCards.Generate(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.TimedCommandArg.Duration,
-                    player: player,
-                    indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(player),
-                    idOfHandCards: gameModel.GetCardsOfPlayerHand(player),
+                    playerObj: playerObj,
+                    indexOfPickup: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
+                    idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
                     keepPickup: true,
                     setSpanToLerp: setViewMovement);
             }

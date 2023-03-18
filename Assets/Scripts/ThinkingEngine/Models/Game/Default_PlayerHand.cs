@@ -14,30 +14,30 @@
         /// 
         /// - 選択中の場札が無いなら、-1
         /// </summary>
-        /// <param name="player">プレイヤー</param>
-        internal int GetIndexOfFocusedCardOfPlayer(int player)
+        /// <param name="playerObj">プレイヤー</param>
+        internal int GetIndexOfFocusedCardOfPlayer(Player playerObj)
         {
-            return this.gameModelBuffer.IndexOfFocusedCardOfPlayers[player];
+            return this.gameModelBuffer.IndexOfFocusedCardOfPlayers[playerObj.AsInt];
         }
 
         /// <summary>
         /// ｎプレイヤーの、場札の枚数
         /// </summary>
-        /// <param name="player">プレイヤー</param>
+        /// <param name="playerObj">プレイヤー</param>
         /// <returns></returns>
-        internal int GetLengthOfPlayerHandCards(int player)
+        internal int GetLengthOfPlayerHandCards(Player playerObj)
         {
-            return this.gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
+            return this.gameModelBuffer.IdOfCardsOfPlayersHand[playerObj.AsInt].Count;
         }
 
         /// <summary>
         /// ｎプレイヤーの、場札をリストで取得
         /// </summary>
-        /// <param name="player">プレイヤー</param>
+        /// <param name="playerObj">プレイヤー</param>
         /// <returns></returns>
-        internal List<IdOfPlayingCards> GetCardsOfPlayerHand(int player)
+        internal List<IdOfPlayingCards> GetCardsOfPlayerHand(Player playerObj)
         {
-            return this.gameModelBuffer.IdOfCardsOfPlayersHand[player];
+            return this.gameModelBuffer.IdOfCardsOfPlayersHand[playerObj.AsInt];
         }
 
         /// <summary>

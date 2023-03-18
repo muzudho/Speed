@@ -10,17 +10,17 @@
         /// <summary>
         /// 生成
         /// </summary>
-        /// <param name="player">ｎプレイヤー</param>
+        /// <param name="playerObj">ｎプレイヤー</param>
         /// <param name="numberOfCards">カードがｍ枚</param>
-        internal MoveCardsToHandFromPileModel(int player, int numberOfCards)
+        internal MoveCardsToHandFromPileModel(Player playerObj, int numberOfCards)
         {
-            Player = player;
+            PlayerObj = playerObj;
             NumberOfCards = numberOfCards;
         }
 
         // - プロパティ
 
-        internal int Player { get; private set; }
+        internal Player PlayerObj { get; private set; }
         internal int NumberOfCards { get; private set; }
     }
 }

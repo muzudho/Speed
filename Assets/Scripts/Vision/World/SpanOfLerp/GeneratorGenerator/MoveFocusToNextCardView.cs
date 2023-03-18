@@ -48,10 +48,10 @@
             LazyArgs.SetValue<SpanOfLeap.Model> setViewMovement)
         {
             ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
-            int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timedGenerator).Player]; // 下ろす場札
+            int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timedGenerator).PlayerObj.AsInt]; // 下ろす場札
 
             int indexOfCurrent; // ピックアップする場札
-            var length = gameModelBuffer.IdOfCardsOfPlayersHand[GetModel(timedGenerator).Player].Count;
+            var length = gameModelBuffer.IdOfCardsOfPlayersHand[GetModel(timedGenerator).PlayerObj.AsInt].Count;
 
             if (length < 1)
             {
@@ -96,7 +96,7 @@
 
             if (0 <= indexOfPrevious && indexOfPrevious < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).Player, indexOfPrevious); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).PlayerObj.AsInt, indexOfPrevious); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setViewMovement(DropHandCard.Generate(
@@ -106,11 +106,11 @@
             }
 
             // モデル更新：ピックアップしている場札の、インデックス更新
-            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timedGenerator).Player] = indexOfCurrent;
+            gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timedGenerator).PlayerObj.AsInt] = indexOfCurrent;
 
             if (0 <= indexOfCurrent && indexOfCurrent < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).Player, indexOfCurrent); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).PlayerObj.AsInt, indexOfCurrent); // ピックアップしている場札
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる

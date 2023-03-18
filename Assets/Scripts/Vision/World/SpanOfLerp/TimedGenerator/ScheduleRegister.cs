@@ -6,6 +6,7 @@
     using UnityEngine;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
     using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
+    using Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>
     /// シミュレーター
@@ -71,21 +72,22 @@
         /// 
         /// - タイムを自動的に付ける
         /// </summary>
+        /// <param name="playerObj"></param>
         /// <param name="commandArg">コマンド引数</param>
-        internal void AddWithinScheduler(int player, ICommandArg commandArg)
+        internal void AddWithinScheduler(Player playerObj, ICommandArg commandArg)
         {
             var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
-                    startSeconds: this.ScheduledSeconds[player],
+                    startSeconds: this.ScheduledSeconds[playerObj.AsInt],
                     timedCommandArg: new GuiOfTimedCommandArgs.Model(commandArg),
                     spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(commandArg.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
-            this.ScheduledSeconds[player] += timedGenerator.TimedCommandArg.Duration;
+            this.ScheduledSeconds[playerObj.AsInt] += timedGenerator.TimedCommandArg.Duration;
         }
 
-        internal void AddScheduleSeconds(int player, float seconds)
+        internal void AddScheduleSeconds(Player playerObj, float seconds)
         {
-            this.ScheduledSeconds[player] += seconds;
+            this.ScheduledSeconds[playerObj.AsInt] += seconds;
         }
 
         internal TimedGenerator GetItemAt(int index)
