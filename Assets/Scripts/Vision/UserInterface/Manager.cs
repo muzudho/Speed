@@ -1,6 +1,7 @@
 namespace Assets.Scripts.Vision.UserInterface
 {
     using Assets.Scripts.ThinkingEngine;
+    using System.Collections;
     using UnityEngine;
     using VisionOfInput = Assets.Scripts.Vision.Input;
     using VisionOfWorld = Assets.Scripts.Vision.World;

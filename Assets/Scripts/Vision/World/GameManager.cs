@@ -246,8 +246,8 @@
             // モーションの補間
             this.playerToLerp.Lerp(modelBuffer.ElapsedSeconds, additionSpansToLerp);
 
-            this.ScheduleRegister.DebugWrite(); // TODO ★ 消す
-            this.playerToLerp.DebugWrite(); // TODO ★ 消す
+            //this.ScheduleRegister.DebugWrite();
+            //this.playerToLerp.DebugWrite();
 
             modelBuffer.ElapsedSeconds += tickSeconds;
         }

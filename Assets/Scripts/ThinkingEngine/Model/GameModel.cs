@@ -53,7 +53,7 @@
                 return IdOfPlayingCards.None;
             }
 
-            Debug.Log($"[GameModel GetLastCardOfCenterStack] place:{place} stack-count:{this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count} startIndex:{startIndex}");
+            // Debug.Log($"[GameModel GetLastCardOfCenterStack] place:{place} stack-count:{this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count} startIndex:{startIndex}");
             return this.gameModelBuffer.IdOfCardsOfCenterStacks[place][startIndex]; // 最後のカード
         }
 

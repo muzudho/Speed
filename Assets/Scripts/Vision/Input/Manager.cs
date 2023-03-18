@@ -3,6 +3,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Model;
     using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+    using Assets.Scripts.Vision.UserInterface;
     using Assets.Scripts.Vision.World;
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using UnityEngine;
@@ -22,6 +23,11 @@
         /// コンピューター・プレイヤー用
         /// </summary>
         GameModel gameModel;
+
+        /// <summary>
+        /// ステールメート後の再開用
+        /// </summary>
+        ReopeningManager reopeningManager;
 
         float[] spamSeconds = new[] { 0f, 0f };
 
@@ -44,6 +50,8 @@
             var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
             scheduleRegister = gameManager.ScheduleRegister;
             gameModel = gameManager.Model;
+
+            reopeningManager = GameObject.Find("Reopening Manager").GetComponent<ReopeningManager>();
         }
 
         /// <summary>
@@ -117,6 +125,7 @@
                 !player2CanPutToLeftCenterStack)
             {
                 // TODO ★ カウントダウン・タイマーを表示。０になったら、ピックアップ中の場札を強制的に台札へ置く
+                this.reopeningManager.DoIt();
             }
 
             // 先に登録したコマンドの方が早く実行される
