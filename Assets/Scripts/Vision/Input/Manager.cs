@@ -27,6 +27,11 @@
         ModelOfGame.Default gameModel;
 
         /// <summary>
+        /// ステールメートしているか？
+        /// </summary>
+        bool isStalemate;
+
+        /// <summary>
         /// ステールメート後の再開用
         /// </summary>
         ReopeningManager reopeningManager;
@@ -113,34 +118,40 @@
             // ステールメートしてるかどうかの判定
             // ==================================
 
-            // ステールメートしているとき
-            bool isStalemate = true;
-            // 反例を探す
-            foreach (var playerObj in Commons.Players)
+            if (this.gameModel.IsGameActive &&  // 対局が開始しており
+                !this.isStalemate)              // まだ、ステールメートしていないとき
             {
-                foreach (var centerStackPlace in Commons.CenterStacks)
+                bool isStalemateTemp = true;
+                // 反例を探す
+                foreach (var playerObj in Commons.Players)
                 {
-                    var max = this.gameModel.GetCardsOfPlayerHand(playerObj).Count;
-                    for (int i = 0; i < max; i++)
+                    foreach (var centerStackPlace in Commons.CenterStacks)
                     {
-                        if (LegalMove.CanPutToCenterStack(
-                            this.gameModel,
-                            playerObj,
-                            new HandCardIndex(i),
-                            centerStackPlace))
+                        var max = this.gameModel.GetCardsOfPlayerHand(playerObj).Count;
+                        for (int i = 0; i < max; i++)
                         {
-                            isStalemate = false;
-                            goto end_loop;
+                            if (LegalMove.CanPutToCenterStack(
+                                this.gameModel,
+                                playerObj,
+                                new HandCardIndex(i),
+                                centerStackPlace))
+                            {
+                                isStalemateTemp = false;
+                                goto end_loop;
+                            }
                         }
                     }
                 }
-            }
-        end_loop:
+            end_loop:
 
-            if (isStalemate)
-            {
-                // TODO ★ カウントダウン・タイマーを表示。０になったら、ピックアップ中の場札を強制的に台札へ置く
-                this.reopeningManager.DoIt();
+                // 反例がなければ、ステールメート
+                if (isStalemateTemp)
+                {
+                    this.isStalemate = true;
+
+                    // TODO ★ カウントダウン・タイマーを表示。０になったら、ピックアップ中の場札を強制的に台札へ置く
+                    this.reopeningManager.DoIt();
+                }
             }
 
             // 先に登録したコマンドの方が早く実行される
@@ -153,6 +164,7 @@
             {
                 var playerObj = Commons.Player1;
                 if (!handled[playerObj.AsInt] &&
+                    !this.isStalemate &&
                     inputToMeaning.MoveCardToCenterStackNearMe[playerObj.AsInt] &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
                 {
@@ -172,6 +184,7 @@
             {
                 var playerObj = Commons.Player2;
                 if (!handled[playerObj.AsInt] &&
+                    !this.isStalemate &&
                     inputToMeaning.MoveCardToFarCenterStack[playerObj.AsInt] &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
                 {
@@ -194,6 +207,7 @@
             {
                 var playerObj = Commons.Player2;
                 if (!handled[playerObj.AsInt] &&
+                    !this.isStalemate &&
                     inputToMeaning.MoveCardToCenterStackNearMe[playerObj.AsInt] &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
                 {
@@ -213,6 +227,7 @@
             {
                 var playerObj = Commons.Player1;
                 if (!handled[playerObj.AsInt] &&
+                    !this.isStalemate &&
                     inputToMeaning.MoveCardToFarCenterStack[playerObj.AsInt] &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
                 {
@@ -318,7 +333,7 @@
                 }
             }
 
-            // デバッグ用
+            // 場札の補充
             if (inputToMeaning.Drawing)
             {
                 // 両プレイヤーは手札から１枚抜いて、場札として置く

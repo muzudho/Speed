@@ -52,7 +52,7 @@
             if (length < GetModel(timedGenerator).NumberOfCards)
             {
                 // できない指示は無視
-                Debug.Log("[MoveCardsToHandFromPileView OnEnter] できない指示は無視");
+                // Debug.Log("[MoveCardsToHandFromPileView OnEnter] できない指示は無視");
                 return;
             }
 
