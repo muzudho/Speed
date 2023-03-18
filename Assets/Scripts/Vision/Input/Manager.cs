@@ -2,15 +2,14 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.UserInterface;
     using Assets.Scripts.Vision.World;
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using UnityEngine;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using VisionOfInput = Assets.Scripts.Vision.Input;
-    using static UnityEditor.Experimental.GraphView.GraphView;
 
     /// <summary>
     /// 入力マネージャー
@@ -27,14 +26,9 @@
         ModelOfGame.Default gameModel;
 
         /// <summary>
-        /// ステールメートしているか？
+        /// ステールメート管理
         /// </summary>
-        bool isStalemate;
-
-        /// <summary>
-        /// ステールメート後の再開用
-        /// </summary>
-        ReopeningManager reopeningManager;
+        StalemateManager stalemateManager;
 
         float[] spamSeconds = new[] { 0f, 0f };
 
@@ -58,7 +52,8 @@
             scheduleRegister = gameManager.ScheduleRegister;
             gameModel = gameManager.Model;
 
-            reopeningManager = GameObject.Find("Reopening Manager").GetComponent<ReopeningManager>();
+            this.stalemateManager = GameObject.Find("Stalemate Manager").GetComponent<StalemateManager>();
+            this.stalemateManager.Init(this.scheduleRegister);
         }
 
         /// <summary>
@@ -118,41 +113,7 @@
             // ステールメートしてるかどうかの判定
             // ==================================
 
-            if (this.gameModel.IsGameActive &&  // 対局が開始しており
-                !this.isStalemate)              // まだ、ステールメートしていないとき
-            {
-                bool isStalemateTemp = true;
-                // 反例を探す
-                foreach (var playerObj in Commons.Players)
-                {
-                    foreach (var centerStackPlace in Commons.CenterStacks)
-                    {
-                        var max = this.gameModel.GetCardsOfPlayerHand(playerObj).Count;
-                        for (int i = 0; i < max; i++)
-                        {
-                            if (LegalMove.CanPutToCenterStack(
-                                this.gameModel,
-                                playerObj,
-                                new HandCardIndex(i),
-                                centerStackPlace))
-                            {
-                                isStalemateTemp = false;
-                                goto end_loop;
-                            }
-                        }
-                    }
-                }
-            end_loop:
-
-                // 反例がなければ、ステールメート
-                if (isStalemateTemp)
-                {
-                    this.isStalemate = true;
-
-                    // TODO ★ カウントダウン・タイマーを表示。０になったら、ピックアップ中の場札を強制的に台札へ置く
-                    this.reopeningManager.DoIt();
-                }
-            }
+            this.stalemateManager.CheckStalemate(this.gameModel);
 
             // 先に登録したコマンドの方が早く実行される
 
@@ -164,7 +125,7 @@
             {
                 var playerObj = Commons.Player1;
                 if (!handled[playerObj.AsInt] &&
-                    !this.isStalemate &&
+                    !this.stalemateManager.IsStalemate &&
                     inputToMeaning.MoveCardToCenterStackNearMe[playerObj.AsInt] &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
                 {
@@ -184,7 +145,7 @@
             {
                 var playerObj = Commons.Player2;
                 if (!handled[playerObj.AsInt] &&
-                    !this.isStalemate &&
+                    !this.stalemateManager.IsStalemate &&
                     inputToMeaning.MoveCardToFarCenterStack[playerObj.AsInt] &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
                 {
@@ -207,7 +168,7 @@
             {
                 var playerObj = Commons.Player2;
                 if (!handled[playerObj.AsInt] &&
-                    !this.isStalemate &&
+                    !this.stalemateManager.IsStalemate &&
                     inputToMeaning.MoveCardToCenterStackNearMe[playerObj.AsInt] &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
                 {
@@ -227,7 +188,7 @@
             {
                 var playerObj = Commons.Player1;
                 if (!handled[playerObj.AsInt] &&
-                    !this.isStalemate &&
+                    !this.stalemateManager.IsStalemate &&
                     inputToMeaning.MoveCardToFarCenterStack[playerObj.AsInt] &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
                 {
