@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator
 {
     using Assets.Scripts.Coding;
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.World.SpanOfLerp.Generator;
@@ -50,23 +51,23 @@
             var length = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timedGenerator).PlaceObj.AsInt].Count; // 台札の枚数
             if (1 <= length)
             {
-                var startIndex = length - numberOfCards;
-                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timedGenerator).PlaceObj.AsInt][startIndex]; // 台札の１番上のカード
-                gameModelBuffer.RemoveCardAtOfCenterStack(GetModel(timedGenerator).PlaceObj.AsInt, startIndex);
+                var startIndexObj = new CenterStackCardIndex(length - numberOfCards);
+                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[GetModel(timedGenerator).PlaceObj.AsInt][startIndexObj.AsInt]; // 台札の１番上のカード
+                gameModelBuffer.RemoveCardAtOfCenterStack(GetModel(timedGenerator).PlaceObj, startIndexObj);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
-                int player;
+                Player playerObj;
                 var suit = idOfCardOfCenterStack.Suit();
                 switch (suit)
                 {
                     case IdOfCardSuits.Clubs:
                     case IdOfCardSuits.Spades:
-                        player = 0;
+                        playerObj = Commons.Player1;
                         break;
 
                     case IdOfCardSuits.Diamonds:
                     case IdOfCardSuits.Hearts:
-                        player = 1;
+                        playerObj = Commons.Player2;
                         break;
 
                     default:
@@ -74,13 +75,13 @@
                 }
 
                 // プレイヤーの手札を積み上げる
-                gameModelBuffer.AddCardOfPlayersPile(player, idOfCardOfCenterStack);
+                gameModelBuffer.AddCardOfPlayersPile(playerObj, idOfCardOfCenterStack);
 
                 setViewMovement(PutCardToPile.Generate(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.TimedCommandArg.Duration,
-                    player: player,
-                    idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[player],
+                    playerObj: playerObj,
+                    idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
             }
         }

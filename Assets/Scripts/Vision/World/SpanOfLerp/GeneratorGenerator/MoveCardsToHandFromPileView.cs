@@ -61,7 +61,7 @@
             // モデル更新：場札への移動
             gameModelBuffer.MoveCardsToHandFromPile(
                 playerObj: playerObj,
-                startIndex: length - GetModel(timedGenerator).NumberOfCards,
+                startIndexObj: new PlayerPileCardIndex(length - GetModel(timedGenerator).NumberOfCards),
                 numberOfCards: GetModel(timedGenerator).NumberOfCards);
             // 場札は１枚以上になる
 

@@ -14,6 +14,7 @@
     using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
     using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using ViewsOfTimeline = Assets.Scripts.Vision.World.Views.Timeline;
+    using Assets.Scripts.ThinkingEngine;
 
     /// <summary>
     /// ゲーム・マネージャー
@@ -171,31 +172,33 @@
                 // すべてのカードを、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
                 foreach (var idOfCard in cardsOfGame)
                 {
-                    int player;
+                    Player playerObj;
                     switch (idOfCard.Suit())
                     {
                         case IdOfCardSuits.Clubs:
                         case IdOfCardSuits.Spades:
-                            player = 0;
+                            playerObj = Commons.Player1;
                             break;
+
                         case IdOfCardSuits.Diamonds:
                         case IdOfCardSuits.Hearts:
-                            player = 1;
+                            playerObj = Commons.Player2;
                             break;
+
                         default:
                             throw new Exception();
                     }
 
-                    modelBuffer.AddCardOfPlayersPile(player, idOfCard);
+                    modelBuffer.AddCardOfPlayersPile(playerObj, idOfCard);
 
                     // 画面上の位置も調整
                     var goCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(idOfCard)];
 
-                    var length = modelBuffer.IdOfCardsOfPlayersPile[player].Count;
+                    var length = modelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt].Count;
                     // 最初の１枚目
                     if (length == 1)
                     {
-                        var position = GameView.positionOfPileCardsOrigin[player];
+                        var position = GameView.positionOfPileCardsOrigin[playerObj.AsInt];
                         goCard.transform.position = position.ToMutable();
                         // 裏返す
                         goCard.transform.rotation = Quaternion.Euler(
@@ -205,7 +208,7 @@
                     }
                     else
                     {
-                        var previousTopCard = modelBuffer.IdOfCardsOfPlayersPile[player][length - 2]; // 天辺より１つ下のカードが、前のカード
+                        var previousTopCard = modelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt][length - 2]; // 天辺より１つ下のカードが、前のカード
                         var goPreviousTopCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(previousTopCard)];
                         goCard.transform.position = GameView.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
                                                                                                                          // 裏返す

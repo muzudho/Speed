@@ -303,7 +303,7 @@
                     // 場札を並べる
                     var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardsToHandFromPileModel(
                         playerObj: playerObj,
-                    numberOfCards: 1));
+                        numberOfCards: 1));
 
                     spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
                     scheduleRegister.AddJustNow(timedCommandArg);

@@ -8,7 +8,7 @@
     /// - 未選択なら -1
     /// - １プレイヤーから見て左端が０
     /// </summary>
-    class HandCardIndex
+    class CenterStackCardIndex
     {
         // - 演算子のオーバーロード
 
@@ -16,7 +16,7 @@
         // 📖 [自作クラスの演算子をオーバーロードする](https://dobon.net/vb/dotnet/beginner/operator.html)
         // 📖 [自作クラスのEqualsメソッドをオーバーライドして、等価の定義を変更する](https://dobon.net/vb/dotnet/beginner/equals.html)
 
-        public static bool operator ==(HandCardIndex c1, HandCardIndex c2)
+        public static bool operator ==(CenterStackCardIndex c1, CenterStackCardIndex c2)
         {
             // nullの確認（構造体のようにNULLにならない型では不要）
             // 両方nullか（参照元が同じか）
@@ -36,7 +36,7 @@
             return (c1.source == c2.source) && (c1.source == c2.source);
         }
 
-        public static bool operator !=(HandCardIndex c1, HandCardIndex c2)
+        public static bool operator !=(CenterStackCardIndex c1, CenterStackCardIndex c2)
         {
             // (c1 != c2)とすると、無限ループ
             return !(c1 == c2);
@@ -55,10 +55,10 @@
                 return false;
             }
             //この型が継承できないクラスや構造体であれば、次のようにできる
-            //if (!(obj is HandCardIndex))
+            //if (!(obj is CenterStackCardIndex))
 
             //Numberで比較する
-            HandCardIndex c = (HandCardIndex)obj;
+            CenterStackCardIndex c = (CenterStackCardIndex)obj;
             return (this.source == c.source);
             //または、
             //return (this.Number.Equals(c.Number));
@@ -85,7 +85,7 @@
                 return 1;
             if (this.GetType() != other.GetType())
                 throw new ArgumentException();
-            return this.source.CompareTo(((HandCardIndex)other).source);
+            return this.source.CompareTo(((CenterStackCardIndex)other).source);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@
         /// <param name="c2"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static bool operator <(HandCardIndex c1, HandCardIndex c2)
+        public static bool operator <(CenterStackCardIndex c1, CenterStackCardIndex c2)
         {
             //nullの確認
             if ((object)c1 == null || (object)c2 == null)
@@ -106,14 +106,14 @@
             return (c1.CompareTo(c2) < 0);
         }
 
-        public static bool operator >(HandCardIndex c1, HandCardIndex c2)
+        public static bool operator >(CenterStackCardIndex c1, CenterStackCardIndex c2)
         {
             //逆にして"<"で比較
             return (c2 < c1);
         }
 
         //比較演算子の<=と>=をオーバーロードする
-        public static bool operator <=(HandCardIndex c1, HandCardIndex c2)
+        public static bool operator <=(CenterStackCardIndex c1, CenterStackCardIndex c2)
         {
             //nullの確認
             if ((object)c1 == null || (object)c2 == null)
@@ -124,7 +124,7 @@
             return (c1.CompareTo(c2) <= 0);
         }
 
-        public static bool operator >=(HandCardIndex c1, HandCardIndex c2)
+        public static bool operator >=(CenterStackCardIndex c1, CenterStackCardIndex c2)
         {
             //逆にして"<="で比較
             return (c2 <= c1);
@@ -133,7 +133,7 @@
 
         // - その他
 
-        internal HandCardIndex(int source)
+        internal CenterStackCardIndex(int source)
         {
             this.source = source;
         }

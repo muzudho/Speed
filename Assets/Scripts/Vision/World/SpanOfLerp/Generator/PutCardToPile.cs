@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.Generator
 {
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.World.Views;
     using System;
@@ -22,7 +23,7 @@
         internal static SpanOfLeap.Model Generate(
             float startSeconds,
             float duration,
-            int player,
+            Player playerObj,
             List<IdOfPlayingCards> idOfPlayerPileCards,
             IdOfPlayingCards idOfPlayingCard)
         {
@@ -71,7 +72,7 @@
                                 if (lengthOfPile < 1)
                                 {
                                     // 一番下
-                                    endPosition = GameView.positionOfPileCardsOrigin[player].ToMutable();
+                                    endPosition = GameView.positionOfPileCardsOrigin[playerObj.AsInt].ToMutable();
                                 }
                                 // 既存の手札があれば
                                 else
@@ -90,18 +91,17 @@
                             {
                                 // １プレイヤーのカードは１８０°回転
                                 float angleY;
-                                switch (player)
+                                if (playerObj==Commons.Player1)
                                 {
-                                    case 0:
-                                        angleY = 180.0f;
-                                        break;
-
-                                    case 1:
-                                        angleY = 0.0f;
-                                        break;
-
-                                    default:
-                                        throw new Exception();
+                                    angleY = 180.0f;
+                                }
+                                else if (playerObj==Commons.Player2)
+                                {
+                                    angleY = 0.0f;
+                                }
+                                else
+                                {
+                                    throw new Exception();
                                 }
 
                                 endRotation = Quaternion.Euler(0, angleY, 180.0f);
