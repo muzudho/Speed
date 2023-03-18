@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.World
 {
-    using Assets.Scripts.ThinkingEngine.Model;
+    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using Assets.Scripts.Vision.World.Replays;
     using Assets.Scripts.Vision.World.SpanOfLerp;
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
@@ -36,19 +37,19 @@
         /// <summary>
         /// ゲーム・モデル
         /// </summary>
-        internal GameModel Model
+        internal ModelOfGame.Default Model
         {
             get
             {
                 if (model == null)
                 {
                     // ゲーム・モデルは、ゲーム・モデル・バッファーを持つ
-                    model = new GameModel(modelBuffer);
+                    model = new ModelOfGame.Default(modelBuffer);
                 }
                 return model;
             }
         }
-        GameModel model;
+        ModelOfGame.Default model;
 
 
         /// <summary>

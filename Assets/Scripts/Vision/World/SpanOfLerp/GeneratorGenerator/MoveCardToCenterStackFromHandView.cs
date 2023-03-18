@@ -1,8 +1,9 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator
 {
     using Assets.Scripts.Coding;
-    using Assets.Scripts.ThinkingEngine.Model;
-    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.World.SpanOfLerp.Generator;
     using SimulatorsOfTimeline = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
@@ -44,7 +45,7 @@
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanOfLeap.Model> setViewMovement)
         {
-            var gameModel = new GameModel(gameModelBuffer);
+            var gameModel = new ModelOfGame.Default(gameModelBuffer);
             var player = GetModel(timedGenerator).Player;
 
             // ピックアップしているカードは、場札から抜くカード

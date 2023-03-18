@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Model
+﻿namespace Assets.Scripts.ThinkingEngine.Models
 {
     using Assets.Scripts.Vision.World.Views;
     using System.Collections.Generic;

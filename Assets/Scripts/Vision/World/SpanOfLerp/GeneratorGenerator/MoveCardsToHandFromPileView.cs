@@ -1,8 +1,9 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator
 {
     using Assets.Scripts.Coding;
-    using Assets.Scripts.ThinkingEngine.Model;
-    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.World.SpanOfLerp.Generator;
     using UnityEngine;
     using SimulatorsOfTimeline = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
@@ -72,7 +73,7 @@
                 gameModelBuffer.IndexOfFocusedCardOfPlayers[player] = 0;
             }
 
-            GameModel gameModel = new GameModel(gameModelBuffer);
+            ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
 
             // 確定：場札の枚数
             int numberOfCards = gameModel.GetLengthOfPlayerHandCards(player);

@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp
 {
     using Assets.Scripts.Coding;
-    using Assets.Scripts.ThinkingEngine.Model;
+    using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using UnityEngine;
     using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;

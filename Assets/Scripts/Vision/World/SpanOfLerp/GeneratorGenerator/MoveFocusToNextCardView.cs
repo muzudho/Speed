@@ -1,11 +1,12 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator
 {
     using Assets.Scripts.Coding;
-    using Assets.Scripts.ThinkingEngine.Model;
-    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models;
+    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.World.SpanOfLerp.Generator;
     using Assets.Scripts.Vision.World.Views;
     using System;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using SimulatorsOfTimeline = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
 
@@ -46,7 +47,7 @@
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<SpanOfLeap.Model> setViewMovement)
         {
-            GameModel gameModel = new GameModel(gameModelBuffer);
+            ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
             int indexOfPrevious = gameModelBuffer.IndexOfFocusedCardOfPlayers[GetModel(timedGenerator).Player]; // 下ろす場札
 
             int indexOfCurrent; // ピックアップする場札

@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.World.TimedCommandArgs
 {
-    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using System;
     using System.Collections.Generic;
 

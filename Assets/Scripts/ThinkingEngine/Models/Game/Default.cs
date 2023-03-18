@@ -1,18 +1,17 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Model
+﻿namespace Assets.Scripts.ThinkingEngine.Models.Game
 {
     using System.Collections.Generic;
-    using UnityEngine;
 
     /// <summary>
     /// ゲーム・モデル
     /// 
     /// - 読み取り専用。(Immutable)
     /// </summary>
-    class GameModel
+    class Default
     {
         // - その他
 
-        public GameModel(GameModelBuffer gameModelBuffer)
+        public Default(GameModelBuffer gameModelBuffer)
         {
             this.gameModelBuffer = gameModelBuffer;
         }

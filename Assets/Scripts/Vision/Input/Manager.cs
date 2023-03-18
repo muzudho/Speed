@@ -1,8 +1,9 @@
 ﻿namespace Assets.Scripts.Vision.Input
 {
     using Assets.Scripts.ThinkingEngine;
-    using Assets.Scripts.ThinkingEngine.Model;
-    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.UserInterface;
     using Assets.Scripts.Vision.World;
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
@@ -22,7 +23,7 @@
         /// <summary>
         /// コンピューター・プレイヤー用
         /// </summary>
-        GameModel gameModel;
+        ModelOfGame.Default gameModel;
 
         /// <summary>
         /// ステールメート後の再開用

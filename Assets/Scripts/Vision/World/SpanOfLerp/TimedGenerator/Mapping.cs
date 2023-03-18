@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator
 {
-    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator;
     using System;
     using System.Collections.Generic;

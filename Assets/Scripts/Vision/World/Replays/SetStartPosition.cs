@@ -1,7 +1,8 @@
 ﻿namespace Assets.Scripts.Vision.World.Replays
 {
-    using Assets.Scripts.ThinkingEngine.Model;
-    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
     using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
@@ -13,7 +14,7 @@
     {
         internal static void DoIt(GameModelBuffer modelBuffer, ScheduleRegister scheduleRegister)
         {
-            var model = new GameModel(modelBuffer);
+            var model = new ModelOfGame.Default(modelBuffer);
 
             const int right = 0;// 台札の右
             const int left = 1;// 台札の左

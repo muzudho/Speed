@@ -1,10 +1,15 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Model
+﻿namespace Assets.Scripts.ThinkingEngine.Models
 {
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+
     static class LegalMove
     {
         // - メソッド
 
-        internal static bool CanPutToCenterStack(GameModel gameModel, int player, int place)
+        internal static bool CanPutToCenterStack(
+            ModelOfGame.Default gameModel,
+            int player,
+            int placeOfCenterStack)
         {
             int index = gameModel.GetIndexOfFocusedCardOfPlayer(player);
             if (index == -1)
@@ -12,7 +17,7 @@
                 return false;
             }
 
-            IdOfPlayingCards topCard = gameModel.GetLastCardOfCenterStack(place);
+            IdOfPlayingCards topCard = gameModel.GetLastCardOfCenterStack(placeOfCenterStack);
             if (topCard == IdOfPlayingCards.None)
             {
                 return false;

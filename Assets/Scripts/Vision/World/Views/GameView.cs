@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.World.Views
 {
-    using Assets.Scripts.ThinkingEngine.Model;
+    using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.World.Models;
     using System;
     using UnityEngine;

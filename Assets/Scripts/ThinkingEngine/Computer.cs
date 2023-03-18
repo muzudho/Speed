@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.ThinkingEngine
 {
-    using Assets.Scripts.ThinkingEngine.Model;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
 
     /// <summary>
     /// コンピューター・プレイヤー
@@ -54,7 +54,7 @@
         /// コンピューター・プレイヤーが思考して、操作を決める
         /// </summary>
         /// <param name="gameModel">現在の局面</param>
-        internal void Think(GameModel gameModel)
+        internal void Think(ModelOfGame.Default gameModel)
         {
             // 今回の入力予定
             var moveCardToCenterStackNearMe = false;

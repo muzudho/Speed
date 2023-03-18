@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator
 {
-    using Assets.Scripts.ThinkingEngine.Model;
-    using Assets.Scripts.ThinkingEngine.Model.CommandArgs;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
@@ -16,14 +16,14 @@
     {
         // - その他（生成）
 
-        public ScheduleRegister(GameModel gameModel)
+        public ScheduleRegister(ModelOfGame.Default gameModel)
         {
             this.GameModel = gameModel;
         }
 
         // - プロパティ
 
-        internal GameModel GameModel { get; private set; }
+        internal ModelOfGame.Default GameModel { get; private set; }
 
         /// <summary>
         /// スケジュールに登録されている残りの項目
