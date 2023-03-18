@@ -6651,4 +6651,12 @@ namespace Assets.Scripts.ThinkingEngine
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　👆　コードの掲載は　省いていくが、雰囲気は　こんな感じ」  
 
+📺 [開発中画面](https://twitter.com/muzudho1/status/1637103333709332481?s=20)  
+
+📅 2023-03-18 sat 23:49  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　👆　そのあと　大改造して　カウントダウンは　付けたぜ。  
+今日はここまで」  
+
 # // 書きかけ

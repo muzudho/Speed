@@ -8,6 +8,7 @@
     using UnityEngine;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using TMPro;
 
     /// <summary>
     /// 両プレイヤーが置けるカードがなくなってしまったとき、
@@ -29,6 +30,8 @@
         // - フィールド
 
         ScheduleRegister scheduleRegister;
+
+        TMP_Text countDownText;
 
         // - プロパティ
 
@@ -101,15 +104,19 @@
             // カウントダウン
             // ==============
             Debug.Log("再開 3");
+            this.countDownText.text = "3";
             yield return new WaitForSeconds(1f);
 
             Debug.Log("再開 2");
+            this.countDownText.text = "2";
             yield return new WaitForSeconds(1f);
 
             Debug.Log("再開 1");
+            this.countDownText.text = "1";
             yield return new WaitForSeconds(1f);
 
             Debug.Log("強制 カード発射");
+            this.countDownText.text = "";
             {
                 // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
                 var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
@@ -126,8 +133,20 @@
 
                 this.scheduleRegister.AddJustNow(timedCommandArg);
             }
+            yield return new WaitForSeconds(1f);
 
+            Debug.Log("ステールメート解除");
+            this.IsStalemate = false;            
             yield return null;
+        }
+
+        // - イベントハンドラ
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            this.countDownText = GameObject.Find("Count Down Text").GetComponent<TMP_Text>();
+            this.countDownText.text = "";
         }
     }
 }
