@@ -6,6 +6,7 @@
     using System;
     using System.Collections.Generic;
     using UnityEngine;
+    using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
 
     /// <summary>
     /// 指定のカード（台札を想定）を手札へ移動
@@ -19,7 +20,7 @@
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="target">ゲーム・オブジェクトId</param>
         /// <returns></returns>
-        internal static IFinalLevelSpan Generate(
+        internal static ModelOfTimelineO1stSpan.IBasecaseSpan Generate(
             float startSeconds,
             float duration,
             Player playerObj,

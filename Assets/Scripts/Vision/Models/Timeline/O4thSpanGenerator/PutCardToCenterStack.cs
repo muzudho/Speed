@@ -4,6 +4,7 @@
     using Assets.Scripts.Vision.Models.World;
     using System;
     using UnityEngine;
+    using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
 
     /// <summary>
     /// 指定のカードを、台札の上へ置く
@@ -19,7 +20,7 @@
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="getBegin"></param>
         /// <param name="idOfCard">カードId</param>
-        internal static IFinalLevelSpan Generate(
+        internal static ModelOfTimelineO1stSpan.IBasecaseSpan Generate(
             float startSeconds,
             float duration,
             Player playerObj,

@@ -3,6 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
+    using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
 
     /// <summary>
     /// タイムラインのスケジューラーのストレージ
@@ -21,7 +22,7 @@
             ModelOfTimelineO1stElement.ScheduleRegister scheduleRegister,
             float elapsedSeconds,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<IFinalLevelSpan> setSpanToLerp)
+            LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setSpanToLerp)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化

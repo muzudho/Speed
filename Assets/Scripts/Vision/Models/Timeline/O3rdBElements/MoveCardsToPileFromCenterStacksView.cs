@@ -5,6 +5,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using System;
+    using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
     using ModelOfTimelineO4thSpanGenerator = Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator;
 
     /// <summary>
@@ -42,7 +43,7 @@
         public override void CreateSpanToLerp(
             ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<IFinalLevelSpan> setViewMovement)
+            LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;

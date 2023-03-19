@@ -7,6 +7,7 @@
     using System;
     using System.Collections.Generic;
     using UnityEngine;
+    using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
 
     /// <summary>
     /// 場札を並べる
@@ -36,7 +37,7 @@
             HandCardIndex indexOfPickupObj,
             List<IdOfPlayingCards> idOfHandCards,
             bool keepPickup,
-            LazyArgs.SetValue<IFinalLevelSpan> setSpanToLerp)
+            LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setSpanToLerp)
         {
             // 最大25枚の場札が並べるように調整してある
 

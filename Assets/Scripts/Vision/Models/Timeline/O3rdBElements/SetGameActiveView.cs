@@ -3,6 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
+    using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -39,7 +40,7 @@
         public override void CreateSpanToLerp(
             ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<IFinalLevelSpan> setViewMovement)
+            LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
         {
             if (handled)
             {

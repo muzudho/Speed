@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thSpan
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O1stSpan
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models.World;
@@ -9,7 +9,7 @@
     /// 
     /// - Lerpに使うもの
     /// </summary>
-    internal class Model : IFinalLevelSpan
+    internal class Model : IBasecaseSpan
     {
         // - その他（生成）
 

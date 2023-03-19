@@ -1,6 +1,6 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O1stSpan
 {
-    internal interface IFinalLevelSpan
+    internal interface IBasecaseSpan
     {
         // - プロパティ
 

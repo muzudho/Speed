@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
 
     /// <summary>
     /// スパン生成器
@@ -29,6 +30,6 @@
         void CreateSpanToLerp(
             ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<IFinalLevelSpan> setSpanToLerp);
+            LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setSpanToLerp);
     }
 }

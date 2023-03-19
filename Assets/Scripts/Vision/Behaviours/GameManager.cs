@@ -12,7 +12,7 @@
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfTimeline = Assets.Scripts.Vision.Models.Timeline;
     using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
-    using ModelOfTimelineO4thSpan = Assets.Scripts.Vision.Models.Timeline.O4thSpan;
+    using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
 
     /// <summary>
     /// ゲーム・マネージャー
@@ -233,7 +233,7 @@
         void OnTick()
         {
             // モデルからビューへ、起動したタイム・スパンを引き継ぎたい
-            var additionSpansToLerp = new List<IFinalLevelSpan>();
+            var additionSpansToLerp = new List<ModelOfTimelineO1stSpan.IBasecaseSpan>();
 
             // スケジュールを消化していきます
             SchedulerHelper.ConvertToSpansToLerp(

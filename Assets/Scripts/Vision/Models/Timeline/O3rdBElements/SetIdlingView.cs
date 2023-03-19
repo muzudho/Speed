@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
+    using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
 
     /// <summary>
     /// なんにもしません
@@ -38,7 +39,7 @@
         public override void CreateSpanToLerp(
             ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<IFinalLevelSpan> setViewMovement)
+            LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
         {
             // なんにもしません
         }
