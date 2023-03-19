@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdBElements
 {
-    using ModelOfTimelineTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
+    using ModelOfTimelineTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
 
     internal interface ITimedGenerator
     {

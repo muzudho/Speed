@@ -4,9 +4,9 @@
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Models.Timeline.O1stElements;
+    using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
+    using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
 
     /// <summary>
     /// シミュレーター
@@ -57,12 +57,12 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="commandArg">コマンド引数</param>
-        internal void AddJustNow(GuiOfTimedCommandArgs.Model timedCommandArg)
+        internal void AddJustNow(ModelOfTimelineO2ndTimedCommandArgs.Model timedCommandArg)
         {
-            var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
+            var timedGenerator = new ModelOfTimelineO1stElement.TimedGenerator(
                     startSeconds: GameModel.ElapsedSeconds,
                     timedCommandArg: timedCommandArg,
-                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(timedCommandArg.CommandArg.GetType()));
+                    spanGenerator: ModelOfTimelineO1stElement.Mapping.SpawnViewFromModel(timedCommandArg.CommandArg.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
         }
@@ -76,10 +76,10 @@
         /// <param name="commandArg">コマンド引数</param>
         internal void AddWithinScheduler(Player playerObj, ICommandArg commandArg)
         {
-            var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
+            var timedGenerator = new ModelOfTimelineO1stElement.TimedGenerator(
                     startSeconds: this.ScheduledSeconds[playerObj.AsInt],
-                    timedCommandArg: new GuiOfTimedCommandArgs.Model(commandArg),
-                    spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(commandArg.GetType()));
+                    timedCommandArg: new ModelOfTimelineO2ndTimedCommandArgs.Model(commandArg),
+                    spanGenerator: ModelOfTimelineO1stElement.Mapping.SpawnViewFromModel(commandArg.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
             this.ScheduledSeconds[playerObj.AsInt] += timedGenerator.TimedCommandArg.Duration;

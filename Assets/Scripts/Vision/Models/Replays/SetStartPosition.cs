@@ -4,9 +4,9 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.Models.Timeline.O1stElements;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Models.Timeline.O1stElements;
+    using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
+    using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
 
     /// <summary>
     /// 開始局面まで
@@ -20,13 +20,13 @@
             while (0 < model.GetLengthOfCenterStackCards(Commons.RightCenterStack))
             {
                 // 即実行
-                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
+                var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
                         placeObj: Commons.RightCenterStack
                         ));
-                var timedGenerator = new TimedGeneratorOfSpanOfLearp.TimedGenerator(
+                var timedGenerator = new ModelOfTimelineO1stElement.TimedGenerator(
                         startSeconds: 0.0f,
                         timedCommandArg: timedCommandArg,
-                        spanGenerator: TimedGeneratorOfSpanOfLearp.Mapping.SpawnViewFromModel(timedCommandArg.GetType()));
+                        spanGenerator: ModelOfTimelineO1stElement.Mapping.SpawnViewFromModel(timedCommandArg.GetType()));
                 timedGenerator.SpanGenerator.CreateSpanToLerp(
                     timedGenerator,
                     modelBuffer,
@@ -93,7 +93,7 @@
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
                     scheduleRegister.AddScheduleSeconds(
                         playerObj: playerObj,
-                        seconds: new GuiOfTimedCommandArgs.Model(spanModel).Duration);
+                        seconds: new ModelOfTimelineO2ndTimedCommandArgs.Model(spanModel).Duration);
                 }
             }
 

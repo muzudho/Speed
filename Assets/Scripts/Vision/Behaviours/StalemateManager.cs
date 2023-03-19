@@ -3,12 +3,12 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Models.Timeline.O1stElements;
     using System.Collections;
-    using UnityEngine;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using TMPro;
+    using UnityEngine;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
+    using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
 
     /// <summary>
     /// 両プレイヤーが置けるカードがなくなってしまったとき、
@@ -22,14 +22,14 @@
         /// <summary>
         /// 初期化
         /// </summary>
-        internal void Init(ScheduleRegister scheduleRegister)
+        internal void Init(ModelOfTimelineO1stElement.ScheduleRegister scheduleRegister)
         {
             this.scheduleRegister = scheduleRegister;
         }
 
         // - フィールド
 
-        ScheduleRegister scheduleRegister;
+        ModelOfTimelineO1stElement.ScheduleRegister scheduleRegister;
 
         TMP_Text countDownText;
 
@@ -119,7 +119,7 @@
             this.countDownText.text = "";
             {
                 // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                     playerObj: Commons.Player1,      // １プレイヤーが
                     placeObj: Commons.RightCenterStack)); // 右の
 
@@ -127,7 +127,7 @@
             }
             {
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                var timedCommandArg = new GuiOfTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                     playerObj: Commons.Player2,      // ２プレイヤーが
                     placeObj: Commons.LeftCenterStack)); // 左の
 

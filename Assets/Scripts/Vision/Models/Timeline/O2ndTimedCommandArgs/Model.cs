@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs
 {
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
 

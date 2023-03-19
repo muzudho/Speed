@@ -2,7 +2,7 @@
 {
     using Assets.Scripts.Vision.Models.Timeline.O3rdBElements;
     using ModelOfTimelineO3rdElement = Assets.Scripts.Vision.Models.Timeline.O3rdBElements;
-    using ModelOfTimelineTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
+    using ModelOfTimelineTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
 
     /// <summary>
     /// ゲーム内時間と、時間付きコマンド引数と、スパン生成器を紐づけたもの
