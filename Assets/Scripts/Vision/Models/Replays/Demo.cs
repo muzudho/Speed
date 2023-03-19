@@ -2,7 +2,7 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Models.Timeline.O5thElements;
+    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
 
     static class Demo
     {
@@ -13,7 +13,7 @@
         /// 
         /// - デモ
         /// </summary>
-        static void SetupDemo(ScheduleRegister scheduleRegister)
+        static void SetupDemo(ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister)
         {
             // 卓準備
 

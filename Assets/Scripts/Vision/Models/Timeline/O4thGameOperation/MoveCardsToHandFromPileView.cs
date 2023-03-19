@@ -26,7 +26,7 @@
 
         // - プロパティ
 
-        MoveCardsToHandFromPileModel GetModel(ITimedGenerator timedGenerator)
+        MoveCardsToHandFromPileModel GetModel(IGameOperationSpan timedGenerator)
         {
             return (MoveCardsToHandFromPileModel)timedGenerator.TimedCommandArg.CommandArg;
         }
@@ -40,7 +40,7 @@
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override void CreateSpan(
-            ITimedGenerator timedGenerator,
+            IGameOperationSpan timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
         {

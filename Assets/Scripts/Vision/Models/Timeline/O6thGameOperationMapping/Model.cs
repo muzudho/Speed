@@ -1,13 +1,16 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O5thElements
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O6thGameOperationMapping
 {
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using System;
     using System.Collections.Generic;
     using ModelOfTimelineO4thGameOperation = Assets.Scripts.Vision.Models.Timeline.O4thGameOperation;
 
-    internal class Mapping
+    /// <summary>
+    /// マッピング
+    /// </summary>
+    internal class Model
     {
-        static Mapping()
+        static Model()
         {
             GameOperations.Add(typeof(MoveCardsToHandFromPileModel).GetHashCode(), new ModelOfTimelineO4thGameOperation.MoveCardsToHandFromPileView());
             GameOperations.Add(typeof(MoveCardsToPileFromCenterStacksModel).GetHashCode(), new ModelOfTimelineO4thGameOperation.MoveCardsToPileFromCenterStacksView());

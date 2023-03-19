@@ -2,7 +2,7 @@
 {
     using ModelOfTimelineTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
 
-    internal interface ITimedGenerator
+    internal interface IGameOperationSpan
     {
         // - プロパティ
 

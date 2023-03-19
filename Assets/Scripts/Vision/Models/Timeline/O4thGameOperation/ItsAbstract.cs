@@ -30,7 +30,7 @@
         /// <param name="gameModelBuffer"></param>
         /// <param name="setViewMovement"></param>
         virtual public void CreateSpan(
-            ITimedGenerator timedGenerator,
+            IGameOperationSpan timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
         {

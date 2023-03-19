@@ -28,7 +28,7 @@
 
         // - プロパティ
 
-        MoveFocusToNextCardModel GetModel(ITimedGenerator timedGenerator)
+        MoveFocusToNextCardModel GetModel(IGameOperationSpan timedGenerator)
         {
             return (MoveFocusToNextCardModel)timedGenerator.TimedCommandArg.CommandArg;
         }
@@ -43,7 +43,7 @@
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
         public override void CreateSpan(
-            ITimedGenerator timedGenerator,
+            IGameOperationSpan timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
         {

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O5thElements
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O7thScheduler
 {
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
@@ -6,7 +6,8 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
-    using ModelOfTimelineO5thElement = Assets.Scripts.Vision.Models.Timeline.O5thElements;
+    using ModelOfTimelineO5thGameOperationSpan = Assets.Scripts.Vision.Models.Timeline.O5thGameOperationSpan;
+    using ModelOfTimelineO6thGameOperationMapping = Assets.Scripts.Vision.Models.Timeline.O6thGameOperationMapping;
 
     /// <summary>
     /// シミュレーター
@@ -32,13 +33,13 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<TimedGenerator> timedGenerators = new();
+        List<ModelOfTimelineO5thGameOperationSpan.Model> gameOperationSpans = new();
 
-        internal List<TimedGenerator> TimedGenerators
+        internal List<ModelOfTimelineO5thGameOperationSpan.Model> GameOperationSpans
         {
             get
             {
-                return this.timedGenerators;
+                return this.gameOperationSpans;
             }
         }
 
@@ -59,12 +60,12 @@
         /// <param name="commandArg">コマンド引数</param>
         internal void AddJustNow(ModelOfTimelineO2ndTimedCommandArgs.Model timedCommandArg)
         {
-            var timedGenerator = new ModelOfTimelineO5thElement.TimedGenerator(
+            var timedGenerator = new ModelOfTimelineO5thGameOperationSpan.Model(
                     startSeconds: GameModel.ElapsedSeconds,
                     timedCommandArg: timedCommandArg,
-                    gameOperation: ModelOfTimelineO5thElement.Mapping.NewGameOperationFromModel(timedCommandArg.CommandArg.GetType()));
+                    gameOperation: ModelOfTimelineO6thGameOperationMapping.Model.NewGameOperationFromModel(timedCommandArg.CommandArg.GetType()));
 
-            this.TimedGenerators.Add(timedGenerator);
+            this.GameOperationSpans.Add(timedGenerator);
         }
 
         /// <summary>
@@ -76,12 +77,12 @@
         /// <param name="commandArg">コマンド引数</param>
         internal void AddWithinScheduler(Player playerObj, ICommandArg commandArg)
         {
-            var timedGenerator = new ModelOfTimelineO5thElement.TimedGenerator(
+            var timedGenerator = new ModelOfTimelineO5thGameOperationSpan.Model(
                     startSeconds: this.ScheduledSeconds[playerObj.AsInt],
                     timedCommandArg: new ModelOfTimelineO2ndTimedCommandArgs.Model(commandArg),
-                    gameOperation: ModelOfTimelineO5thElement.Mapping.NewGameOperationFromModel(commandArg.GetType()));
+                    gameOperation: ModelOfTimelineO6thGameOperationMapping.Model.NewGameOperationFromModel(commandArg.GetType()));
 
-            this.TimedGenerators.Add(timedGenerator);
+            this.GameOperationSpans.Add(timedGenerator);
             this.ScheduledSeconds[playerObj.AsInt] += timedGenerator.TimedCommandArg.Duration;
         }
 
@@ -90,24 +91,24 @@
             this.ScheduledSeconds[playerObj.AsInt] += seconds;
         }
 
-        internal TimedGenerator GetItemAt(int index)
+        internal ModelOfTimelineO5thGameOperationSpan.Model GetItemAt(int index)
         {
-            return this.TimedGenerators[index];
+            return this.GameOperationSpans[index];
         }
 
         internal int GetCountItems()
         {
-            return this.TimedGenerators.Count;
+            return this.GameOperationSpans.Count;
         }
 
         internal void RemoveAt(int index)
         {
-            this.TimedGenerators.RemoveAt(index);
+            this.GameOperationSpans.RemoveAt(index);
         }
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator.Simulator DebugWrite] timedItems.Count:{timedGenerators.Count}");
+            Debug.Log($"[Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator.Simulator DebugWrite] timedItems.Count:{gameOperationSpans.Count}");
         }
 
         internal float LastSeconds() => Mathf.Max(this.ScheduledSeconds[0], ScheduledSeconds[1]);

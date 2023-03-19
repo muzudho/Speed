@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O5thElements
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O5thGameOperationSpan
 {
     using Assets.Scripts.Vision.Models.Timeline.O4thGameOperation;
     using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
@@ -7,7 +7,7 @@
     /// <summary>
     /// ゲーム内時間と、時間付きコマンド引数と、ゲーム内操作　を紐づけたもの
     /// </summary>
-    internal class TimedGenerator : ITimedGenerator
+    internal class Model : IGameOperationSpan
     {
         // - その他
 
@@ -17,7 +17,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="timedCommandArg">スパン・モデル</param>
         /// <param name="gameOperation"></param>
-        public TimedGenerator(
+        public Model(
             float startSeconds,
             ModelOfTimelineO2ndTimedCommandArgs.Model timedCommandArg,
             ModelOfTimelineO4thGameOperation.IModel gameOperation)

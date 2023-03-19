@@ -12,7 +12,7 @@
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfTimeline = Assets.Scripts.Vision.Models.Timeline;
     using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
-    using ModelOfTimelineO5thElement = Assets.Scripts.Vision.Models.Timeline.O5thElements;
+    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
 
     /// <summary>
     /// ゲーム・マネージャー
@@ -54,19 +54,19 @@
         /// <summary>
         /// スケジュール・レジスター
         /// </summary>
-        internal ModelOfTimelineO5thElement.ScheduleRegister ScheduleRegister
+        internal ModelOfTimelineO7thScheduler.ScheduleRegister ScheduleRegister
         {
             get
             {
                 if (scheduleRegister == null)
                 {
                     // スケジューラー・レジスターは、ゲーム・モデルを持つ。
-                    scheduleRegister = new ModelOfTimelineO5thElement.ScheduleRegister(this.Model);
+                    scheduleRegister = new ModelOfTimelineO7thScheduler.ScheduleRegister(this.Model);
                 }
                 return scheduleRegister;
             }
         }
-        ModelOfTimelineO5thElement.ScheduleRegister scheduleRegister;
+        ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister;
 
         // - メソッド
 

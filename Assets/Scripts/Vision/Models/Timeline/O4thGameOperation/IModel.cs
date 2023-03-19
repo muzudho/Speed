@@ -29,7 +29,7 @@
         /// </summary>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         void CreateSpan(
-            ITimedGenerator timedGenerator,
+            IGameOperationSpan timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setSpanToLerp);
     }

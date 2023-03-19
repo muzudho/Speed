@@ -3,17 +3,18 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Models.Timeline.O5thElements;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
-    using ModelOfTimelineO5thElement = Assets.Scripts.Vision.Models.Timeline.O5thElements;
+    using ModelOfTimelineO5thGameOperationSpan = Assets.Scripts.Vision.Models.Timeline.O5thGameOperationSpan;
+    using ModelOfTimelineO6thGameOperationMapping = Assets.Scripts.Vision.Models.Timeline.O6thGameOperationMapping;
+    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
 
     /// <summary>
     /// 開始局面まで
     /// </summary>
     static class SetStartPosition
     {
-        internal static void DoIt(GameModelBuffer modelBuffer, ScheduleRegister scheduleRegister)
+        internal static void DoIt(GameModelBuffer modelBuffer, ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister)
         {
             var model = new ModelOfGame.Default(modelBuffer);
 
@@ -23,10 +24,10 @@
                 var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
                         placeObj: Commons.RightCenterStack
                         ));
-                var timedGenerator = new ModelOfTimelineO5thElement.TimedGenerator(
+                var timedGenerator = new ModelOfTimelineO5thGameOperationSpan.Model(
                         startSeconds: 0.0f,
                         timedCommandArg: timedCommandArg,
-                        gameOperation: ModelOfTimelineO5thElement.Mapping.NewGameOperationFromModel(timedCommandArg.GetType()));
+                        gameOperation: ModelOfTimelineO6thGameOperationMapping.Model.NewGameOperationFromModel(timedCommandArg.GetType()));
                 timedGenerator.GameOperation.CreateSpan(
                     timedGenerator,
                     modelBuffer,

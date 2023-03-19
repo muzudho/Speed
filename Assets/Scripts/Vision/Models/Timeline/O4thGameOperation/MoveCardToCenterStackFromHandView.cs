@@ -26,7 +26,7 @@
 
         // - プロパティ
 
-        MoveCardToCenterStackFromHandModel GetModel(ITimedGenerator timedGenerator)
+        MoveCardToCenterStackFromHandModel GetModel(IGameOperationSpan timedGenerator)
         {
             return (MoveCardToCenterStackFromHandModel)timedGenerator.TimedCommandArg.CommandArg;
         }
@@ -41,7 +41,7 @@
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
         public override void CreateSpan(
-            ITimedGenerator timedGenerator,
+            IGameOperationSpan timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
         {

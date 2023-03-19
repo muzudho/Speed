@@ -8,7 +8,7 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
-    using ModelOfTimelineO5thElement = Assets.Scripts.Vision.Models.Timeline.O5thElements;
+    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
 
     /// <summary>
     /// 両プレイヤーが置けるカードがなくなってしまったとき、
@@ -22,14 +22,14 @@
         /// <summary>
         /// 初期化
         /// </summary>
-        internal void Init(ModelOfTimelineO5thElement.ScheduleRegister scheduleRegister)
+        internal void Init(ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister)
         {
             this.scheduleRegister = scheduleRegister;
         }
 
         // - フィールド
 
-        ModelOfTimelineO5thElement.ScheduleRegister scheduleRegister;
+        ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister;
 
         TMP_Text countDownText;
 

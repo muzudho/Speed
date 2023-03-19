@@ -3,11 +3,11 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Models.Timeline.O5thElements;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
+    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
 
     /// <summary>
     /// 入力マネージャー
@@ -16,7 +16,7 @@
     {
         // - フィールド
 
-        ScheduleRegister scheduleRegister;
+        ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister;
 
         /// <summary>
         /// コンピューター・プレイヤー用

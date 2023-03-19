@@ -3,7 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
-    using ModelOfTimelineO5thElement = Assets.Scripts.Vision.Models.Timeline.O5thElements;
+    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
 
     /// <summary>
     /// タイムラインのスケジューラーのストレージ
@@ -19,7 +19,7 @@
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
         internal static void ConvertToSpansToLerp(
-            ModelOfTimelineO5thElement.ScheduleRegister scheduleRegister,
+            ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister,
             float elapsedSeconds,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setSpanToLerp)

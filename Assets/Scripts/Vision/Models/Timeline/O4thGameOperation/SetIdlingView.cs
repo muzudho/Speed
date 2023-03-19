@@ -25,7 +25,7 @@
 
         // - プロパティ
 
-        SetIdling GetModel(ITimedGenerator timedGenerator)
+        SetIdling GetModel(IGameOperationSpan timedGenerator)
         {
             return (SetIdling)timedGenerator.TimedCommandArg.CommandArg;
         }
@@ -36,7 +36,7 @@
         /// ゲーム画面の同期を始めます
         /// </summary>
         public override void CreateSpan(
-            ITimedGenerator timedGenerator,
+            IGameOperationSpan timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
         {
