@@ -1,10 +1,10 @@
-﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.Generator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.Generator
 {
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
     using System;
     using UnityEngine;
-    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
+    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
 
     /// <summary>
     /// 指定のカードを、台札の上へ置く
@@ -20,7 +20,7 @@
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="getBegin"></param>
         /// <param name="idOfCard">カードId</param>
-        internal static SpanOfLeap.Model Generate(
+        internal static VisionOfTimelineO4thElement.Model Generate(
             float startSeconds,
             float duration,
             Player playerObj,
@@ -43,7 +43,7 @@
             Vector3? endPosition = null;
             Quaternion? endRotation = null;
 
-            return new SpanOfLeap.Model(
+            return new VisionOfTimelineO4thElement.Model(
                 startSeconds: startSeconds,
                 duration: duration,
                 target: targetGo,

@@ -1,8 +1,8 @@
-﻿namespace Assets.Scripts.Vision.Replays
+﻿namespace Assets.Scripts.Vision.Models.Replays
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
+    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
 
     static class Demo
     {

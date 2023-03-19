@@ -2,17 +2,17 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
+    using Assets.Scripts.Vision.Models.Replays;
+    using Assets.Scripts.Vision.Models.Timeline;
     using Assets.Scripts.Vision.Models.World;
-    using Assets.Scripts.Vision.Replays;
-    using Assets.Scripts.Vision.Timeline;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
-    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
-    using ViewsOfTimeline = Assets.Scripts.Vision.Timeline;
+    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
+    using ViewsOfTimeline = Assets.Scripts.Vision.Models.Timeline;
+    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
 
     /// <summary>
     /// ゲーム・マネージャー
@@ -233,7 +233,7 @@
         void OnTick()
         {
             // モデルからビューへ、起動したタイム・スパンを引き継ぎたい
-            var additionSpansToLerp = new List<SpanOfLeap.Model>();
+            var additionSpansToLerp = new List<VisionOfTimelineO4thElement.Model>();
 
             // スケジュールを消化していきます
             SchedulerHelper.ConvertToSpansToLerp(

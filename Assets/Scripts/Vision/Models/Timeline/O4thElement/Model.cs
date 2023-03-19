@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thElement
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models.World;

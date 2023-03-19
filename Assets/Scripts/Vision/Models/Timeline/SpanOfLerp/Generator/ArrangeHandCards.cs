@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.Generator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.Generator
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -7,7 +7,7 @@
     using System;
     using System.Collections.Generic;
     using UnityEngine;
-    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
+    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
 
     /// <summary>
     /// 場札を並べる
@@ -37,7 +37,7 @@
             HandCardIndex indexOfPickupObj,
             List<IdOfPlayingCards> idOfHandCards,
             bool keepPickup,
-            LazyArgs.SetValue<SpanOfLeap.Model> setSpanToLerp)
+            LazyArgs.SetValue<VisionOfTimelineO4thElement.Model> setSpanToLerp)
         {
             // 最大25枚の場札が並べるように調整してある
 
@@ -108,7 +108,7 @@
                         homePositionOfHand: staticDestination.GetPosition(),
                         homeRotationOfHand: staticDestination.GetRotation());
 
-                    setSpanToLerp(new SpanOfLeap.Model(
+                    setSpanToLerp(new VisionOfTimelineO4thElement.Model(
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,
@@ -144,7 +144,7 @@
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;
 
-                    setSpanToLerp(new SpanOfLeap.Model(
+                    setSpanToLerp(new VisionOfTimelineO4thElement.Model(
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,

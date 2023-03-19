@@ -3,10 +3,10 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
+    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
     using System.Collections;
     using UnityEngine;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Timeline.TimedCommandArgs;
+    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using TMPro;
 

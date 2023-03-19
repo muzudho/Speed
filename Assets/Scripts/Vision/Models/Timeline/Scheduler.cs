@@ -1,8 +1,8 @@
-﻿namespace Assets.Scripts.Vision.Timeline
+﻿namespace Assets.Scripts.Vision.Models.Timeline
 {
     using System.Collections.Generic;
     using UnityEngine;
-    using VisionOfSpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
+    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
 
     /// <summary>
     /// タイムラインのスケジューラー
@@ -24,7 +24,7 @@
         /// 
         /// - 持続時間が切れると、消えていく
         /// </summary>
-        List<VisionOfSpanOfLeap.Model> ongoingSpansToLerp = new();
+        List<VisionOfTimelineO4thElement.Model> ongoingSpansToLerp = new();
 
         // - メソッド
 
@@ -32,7 +32,7 @@
         /// 追加
         /// </summary>
         /// <param name="additionOfSpansToLerp">追加の要素</param>
-        internal void Add(List<VisionOfSpanOfLeap.Model> additionOfSpansToLerp)
+        internal void Add(List<VisionOfTimelineO4thElement.Model> additionOfSpansToLerp)
         {
             foreach (var spanToLerp in additionOfSpansToLerp)
             {

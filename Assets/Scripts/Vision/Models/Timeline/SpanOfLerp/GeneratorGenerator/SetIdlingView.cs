@@ -1,10 +1,10 @@
-﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.GeneratorGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.GeneratorGenerator
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using SimulatorsOfTimeline = Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
-    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
+    using SimulatorsOfTimeline = Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
+    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
 
     /// <summary>
     /// なんにもしません
@@ -39,7 +39,7 @@
         public override void CreateSpanToLerp(
             SimulatorsOfTimeline.TimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<SpanOfLeap.Model> setViewMovement)
+            LazyArgs.SetValue<VisionOfTimelineO4thElement.Model> setViewMovement)
         {
             // なんにもしません
         }

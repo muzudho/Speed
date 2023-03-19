@@ -1,12 +1,12 @@
-﻿namespace Assets.Scripts.Vision.Replays
+﻿namespace Assets.Scripts.Vision.Models.Replays
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Timeline.TimedCommandArgs;
+    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
+    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
+    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
 
     /// <summary>
     /// 開始局面まで

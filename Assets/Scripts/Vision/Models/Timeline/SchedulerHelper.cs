@@ -1,10 +1,9 @@
-﻿namespace Assets.Scripts.Vision.Timeline
+﻿namespace Assets.Scripts.Vision.Models.Timeline
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
-    using UnityEngine;
-    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
+    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
+    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
 
     /// <summary>
     /// タイムラインのスケジューラーのストレージ
@@ -23,7 +22,7 @@
             ScheduleRegister scheduleRegister,
             float elapsedSeconds,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<SpanOfLeap.Model> setSpanToLerp)
+            LazyArgs.SetValue<VisionOfTimelineO4thElement.Model> setSpanToLerp)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化

@@ -1,7 +1,7 @@
-﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator
 {
-    using Assets.Scripts.Vision.Timeline.SpanOfLerp.GeneratorGenerator;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Timeline.TimedCommandArgs;
+    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.GeneratorGenerator;
+    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
 
     /// <summary>
     /// ゲーム内時間と、時間付きコマンド引数と、スパン生成器を紐づけたもの
