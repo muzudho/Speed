@@ -87,13 +87,13 @@
             foreach (var idOfHandCard in idOfHandCards) // 場札のIdリスト
             {
                 float x = range * Mathf.Cos(theta + playerTheta) + ox;
-                float z = range * Mathf.Sin(theta + playerTheta) + GameView.positionOfHandCardsOrigin[playerObj.AsInt].Z + offsetCircleCenterZ;
+                float z = range * Mathf.Sin(theta + playerTheta) + Vision.Commons.positionOfHandCardsOrigin[playerObj.AsInt].Z + offsetCircleCenterZ;
 
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfHandCard);
 
                 // 目標地点
                 var staticDestination = new PositionAndRotationLazy(
-                    getPosition: () => new Vector3(x, GameView.positionOfHandCardsOrigin[playerObj.AsInt].Y, z),
+                    getPosition: () => new Vector3(x, Vision.Commons.positionOfHandCardsOrigin[playerObj.AsInt].Y, z),
                     getRotation: () => Quaternion.Euler(0, angleY, cardAngleZ));
 
                 if (keepPickup && idOfHandCard == idOfPickupCard)

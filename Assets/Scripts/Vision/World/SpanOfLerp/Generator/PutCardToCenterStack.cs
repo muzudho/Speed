@@ -31,7 +31,7 @@
             // 台札の新しい天辺の座標
             Vector3 nextTop;
             {
-                nextTop = GameView.CreatePositionOfNewCenterStackCard(
+                nextTop = Commons.CreatePositionOfNewCenterStackCard(
                             placeObj: placeObj,
                             previousTop: idOfPreviousTop);
             }
@@ -72,7 +72,7 @@
                         // 初回アクセス時に、値固定
                         if (endPosition == null)
                         {
-                            endPosition = nextTop + GameView.ShakePosition(placeObj);
+                            endPosition = nextTop + Commons.ShakePosition(placeObj);
                         }
                         return endPosition ?? throw new Exception();
                     },
@@ -85,7 +85,7 @@
                             // また、元の捻りを保存していないと、補間で大回転してしまうようだ
 
                             var src = GameObjectStorage.Items[targetGo].transform.rotation; // 抜いた場札
-                            var shake = GameView.ShakeRotation();
+                            var shake = Commons.ShakeRotation();
                             float yByPlayer;
                             if (playerObj.AsInt == 0) // １プレイヤーの方を 180°回転させる
                             {

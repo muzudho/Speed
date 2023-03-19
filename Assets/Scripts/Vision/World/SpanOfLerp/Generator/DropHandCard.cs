@@ -61,7 +61,7 @@
                         if (endPosition == null)
                         {
                             var goCard = GameObjectStorage.Items[idOfGo];
-                            endPosition = goCard.transform.position - GameView.yOfPickup.ToMutable();
+                            endPosition = goCard.transform.position - Commons.yOfPickup.ToMutable();
                         }
                         return endPosition ?? throw new Exception();
                     },
@@ -73,8 +73,8 @@
                             var goCard = GameObjectStorage.Items[idOfGo];
                             endRotation = Quaternion.Euler(
                                 x: goCard.transform.eulerAngles.x,
-                                y: goCard.transform.eulerAngles.y - GameView.rotationOfPickup.EulerAnglesY,
-                                z: goCard.transform.eulerAngles.z - GameView.rotationOfPickup.EulerAnglesZ);
+                                y: goCard.transform.eulerAngles.y - Commons.rotationOfPickup.EulerAnglesY,
+                                z: goCard.transform.eulerAngles.z - Commons.rotationOfPickup.EulerAnglesZ);
                         }
                         return endRotation ?? throw new Exception();
                     }));

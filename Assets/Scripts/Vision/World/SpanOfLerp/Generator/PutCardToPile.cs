@@ -72,7 +72,7 @@
                                 if (lengthOfPile < 1)
                                 {
                                     // 一番下
-                                    endPosition = GameView.positionOfPileCardsOrigin[playerObj.AsInt].ToMutable();
+                                    endPosition = Vision.Commons.positionOfPileCardsOrigin[playerObj.AsInt].ToMutable();
                                 }
                                 // 既存の手札があれば
                                 else

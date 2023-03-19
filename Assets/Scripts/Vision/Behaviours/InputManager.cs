@@ -7,7 +7,7 @@
     using UnityEngine;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using VisionOfInput = Assets.Scripts.Vision.Input;
+    using VisionOfInput = Assets.Scripts.Vision.Models.Input;
 
     /// <summary>
     /// 入力マネージャー

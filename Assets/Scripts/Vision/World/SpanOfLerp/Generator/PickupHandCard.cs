@@ -26,11 +26,11 @@
             Quaternion homeRotationOfHand)
         {
             return new PositionAndRotation(
-                position: homePositionOfHand + GameView.yOfPickup.ToMutable(),
+                position: homePositionOfHand + Commons.yOfPickup.ToMutable(),
                 rotation: Quaternion.Euler(
                     homeRotationOfHand.eulerAngles.x,
-                    homeRotationOfHand.eulerAngles.y + GameView.rotationOfPickup.EulerAnglesY,
-                    homeRotationOfHand.eulerAngles.z + GameView.rotationOfPickup.EulerAnglesZ));
+                    homeRotationOfHand.eulerAngles.y + Commons.rotationOfPickup.EulerAnglesY,
+                    homeRotationOfHand.eulerAngles.z + Commons.rotationOfPickup.EulerAnglesZ));
         }
 
         /// <summary>
@@ -86,7 +86,7 @@
                             // 初回アクセス時に、値固定
                             if (endPosition == null)
                             {
-                                endPosition = getBegin().GetPosition() + GameView.yOfPickup.ToMutable();
+                                endPosition = getBegin().GetPosition() + Commons.yOfPickup.ToMutable();
                             }
                             return endPosition ?? throw new Exception();
                         },
@@ -99,8 +99,8 @@
 
                                 endRotation = Quaternion.Euler(
                                     rot.eulerAngles.x,
-                                    rot.eulerAngles.y + GameView.rotationOfPickup.EulerAnglesY,
-                                    rot.eulerAngles.z + GameView.rotationOfPickup.EulerAnglesZ);
+                                    rot.eulerAngles.y + Commons.rotationOfPickup.EulerAnglesY,
+                                    rot.eulerAngles.z + Commons.rotationOfPickup.EulerAnglesZ);
                             }
 
                             return endRotation ?? throw new Exception();

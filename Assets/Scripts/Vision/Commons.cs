@@ -1,7 +1,8 @@
-﻿namespace Assets.Scripts.Vision.World.Views
+﻿namespace Assets.Scripts.Vision
 {
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
+    using Assets.Scripts.Vision.World.Views;
     using System;
     using UnityEngine;
 
@@ -11,7 +12,7 @@
     /// 西端: -62.0f
     /// 東端: 62.0f
     /// </summary>
-    public static class GameView
+    public static class Commons
     {
         // - プロパティー
 
@@ -92,7 +93,7 @@
                 z: (positionOfCenterStacksOrigin[placeObj.AsInt].Z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[placeObj.AsInt].Z);
 
             // カードの厚み分、上へ
-            pos = GameView.yOfCardThickness.Add(pos);
+            pos = Commons.yOfCardThickness.Add(pos);
 
             return pos;
         }

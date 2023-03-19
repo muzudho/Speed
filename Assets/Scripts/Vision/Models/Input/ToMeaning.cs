@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Input
+﻿namespace Assets.Scripts.Vision.Models.Input
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
