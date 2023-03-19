@@ -6,8 +6,8 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
-    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
+    using ModelOfSchedulerO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
+    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
     /// 入力マネージャー
@@ -16,7 +16,7 @@
     {
         // - フィールド
 
-        ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister;
+        ModelOfSchedulerO7thTimeline.Model timeline;
 
         /// <summary>
         /// コンピューター・プレイヤー用
@@ -47,11 +47,11 @@
         void Start()
         {
             var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-            scheduleRegister = gameManager.ScheduleRegister;
+            timeline = gameManager.Timeline;
             gameModel = gameManager.Model;
 
             this.stalemateManager = GameObject.Find("Stalemate Manager").GetComponent<StalemateManager>();
-            this.stalemateManager.Init(this.scheduleRegister);
+            this.stalemateManager.Init(this.timeline);
         }
 
         /// <summary>
@@ -128,12 +128,12 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                    var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.RightCenterStack)); // 右の
 
                     spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
-                    scheduleRegister.AddJustNow(timedCommandArg);
+                    timeline.AddJustNow(timedCommandArg);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -148,12 +148,12 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                    var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.RightCenterStack)); // 右の
 
                     spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
-                    scheduleRegister.AddJustNow(timedCommandArg);
+                    timeline.AddJustNow(timedCommandArg);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -171,12 +171,12 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                    var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.LeftCenterStack));  // 左の
 
                     spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
-                    scheduleRegister.AddJustNow(timedCommandArg);
+                    timeline.AddJustNow(timedCommandArg);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -191,12 +191,12 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                    var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.LeftCenterStack));  // 左の
 
                     spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
-                    scheduleRegister.AddJustNow(timedCommandArg);
+                    timeline.AddJustNow(timedCommandArg);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -221,12 +221,12 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                        var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft));
 
                         spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
-                        scheduleRegister.AddJustNow(timedCommandArg);
+                        timeline.AddJustNow(timedCommandArg);
                     }
                 }
                 // 行動：
@@ -238,12 +238,12 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                        var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
                             directionObj: Commons.PickRight));
 
                         spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
-                        scheduleRegister.AddJustNow(timedCommandArg);
+                        timeline.AddJustNow(timedCommandArg);
                     }
                 }
             }
@@ -265,12 +265,12 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                        var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft));
 
                         spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
-                        scheduleRegister.AddJustNow(timedCommandArg);
+                        timeline.AddJustNow(timedCommandArg);
                     }
                 }
                 // 行動：
@@ -282,12 +282,12 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                        var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
                             directionObj: Commons.PickRight));
 
                         spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
-                        scheduleRegister.AddJustNow(timedCommandArg);
+                        timeline.AddJustNow(timedCommandArg);
                     }
                 }
             }
@@ -299,12 +299,12 @@
                 foreach (var playerObj in Commons.Players)
                 {
                     // 場札を並べる
-                    var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardsToHandFromPileModel(
+                    var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardsToHandFromPileModel(
                         playerObj: playerObj,
                         numberOfCards: 1));
 
                     spamSeconds[playerObj.AsInt] = timedCommandArg.Duration;
-                    scheduleRegister.AddJustNow(timedCommandArg);
+                    timeline.AddJustNow(timedCommandArg);
                 }
             }
         }

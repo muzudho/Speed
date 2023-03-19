@@ -7,8 +7,8 @@
     using TMPro;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
-    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
+    using ModelOfSchedulerO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
+    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
     /// 両プレイヤーが置けるカードがなくなってしまったとき、
@@ -22,14 +22,14 @@
         /// <summary>
         /// 初期化
         /// </summary>
-        internal void Init(ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister)
+        internal void Init(ModelOfSchedulerO7thTimeline.Model timeline)
         {
-            this.scheduleRegister = scheduleRegister;
+            this.timeline = timeline;
         }
 
         // - フィールド
 
-        ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister;
+        ModelOfSchedulerO7thTimeline.Model timeline;
 
         TMP_Text countDownText;
 
@@ -119,19 +119,19 @@
             this.countDownText.text = "";
             {
                 // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                     playerObj: Commons.Player1,      // １プレイヤーが
                     placeObj: Commons.RightCenterStack)); // 右の
 
-                this.scheduleRegister.AddJustNow(timedCommandArg);
+                this.timeline.AddJustNow(timedCommandArg);
             }
             {
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
                     playerObj: Commons.Player2,      // ２プレイヤーが
                     placeObj: Commons.LeftCenterStack)); // 左の
 
-                this.scheduleRegister.AddJustNow(timedCommandArg);
+                this.timeline.AddJustNow(timedCommandArg);
             }
             yield return new WaitForSeconds(1f);
 

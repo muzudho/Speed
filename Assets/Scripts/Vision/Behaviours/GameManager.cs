@@ -3,16 +3,15 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.Replays;
-    using Assets.Scripts.Vision.Models.Timeline;
     using Assets.Scripts.Vision.Models.World;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfTimeline = Assets.Scripts.Vision.Models.Timeline;
-    using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
-    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
+    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
+    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
+    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
     /// ゲーム・マネージャー
@@ -23,7 +22,7 @@
     {
         // - フィールド
 
-        ModelOfTimeline.Scheduler scheduler;
+        ModelOfScheduler.Model scheduler;
 
         // ゲーム内単位時間
         float tickSeconds = 1.0f / 60.0f;
@@ -54,19 +53,19 @@
         /// <summary>
         /// スケジュール・レジスター
         /// </summary>
-        internal ModelOfTimelineO7thScheduler.ScheduleRegister ScheduleRegister
+        internal ModelOfSchedulerO7thTimeline.Model Timeline
         {
             get
             {
-                if (scheduleRegister == null)
+                if (timeline == null)
                 {
                     // スケジューラー・レジスターは、ゲーム・モデルを持つ。
-                    scheduleRegister = new ModelOfTimelineO7thScheduler.ScheduleRegister(this.Model);
+                    timeline = new ModelOfSchedulerO7thTimeline.Model(this.Model);
                 }
-                return scheduleRegister;
+                return timeline;
             }
         }
-        ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister;
+        ModelOfSchedulerO7thTimeline.Model timeline;
 
         // - メソッド
 
@@ -78,15 +77,15 @@
             // 開始局面まで登録
             SetStartPosition.DoIt(
                 modelBuffer,
-                this.ScheduleRegister);
+                this.Timeline);
 
             // 以下、デモ・プレイを登録
-            // SetupDemo(this.ScheduleRegister);
+            // SetupDemo(this.Timeline);
 
             // 【OnTick を ○秒後に呼び出し、以降は tickSeconds 秒毎に実行】
             InvokeRepeating(
                 methodName: nameof(OnTick),
-                time: this.ScheduleRegister.LastSeconds(),
+                time: this.Timeline.LastSeconds(),
                 repeatRate: tickSeconds);
         }
 
@@ -153,7 +152,7 @@
             GameObjectStorage.Add(IdOfGameObjects.Spades13, GameObject.Find($"Spades 13"));
 
             // Lerp を実行するだけのクラス
-            this.scheduler = new ModelOfTimeline.Scheduler();
+            this.scheduler = new ModelOfScheduler.Model();
 
             // ゲーム初期状態へセット
             {
@@ -233,11 +232,11 @@
         void OnTick()
         {
             // モデルからビューへ、起動したタイム・スパンを引き継ぎたい
-            var additionSpansToLerp = new List<ModelOfTimelineO1stSpan.IBasecaseSpan>();
+            var additionSpansToLerp = new List<ModelOfSchedulerO1stTimelineSpan.IModel>();
 
             // スケジュールを消化していきます
-            SchedulerHelper.ConvertToSpansToLerp(
-                this.ScheduleRegister,
+            ModelOfScheduler.Helper.ConvertToSpans(
+                this.Timeline,
                 modelBuffer.ElapsedSeconds,
                 modelBuffer,
                 setSpanToLerp: (spanToLerp) =>
@@ -249,7 +248,7 @@
             this.scheduler.Add(additionSpansToLerp);
             this.scheduler.DrawThisMoment(modelBuffer.ElapsedSeconds);
 
-            //this.ScheduleRegister.DebugWrite();
+            //this.Timeline.DebugWrite();
             //this.playerToLerp.DebugWrite();
 
             modelBuffer.ElapsedSeconds += tickSeconds;

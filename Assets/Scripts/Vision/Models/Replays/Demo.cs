@@ -2,7 +2,7 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
+    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     static class Demo
     {
@@ -13,7 +13,7 @@
         /// 
         /// - デモ
         /// </summary>
-        static void SetupDemo(ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister)
+        static void SetupDemo(ModelOfSchedulerO7thTimeline.Model timeline)
         {
             // 卓準備
 
@@ -23,7 +23,7 @@
             // 間
             foreach (var playerObj in Commons.Players)
             {
-                scheduleRegister.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
+                timeline.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
             }
 
             // ゲーム・デモ開始
@@ -38,7 +38,7 @@
                         var spanModel = new MoveFocusToNextCardModel(
                                 playerObj: playerObj,
                                 directionObj: Commons.PickRight);
-                        scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                        timeline.AddWithinScheduler(playerObj, spanModel);
                     }
 
                     // ２プレイヤーの右隣のカードへフォーカスを移します
@@ -47,13 +47,13 @@
                         var spanModel = new MoveFocusToNextCardModel(
                                 playerObj: playerObj,
                                 directionObj: Commons.PickRight);
-                        scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                        timeline.AddWithinScheduler(playerObj, spanModel);
                     }
 
                     // 間
                     foreach (var playerObj in Commons.Players)
                     {
-                        scheduleRegister.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
+                        timeline.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
                     }
                 }
             }
@@ -65,21 +65,21 @@
                     var spanModel = new MoveCardToCenterStackFromHandModel(
                             playerObj: playerObj, // １プレイヤーが
                             placeObj: Commons.LeftCenterStack); // 左の台札
-                    scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                    timeline.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
                     var playerObj = Commons.Player2;
                     var spanModel = new MoveCardToCenterStackFromHandModel(
                             playerObj: playerObj, // ２プレイヤーが
                             placeObj: Commons.RightCenterStack); // 右の台札
-                    scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                    timeline.AddWithinScheduler(playerObj, spanModel);
                 }
             }
 
             // 間
             foreach (var playerObj in Commons.Players)
             {
-                scheduleRegister.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
+                timeline.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
             }
 
             // 登録：手札から１枚引く
@@ -90,7 +90,7 @@
                     var spanModel = new MoveCardsToHandFromPileModel(
                             playerObj: playerObj,
                             numberOfCards: 1);
-                    scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                    timeline.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
                     // ２プレイヤーは手札から１枚抜いて、場札として置く
@@ -98,7 +98,7 @@
                     var spanModel = new MoveCardsToHandFromPileModel(
                             playerObj: playerObj,
                             numberOfCards: 1);
-                    scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                    timeline.AddWithinScheduler(playerObj, spanModel);
                 }
             }
         }

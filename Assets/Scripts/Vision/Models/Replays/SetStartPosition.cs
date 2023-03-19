@@ -4,30 +4,30 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
-    using ModelOfTimelineO5thGameOperationSpan = Assets.Scripts.Vision.Models.Timeline.O5thGameOperationSpan;
-    using ModelOfTimelineO6thGameOperationMapping = Assets.Scripts.Vision.Models.Timeline.O6thGameOperationMapping;
-    using ModelOfTimelineO7thScheduler = Assets.Scripts.Vision.Models.Timeline.O7thScheduler;
+    using ModelOfSchedulerO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
+    using ModelOfSchedulerO5thGameOperationSpan = Assets.Scripts.Vision.Models.Scheduler.O5thGameOperationSpan;
+    using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thGameOperationMapping;
+    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
     /// 開始局面まで
     /// </summary>
     static class SetStartPosition
     {
-        internal static void DoIt(GameModelBuffer modelBuffer, ModelOfTimelineO7thScheduler.ScheduleRegister scheduleRegister)
+        internal static void DoIt(GameModelBuffer modelBuffer, ModelOfSchedulerO7thTimeline.Model timeline)
         {
             var model = new ModelOfGame.Default(modelBuffer);
 
             while (0 < model.GetLengthOfCenterStackCards(Commons.RightCenterStack))
             {
                 // 即実行
-                var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
+                var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
                         placeObj: Commons.RightCenterStack
                         ));
-                var timedGenerator = new ModelOfTimelineO5thGameOperationSpan.Model(
+                var timedGenerator = new ModelOfSchedulerO5thGameOperationSpan.Model(
                         startSeconds: 0.0f,
                         timedCommandArg: timedCommandArg,
-                        gameOperation: ModelOfTimelineO6thGameOperationMapping.Model.NewGameOperationFromModel(timedCommandArg.GetType()));
+                        gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewGameOperationFromModel(timedCommandArg.GetType()));
                 timedGenerator.GameOperation.CreateSpan(
                     timedGenerator,
                     modelBuffer,
@@ -40,14 +40,14 @@
                 var spanModel = new MoveCardsToHandFromPileModel(
                         playerObj: playerObj,
                         numberOfCards: 5);
-                scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                timeline.AddWithinScheduler(playerObj, spanModel);
             }
             {
                 var playerObj = Commons.Player2;
                 var spanModel = new MoveCardsToHandFromPileModel(
                         playerObj: playerObj,
                         numberOfCards: 5);
-                scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                timeline.AddWithinScheduler(playerObj, spanModel);
             }
 
             // 間
@@ -57,7 +57,7 @@
             {
                 foreach (var playerObj in Commons.Players)
                 {
-                    scheduleRegister.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
+                    timeline.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
                 }
             }
 
@@ -69,7 +69,7 @@
                     var spanModel = new MoveCardToCenterStackFromHandModel(
                             playerObj: playerObj, // １プレイヤーが
                             placeObj: Commons.RightCenterStack); // 右の
-                    scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                    timeline.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
@@ -77,7 +77,7 @@
                     var spanModel = new MoveCardToCenterStackFromHandModel(
                             playerObj: playerObj, // ２プレイヤーが
                             placeObj: Commons.LeftCenterStack); // 左の;
-                    scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                    timeline.AddWithinScheduler(playerObj, spanModel);
                 }
             }
 
@@ -88,13 +88,13 @@
 
                 {
                     var playerObj = Commons.Player1; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
-                    scheduleRegister.AddWithinScheduler(playerObj, spanModel);
+                    timeline.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
-                    scheduleRegister.AddScheduleSeconds(
+                    timeline.AddScheduleSeconds(
                         playerObj: playerObj,
-                        seconds: new ModelOfTimelineO2ndTimedCommandArgs.Model(spanModel).Duration);
+                        seconds: new ModelOfSchedulerO2ndTimedCommandArgs.Model(spanModel).Duration);
                 }
             }
 
