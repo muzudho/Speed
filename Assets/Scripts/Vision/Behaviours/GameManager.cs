@@ -11,8 +11,8 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfTimeline = Assets.Scripts.Vision.Models.Timeline;
-    using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
     using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
+    using ModelOfTimelineO5thElement = Assets.Scripts.Vision.Models.Timeline.O5thElements;
 
     /// <summary>
     /// ゲーム・マネージャー
@@ -54,19 +54,19 @@
         /// <summary>
         /// スケジュール・レジスター
         /// </summary>
-        internal ModelOfTimelineO1stElement.ScheduleRegister ScheduleRegister
+        internal ModelOfTimelineO5thElement.ScheduleRegister ScheduleRegister
         {
             get
             {
                 if (scheduleRegister == null)
                 {
                     // スケジューラー・レジスターは、ゲーム・モデルを持つ。
-                    scheduleRegister = new ModelOfTimelineO1stElement.ScheduleRegister(this.Model);
+                    scheduleRegister = new ModelOfTimelineO5thElement.ScheduleRegister(this.Model);
                 }
                 return scheduleRegister;
             }
         }
-        ModelOfTimelineO1stElement.ScheduleRegister scheduleRegister;
+        ModelOfTimelineO5thElement.ScheduleRegister scheduleRegister;
 
         // - メソッド
 

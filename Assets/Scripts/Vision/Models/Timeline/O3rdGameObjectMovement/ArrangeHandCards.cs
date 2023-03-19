@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdSpanGenerator
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -30,7 +30,7 @@
         /// <param name="idOfHandCards">場札のIdリスト</param>
         /// <param name="setSpanToLerp"></param>
         /// <exception cref="Exception"></exception>
-        internal static void Generate(
+        internal static void GenerateSpan(
             float startSeconds,
             float duration,
             Player playerObj,
@@ -108,7 +108,7 @@
                         homePositionOfHand: staticDestination.GetPosition(),
                         homeRotationOfHand: staticDestination.GetRotation());
 
-                    setSpanToLerp(Helper.Generate(
+                    setSpanToLerp(Helper.GenerateSpan(
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,
@@ -144,7 +144,7 @@
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;
 
-                    setSpanToLerp(Helper.Generate(
+                    setSpanToLerp(Helper.GenerateSpan(
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,

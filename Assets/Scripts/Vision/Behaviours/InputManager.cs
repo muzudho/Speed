@@ -3,7 +3,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Models.Timeline.O1stElements;
+    using Assets.Scripts.Vision.Models.Timeline.O5thElements;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;

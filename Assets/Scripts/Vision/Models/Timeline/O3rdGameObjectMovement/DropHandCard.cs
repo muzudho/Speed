@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdSpanGenerator
 {
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
@@ -7,53 +7,41 @@
     using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
 
     /// <summary>
-    /// 指定のカードを、台札の上へ置く
+    /// 指定のカードを下ろす
     /// 
-    /// - ピックアップしているカード用
+    /// - ピックアップしている場札用
     /// </summary>
-    internal static class PutCardToCenterStack
+    static class DropHandCard
     {
         /// <summary>
         /// ムーブメント生成
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
-        /// <param name="getBegin"></param>
-        /// <param name="idOfCard">カードId</param>
-        internal static ModelOfTimelineO1stSpan.IBasecaseSpan Generate(
+        /// <param name="idOfCard">ピックアップしているカードのId</param>
+        internal static ModelOfTimelineO1stSpan.IBasecaseSpan GenerateSpan(
             float startSeconds,
             float duration,
-            Player playerObj,
-            CenterStackPlace placeObj,
-            IdOfPlayingCards target,
-            IdOfPlayingCards idOfPreviousTop)
+            IdOfPlayingCards idOfCard)
         {
-            // 台札の新しい天辺の座標
-            Vector3 nextTop;
-            {
-                nextTop = Commons.CreatePositionOfNewCenterStackCard(
-                            placeObj: placeObj,
-                            previousTop: idOfPreviousTop);
-            }
-
-            var targetGo = IdMapping.GetIdOfGameObject(target);
+            var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
             Vector3? startPosition = null;
             Quaternion? startRotation = null;
             Vector3? endPosition = null;
             Quaternion? endRotation = null;
 
-            return Helper.Generate(
+            return Helper.GenerateSpan(
                 startSeconds: startSeconds,
                 duration: duration,
-                target: targetGo,
+                target: idOfGo,
                 getBegin: () => new PositionAndRotationLazy(
                     getPosition: () =>
                     {
                         // 初回アクセス時に、値固定
                         if (startPosition == null)
                         {
-                            startPosition = GameObjectStorage.Items[targetGo].transform.position; // 抜いた場札
+                            startPosition = GameObjectStorage.Items[idOfGo].transform.position;
                         }
                         return startPosition ?? throw new Exception();
                     },
@@ -62,7 +50,7 @@
                         // 初回アクセス時に、値固定
                         if (startRotation == null)
                         {
-                            startRotation = GameObjectStorage.Items[targetGo].transform.rotation; // 抜いた場札
+                            startRotation = GameObjectStorage.Items[idOfGo].transform.rotation;
                         }
                         return startRotation ?? throw new Exception();
                     }),
@@ -72,7 +60,8 @@
                         // 初回アクセス時に、値固定
                         if (endPosition == null)
                         {
-                            endPosition = nextTop + Commons.ShakePosition(placeObj);
+                            var goCard = GameObjectStorage.Items[idOfGo];
+                            endPosition = goCard.transform.position - Commons.yOfPickup.ToMutable();
                         }
                         return endPosition ?? throw new Exception();
                     },
@@ -81,29 +70,14 @@
                         // 初回アクセス時に、値固定
                         if (endRotation == null)
                         {
-                            // １プレイヤー、２プレイヤーでカードの向きが違う
-                            // また、元の捻りを保存していないと、補間で大回転してしまうようだ
-
-                            var src = GameObjectStorage.Items[targetGo].transform.rotation; // 抜いた場札
-                            var shake = Commons.ShakeRotation();
-                            float yByPlayer;
-                            if (playerObj.AsInt == 0) // １プレイヤーの方を 180°回転させる
-                            {
-                                yByPlayer = 180.0f;
-                            }
-                            else
-                            {
-                                yByPlayer = 0.0f;
-                            }
-
+                            var goCard = GameObjectStorage.Items[idOfGo];
                             endRotation = Quaternion.Euler(
-                                x: src.x + shake.x,
-                                y: src.y + shake.y + yByPlayer,
-                                z: src.z + shake.z);
+                                x: goCard.transform.eulerAngles.x,
+                                y: goCard.transform.eulerAngles.y - Commons.rotationOfPickup.EulerAnglesY,
+                                z: goCard.transform.eulerAngles.z - Commons.rotationOfPickup.EulerAnglesZ);
                         }
                         return endRotation ?? throw new Exception();
                     }));
         }
-
     }
 }

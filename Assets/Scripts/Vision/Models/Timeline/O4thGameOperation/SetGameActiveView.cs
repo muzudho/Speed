@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdBElements
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thGameOperation
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -8,7 +8,7 @@
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    class SetGameActiveView : AbstractSpanGenerator
+    class SetGameActiveView : ItsAbstract
     {
         // - その他（生成）
 
@@ -16,7 +16,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanGenerator Spawn()
+        public override IModel NewThis()
         {
             return new SetGameActiveView();
         }
@@ -37,7 +37,7 @@
         /// <summary>
         /// ゲーム画面の同期を始めます
         /// </summary>
-        public override void CreateSpanToLerp(
+        public override void CreateSpan(
             ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)

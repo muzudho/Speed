@@ -3,10 +3,10 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Models.Timeline.O1stElements;
+    using Assets.Scripts.Vision.Models.Timeline.O5thElements;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
     using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
+    using ModelOfTimelineO5thElement = Assets.Scripts.Vision.Models.Timeline.O5thElements;
 
     /// <summary>
     /// 開始局面まで
@@ -23,11 +23,11 @@
                 var timedCommandArg = new ModelOfTimelineO2ndTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
                         placeObj: Commons.RightCenterStack
                         ));
-                var timedGenerator = new ModelOfTimelineO1stElement.TimedGenerator(
+                var timedGenerator = new ModelOfTimelineO5thElement.TimedGenerator(
                         startSeconds: 0.0f,
                         timedCommandArg: timedCommandArg,
-                        spanGenerator: ModelOfTimelineO1stElement.Mapping.SpawnViewFromModel(timedCommandArg.GetType()));
-                timedGenerator.SpanGenerator.CreateSpanToLerp(
+                        gameOperation: ModelOfTimelineO5thElement.Mapping.NewGameOperationFromModel(timedCommandArg.GetType()));
+                timedGenerator.GameOperation.CreateSpan(
                     timedGenerator,
                     modelBuffer,
                     setSpanToLerp: (movementViewModel) => movementViewModel.Lerp(1.0f));

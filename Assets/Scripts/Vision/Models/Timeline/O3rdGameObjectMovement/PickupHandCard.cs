@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdSpanGenerator
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -40,7 +40,7 @@
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="getBegin"></param>
         /// <param name="idOfCard">カードId</param>
-        internal static ModelOfTimelineO1stSpan.IBasecaseSpan Generate(
+        internal static ModelOfTimelineO1stSpan.IBasecaseSpan GenerateSpan(
             float startSeconds,
             float duration,
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
@@ -52,7 +52,7 @@
             Vector3? endPosition = null;
             Quaternion? endRotation = null;
 
-            return Helper.Generate(
+            return Helper.GenerateSpan(
                 startSeconds: startSeconds,
                 duration: duration,
                 target: IdMapping.GetIdOfGameObject(idOfCard),

@@ -1,12 +1,12 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O1stElements
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O5thElements
 {
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
     using ModelOfTimelineO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
+    using ModelOfTimelineO5thElement = Assets.Scripts.Vision.Models.Timeline.O5thElements;
 
     /// <summary>
     /// シミュレーター
@@ -59,10 +59,10 @@
         /// <param name="commandArg">コマンド引数</param>
         internal void AddJustNow(ModelOfTimelineO2ndTimedCommandArgs.Model timedCommandArg)
         {
-            var timedGenerator = new ModelOfTimelineO1stElement.TimedGenerator(
+            var timedGenerator = new ModelOfTimelineO5thElement.TimedGenerator(
                     startSeconds: GameModel.ElapsedSeconds,
                     timedCommandArg: timedCommandArg,
-                    spanGenerator: ModelOfTimelineO1stElement.Mapping.SpawnViewFromModel(timedCommandArg.CommandArg.GetType()));
+                    gameOperation: ModelOfTimelineO5thElement.Mapping.NewGameOperationFromModel(timedCommandArg.CommandArg.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
         }
@@ -76,10 +76,10 @@
         /// <param name="commandArg">コマンド引数</param>
         internal void AddWithinScheduler(Player playerObj, ICommandArg commandArg)
         {
-            var timedGenerator = new ModelOfTimelineO1stElement.TimedGenerator(
+            var timedGenerator = new ModelOfTimelineO5thElement.TimedGenerator(
                     startSeconds: this.ScheduledSeconds[playerObj.AsInt],
                     timedCommandArg: new ModelOfTimelineO2ndTimedCommandArgs.Model(commandArg),
-                    spanGenerator: ModelOfTimelineO1stElement.Mapping.SpawnViewFromModel(commandArg.GetType()));
+                    gameOperation: ModelOfTimelineO5thElement.Mapping.NewGameOperationFromModel(commandArg.GetType()));
 
             this.TimedGenerators.Add(timedGenerator);
             this.ScheduledSeconds[playerObj.AsInt] += timedGenerator.TimedCommandArg.Duration;

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdBElements
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thGameOperation
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -9,7 +9,7 @@
     /// 
     /// - 指定した時間と、そのとき実行されるコマンドのペア
     /// </summary>
-    internal abstract class AbstractSpanGenerator : ISpanGenerator
+    internal abstract class ItsAbstract : IModel
     {
         // - その他（生成）
 
@@ -17,7 +17,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public abstract ISpanGenerator Spawn();
+        public abstract IModel NewThis();
 
         // - プロパティ
 
@@ -29,7 +29,7 @@
         /// <param name="timedGenerator"></param>
         /// <param name="gameModelBuffer"></param>
         /// <param name="setViewMovement"></param>
-        virtual public void CreateSpanToLerp(
+        virtual public void CreateSpan(
             ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)

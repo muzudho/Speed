@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdBElements
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thGameOperation
 {
     using ModelOfTimelineTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.O2ndTimedCommandArgs;
 
@@ -18,6 +18,6 @@
 
         public ModelOfTimelineTimedCommandArgs.Model TimedCommandArg { get; }
 
-        public ISpanGenerator SpanGenerator { get; }
+        public IModel GameOperation { get; }
     }
 }

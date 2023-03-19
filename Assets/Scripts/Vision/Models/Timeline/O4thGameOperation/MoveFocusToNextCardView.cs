@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdBElements
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thGameOperation
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -8,12 +8,12 @@
     using System;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
-    using ModelOfTimelineO4thSpanGenerator = Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator;
+    using ModelOfTimelineO3rdSpanGenerator = Assets.Scripts.Vision.Models.Timeline.O3rdSpanGenerator;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>
-    class MoveFocusToNextCardView : AbstractSpanGenerator
+    class MoveFocusToNextCardView : ItsAbstract
     {
         // - 生成
 
@@ -21,7 +21,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanGenerator Spawn()
+        public override IModel NewThis()
         {
             return new MoveFocusToNextCardView();
         }
@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
-        public override void CreateSpanToLerp(
+        public override void CreateSpan(
             ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
@@ -95,7 +95,7 @@
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(GetModel(timedGenerator).PlayerObj, indexOfPreviousObj); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
-                setViewMovement(ModelOfTimelineO4thSpanGenerator.DropHandCard.Generate(
+                setViewMovement(ModelOfTimelineO3rdSpanGenerator.DropHandCard.GenerateSpan(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.TimedCommandArg.Duration,
                     idOfCard: idOfCard));
@@ -110,7 +110,7 @@
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
-                setViewMovement(ModelOfTimelineO4thSpanGenerator.PickupHandCard.Generate(
+                setViewMovement(ModelOfTimelineO3rdSpanGenerator.PickupHandCard.GenerateSpan(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.TimedCommandArg.Duration,
                     idOfCard: idOfCard,

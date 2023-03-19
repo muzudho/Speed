@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdSpanGenerator
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -20,7 +20,7 @@
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="target">ゲーム・オブジェクトId</param>
         /// <returns></returns>
-        internal static ModelOfTimelineO1stSpan.IBasecaseSpan Generate(
+        internal static ModelOfTimelineO1stSpan.IBasecaseSpan GenerateSpan(
             float startSeconds,
             float duration,
             Player playerObj,
@@ -38,7 +38,7 @@
             Vector3? endPosition = null;
             Quaternion? endRotation = null;
 
-            return Helper.Generate(
+            return Helper.GenerateSpan(
                 startSeconds: startSeconds,
                 duration: duration,
                 target: target,

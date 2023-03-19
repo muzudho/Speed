@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdBElements
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thGameOperation
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -6,12 +6,12 @@
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
-    using ModelOfTimelineO4thSpanGenerator = Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator;
+    using ModelOfTimelineO3rdSpanGenerator = Assets.Scripts.Vision.Models.Timeline.O3rdSpanGenerator;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    class MoveCardsToHandFromPileView : AbstractSpanGenerator
+    class MoveCardsToHandFromPileView : ItsAbstract
     {
         // - その他（生成）
 
@@ -19,7 +19,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanGenerator Spawn()
+        public override IModel NewThis()
         {
             return new MoveCardsToHandFromPileView();
         }
@@ -39,7 +39,7 @@
         /// - 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
         /// - 画面上の場札は位置調整される
         /// </summary>
-        public override void CreateSpanToLerp(
+        public override void CreateSpan(
             ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
@@ -80,7 +80,7 @@
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
             {
-                ModelOfTimelineO4thSpanGenerator.ArrangeHandCards.Generate(
+                ModelOfTimelineO3rdSpanGenerator.ArrangeHandCards.GenerateSpan(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.TimedCommandArg.Duration,
                     playerObj: playerObj,

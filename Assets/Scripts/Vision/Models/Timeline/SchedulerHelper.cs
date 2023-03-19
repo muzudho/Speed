@@ -2,8 +2,8 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
-    using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
     using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
+    using ModelOfTimelineO5thElement = Assets.Scripts.Vision.Models.Timeline.O5thElements;
 
     /// <summary>
     /// タイムラインのスケジューラーのストレージ
@@ -19,7 +19,7 @@
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
         internal static void ConvertToSpansToLerp(
-            ModelOfTimelineO1stElement.ScheduleRegister scheduleRegister,
+            ModelOfTimelineO5thElement.ScheduleRegister scheduleRegister,
             float elapsedSeconds,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setSpanToLerp)
@@ -46,7 +46,7 @@
                 scheduleRegister.RemoveAt(i);
 
                 // ゲーム画面の同期を始めます
-                timeSpan.SpanGenerator.CreateSpanToLerp(
+                timeSpan.GameOperation.CreateSpan(
                     timeSpan,
                     gameModelBuffer,
                     setSpanToLerp: setSpanToLerp);

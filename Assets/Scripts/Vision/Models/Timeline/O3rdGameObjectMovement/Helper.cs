@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdSpanGenerator
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models.World;
@@ -14,7 +14,7 @@
         /// <param name="target">ゲーム・オブジェクトId</param>
         /// <param name="getBegin">開始時の位置と回転</param>
         /// <param name="getEnd">終了時の位置と回転</param>
-        internal static ModelOfTimelineO1stSpan.IBasecaseSpan Generate(
+        internal static ModelOfTimelineO1stSpan.IBasecaseSpan GenerateSpan(
             float startSeconds,
             float duration,
             IdOfGameObjects target,

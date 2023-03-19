@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdBElements
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thGameOperation
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -6,12 +6,12 @@
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using System;
     using ModelOfTimelineO1stSpan = Assets.Scripts.Vision.Models.Timeline.O1stSpan;
-    using ModelOfTimelineO4thSpanGenerator = Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator;
+    using ModelOfTimelineO3rdSpanGenerator = Assets.Scripts.Vision.Models.Timeline.O3rdSpanGenerator;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    class MoveCardsToPileFromCenterStacksView : AbstractSpanGenerator
+    class MoveCardsToPileFromCenterStacksView : ItsAbstract
     {
         // - 生成
 
@@ -19,7 +19,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override ISpanGenerator Spawn()
+        public override IModel NewThis()
         {
             return new MoveCardsToPileFromCenterStacksView();
         }
@@ -40,7 +40,7 @@
         /// - ゲーム開始時に使う
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        public override void CreateSpanToLerp(
+        public override void CreateSpan(
             ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfTimelineO1stSpan.IBasecaseSpan> setViewMovement)
@@ -76,7 +76,7 @@
                 // プレイヤーの手札を積み上げる
                 gameModelBuffer.AddCardOfPlayersPile(playerObj, idOfCardOfCenterStack);
 
-                setViewMovement(ModelOfTimelineO4thSpanGenerator.PutCardToPile.Generate(
+                setViewMovement(ModelOfTimelineO3rdSpanGenerator.PutCardToPile.GenerateSpan(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.TimedCommandArg.Duration,
                     playerObj: playerObj,
