@@ -1,27 +1,24 @@
-namespace Assets.Scripts.Vision.UserInterface
+ï»¿namespace Assets.Scripts.Vision.Behaviours
 {
     using Assets.Scripts.ThinkingEngine;
-    using System.Collections;
     using UnityEngine;
-    using VisionOfInput = Assets.Scripts.Vision.Input;
-    using VisionOfWorld = Assets.Scripts.Vision.World;
 
     /// <summary>
-    /// ƒ†[ƒU[EƒCƒ“ƒ^[ƒtƒF[ƒXEƒ}ƒl[ƒWƒƒ[
+    /// ãƒ¦ãƒ¼ã‚¶ãƒ¼ãƒ»ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
     /// </summary>
-    public class Manager : MonoBehaviour
+    public class UserInterfaceManager : MonoBehaviour
     {
-        // ƒtƒB[ƒ‹ƒh
+        // ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
 
         [SerializeField] GameObject playerSelectBackground;
         [SerializeField] GameObject playerButtons;
         [SerializeField] GameObject p1Keys;
         [SerializeField] GameObject p2Keys;
 
-        VisionOfWorld.GameManager gameManager;
-        VisionOfInput.Manager inputManager;
+        GameManager gameManager;
+        InputManager inputManager;
 
-        // - ƒƒ\ƒbƒh
+        // - ãƒ¡ã‚½ãƒƒãƒ‰
 
         public void On1pVs2p()
         {
@@ -59,13 +56,13 @@ namespace Assets.Scripts.Vision.UserInterface
             gameManager.StartGame();
         }
 
-        // - ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
+        // - ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
 
         // Start is called before the first frame update
         void Start()
         {
-            gameManager = GameObject.Find("Game Manager").GetComponent<VisionOfWorld.GameManager>();
-            inputManager = GameObject.Find("Input Manager").GetComponent<VisionOfInput.Manager>();
+            gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+            inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
 
             p1Keys.SetActive(false);
             p2Keys.SetActive(false);

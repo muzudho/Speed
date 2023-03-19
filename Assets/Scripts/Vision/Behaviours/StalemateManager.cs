@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.UserInterface
+﻿namespace Assets.Scripts.Vision.Behaviours
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;

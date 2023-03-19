@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.World.Models
+﻿namespace Assets.Scripts.Vision.Models.World
 {
     using UnityEngine;
 

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.World
+﻿namespace Assets.Scripts.Vision.Behaviours
 {
     using UnityEngine;
 

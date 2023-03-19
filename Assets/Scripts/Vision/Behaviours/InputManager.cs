@@ -1,10 +1,8 @@
-﻿namespace Assets.Scripts.Vision.Input
+﻿namespace Assets.Scripts.Vision.Behaviours
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.UserInterface;
-    using Assets.Scripts.Vision.World;
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using UnityEngine;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
@@ -14,7 +12,7 @@
     /// <summary>
     /// 入力マネージャー
     /// </summary>
-    public class Manager : MonoBehaviour
+    public class InputManager : MonoBehaviour
     {
         // - フィールド
 

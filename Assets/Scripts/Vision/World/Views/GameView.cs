@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.World.Views
 {
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.Vision.World.Models;
+    using Assets.Scripts.Vision.Models.World;
     using System;
     using UnityEngine;
 

@@ -1,9 +1,8 @@
-﻿namespace Assets.Scripts.Vision.World.Views.Timeline
+﻿namespace Assets.Scripts.Vision.Timeline
 {
-    using Assets.Scripts.Vision.World.SpanOfLerp;
     using System.Collections.Generic;
     using UnityEngine;
-    using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
+    using VisionOfSpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
 
     /// <summary>
     /// タイムライン・ビュー
@@ -25,7 +24,7 @@
         /// 
         /// - 持続時間が切れると、消えていく
         /// </summary>
-        List<SpanOfLeap.Model> ongoingSpansToLerp = new();
+        List<VisionOfSpanOfLeap.Model> ongoingSpansToLerp = new();
 
         // - メソッド
 
@@ -33,7 +32,7 @@
         /// モーションの補間
         /// </summary>
         /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
-        internal void Lerp(float elapsedSeconds, List<Model> additionOfSpansToLerp)
+        internal void Lerp(float elapsedSeconds, List<VisionOfSpanOfLeap.Model> additionOfSpansToLerp)
         {
             foreach (var spanToLerp in additionOfSpansToLerp)
             {

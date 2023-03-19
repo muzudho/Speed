@@ -6659,4 +6659,52 @@ namespace Assets.Scripts.ThinkingEngine
 「　👆　そのあと　大改造して　カウントダウンは　付けたぜ。  
 今日はここまで」  
 
+# 📅 2023-03-19 sun 17:58
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　Unity の顔を見るのも嫌になっているが　不具合の調査をするかだぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　ゲームの結果を表示してくれだぜ。  
+1Pの勝ち、2Pの勝ち、引き分け　のいずれかだろ」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　両プレイヤーが　同時に最後のカードを　捨てるの、  
+何ミリ秒差まで　厳密に判定するの？  
+一瞬でも速く置いた方が　勝ちなの？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　レトロな　格闘ゲーマーは　１フレームの差を　文句言ってくるからな」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　じゃあ　１フレームの差を区別しろだぜ。  
+両者が　最後の１枚を残して　ステールメートしてるときは　同時にカード捨てるから　引き分けになるぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　カードを捨てた瞬間か、  
+それとも　カードを台札に置いた瞬間か、  
+どっちで判定するんだぜ？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　カードを置いた瞬間よ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　カードを置いた瞬間って、どんな瞬間？」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　台札の鉄板のカードに、場札が接した瞬間よ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　デジタルゲーなのに　判定は　アナログ的なの　つら」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　Unity は物理的な当たり判定を取れるのでは？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　物理演算を使うと、距離とか　速度とか　公平性　保たなくてはいけなくなって大変なので  
+デジタルな判定にしたいぜ」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　台札に投げたカードの　モーションの終点で　フラグ立てるか」  
+
 # // 書きかけ

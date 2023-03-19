@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.World
+﻿namespace Assets.Scripts.Vision.Behaviours
 {
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
@@ -6,14 +6,13 @@
     using Assets.Scripts.Vision.World.SpanOfLerp;
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using Assets.Scripts.Vision.World.Views;
-    using Assets.Scripts.Vision.World.Views.Timeline;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
     using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
     using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
-    using ViewsOfTimeline = Assets.Scripts.Vision.World.Views.Timeline;
+    using ViewsOfTimeline = Assets.Scripts.Vision.Timeline;
     using Assets.Scripts.ThinkingEngine;
 
     /// <summary>
@@ -155,7 +154,7 @@
             GameObjectStorage.Add(IdOfGameObjects.Spades13, GameObject.Find($"Spades 13"));
 
             // Lerp を実行するだけのクラス
-            playerToLerp = new PlayerToLerp();
+            playerToLerp = new ViewsOfTimeline.PlayerToLerp();
 
             // ゲーム初期状態へセット
             {
