@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.World.SpanOfLerp
+﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models.World;

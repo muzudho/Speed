@@ -3,9 +3,9 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
+    using Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
     using UnityEngine;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
+    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Timeline.TimedCommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using VisionOfInput = Assets.Scripts.Vision.Models.Input;
 

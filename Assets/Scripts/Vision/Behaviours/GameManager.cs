@@ -4,15 +4,14 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
     using Assets.Scripts.Vision.Replays;
-    using Assets.Scripts.Vision.World.SpanOfLerp;
-    using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
+    using Assets.Scripts.Vision.Timeline.SpanOfLerp;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
-    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
+    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
+    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
     using ViewsOfTimeline = Assets.Scripts.Vision.Timeline;
 
     /// <summary>
@@ -55,7 +54,7 @@
         /// <summary>
         /// スケジュール・レジスター
         /// </summary>
-        internal ScheduleRegister ScheduleRegister
+        internal TimedGeneratorOfSpanOfLearp.ScheduleRegister ScheduleRegister
         {
             get
             {
@@ -67,7 +66,7 @@
                 return scheduleRegister;
             }
         }
-        ScheduleRegister scheduleRegister;
+        TimedGeneratorOfSpanOfLearp.ScheduleRegister scheduleRegister;
 
         // - メソッド
 

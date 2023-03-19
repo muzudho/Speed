@@ -3,10 +3,10 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
+    using Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
+    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Timeline.TimedCommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
+    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
 
     /// <summary>
     /// 開始局面まで

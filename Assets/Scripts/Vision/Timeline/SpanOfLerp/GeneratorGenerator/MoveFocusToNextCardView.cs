@@ -1,15 +1,15 @@
-﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator
+﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.GeneratorGenerator
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using Assets.Scripts.Vision.Models.World;
-    using Assets.Scripts.Vision.World.SpanOfLerp.Generator;
+    using Assets.Scripts.Vision.Timeline.SpanOfLerp.Generator;
     using System;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using SimulatorsOfTimeline = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
-    using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
+    using SimulatorsOfTimeline = Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
+    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します

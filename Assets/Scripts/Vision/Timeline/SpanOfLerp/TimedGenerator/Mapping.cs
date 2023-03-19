@@ -1,7 +1,7 @@
-﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator
+﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator
 {
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator;
+    using Assets.Scripts.Vision.Timeline.SpanOfLerp.GeneratorGenerator;
     using System;
     using System.Collections.Generic;
 

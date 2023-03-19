@@ -1,11 +1,11 @@
-﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator
+﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator
 {
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
-    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
+    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Timeline.TimedCommandArgs;
+    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
     using Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>
@@ -107,7 +107,7 @@
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator.Simulator DebugWrite] timedItems.Count:{timedGenerators.Count}");
+            Debug.Log($"[Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator.Simulator DebugWrite] timedItems.Count:{timedGenerators.Count}");
         }
 
         internal float LastSeconds() => Mathf.Max(this.ScheduledSeconds[0], ScheduledSeconds[1]);

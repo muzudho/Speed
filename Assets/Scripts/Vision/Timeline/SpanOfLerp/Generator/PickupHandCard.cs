@@ -1,11 +1,11 @@
-﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.Generator
+﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.Generator
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
     using System;
     using UnityEngine;
-    using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
+    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
 
     /// <summary>
     /// 場札を持ち上げる

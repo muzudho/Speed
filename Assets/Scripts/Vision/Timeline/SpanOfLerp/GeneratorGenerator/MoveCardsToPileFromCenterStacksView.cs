@@ -1,13 +1,13 @@
-﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator
+﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.GeneratorGenerator
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.World.SpanOfLerp.Generator;
+    using Assets.Scripts.Vision.Timeline.SpanOfLerp.Generator;
     using System;
-    using SimulatorsOfTimeline = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
-    using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
+    using SimulatorsOfTimeline = Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
+    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する

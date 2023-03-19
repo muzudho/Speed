@@ -1,10 +1,10 @@
-﻿namespace Assets.Scripts.Vision.World.SpanOfLerp
+﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
+    using Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
     using UnityEngine;
-    using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
+    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
 
     internal static class ScheduleConverter
     {

@@ -1,12 +1,12 @@
-﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator
+﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.GeneratorGenerator
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.World.SpanOfLerp.Generator;
-    using SimulatorsOfTimeline = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
-    using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
+    using Assets.Scripts.Vision.Timeline.SpanOfLerp.Generator;
+    using SimulatorsOfTimeline = Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator;
+    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
     using Assets.Scripts.ThinkingEngine;
 
     /// <summary>

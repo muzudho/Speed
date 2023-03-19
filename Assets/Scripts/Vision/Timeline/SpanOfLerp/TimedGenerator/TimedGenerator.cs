@@ -1,7 +1,7 @@
-﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator
+﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.TimedGenerator
 {
-    using Assets.Scripts.Vision.World.SpanOfLerp.GeneratorGenerator;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.World.TimedCommandArgs;
+    using Assets.Scripts.Vision.Timeline.SpanOfLerp.GeneratorGenerator;
+    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Timeline.TimedCommandArgs;
 
     /// <summary>
     /// コマンド引数と、スパン・ビューを紐づけます

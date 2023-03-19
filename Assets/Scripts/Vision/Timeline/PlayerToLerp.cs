@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using UnityEngine;
-    using VisionOfSpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
+    using VisionOfSpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
 
     /// <summary>
     /// タイムライン・ビュー

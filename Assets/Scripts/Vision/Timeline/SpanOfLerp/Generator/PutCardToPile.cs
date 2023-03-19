@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.World.SpanOfLerp.Generator
+﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp.Generator
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -6,7 +6,7 @@
     using System;
     using System.Collections.Generic;
     using UnityEngine;
-    using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
+    using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
 
     /// <summary>
     /// 指定のカード（台札を想定）を手札へ移動
