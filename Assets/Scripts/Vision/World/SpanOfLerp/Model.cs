@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.World.SpanOfLerp
 {
     using Assets.Scripts.Coding;
-    using Assets.Scripts.Vision.World.Views;
+    using Assets.Scripts.Vision.Models.World;
     using UnityEngine;
 
     /// <summary>

@@ -2,7 +2,6 @@
 {
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
-    using Assets.Scripts.Vision.World.Views;
     using System;
     using UnityEngine;
 

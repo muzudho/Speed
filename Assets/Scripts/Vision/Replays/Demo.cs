@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.World.Replays
+﻿namespace Assets.Scripts.Vision.Replays
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;

@@ -2,7 +2,7 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.Vision.World.Views;
+    using Assets.Scripts.Vision.Models.World;
     using System;
     using System.Collections.Generic;
     using UnityEngine;

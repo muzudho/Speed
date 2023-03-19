@@ -1,19 +1,19 @@
 ﻿namespace Assets.Scripts.Vision.Behaviours
 {
+    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using Assets.Scripts.Vision.World.Replays;
+    using Assets.Scripts.Vision.Models.World;
+    using Assets.Scripts.Vision.Replays;
     using Assets.Scripts.Vision.World.SpanOfLerp;
     using Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
-    using Assets.Scripts.Vision.World.Views;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using SpanOfLeap = Assets.Scripts.Vision.World.SpanOfLerp;
     using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
     using ViewsOfTimeline = Assets.Scripts.Vision.Timeline;
-    using Assets.Scripts.ThinkingEngine;
 
     /// <summary>
     /// ゲーム・マネージャー

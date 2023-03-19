@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Models
 {
-    using Assets.Scripts.Vision.World.Views;
+    using Assets.Scripts.Vision.Models.World;
     using System.Collections.Generic;
 
     /// <summary>

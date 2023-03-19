@@ -4,8 +4,8 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
+    using Assets.Scripts.Vision.Models.World;
     using Assets.Scripts.Vision.World.SpanOfLerp.Generator;
-    using Assets.Scripts.Vision.World.Views;
     using System;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using SimulatorsOfTimeline = Assets.Scripts.Vision.World.SpanOfLerp.TimedGenerator;
