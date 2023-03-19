@@ -1,10 +1,9 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.Generator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator
 {
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
     using System;
     using UnityEngine;
-    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
 
     /// <summary>
     /// 指定のカードを下ろす
@@ -19,7 +18,7 @@
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         /// <param name="idOfCard">ピックアップしているカードのId</param>
-        internal static VisionOfTimelineO4thElement.Model Generate(
+        internal static IFinalLevelSpan Generate(
             float startSeconds,
             float duration,
             IdOfPlayingCards idOfCard)
@@ -31,7 +30,7 @@
             Vector3? endPosition = null;
             Quaternion? endRotation = null;
 
-            return new VisionOfTimelineO4thElement.Model(
+            return Helper.Generate(
                 startSeconds: startSeconds,
                 duration: duration,
                 target: idOfGo,

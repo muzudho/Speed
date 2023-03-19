@@ -1,12 +1,12 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O1stElements
 {
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
-    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
-    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Models.Timeline.O1stElements;
 
     /// <summary>
     /// シミュレーター

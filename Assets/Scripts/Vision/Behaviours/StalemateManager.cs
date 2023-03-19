@@ -3,7 +3,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
+    using Assets.Scripts.Vision.Models.Timeline.O1stElements;
     using System.Collections;
     using UnityEngine;
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;

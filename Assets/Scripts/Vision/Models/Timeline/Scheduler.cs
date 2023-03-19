@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using UnityEngine;
-    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
+    using ModelOfTimelineO4thSpan = Assets.Scripts.Vision.Models.Timeline.O4thSpan;
 
     /// <summary>
     /// タイムラインのスケジューラー
@@ -24,7 +24,7 @@
         /// 
         /// - 持続時間が切れると、消えていく
         /// </summary>
-        List<VisionOfTimelineO4thElement.Model> ongoingSpansToLerp = new();
+        List<IFinalLevelSpan> ongoingSpansToLerp = new();
 
         // - メソッド
 
@@ -32,7 +32,7 @@
         /// 追加
         /// </summary>
         /// <param name="additionOfSpansToLerp">追加の要素</param>
-        internal void Add(List<VisionOfTimelineO4thElement.Model> additionOfSpansToLerp)
+        internal void Add(List<IFinalLevelSpan> additionOfSpansToLerp)
         {
             foreach (var spanToLerp in additionOfSpansToLerp)
             {

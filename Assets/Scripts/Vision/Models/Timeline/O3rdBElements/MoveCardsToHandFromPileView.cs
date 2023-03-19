@@ -1,13 +1,11 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.GeneratorGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdBElements
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.Generator;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using SimulatorsOfTimeline = Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
-    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
+    using ModelOfTimelineO4thSpanGenerator = Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -27,7 +25,7 @@
 
         // - プロパティ
 
-        MoveCardsToHandFromPileModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
+        MoveCardsToHandFromPileModel GetModel(ITimedGenerator timedGenerator)
         {
             return (MoveCardsToHandFromPileModel)timedGenerator.TimedCommandArg.CommandArg;
         }
@@ -41,9 +39,9 @@
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override void CreateSpanToLerp(
-            SimulatorsOfTimeline.TimedGenerator timedGenerator,
+            ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<VisionOfTimelineO4thElement.Model> setViewMovement)
+            LazyArgs.SetValue<IFinalLevelSpan> setViewMovement)
         {
             // 確定：手札の枚数
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timedGenerator).PlayerObj.AsInt].Count;
@@ -81,7 +79,7 @@
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
             {
-                ArrangeHandCards.Generate(
+                ModelOfTimelineO4thSpanGenerator.ArrangeHandCards.Generate(
                     startSeconds: timedGenerator.StartSeconds,
                     duration: timedGenerator.TimedCommandArg.Duration,
                     playerObj: playerObj,

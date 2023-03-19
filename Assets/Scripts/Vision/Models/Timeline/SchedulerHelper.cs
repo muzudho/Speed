@@ -2,8 +2,7 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
-    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
+    using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
 
     /// <summary>
     /// タイムラインのスケジューラーのストレージ
@@ -19,10 +18,10 @@
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="gameViewModel">画面表示の状態（編集可能）</param>
         internal static void ConvertToSpansToLerp(
-            ScheduleRegister scheduleRegister,
+            ModelOfTimelineO1stElement.ScheduleRegister scheduleRegister,
             float elapsedSeconds,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<VisionOfTimelineO4thElement.Model> setSpanToLerp)
+            LazyArgs.SetValue<IFinalLevelSpan> setSpanToLerp)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化

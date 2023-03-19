@@ -1,13 +1,11 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.GeneratorGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdBElements
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.Generator;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using SimulatorsOfTimeline = Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
-    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
+    using ModelOfTimelineO4thSpanGenerator = Assets.Scripts.Vision.Models.Timeline.O4thSpanGenerator;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
@@ -27,7 +25,7 @@
 
         // - プロパティ
 
-        MoveCardToCenterStackFromHandModel GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
+        MoveCardToCenterStackFromHandModel GetModel(ITimedGenerator timedGenerator)
         {
             return (MoveCardToCenterStackFromHandModel)timedGenerator.TimedCommandArg.CommandArg;
         }
@@ -42,9 +40,9 @@
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
         public override void CreateSpanToLerp(
-            SimulatorsOfTimeline.TimedGenerator timedGenerator,
+            ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<VisionOfTimelineO4thElement.Model> setViewMovement)
+            LazyArgs.SetValue<IFinalLevelSpan> setViewMovement)
         {
             var gameModel = new ModelOfGame.Default(gameModelBuffer);
             var playerObj = GetModel(timedGenerator).PlayerObj;
@@ -102,7 +100,7 @@
                     gameModelBuffer.AddCardOfCenterStack(placeObj, targetToRemoveObj);
 
                     // 台札へ置く
-                    setViewMovement(PutCardToCenterStack.Generate(
+                    setViewMovement(ModelOfTimelineO4thSpanGenerator.PutCardToCenterStack.Generate(
                         startSeconds: timedGenerator.StartSeconds,
                         duration: timedGenerator.TimedCommandArg.Duration / 2.0f,
                         playerObj: playerObj,
@@ -111,7 +109,7 @@
                         idOfPreviousTop));
 
                     // 場札の位置調整（をしないと歯抜けになる）
-                    ArrangeHandCards.Generate(
+                    ModelOfTimelineO4thSpanGenerator.ArrangeHandCards.Generate(
                         startSeconds: timedGenerator.StartSeconds + timedGenerator.TimedCommandArg.Duration / 2.0f,
                         duration: timedGenerator.TimedCommandArg.Duration / 2.0f,
                         playerObj: playerObj,

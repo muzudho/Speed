@@ -10,9 +10,9 @@
     using System.Linq;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using TimedGeneratorOfSpanOfLearp = Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
-    using ViewsOfTimeline = Assets.Scripts.Vision.Models.Timeline;
-    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
+    using ModelOfTimeline = Assets.Scripts.Vision.Models.Timeline;
+    using ModelOfTimelineO1stElement = Assets.Scripts.Vision.Models.Timeline.O1stElements;
+    using ModelOfTimelineO4thSpan = Assets.Scripts.Vision.Models.Timeline.O4thSpan;
 
     /// <summary>
     /// ゲーム・マネージャー
@@ -23,7 +23,7 @@
     {
         // - フィールド
 
-        ViewsOfTimeline.Scheduler scheduler;
+        ModelOfTimeline.Scheduler scheduler;
 
         // ゲーム内単位時間
         float tickSeconds = 1.0f / 60.0f;
@@ -54,19 +54,19 @@
         /// <summary>
         /// スケジュール・レジスター
         /// </summary>
-        internal TimedGeneratorOfSpanOfLearp.ScheduleRegister ScheduleRegister
+        internal ModelOfTimelineO1stElement.ScheduleRegister ScheduleRegister
         {
             get
             {
                 if (scheduleRegister == null)
                 {
                     // スケジューラー・レジスターは、ゲーム・モデルを持つ。
-                    scheduleRegister = new TimedGeneratorOfSpanOfLearp.ScheduleRegister(this.Model);
+                    scheduleRegister = new ModelOfTimelineO1stElement.ScheduleRegister(this.Model);
                 }
                 return scheduleRegister;
             }
         }
-        TimedGeneratorOfSpanOfLearp.ScheduleRegister scheduleRegister;
+        ModelOfTimelineO1stElement.ScheduleRegister scheduleRegister;
 
         // - メソッド
 
@@ -153,7 +153,7 @@
             GameObjectStorage.Add(IdOfGameObjects.Spades13, GameObject.Find($"Spades 13"));
 
             // Lerp を実行するだけのクラス
-            this.scheduler = new ViewsOfTimeline.Scheduler();
+            this.scheduler = new ModelOfTimeline.Scheduler();
 
             // ゲーム初期状態へセット
             {
@@ -233,7 +233,7 @@
         void OnTick()
         {
             // モデルからビューへ、起動したタイム・スパンを引き継ぎたい
-            var additionSpansToLerp = new List<VisionOfTimelineO4thElement.Model>();
+            var additionSpansToLerp = new List<IFinalLevelSpan>();
 
             // スケジュールを消化していきます
             SchedulerHelper.ConvertToSpansToLerp(

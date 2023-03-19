@@ -1,21 +1,26 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O1stElements
 {
-    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.GeneratorGenerator;
-    using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
+    using Assets.Scripts.Vision.Models.Timeline.O3rdBElements;
+    using ModelOfTimelineO3rdElement = Assets.Scripts.Vision.Models.Timeline.O3rdBElements;
+    using ModelOfTimelineTimedCommandArgs = Assets.Scripts.Vision.Models.Timeline.TimedCommandArgs;
 
     /// <summary>
     /// ゲーム内時間と、時間付きコマンド引数と、スパン生成器を紐づけたもの
     /// </summary>
-    internal class TimedGenerator
+    internal class TimedGenerator : ITimedGenerator
     {
-        // - その他（生成）
+        // - その他
 
         /// <summary>
-        /// 
+        /// 生成
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="timedCommandArg">スパン・モデル</param>
-        public TimedGenerator(float startSeconds, GuiOfTimedCommandArgs.Model timedCommandArg, ISpanGenerator spanGenerator)
+        /// <param name="spanGenerator"></param>
+        public TimedGenerator(
+            float startSeconds,
+            ModelOfTimelineTimedCommandArgs.Model timedCommandArg,
+            ModelOfTimelineO3rdElement.ISpanGenerator spanGenerator)
         {
             this.StartSeconds = startSeconds;
             this.TimedCommandArg = timedCommandArg;
@@ -34,8 +39,8 @@
         /// </summary>
         public float EndSeconds => StartSeconds + this.TimedCommandArg.Duration;
 
-        public GuiOfTimedCommandArgs.Model TimedCommandArg { get; private set; }
+        public ModelOfTimelineTimedCommandArgs.Model TimedCommandArg { get; private set; }
 
-        public ISpanGenerator SpanGenerator { get; private set; }
+        public ModelOfTimelineO3rdElement.ISpanGenerator SpanGenerator { get; private set; }
     }
 }

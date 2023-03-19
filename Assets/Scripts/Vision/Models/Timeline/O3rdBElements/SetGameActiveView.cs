@@ -1,10 +1,8 @@
-﻿namespace Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.GeneratorGenerator
+﻿namespace Assets.Scripts.Vision.Models.Timeline.O3rdBElements
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using SimulatorsOfTimeline = Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
-    using VisionOfTimelineO4thElement = Assets.Scripts.Vision.Models.Timeline.O4thElement;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -28,7 +26,7 @@
 
         // - プロパティ
 
-        SetGameActive GetModel(SimulatorsOfTimeline.TimedGenerator timedGenerator)
+        SetGameActive GetModel(ITimedGenerator timedGenerator)
         {
             return (SetGameActive)timedGenerator.TimedCommandArg.CommandArg;
         }
@@ -39,9 +37,9 @@
         /// ゲーム画面の同期を始めます
         /// </summary>
         public override void CreateSpanToLerp(
-            SimulatorsOfTimeline.TimedGenerator timedGenerator,
+            ITimedGenerator timedGenerator,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<VisionOfTimelineO4thElement.Model> setViewMovement)
+            LazyArgs.SetValue<IFinalLevelSpan> setViewMovement)
         {
             if (handled)
             {

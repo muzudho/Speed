@@ -2,7 +2,7 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
-    using Assets.Scripts.Vision.Models.Timeline.SpanOfLerp.TimedGenerator;
+    using Assets.Scripts.Vision.Models.Timeline.O1stElements;
 
     static class Demo
     {
