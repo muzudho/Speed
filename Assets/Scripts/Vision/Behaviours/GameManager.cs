@@ -4,7 +4,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
     using Assets.Scripts.Vision.Replays;
-    using Assets.Scripts.Vision.Timeline.SpanOfLerp;
+    using Assets.Scripts.Vision.Timeline;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -23,7 +23,7 @@
     {
         // - フィールド
 
-        ViewsOfTimeline.PlayerToLerp playerToLerp;
+        ViewsOfTimeline.Scheduler scheduler;
 
         // ゲーム内単位時間
         float tickSeconds = 1.0f / 60.0f;
@@ -153,7 +153,7 @@
             GameObjectStorage.Add(IdOfGameObjects.Spades13, GameObject.Find($"Spades 13"));
 
             // Lerp を実行するだけのクラス
-            playerToLerp = new ViewsOfTimeline.PlayerToLerp();
+            this.scheduler = new ViewsOfTimeline.Scheduler();
 
             // ゲーム初期状態へセット
             {
@@ -236,7 +236,7 @@
             var additionSpansToLerp = new List<SpanOfLeap.Model>();
 
             // スケジュールを消化していきます
-            ScheduleConverter.ConvertToSpansToLerp(
+            SchedulerHelper.ConvertToSpansToLerp(
                 this.ScheduleRegister,
                 modelBuffer.ElapsedSeconds,
                 modelBuffer,
@@ -246,7 +246,8 @@
                 });
 
             // モーションの補間
-            this.playerToLerp.Lerp(modelBuffer.ElapsedSeconds, additionSpansToLerp);
+            this.scheduler.Add(additionSpansToLerp);
+            this.scheduler.DrawThisMoment(modelBuffer.ElapsedSeconds);
 
             //this.ScheduleRegister.DebugWrite();
             //this.playerToLerp.DebugWrite();

@@ -5,15 +5,15 @@
     using VisionOfSpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
 
     /// <summary>
-    /// タイムライン・ビュー
+    /// タイムラインのスケジューラー
     /// 
     /// - 実行中の Lerp スパンを持ちます
     /// </summary>
-    internal class PlayerToLerp
+    internal class Scheduler
     {
         // - その他（生成）
 
-        public PlayerToLerp()
+        public Scheduler()
         {
         }
 
@@ -29,18 +29,25 @@
         // - メソッド
 
         /// <summary>
-        /// モーションの補間
+        /// 追加
         /// </summary>
-        /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
-        internal void Lerp(float elapsedSeconds, List<VisionOfSpanOfLeap.Model> additionOfSpansToLerp)
+        /// <param name="additionOfSpansToLerp">追加の要素</param>
+        internal void Add(List<VisionOfSpanOfLeap.Model> additionOfSpansToLerp)
         {
             foreach (var spanToLerp in additionOfSpansToLerp)
             {
-                ongoingSpansToLerp.Add(spanToLerp);
+                this.ongoingSpansToLerp.Add(spanToLerp);
             }
 
             // Debug.Log($"[Assets.Scripts.Vision.World.Views.Timeline.View Lerp] リープ ongoingCardMovementViews count:{ongoingCardMovementViews.Count}");
+        }
 
+        /// <summary>
+        /// この瞬間を描画
+        /// </summary>
+        /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
+        internal void DrawThisMoment(float elapsedSeconds)
+        {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
             int i = 0;

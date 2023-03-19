@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Timeline.SpanOfLerp
+﻿namespace Assets.Scripts.Vision.Timeline
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -6,7 +6,10 @@
     using UnityEngine;
     using SpanOfLeap = Assets.Scripts.Vision.Timeline.SpanOfLerp;
 
-    internal static class ScheduleConverter
+    /// <summary>
+    /// タイムラインのスケジューラーのストレージ
+    /// </summary>
+    internal static class SchedulerHelper
     {
         // - メソッド
 

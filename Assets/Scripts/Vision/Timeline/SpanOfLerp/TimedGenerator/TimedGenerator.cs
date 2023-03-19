@@ -4,7 +4,7 @@
     using GuiOfTimedCommandArgs = Assets.Scripts.Vision.Timeline.TimedCommandArgs;
 
     /// <summary>
-    /// コマンド引数と、スパン・ビューを紐づけます
+    /// ゲーム内時間と、時間付きコマンド引数と、スパン生成器を紐づけたもの
     /// </summary>
     internal class TimedGenerator
     {
