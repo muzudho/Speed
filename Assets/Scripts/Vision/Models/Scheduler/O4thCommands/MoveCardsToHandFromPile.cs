@@ -5,7 +5,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
+    using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
@@ -32,28 +32,28 @@
         /// - 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
         /// - 画面上の場札は位置調整される
         /// </summary>
-        public override void Build(
+        public override void GenerateSpan(
             ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             // 確定：手札の枚数
-            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetArg(task).PlayerObj.AsInt].Count;
+            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetCommandOfThinkingEngine(task).PlayerObj.AsInt].Count;
 
-            if (length < GetArg(task).NumberOfCards)
+            if (length < GetCommandOfThinkingEngine(task).NumberOfCards)
             {
                 // できない指示は無視
                 // Debug.Log("[MoveCardsToHandFromPileView OnEnter] できない指示は無視");
                 return;
             }
 
-            var playerObj = GetArg(task).PlayerObj;
+            var playerObj = GetCommandOfThinkingEngine(task).PlayerObj;
 
             // モデル更新：場札への移動
             gameModelBuffer.MoveCardsToHandFromPile(
                 playerObj: playerObj,
-                startIndexObj: new PlayerPileCardIndex(length - GetArg(task).NumberOfCards),
-                numberOfCards: GetArg(task).NumberOfCards);
+                startIndexObj: new PlayerPileCardIndex(length - GetCommandOfThinkingEngine(task).NumberOfCards),
+                numberOfCards: GetCommandOfThinkingEngine(task).NumberOfCards);
             // 場札は１枚以上になる
 
             // モデル更新：もし、ピックアップ場札がなかったら、先頭の場札をピックアップする
@@ -73,7 +73,7 @@
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
             {
-                ModelOfSchedulerO3rdSpanGenerator.ArrangeHandCards.GenerateSpan(
+                ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
                     startSeconds: task.StartSeconds,
                     duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()),
                     playerObj: playerObj,
@@ -89,7 +89,7 @@
             }
         }
 
-        ModelOfThinkingEngineCommand.MoveCardsToHandFromPile GetArg(ITask task)
+        ModelOfThinkingEngineCommand.MoveCardsToHandFromPile GetCommandOfThinkingEngine(ITask task)
         {
             return (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)task.CommandOfThinkingEngine;
         }

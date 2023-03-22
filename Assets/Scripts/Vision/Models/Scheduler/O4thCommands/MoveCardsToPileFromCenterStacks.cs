@@ -5,7 +5,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using System;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
+    using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
@@ -33,19 +33,19 @@
         /// - ゲーム開始時に使う
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        public override void Build(
+        public override void GenerateSpan(
             ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
-            var length = gameModelBuffer.IdOfCardsOfCenterStacks[GetArg(task).PlaceObj.AsInt].Count; // 台札の枚数
+            var length = gameModelBuffer.IdOfCardsOfCenterStacks[GetCommandOfThinkingEngine(task).PlaceObj.AsInt].Count; // 台札の枚数
             if (1 <= length)
             {
                 var startIndexObj = new CenterStackCardIndex(length - numberOfCards);
-                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[GetArg(task).PlaceObj.AsInt][startIndexObj.AsInt]; // 台札の１番上のカード
-                gameModelBuffer.RemoveCardAtOfCenterStack(GetArg(task).PlaceObj, startIndexObj);
+                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[GetCommandOfThinkingEngine(task).PlaceObj.AsInt][startIndexObj.AsInt]; // 台札の１番上のカード
+                gameModelBuffer.RemoveCardAtOfCenterStack(GetCommandOfThinkingEngine(task).PlaceObj, startIndexObj);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 Player playerObj;
@@ -69,7 +69,7 @@
                 // プレイヤーの手札を積み上げる
                 gameModelBuffer.AddCardOfPlayersPile(playerObj, idOfCardOfCenterStack);
 
-                setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PutCardToPile.GenerateSpan(
+                setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
                     startSeconds: task.StartSeconds,
                     duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()),
                     playerObj: playerObj,
@@ -78,7 +78,7 @@
             }
         }
 
-        ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks GetArg(ITask task)
+        ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks GetCommandOfThinkingEngine(ITask task)
         {
             return (ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks)task.CommandOfThinkingEngine;
         }

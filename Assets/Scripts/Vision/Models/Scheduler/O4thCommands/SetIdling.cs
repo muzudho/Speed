@@ -26,7 +26,7 @@
         /// <summary>
         /// ゲーム画面の同期を始めます
         /// </summary>
-        public override void Build(
+        public override void GenerateSpan(
             ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
@@ -34,7 +34,7 @@
             // なんにもしません
         }
 
-        ModelOfThinkingEngineCommand.SetIdling GetArg(ITask task)
+        ModelOfThinkingEngineCommand.SetIdling GetCommandOfThinkingEngine(ITask task)
         {
             return (ModelOfThinkingEngineCommand.SetIdling)task.CommandOfThinkingEngine;
         }

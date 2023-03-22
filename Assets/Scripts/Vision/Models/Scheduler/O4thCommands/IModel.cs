@@ -28,9 +28,9 @@
         /// ゲーム画面の同期を始めます
         /// </summary>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
-        void Build(
+        void GenerateSpan(
             ITask task,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setSpanToLerp);
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan);
     }
 }

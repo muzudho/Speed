@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -8,6 +8,7 @@
     using System.Collections.Generic;
     using UnityEngine;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
+    using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
 
     /// <summary>
     /// 場札を並べる
@@ -104,7 +105,7 @@
                     Quaternion? startRotation = null;
 
                     // TODO ★ ピックアップ後の座標を計算したい。ピックアップ前の座標は指定する
-                    var endPositionAndRotation = PickupHandCard.CalculateEnd(
+                    var endPositionAndRotation = ModelOfSchedulerO3rdViewCommand.PickupHandCard.CalculateEnd(
                         homePositionOfHand: staticDestination.GetPosition(),
                         homeRotationOfHand: staticDestination.GetRotation());
 

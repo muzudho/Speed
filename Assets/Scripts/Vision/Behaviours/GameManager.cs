@@ -239,7 +239,7 @@
                 this.Timeline,
                 modelBuffer.ElapsedSeconds,
                 modelBuffer,
-                setSpanToLerp: (spanToLerp) =>
+                setTimelineSpan: (spanToLerp) =>
                 {
                     additionSpansToLerp.Add(spanToLerp);
                 });

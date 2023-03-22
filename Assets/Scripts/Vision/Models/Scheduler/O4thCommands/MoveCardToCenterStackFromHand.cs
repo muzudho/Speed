@@ -5,7 +5,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
+    using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
@@ -33,13 +33,13 @@
         /// </summary>
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
-        public override void Build(
+        public override void GenerateSpan(
             ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             var gameModel = new ModelOfGame.Default(gameModelBuffer);
-            var playerObj = GetArg(task).PlayerObj;
+            var playerObj = GetCommandOfThinkingEngine(task).PlayerObj;
 
             // ピックアップしているカードは、場札から抜くカード
             GetIndexOfFocusedHandCard(
@@ -47,7 +47,7 @@
                 playerObj: playerObj,
                 (indexToRemoveObj) =>  // 確定：場札から抜くのは何枚目
                 {
-                    var placeObj = GetArg(task).PlaceObj;
+                    var placeObj = GetCommandOfThinkingEngine(task).PlaceObj;
 
                     // 確定：（抜いた後に）次にピックアップするカード（が先頭から何枚目か）
                     HandCardIndex indexOfNextPickObj;
@@ -94,7 +94,7 @@
                     gameModelBuffer.AddCardOfCenterStack(placeObj, targetToRemoveObj);
 
                     // 台札へ置く
-                    setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PutCardToCenterStack.GenerateSpan(
+                    setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToCenterStack.GenerateSpan(
                         startSeconds: task.StartSeconds,
                         duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()) / 2.0f,
                         playerObj: playerObj,
@@ -103,7 +103,7 @@
                         idOfPreviousTop));
 
                     // 場札の位置調整（をしないと歯抜けになる）
-                    ModelOfSchedulerO3rdSpanGenerator.ArrangeHandCards.GenerateSpan(
+                    ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
                         startSeconds: task.StartSeconds + CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()) / 2.0f,
                         duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()) / 2.0f,
                         playerObj: playerObj,
@@ -148,7 +148,7 @@
             return true;
         }
 
-        ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand GetArg(ITask task)
+        ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand GetCommandOfThinkingEngine(ITask task)
         {
             return (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)task.CommandOfThinkingEngine;
         }

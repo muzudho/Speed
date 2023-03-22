@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;

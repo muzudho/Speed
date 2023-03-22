@@ -27,10 +27,10 @@
                         startSeconds: 0.0f,
                         commandOfThinkingEngine: commandOfThinkingEngine,
                         commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.NewSourceCodeFromModel(commandOfThinkingEngine.GetType()));
-                task.CommandOfScheduler.Build(
+                task.CommandOfScheduler.GenerateSpan(
                     task,
                     modelBuffer,
-                    setSpanToLerp: (movementViewModel) => movementViewModel.Lerp(1.0f));
+                    setTimelineSpan: (movementViewModel) => movementViewModel.Lerp(1.0f));
             }
 
             // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）

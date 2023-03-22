@@ -29,7 +29,7 @@
         /// <param name="task"></param>
         /// <param name="gameModelBuffer"></param>
         /// <param name="setTimelineSpan"></param>
-        virtual public void Build(
+        virtual public void GenerateSpan(
             ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)

@@ -18,22 +18,22 @@
         /// <param name="timeline"></param>
         /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
-        /// <param name="setSpanToLerp"></param>
+        /// <param name="setTimelineSpan"></param>
         internal static void ConvertToSpans(
             ModelOfSchedulerO7thTimeline.Model timeline,
             float elapsedSeconds,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setSpanToLerp)
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
             int i = 0;
             while (i < timeline.GetCountTasks())
             {
-                var gameOperationSpan = timeline.GetTaskAt(i);
+                var task = timeline.GetTaskAt(i);
 
                 // まだ
-                if (elapsedSeconds < gameOperationSpan.StartSeconds)
+                if (elapsedSeconds < task.StartSeconds)
                 {
                     i++;
                     continue;
@@ -47,10 +47,10 @@
                 timeline.RemoveAt(i);
 
                 // ゲーム画面の同期を始めます
-                gameOperationSpan.CommandOfScheduler.Build(
-                    gameOperationSpan,
+                task.CommandOfScheduler.GenerateSpan(
+                    task,
                     gameModelBuffer,
-                    setSpanToLerp: setSpanToLerp);
+                    setTimelineSpan: setTimelineSpan);
             }
         }
     }
