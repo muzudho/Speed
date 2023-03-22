@@ -82,18 +82,18 @@
 
             // 対局開始の合図
             {
-                var taskParameter = new ModelOfThinkingEngineCommandParameter.SetGameActive(
+                var commandParameter = new ModelOfThinkingEngineCommandParameter.SetGameActive(
                     isGameActive: true);
 
                 {
                     var playerObj = Commons.Player1; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
-                    timeline.AddWithinScheduler(playerObj, taskParameter);
+                    timeline.AddWithinScheduler(playerObj, commandParameter);
                 }
                 {
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
                     timeline.AddScheduleSeconds(
                         playerObj: playerObj,
-                        seconds: ModelOfScheduler.DurationMapping.GetDurationBy(taskParameter.GetType()));
+                        seconds: ModelOfScheduler.CommandParameterMapping.GetDurationBy(commandParameter.GetType()));
                 }
             }
 

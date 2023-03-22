@@ -1,8 +1,8 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O5thTask
 {
-    using Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
+    using Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters;
     using ModelOfCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
-    using ModelOfSchedulerO4thSourceCode = Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
+    using ModelOfSchedulerO4thCommandParameter = Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters;
 
     /// <summary>
     /// タスク
@@ -22,7 +22,7 @@
         public Model(
             float startSeconds,
             ModelOfCommandParameter.IModel parameter,
-            ModelOfSchedulerO4thSourceCode.IModel sourceCode)
+            ModelOfSchedulerO4thCommandParameter.IModel sourceCode)
         {
             this.StartSeconds = startSeconds;
             this.Args = parameter;
@@ -39,7 +39,7 @@
         /// <summary>
         /// 終了時間（秒）
         /// </summary>
-        public float EndSeconds => StartSeconds + DurationMapping.GetDurationBy(this.Args.GetType());
+        public float EndSeconds => StartSeconds + CommandParameterMapping.GetDurationBy(this.Args.GetType());
 
         /// <summary>
         /// 引数のようなもの
@@ -49,6 +49,6 @@
         /// <summary>
         /// ソースコードのようなもの
         /// </summary>
-        public ModelOfSchedulerO4thSourceCode.IModel SourceCode { get; private set; }
+        public ModelOfSchedulerO4thCommandParameter.IModel SourceCode { get; private set; }
     }
 }

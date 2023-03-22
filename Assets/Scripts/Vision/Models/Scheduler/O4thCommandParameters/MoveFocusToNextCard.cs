@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -90,7 +90,7 @@
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.DropHandCard.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: DurationMapping.GetDurationBy(task.Args.GetType()),
+                    duration: CommandParameterMapping.GetDurationBy(task.Args.GetType()),
                     idOfCard: idOfCard));
             }
 
@@ -105,7 +105,7 @@
                 // 今回フォーカスするカードを持ち上げる
                 setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PickupHandCard.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: DurationMapping.GetDurationBy(task.Args.GetType()),
+                    duration: CommandParameterMapping.GetDurationBy(task.Args.GetType()),
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,

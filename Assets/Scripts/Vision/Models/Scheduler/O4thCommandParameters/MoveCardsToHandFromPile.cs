@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -75,7 +75,7 @@
             {
                 ModelOfSchedulerO3rdSpanGenerator.ArrangeHandCards.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: DurationMapping.GetDurationBy(task.Args.GetType()),
+                    duration: CommandParameterMapping.GetDurationBy(task.Args.GetType()),
                     playerObj: playerObj,
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),

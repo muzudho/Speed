@@ -5,13 +5,15 @@
     using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
 
     /// <summary>
-    /// コマンド引数に、推定実行時間を紐づけます
+    /// 思考エンジンと、画面の、コマンドの紐づき
+    /// 
+    /// - コマンド引数に、推定実行時間を紐づけます
     /// </summary>
-    internal class DurationMapping
+    internal class CommandParameterMapping
     {
         // - その他
 
-        static DurationMapping()
+        static CommandParameterMapping()
         {
             // 一瞬
             float forMoment = 0.16f;

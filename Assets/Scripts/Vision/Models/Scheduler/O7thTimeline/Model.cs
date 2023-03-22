@@ -76,7 +76,7 @@
                     sourceCode: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(parameter.GetType()));
 
             this.Tasks.Add(task);
-            this.ScheduledSeconds[playerObj.AsInt] += DurationMapping.GetDurationBy(task.Args.GetType());
+            this.ScheduledSeconds[playerObj.AsInt] += CommandParameterMapping.GetDurationBy(task.Args.GetType());
         }
 
         internal void AddScheduleSeconds(Player playerObj, float seconds)

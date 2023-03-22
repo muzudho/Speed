@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -71,7 +71,7 @@
 
                 setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PutCardToPile.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: DurationMapping.GetDurationBy(task.Args.GetType()),
+                    duration: CommandParameterMapping.GetDurationBy(task.Args.GetType()),
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
