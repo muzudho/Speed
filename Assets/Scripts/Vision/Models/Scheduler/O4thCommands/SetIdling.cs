@@ -16,7 +16,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override IModel NewThis()
+        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
             return new SetIdling();
         }
@@ -36,7 +36,7 @@
 
         ModelOfThinkingEngineCommand.SetIdling GetCommandOfThinkingEngine(ITask task)
         {
-            return (ModelOfThinkingEngineCommand.SetIdling)task.CommandOfThinkingEngine;
+            return (ModelOfThinkingEngineCommand.SetIdling)task.CommandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }

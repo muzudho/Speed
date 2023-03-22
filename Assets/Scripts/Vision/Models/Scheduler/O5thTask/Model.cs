@@ -17,15 +17,12 @@
         /// 生成
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="commandOfThinkingEngine">思考エンジン用のコマンド</param>
         /// <param name="commandOfScheduler">スケジューラー用のコマンド</param>
         public Model(
             float startSeconds,
-            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine,
             ModelOfSchedulerO4thCommand.IModel commandOfScheduler)
         {
             this.StartSeconds = startSeconds;
-            this.CommandOfThinkingEngine = commandOfThinkingEngine;
             this.CommandOfScheduler = commandOfScheduler;
         }
 
@@ -39,12 +36,7 @@
         /// <summary>
         /// 終了時間（秒）
         /// </summary>
-        public float EndSeconds => StartSeconds + CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType());
-
-        /// <summary>
-        /// 思考エンジン用のコマンド
-        /// </summary>
-        public ModelOfThinkingEngineCommand.IModel CommandOfThinkingEngine { get; private set; }
+        public float EndSeconds => StartSeconds + CommandDurationMapping.GetDurationBy(this.CommandOfScheduler.CommandOfThinkingEngine.GetType());
 
         /// <summary>
         /// スケジューラー用のコマンド

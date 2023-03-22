@@ -3,6 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
+    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
     /// ソースコードのようなもの
@@ -17,7 +18,14 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public abstract IModel NewThis();
+        public abstract IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine);
+
+        // - プロパティ
+
+        /// <summary>
+        /// 思考エンジン用のコマンド
+        /// </summary>
+        public ModelOfThinkingEngineCommand.IModel CommandOfThinkingEngine { get; protected set; }
 
         // - メソッド
 

@@ -19,7 +19,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override IModel NewThis()
+        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
             return new MoveCardsToPileFromCenterStacks();
         }
@@ -71,7 +71,7 @@
 
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()),
+                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
@@ -80,7 +80,7 @@
 
         ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks GetCommandOfThinkingEngine(ITask task)
         {
-            return (ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks)task.CommandOfThinkingEngine;
+            return (ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks)task.CommandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }

@@ -25,8 +25,7 @@
                         placeObj: Commons.RightCenterStack);
                 var task = new ModelOfSchedulerO5thTask.Model(
                         startSeconds: 0.0f,
-                        commandOfThinkingEngine: commandOfThinkingEngine,
-                        commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.NewSourceCodeFromModel(commandOfThinkingEngine.GetType()));
+                        commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.NewSourceCodeFromModel(commandOfThinkingEngine));
                 task.CommandOfScheduler.GenerateSpan(
                     task,
                     modelBuffer,

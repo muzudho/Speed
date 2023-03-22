@@ -26,9 +26,9 @@
 
         // - メソッド
 
-        internal static ModelOfSchedulerO4thCommand.IModel NewSourceCodeFromModel(Type type)
+        internal static ModelOfSchedulerO4thCommand.IModel NewSourceCodeFromModel(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
-            return SourceCodes[type.GetHashCode()].NewThis();
+            return SourceCodes[commandOfThinkingEngine.GetType().GetHashCode()].NewThis(commandOfThinkingEngine);
         }
     }
 }

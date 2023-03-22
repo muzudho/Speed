@@ -55,8 +55,7 @@
         {
             var task = new ModelOfSchedulerO5thTask.Model(
                     startSeconds: GameModel.ElapsedSeconds,
-                    commandOfThinkingEngine: commandOfThinkingEngine,
-                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.NewSourceCodeFromModel(commandOfThinkingEngine.GetType()));
+                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.NewSourceCodeFromModel(commandOfThinkingEngine));
 
             this.Tasks.Add(task);
         }
@@ -72,11 +71,10 @@
         {
             var task = new ModelOfSchedulerO5thTask.Model(
                     startSeconds: this.ScheduledSeconds[playerObj.AsInt],
-                    commandOfThinkingEngine: commandOfThinkingEngine,
-                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.NewSourceCodeFromModel(commandOfThinkingEngine.GetType()));
+                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.NewSourceCodeFromModel(commandOfThinkingEngine));
 
             this.Tasks.Add(task);
-            this.ScheduledSeconds[playerObj.AsInt] += CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType());
+            this.ScheduledSeconds[playerObj.AsInt] += CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType());
         }
 
         internal void AddScheduleSeconds(Player playerObj, float seconds)

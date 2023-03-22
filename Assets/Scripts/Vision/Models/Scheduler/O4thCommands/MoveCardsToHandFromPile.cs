@@ -19,7 +19,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override IModel NewThis()
+        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
             return new MoveCardsToHandFromPile();
         }
@@ -75,7 +75,7 @@
             {
                 ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()),
+                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
                     playerObj: playerObj,
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
@@ -91,7 +91,7 @@
 
         ModelOfThinkingEngineCommand.MoveCardsToHandFromPile GetCommandOfThinkingEngine(ITask task)
         {
-            return (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)task.CommandOfThinkingEngine;
+            return (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)task.CommandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }

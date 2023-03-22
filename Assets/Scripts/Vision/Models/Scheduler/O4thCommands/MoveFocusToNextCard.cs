@@ -21,7 +21,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override IModel NewThis()
+        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
             return new MoveFocusToNextCard();
         }
@@ -90,7 +90,7 @@
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.DropHandCard.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()),
+                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
                     idOfCard: idOfCard));
             }
 
@@ -105,7 +105,7 @@
                 // 今回フォーカスするカードを持ち上げる
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PickupHandCard.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()),
+                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,
@@ -115,7 +115,7 @@
 
         ModelOfThinkingEngineCommand.MoveFocusToNextCard GetCommandOfThinkingEngine(ITask task)
         {
-            return (ModelOfThinkingEngineCommand.MoveFocusToNextCard)task.CommandOfThinkingEngine;
+            return (ModelOfThinkingEngineCommand.MoveFocusToNextCard)task.CommandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }

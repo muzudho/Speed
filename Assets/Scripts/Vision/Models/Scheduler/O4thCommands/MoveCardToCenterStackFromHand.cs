@@ -19,7 +19,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override IModel NewThis()
+        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
             return new MoveCardToCenterStackFromHand();
         }
@@ -96,7 +96,7 @@
                     // 台札へ置く
                     setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToCenterStack.GenerateSpan(
                         startSeconds: task.StartSeconds,
-                        duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()) / 2.0f,
+                        duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()) / 2.0f,
                         playerObj: playerObj,
                         placeObj: placeObj,
                         target: targetToRemoveObj,
@@ -104,8 +104,8 @@
 
                     // 場札の位置調整（をしないと歯抜けになる）
                     ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
-                        startSeconds: task.StartSeconds + CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()) / 2.0f,
-                        duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()) / 2.0f,
+                        startSeconds: task.StartSeconds + CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()) / 2.0f,
+                        duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()) / 2.0f,
                         playerObj: playerObj,
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,
@@ -150,7 +150,7 @@
 
         ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand GetCommandOfThinkingEngine(ITask task)
         {
-            return (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)task.CommandOfThinkingEngine;
+            return (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)task.CommandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }

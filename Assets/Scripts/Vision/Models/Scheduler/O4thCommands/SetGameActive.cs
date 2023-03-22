@@ -16,7 +16,7 @@
         /// 生成
         /// </summary>
         /// <returns></returns>
-        public override IModel NewThis()
+        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
             return new SetGameActive();
         }
@@ -49,7 +49,7 @@
 
         ModelOfThinkingEngineCommand.SetGameActive GetCommandOfThinkingEngine(ITask task)
         {
-            return (ModelOfThinkingEngineCommand.SetGameActive)task.CommandOfThinkingEngine;
+            return (ModelOfThinkingEngineCommand.SetGameActive)task.CommandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }
