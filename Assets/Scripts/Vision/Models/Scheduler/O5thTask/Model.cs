@@ -1,8 +1,8 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O5thTask
 {
-    using Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters;
-    using ModelOfCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
-    using ModelOfSchedulerO4thCommandParameter = Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters;
+    using Assets.Scripts.Vision.Models.Scheduler.O4thCommands;
+    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfSchedulerO4thCommand = Assets.Scripts.Vision.Models.Scheduler.O4thCommands;
 
     /// <summary>
     /// タスク
@@ -17,16 +17,16 @@
         /// 生成
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="parameter">スパン・モデル</param>
-        /// <param name="sourceCode"></param>
+        /// <param name="commandOfThinkingEngine">思考エンジン用のコマンド</param>
+        /// <param name="commandOfScheduler">スケジューラー用のコマンド</param>
         public Model(
             float startSeconds,
-            ModelOfCommandParameter.IModel parameter,
-            ModelOfSchedulerO4thCommandParameter.IModel sourceCode)
+            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine,
+            ModelOfSchedulerO4thCommand.IModel commandOfScheduler)
         {
             this.StartSeconds = startSeconds;
-            this.Args = parameter;
-            this.SourceCode = sourceCode;
+            this.CommandOfThinkingEngine = commandOfThinkingEngine;
+            this.CommandOfScheduler = commandOfScheduler;
         }
 
         // - プロパティ
@@ -39,16 +39,16 @@
         /// <summary>
         /// 終了時間（秒）
         /// </summary>
-        public float EndSeconds => StartSeconds + CommandParameterMapping.GetDurationBy(this.Args.GetType());
+        public float EndSeconds => StartSeconds + CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType());
 
         /// <summary>
-        /// 引数のようなもの
+        /// 思考エンジン用のコマンド
         /// </summary>
-        public ModelOfCommandParameter.IModel Args { get; private set; }
+        public ModelOfThinkingEngineCommand.IModel CommandOfThinkingEngine { get; private set; }
 
         /// <summary>
-        /// ソースコードのようなもの
+        /// スケジューラー用のコマンド
         /// </summary>
-        public ModelOfSchedulerO4thCommandParameter.IModel SourceCode { get; private set; }
+        public ModelOfSchedulerO4thCommand.IModel CommandOfScheduler { get; private set; }
     }
 }

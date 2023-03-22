@@ -7,7 +7,7 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
-    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
     /// 両プレイヤーが置けるカードがなくなってしまったとき、
@@ -118,7 +118,7 @@
             this.countDownText.text = "";
             {
                 // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                var timedCommandArg = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
+                var timedCommandArg = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                     playerObj: Commons.Player1,             // １プレイヤーが
                     placeObj: Commons.RightCenterStack);    // 右の
 
@@ -126,7 +126,7 @@
             }
             {
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                var timedCommandArg = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
+                var timedCommandArg = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                     playerObj: Commons.Player2,             // ２プレイヤーが
                     placeObj: Commons.LeftCenterStack);     // 左の
 

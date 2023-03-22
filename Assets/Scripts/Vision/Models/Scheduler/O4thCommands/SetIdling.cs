@@ -1,9 +1,9 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommands
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
     /// なんにもしません
@@ -34,9 +34,9 @@
             // なんにもしません
         }
 
-        ModelOfThinkingEngineCommandParameter.SetIdling GetArg(ITask task)
+        ModelOfThinkingEngineCommand.SetIdling GetArg(ITask task)
         {
-            return (ModelOfThinkingEngineCommandParameter.SetIdling)task.Args;
+            return (ModelOfThinkingEngineCommand.SetIdling)task.CommandOfThinkingEngine;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandParameters
+﻿namespace Assets.Scripts.ThinkingEngine.Models.Commands
 {
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する

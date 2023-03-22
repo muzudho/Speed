@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommands
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;

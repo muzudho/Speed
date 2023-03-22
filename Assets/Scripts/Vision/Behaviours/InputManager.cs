@@ -7,7 +7,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
-    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
     /// 入力マネージャー
@@ -131,12 +131,12 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                    var commandParameter = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
+                    var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.RightCenterStack); // 右の
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandParameterMapping.GetDurationBy(commandParameter.GetType());
-                    timeline.AddJustNow(commandParameter);
+                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    timeline.AddJustNow(command);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -151,12 +151,12 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                    var commandParameter = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
+                    var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.RightCenterStack); // 右の
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandParameterMapping.GetDurationBy(commandParameter.GetType());
-                    timeline.AddJustNow(commandParameter);
+                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    timeline.AddJustNow(command);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -174,12 +174,12 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                    var commandParameter = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
+                    var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.LeftCenterStack);  // 左の
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandParameterMapping.GetDurationBy(commandParameter.GetType());
-                    timeline.AddJustNow(commandParameter);
+                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    timeline.AddJustNow(command);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -194,12 +194,12 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                    var commandParameter = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
+                    var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.LeftCenterStack);  // 左の
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandParameterMapping.GetDurationBy(commandParameter.GetType());
-                    timeline.AddJustNow(commandParameter);
+                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    timeline.AddJustNow(command);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -224,12 +224,12 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var commandParameter = new ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard(
+                        var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft);
 
-                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandParameterMapping.GetDurationBy(commandParameter.GetType());
-                        timeline.AddJustNow(commandParameter);
+                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        timeline.AddJustNow(command);
                     }
                 }
                 // 行動：
@@ -241,12 +241,12 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var commandParameter = new ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard(
+                        var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
                             playerObj: playerObj,
                             directionObj: Commons.PickRight);
 
-                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandParameterMapping.GetDurationBy(commandParameter.GetType());
-                        timeline.AddJustNow(commandParameter);
+                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        timeline.AddJustNow(command);
                     }
                 }
             }
@@ -268,12 +268,12 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var commandParameter = new ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard(
+                        var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft);
 
-                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandParameterMapping.GetDurationBy(commandParameter.GetType());
-                        timeline.AddJustNow(commandParameter);
+                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        timeline.AddJustNow(command);
                     }
                 }
                 // 行動：
@@ -285,12 +285,12 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var commandParameter = new ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard(
+                        var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
                             playerObj: playerObj,
                             directionObj: Commons.PickRight);
 
-                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandParameterMapping.GetDurationBy(commandParameter.GetType());
-                        timeline.AddJustNow(commandParameter);
+                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        timeline.AddJustNow(command);
                     }
                 }
             }
@@ -302,11 +302,11 @@
                 foreach (var playerObj in Commons.Players)
                 {
                     // 場札を並べる
-                    var parameter = new ModelOfThinkingEngineCommandParameter.MoveCardsToHandFromPile(
+                    var parameter = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 1);
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandParameterMapping.GetDurationBy(parameter.GetType());
+                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(parameter.GetType());
                     timeline.AddJustNow(parameter);
                 }
             }

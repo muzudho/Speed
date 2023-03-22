@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommands
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -8,7 +8,7 @@
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
-    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
@@ -90,7 +90,7 @@
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.DropHandCard.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: CommandParameterMapping.GetDurationBy(task.Args.GetType()),
+                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()),
                     idOfCard: idOfCard));
             }
 
@@ -105,7 +105,7 @@
                 // 今回フォーカスするカードを持ち上げる
                 setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PickupHandCard.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: CommandParameterMapping.GetDurationBy(task.Args.GetType()),
+                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()),
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,
@@ -113,9 +113,9 @@
             }
         }
 
-        ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard GetArg(ITask task)
+        ModelOfThinkingEngineCommand.MoveFocusToNextCard GetArg(ITask task)
         {
-            return (ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard)task.Args;
+            return (ModelOfThinkingEngineCommand.MoveFocusToNextCard)task.CommandOfThinkingEngine;
         }
     }
 }

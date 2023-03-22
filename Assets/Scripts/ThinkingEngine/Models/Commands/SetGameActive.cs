@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandParameters
+﻿namespace Assets.Scripts.ThinkingEngine.Models.Commands
 {
     /// <summary>
     /// 対局中か設定

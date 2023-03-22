@@ -47,7 +47,7 @@
                 timeline.RemoveAt(i);
 
                 // ゲーム画面の同期を始めます
-                gameOperationSpan.SourceCode.Build(
+                gameOperationSpan.CommandOfScheduler.Build(
                     gameOperationSpan,
                     gameModelBuffer,
                     setSpanToLerp: setSpanToLerp);

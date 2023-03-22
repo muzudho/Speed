@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommands
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -6,7 +6,7 @@
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
-    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
@@ -96,7 +96,7 @@
                     // 台札へ置く
                     setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PutCardToCenterStack.GenerateSpan(
                         startSeconds: task.StartSeconds,
-                        duration: CommandParameterMapping.GetDurationBy(task.Args.GetType()) / 2.0f,
+                        duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()) / 2.0f,
                         playerObj: playerObj,
                         placeObj: placeObj,
                         target: targetToRemoveObj,
@@ -104,8 +104,8 @@
 
                     // 場札の位置調整（をしないと歯抜けになる）
                     ModelOfSchedulerO3rdSpanGenerator.ArrangeHandCards.GenerateSpan(
-                        startSeconds: task.StartSeconds + CommandParameterMapping.GetDurationBy(task.Args.GetType()) / 2.0f,
-                        duration: CommandParameterMapping.GetDurationBy(task.Args.GetType()) / 2.0f,
+                        startSeconds: task.StartSeconds + CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()) / 2.0f,
+                        duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()) / 2.0f,
                         playerObj: playerObj,
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,
@@ -148,9 +148,9 @@
             return true;
         }
 
-        ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand GetArg(ITask task)
+        ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand GetArg(ITask task)
         {
-            return (ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand)task.Args;
+            return (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)task.CommandOfThinkingEngine;
         }
     }
 }

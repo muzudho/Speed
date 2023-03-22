@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommands
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -6,7 +6,7 @@
     using System;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
-    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
@@ -71,16 +71,16 @@
 
                 setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PutCardToPile.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: CommandParameterMapping.GetDurationBy(task.Args.GetType()),
+                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()),
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
             }
         }
 
-        ModelOfThinkingEngineCommandParameter.MoveCardsToPileFromCenterStacks GetArg(ITask task)
+        ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks GetArg(ITask task)
         {
-            return (ModelOfThinkingEngineCommandParameter.MoveCardsToPileFromCenterStacks)task.Args;
+            return (ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks)task.CommandOfThinkingEngine;
         }
     }
 }

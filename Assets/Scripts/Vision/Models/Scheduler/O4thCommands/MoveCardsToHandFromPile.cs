@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommandParameters
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommands
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -6,7 +6,7 @@
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
-    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -75,7 +75,7 @@
             {
                 ModelOfSchedulerO3rdSpanGenerator.ArrangeHandCards.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: CommandParameterMapping.GetDurationBy(task.Args.GetType()),
+                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfThinkingEngine.GetType()),
                     playerObj: playerObj,
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
@@ -89,9 +89,9 @@
             }
         }
 
-        ModelOfThinkingEngineCommandParameter.MoveCardsToHandFromPile GetArg(ITask task)
+        ModelOfThinkingEngineCommand.MoveCardsToHandFromPile GetArg(ITask task)
         {
-            return (ModelOfThinkingEngineCommandParameter.MoveCardsToHandFromPile)task.Args;
+            return (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)task.CommandOfThinkingEngine;
         }
     }
 }
