@@ -3,8 +3,8 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
-    using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO5thTask = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
     using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thSourceCodePackage;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
@@ -93,7 +93,7 @@
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
                     timeline.AddScheduleSeconds(
                         playerObj: playerObj,
-                        seconds: DurationMapping.GetDurationBy(taskParameter.GetType()));
+                        seconds: ModelOfScheduler.DurationMapping.GetDurationBy(taskParameter.GetType()));
                 }
             }
 

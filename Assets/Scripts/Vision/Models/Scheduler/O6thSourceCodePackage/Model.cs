@@ -7,6 +7,8 @@
 
     /// <summary>
     /// マッピング
+    /// 
+    /// TODO パラメーターと、ソースコードが、１対１対応している
     /// </summary>
     internal class Model
     {

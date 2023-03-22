@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O5thTask
 {
-    using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
     using ModelOfCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfSchedulerO4thSourceCode = Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;

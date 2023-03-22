@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters
+﻿namespace Assets.Scripts.Vision.Models.Scheduler
 {
     using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using System;
@@ -6,8 +6,6 @@
 
     /// <summary>
     /// コマンド引数に、推定実行時間を紐づけます
-    /// 
-    /// TODO ★ 分かりづらい
     /// </summary>
     internal class DurationMapping
     {

@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O7thTimeline
 {
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using System.Collections.Generic;
     using UnityEngine;
     using ModelOfCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
@@ -35,13 +34,7 @@
 
         List<ModelOfSchedulerO5thTask.Model> tasks = new();
 
-        internal List<ModelOfSchedulerO5thTask.Model> Tasks
-        {
-            get
-            {
-                return this.tasks;
-            }
-        }
+        internal List<ModelOfSchedulerO5thTask.Model> Tasks=> this.tasks;
 
         /// <summary>
         /// タイム・ライン作成用カウンター
