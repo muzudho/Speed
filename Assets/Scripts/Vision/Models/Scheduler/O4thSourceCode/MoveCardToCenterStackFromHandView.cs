@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thGameOperation
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -33,7 +33,7 @@
         /// </summary>
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
-        public override void CreateSpan(
+        public override void Build(
             ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
@@ -110,7 +110,7 @@
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,
                         keepPickup: true,
-                        setSpanToLerp: setTimelineSpan); // 場札
+                        setTimelineSpan: setTimelineSpan); // 場札
 
                     // TODO ★ ピックアップしている場札を持ち上げる
                     {

@@ -24,19 +24,19 @@
         /// 
         /// - 持続時間が切れると、消えていく
         /// </summary>
-        List<ModelOfSchedulerO1stTimelineSpan.IModel> ongoingSpansToLerp = new();
+        List<ModelOfSchedulerO1stTimelineSpan.IModel> ongoingSpans = new();
 
         // - メソッド
 
         /// <summary>
         /// 追加
         /// </summary>
-        /// <param name="additionOfSpansToLerp">追加の要素</param>
-        internal void Add(List<ModelOfSchedulerO1stTimelineSpan.IModel> additionOfSpansToLerp)
+        /// <param name="additionOfSpans">追加の要素</param>
+        internal void Add(List<ModelOfSchedulerO1stTimelineSpan.IModel> additionOfSpans)
         {
-            foreach (var spanToLerp in additionOfSpansToLerp)
+            foreach (var spanToLerp in additionOfSpans)
             {
-                this.ongoingSpansToLerp.Add(spanToLerp);
+                this.ongoingSpans.Add(spanToLerp);
             }
 
             // Debug.Log($"[Assets.Scripts.Vision.World.Views.Timeline.View Lerp] リープ ongoingCardMovementViews count:{ongoingCardMovementViews.Count}");
@@ -51,26 +51,26 @@
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
             int i = 0;
-            while (i < this.ongoingSpansToLerp.Count)
+            while (i < this.ongoingSpans.Count)
             {
-                var ongoingCardMovementView = ongoingSpansToLerp[i];
+                var ongoingSpan = ongoingSpans[i];
 
                 // 期限切れ
-                if (ongoingCardMovementView.EndSeconds <= elapsedSeconds)
+                if (ongoingSpan.EndSeconds <= elapsedSeconds)
                 {
                     // TODO ★★ 動作が完了する前に、次の動作を行うと、カードがどんどん沈んでいく、といったことが起こる。連打スパム対策が必要
                     // 動作完了
-                    ongoingCardMovementView.Lerp(1.0f);
+                    ongoingSpan.Lerp(1.0f);
 
                     // リストから除去
-                    ongoingSpansToLerp.RemoveAt(i);
+                    ongoingSpans.RemoveAt(i);
                     continue;
                 }
 
                 // 進捗 0.0 ～ 1.0
-                float progress = (elapsedSeconds - ongoingCardMovementView.StartSeconds) / ongoingCardMovementView.Duration;
+                float progress = (elapsedSeconds - ongoingSpan.StartSeconds) / ongoingSpan.Duration;
                 // 補間
-                ongoingCardMovementView.Lerp(progress);
+                ongoingSpan.Lerp(progress);
 
                 i++;
             }
@@ -78,7 +78,7 @@
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Vision.World.Views.Timeline.View DebugWrite] ongoingItems.Count:{ongoingSpansToLerp.Count}");
+            Debug.Log($"[Assets.Scripts.Vision.World.Views.Timeline.View DebugWrite] ongoingItems.Count:{ongoingSpans.Count}");
         }
 
     }

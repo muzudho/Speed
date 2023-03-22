@@ -1,8 +1,8 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O5thTask
 {
-    using Assets.Scripts.Vision.Models.Scheduler.O4thGameOperation;
-    using ModelOfSchedulerO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
-    using ModelOfSchedulerO4thGameOperation = Assets.Scripts.Vision.Models.Scheduler.O4thGameOperation;
+    using Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
+    using ModelOfSchedulerO2ndTaskArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs;
+    using ModelOfSchedulerO4thGameOperation = Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
 
     /// <summary>
     /// タスク
@@ -21,7 +21,7 @@
         /// <param name="gameOperation"></param>
         public Model(
             float startSeconds,
-            ModelOfSchedulerO2ndTimedCommandArgs.Model args,
+            ModelOfSchedulerO2ndTaskArgs.Model args,
             ModelOfSchedulerO4thGameOperation.IModel gameOperation)
         {
             this.StartSeconds = startSeconds;
@@ -41,7 +41,7 @@
         /// </summary>
         public float EndSeconds => StartSeconds + this.Args.Duration;
 
-        public ModelOfSchedulerO2ndTimedCommandArgs.Model Args { get; private set; }
+        public ModelOfSchedulerO2ndTaskArgs.Model Args { get; private set; }
 
         public ModelOfSchedulerO4thGameOperation.IModel GameOperation { get; private set; }
     }

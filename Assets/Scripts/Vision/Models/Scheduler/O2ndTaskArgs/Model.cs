@@ -1,7 +1,10 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs
 {
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
 
+    /// <summary>
+    /// タスクの引数
+    /// </summary>
     internal class Model
     {
         // - その他

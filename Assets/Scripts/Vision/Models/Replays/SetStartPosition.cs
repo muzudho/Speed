@@ -4,9 +4,9 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfSchedulerO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
-    using ModelOfSchedulerO5thGameOperationSpan = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
-    using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thGameOperationMapping;
+    using ModelOfSchedulerO2ndTaskArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs;
+    using ModelOfSchedulerO5thTask = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
+    using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thSourceCodePackage;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
@@ -21,14 +21,14 @@
             while (0 < model.GetLengthOfCenterStackCards(Commons.RightCenterStack))
             {
                 // 即実行
-                var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
+                var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveCardsToPileFromCenterStacksModel(
                         placeObj: Commons.RightCenterStack
                         ));
-                var task = new ModelOfSchedulerO5thGameOperationSpan.Model(
+                var task = new ModelOfSchedulerO5thTask.Model(
                         startSeconds: 0.0f,
                         args: timedCommandArg,
-                        gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewGameOperationFromModel(timedCommandArg.GetType()));
-                task.GameOperation.CreateSpan(
+                        gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(timedCommandArg.GetType()));
+                task.GameOperation.Build(
                     task,
                     modelBuffer,
                     setSpanToLerp: (movementViewModel) => movementViewModel.Lerp(1.0f));
@@ -94,7 +94,7 @@
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
                     timeline.AddScheduleSeconds(
                         playerObj: playerObj,
-                        seconds: new ModelOfSchedulerO2ndTimedCommandArgs.Model(spanModel).Duration);
+                        seconds: new ModelOfSchedulerO2ndTaskArgs.Model(spanModel).Duration);
                 }
             }
 

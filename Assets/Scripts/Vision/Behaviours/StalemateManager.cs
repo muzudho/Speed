@@ -7,7 +7,7 @@
     using TMPro;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfSchedulerO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
+    using ModelOfSchedulerO2ndTaskArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
@@ -119,7 +119,7 @@
             this.countDownText.text = "";
             {
                 // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveCardToCenterStackFromHandModel(
                     playerObj: Commons.Player1,      // １プレイヤーが
                     placeObj: Commons.RightCenterStack)); // 右の
 
@@ -127,7 +127,7 @@
             }
             {
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveCardToCenterStackFromHandModel(
                     playerObj: Commons.Player2,      // ２プレイヤーが
                     placeObj: Commons.LeftCenterStack)); // 左の
 

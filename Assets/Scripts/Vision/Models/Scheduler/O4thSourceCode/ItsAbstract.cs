@@ -1,11 +1,11 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thGameOperation
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
 
     /// <summary>
-    /// スパン生成器
+    /// ソースコードのようなもの
     /// 
     /// - 指定した時間と、そのとき実行されるコマンドのペア
     /// </summary>
@@ -19,20 +19,20 @@
         /// <returns></returns>
         public abstract IModel NewThis();
 
-        // - プロパティ
-
         // - メソッド
 
         /// <summary>
-        /// ゲーム画面の同期を始めます
+        /// ビルド
+        /// 
+        /// - ゲーム画面の同期を始めます
         /// </summary>
         /// <param name="task"></param>
         /// <param name="gameModelBuffer"></param>
-        /// <param name="setViewMovement"></param>
-        virtual public void CreateSpan(
+        /// <param name="setTimelineSpan"></param>
+        virtual public void Build(
             ITask task,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setViewMovement)
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             // Ignored
         }

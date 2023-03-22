@@ -5,9 +5,9 @@
     using System.Collections.Generic;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfSchedulerO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
+    using ModelOfSchedulerO2ndTaskArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs;
     using ModelOfSchedulerO5thTask = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
-    using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thGameOperationMapping;
+    using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thSourceCodePackage;
 
     /// <summary>
     /// タイムライン
@@ -58,12 +58,12 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="commandArg">コマンド引数</param>
-        internal void AddJustNow(ModelOfSchedulerO2ndTimedCommandArgs.Model timedCommandArg)
+        internal void AddJustNow(ModelOfSchedulerO2ndTaskArgs.Model taskArg)
         {
             var task = new ModelOfSchedulerO5thTask.Model(
                     startSeconds: GameModel.ElapsedSeconds,
-                    args: timedCommandArg,
-                    gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewGameOperationFromModel(timedCommandArg.CommandArg.GetType()));
+                    args: taskArg,
+                    gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(taskArg.CommandArg.GetType()));
 
             this.Tasks.Add(task);
         }
@@ -79,8 +79,8 @@
         {
             var task = new ModelOfSchedulerO5thTask.Model(
                     startSeconds: this.ScheduledSeconds[playerObj.AsInt],
-                    args: new ModelOfSchedulerO2ndTimedCommandArgs.Model(commandArg),
-                    gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewGameOperationFromModel(commandArg.GetType()));
+                    args: new ModelOfSchedulerO2ndTaskArgs.Model(commandArg),
+                    gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(commandArg.GetType()));
 
             this.Tasks.Add(task);
             this.ScheduledSeconds[playerObj.AsInt] += task.Args.Duration;
@@ -91,12 +91,12 @@
             this.ScheduledSeconds[playerObj.AsInt] += seconds;
         }
 
-        internal ModelOfSchedulerO5thTask.Model GetGameOperationSpanAt(int index)
+        internal ModelOfSchedulerO5thTask.Model GetTaskAt(int index)
         {
             return this.Tasks[index];
         }
 
-        internal int GetCountGameOperationSpans()
+        internal int GetCountTasks()
         {
             return this.Tasks.Count;
         }

@@ -6,7 +6,7 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfSchedulerO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
+    using ModelOfSchedulerO2ndTaskArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
@@ -128,7 +128,7 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                    var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.RightCenterStack)); // 右の
 
@@ -148,7 +148,7 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                    var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.RightCenterStack)); // 右の
 
@@ -171,7 +171,7 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                    var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.LeftCenterStack));  // 左の
 
@@ -191,7 +191,7 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                    var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardToCenterStackFromHandModel(
+                    var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveCardToCenterStackFromHandModel(
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.LeftCenterStack));  // 左の
 
@@ -221,7 +221,7 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                        var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft));
 
@@ -238,7 +238,7 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                        var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
                             directionObj: Commons.PickRight));
 
@@ -265,7 +265,7 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                        var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft));
 
@@ -282,7 +282,7 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveFocusToNextCardModel(
+                        var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveFocusToNextCardModel(
                             playerObj: playerObj,
                             directionObj: Commons.PickRight));
 
@@ -299,7 +299,7 @@
                 foreach (var playerObj in Commons.Players)
                 {
                     // 場札を並べる
-                    var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardsToHandFromPileModel(
+                    var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveCardsToHandFromPileModel(
                         playerObj: playerObj,
                         numberOfCards: 1));
 

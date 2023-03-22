@@ -1,6 +1,6 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thGameOperation
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode
 {
-    using ModelOfSchedulerTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
+    using ModelOfSchedulerTaskArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs;
 
     internal interface ITask
     {
@@ -16,7 +16,7 @@
         /// </summary>
         public float EndSeconds => StartSeconds + this.Args.Duration;
 
-        public ModelOfSchedulerTimedCommandArgs.Model Args { get; }
+        public ModelOfSchedulerTaskArgs.Model Args { get; }
 
         public IModel GameOperation { get; }
     }

@@ -28,9 +28,9 @@
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
             int i = 0;
-            while (i < timeline.GetCountGameOperationSpans())
+            while (i < timeline.GetCountTasks())
             {
-                var gameOperationSpan = timeline.GetGameOperationSpanAt(i);
+                var gameOperationSpan = timeline.GetTaskAt(i);
 
                 // まだ
                 if (elapsedSeconds < gameOperationSpan.StartSeconds)
@@ -47,7 +47,7 @@
                 timeline.RemoveAt(i);
 
                 // ゲーム画面の同期を始めます
-                gameOperationSpan.GameOperation.CreateSpan(
+                gameOperationSpan.GameOperation.Build(
                     gameOperationSpan,
                     gameModelBuffer,
                     setSpanToLerp: setSpanToLerp);

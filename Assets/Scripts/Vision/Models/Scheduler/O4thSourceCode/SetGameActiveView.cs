@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thGameOperation
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -6,9 +6,9 @@
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
 
     /// <summary>
-    /// なんにもしません
+    /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    class SetIdlingView : ItsAbstract
+    class SetGameActiveView : ItsAbstract
     {
         // - その他（生成）
 
@@ -18,25 +18,38 @@
         /// <returns></returns>
         public override IModel NewThis()
         {
-            return new SetIdlingView();
+            return new SetGameActiveView();
         }
+
+        // - フィールド
+
+        bool handled;
 
         // - メソッド
 
         /// <summary>
         /// ゲーム画面の同期を始めます
         /// </summary>
-        public override void CreateSpan(
+        public override void Build(
             ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
-            // なんにもしません
+            if (handled)
+            {
+                return;
+            }
+
+            // モデル更新：１回実行すれば充分
+            gameModelBuffer.IsGameActive = GetArg(task).IsGameActive;
+            handled = true;
+
+            // ビュー更新：なし
         }
 
-        SetIdling GetArg(ITask task)
+        SetGameActive GetArg(ITask task)
         {
-            return (SetIdling)task.Args.CommandArg;
+            return (SetGameActive)task.Args.CommandArg;
         }
     }
 }

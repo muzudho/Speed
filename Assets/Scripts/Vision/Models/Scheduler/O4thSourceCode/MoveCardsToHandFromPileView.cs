@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thGameOperation
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -32,7 +32,7 @@
         /// - 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
         /// - 画面上の場札は位置調整される
         /// </summary>
-        public override void CreateSpan(
+        public override void Build(
             ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
@@ -80,7 +80,7 @@
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
                     keepPickup: true,
-                    setSpanToLerp: setTimelineSpan);
+                    setTimelineSpan: setTimelineSpan);
             }
 
             // TODO ★ ピックアップしている場札を持ち上げる
