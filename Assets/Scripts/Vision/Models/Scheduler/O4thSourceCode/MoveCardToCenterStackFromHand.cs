@@ -3,7 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
@@ -11,7 +11,7 @@
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
     /// </summary>
-    class MoveCardToCenterStackFromHandView : ItsAbstract
+    class MoveCardToCenterStackFromHand : ItsAbstract
     {
         // - 生成
 
@@ -21,7 +21,7 @@
         /// <returns></returns>
         public override IModel NewThis()
         {
-            return new MoveCardToCenterStackFromHandView();
+            return new MoveCardToCenterStackFromHand();
         }
 
         // - メソッド

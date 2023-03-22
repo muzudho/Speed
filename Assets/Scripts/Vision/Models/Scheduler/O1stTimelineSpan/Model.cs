@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models.World;
+    using System;
     using UnityEngine;
 
     /// <summary>
@@ -26,13 +27,15 @@
             float duration,
             IdOfGameObjects target,
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
-            LazyArgs.GetValue<PositionAndRotationLazy> getEnd)
+            LazyArgs.GetValue<PositionAndRotationLazy> getEnd,
+            Action onFinished = null)
         {
             this.StartSeconds = startSeconds;
             this.Duration = duration;
             this.Target = target;
             this.GetBegin = getBegin;
             this.GetEnd = getEnd;
+            this.OnFinished = onFinished;
         }
 
         // - プロパティ
@@ -48,6 +51,11 @@
         public float Duration { get; private set; }
 
         public float EndSeconds => StartSeconds + Duration;
+
+        /// <summary>
+        /// 終了時の処理
+        /// </summary>
+        public Action OnFinished { get; private set; }
 
         internal IdOfGameObjects Target { get; private set; }
 

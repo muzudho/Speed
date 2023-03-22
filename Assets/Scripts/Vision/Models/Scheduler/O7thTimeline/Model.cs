@@ -1,11 +1,11 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O7thTimeline
 {
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using System.Collections.Generic;
     using UnityEngine;
+    using ModelOfCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfSchedulerO2ndTaskArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs;
+    using ModelOfSchedulerO2ndTaskParameters = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using ModelOfSchedulerO5thTask = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
     using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thSourceCodePackage;
 
@@ -58,12 +58,12 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="commandArg">コマンド引数</param>
-        internal void AddJustNow(ModelOfSchedulerO2ndTaskArgs.Model taskArg)
+        internal void AddJustNow(ModelOfSchedulerO2ndTaskParameters.Model taskArg)
         {
             var task = new ModelOfSchedulerO5thTask.Model(
                     startSeconds: GameModel.ElapsedSeconds,
                     args: taskArg,
-                    gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(taskArg.CommandArg.GetType()));
+                    sourceCode: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(taskArg.CommandArg.GetType()));
 
             this.Tasks.Add(task);
         }
@@ -74,13 +74,13 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="playerObj"></param>
-        /// <param name="commandArg">コマンド引数</param>
-        internal void AddWithinScheduler(Player playerObj, ICommandArg commandArg)
+        /// <param name="parameter">コマンド引数</param>
+        internal void AddWithinScheduler(Player playerObj, ModelOfCommandParameter.IModel parameter)
         {
             var task = new ModelOfSchedulerO5thTask.Model(
                     startSeconds: this.ScheduledSeconds[playerObj.AsInt],
-                    args: new ModelOfSchedulerO2ndTaskArgs.Model(commandArg),
-                    gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(commandArg.GetType()));
+                    args: new ModelOfSchedulerO2ndTaskParameters.Model(parameter),
+                    sourceCode: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(parameter.GetType()));
 
             this.Tasks.Add(task);
             this.ScheduledSeconds[playerObj.AsInt] += task.Args.Duration;

@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Models.Replays
 {
     using Assets.Scripts.ThinkingEngine;
-    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     static class Demo
@@ -87,18 +87,18 @@
                 {
                     // １プレイヤーは手札から１枚抜いて、場札として置く
                     var playerObj = Commons.Player1;
-                    var spanModel = new MoveCardsToHandFromPileModel(
+                    var parameter = new MoveCardsToHandFromPileModel(
                             playerObj: playerObj,
                             numberOfCards: 1);
-                    timeline.AddWithinScheduler(playerObj, spanModel);
+                    timeline.AddWithinScheduler(playerObj, parameter);
                 }
                 {
                     // ２プレイヤーは手札から１枚抜いて、場札として置く
                     var playerObj = Commons.Player2;
-                    var spanModel = new MoveCardsToHandFromPileModel(
+                    var parameter = new MoveCardsToHandFromPileModel(
                             playerObj: playerObj,
                             numberOfCards: 1);
-                    timeline.AddWithinScheduler(playerObj, spanModel);
+                    timeline.AddWithinScheduler(playerObj, parameter);
                 }
             }
         }

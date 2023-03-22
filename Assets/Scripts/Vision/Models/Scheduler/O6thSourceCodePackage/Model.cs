@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O6thSourceCodePackage
 {
-    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using System;
     using System.Collections.Generic;
     using ModelOfSchedulerO4thSourceCode = Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
@@ -12,12 +12,12 @@
     {
         static Model()
         {
-            SourceCodes.Add(typeof(MoveCardsToHandFromPileModel).GetHashCode(), new ModelOfSchedulerO4thSourceCode.MoveCardsToHandFromPileView());
-            SourceCodes.Add(typeof(MoveCardsToPileFromCenterStacksModel).GetHashCode(), new ModelOfSchedulerO4thSourceCode.MoveCardsToPileFromCenterStacksView());
-            SourceCodes.Add(typeof(MoveCardToCenterStackFromHandModel).GetHashCode(), new ModelOfSchedulerO4thSourceCode.MoveCardToCenterStackFromHandView());
-            SourceCodes.Add(typeof(MoveFocusToNextCardModel).GetHashCode(), new ModelOfSchedulerO4thSourceCode.MoveFocusToNextCardView());
-            SourceCodes.Add(typeof(SetGameActive).GetHashCode(), new ModelOfSchedulerO4thSourceCode.SetGameActiveView());
-            SourceCodes.Add(typeof(SetIdling).GetHashCode(), new ModelOfSchedulerO4thSourceCode.SetIdlingView());
+            SourceCodes.Add(typeof(MoveCardsToHandFromPileModel).GetHashCode(), new ModelOfSchedulerO4thSourceCode.MoveCardsToHandFromPile());
+            SourceCodes.Add(typeof(MoveCardsToPileFromCenterStacksModel).GetHashCode(), new ModelOfSchedulerO4thSourceCode.MoveCardsToPileFromCenterStacks());
+            SourceCodes.Add(typeof(MoveCardToCenterStackFromHandModel).GetHashCode(), new ModelOfSchedulerO4thSourceCode.MoveCardToCenterStackFromHand());
+            SourceCodes.Add(typeof(MoveFocusToNextCardModel).GetHashCode(), new ModelOfSchedulerO4thSourceCode.MoveFocusToNextCard());
+            SourceCodes.Add(typeof(SetGameActive).GetHashCode(), new ModelOfSchedulerO4thSourceCode.SetGameActive());
+            SourceCodes.Add(typeof(SetIdling).GetHashCode(), new ModelOfSchedulerO4thSourceCode.SetIdling());
         }
 
         // - プロパティ

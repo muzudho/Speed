@@ -43,7 +43,7 @@
             Vector3? endPosition = null;
             Quaternion? endRotation = null;
 
-            return Helper.GenerateSpan(
+            return new ModelOfSchedulerO1stTimelineSpan.Model(
                 startSeconds: startSeconds,
                 duration: duration,
                 target: targetGo,

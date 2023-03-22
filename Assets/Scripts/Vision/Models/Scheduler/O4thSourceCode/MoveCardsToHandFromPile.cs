@@ -3,7 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
@@ -11,7 +11,7 @@
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    class MoveCardsToHandFromPileView : ItsAbstract
+    class MoveCardsToHandFromPile : ItsAbstract
     {
         // - その他（生成）
 
@@ -21,7 +21,7 @@
         /// <returns></returns>
         public override IModel NewThis()
         {
-            return new MoveCardsToHandFromPileView();
+            return new MoveCardsToHandFromPile();
         }
 
         // - メソッド

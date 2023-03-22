@@ -1,9 +1,9 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandArgs
+﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandParameters
 {
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
     /// </summary>
-    internal class MoveCardToCenterStackFromHandModel : ICommandArg
+    internal class MoveCardToCenterStackFromHandModel : IModel
     {
         // - 生成
 

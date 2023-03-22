@@ -1,9 +1,9 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandArgs
+﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandParameters
 {
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    internal class MoveCardsToHandFromPileModel : ICommandArg
+    internal class MoveCardsToHandFromPileModel : IModel
     {
         // - その他（生成）
 

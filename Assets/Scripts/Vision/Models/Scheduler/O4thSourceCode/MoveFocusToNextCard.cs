@@ -3,7 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using Assets.Scripts.Vision.Models.World;
     using System;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
@@ -13,7 +13,7 @@
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>
-    class MoveFocusToNextCardView : ItsAbstract
+    class MoveFocusToNextCard : ItsAbstract
     {
         // - 生成
 
@@ -23,7 +23,7 @@
         /// <returns></returns>
         public override IModel NewThis()
         {
-            return new MoveFocusToNextCardView();
+            return new MoveFocusToNextCard();
         }
 
         // - メソッド

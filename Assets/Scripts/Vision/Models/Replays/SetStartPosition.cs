@@ -2,9 +2,9 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfSchedulerO2ndTaskArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs;
+    using ModelOfSchedulerO2ndTaskParameters = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using ModelOfSchedulerO5thTask = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
     using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thSourceCodePackage;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
@@ -21,14 +21,14 @@
             while (0 < model.GetLengthOfCenterStackCards(Commons.RightCenterStack))
             {
                 // 即実行
-                var timedCommandArg = new ModelOfSchedulerO2ndTaskArgs.Model(new MoveCardsToPileFromCenterStacksModel(
+                var timedCommandArg = new ModelOfSchedulerO2ndTaskParameters.Model(new MoveCardsToPileFromCenterStacksModel(
                         placeObj: Commons.RightCenterStack
                         ));
                 var task = new ModelOfSchedulerO5thTask.Model(
                         startSeconds: 0.0f,
                         args: timedCommandArg,
-                        gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(timedCommandArg.GetType()));
-                task.GameOperation.Build(
+                        sourceCode: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(timedCommandArg.GetType()));
+                task.SourceCode.Build(
                     task,
                     modelBuffer,
                     setSpanToLerp: (movementViewModel) => movementViewModel.Lerp(1.0f));
@@ -37,17 +37,17 @@
             // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
             {
                 var playerObj = Commons.Player1;
-                var spanModel = new MoveCardsToHandFromPileModel(
+                var parameter = new MoveCardsToHandFromPileModel(
                         playerObj: playerObj,
                         numberOfCards: 5);
-                timeline.AddWithinScheduler(playerObj, spanModel);
+                timeline.AddWithinScheduler(playerObj, parameter);
             }
             {
                 var playerObj = Commons.Player2;
-                var spanModel = new MoveCardsToHandFromPileModel(
+                var parameter = new MoveCardsToHandFromPileModel(
                         playerObj: playerObj,
                         numberOfCards: 5);
-                timeline.AddWithinScheduler(playerObj, spanModel);
+                timeline.AddWithinScheduler(playerObj, parameter);
             }
 
             // 間
@@ -94,7 +94,7 @@
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
                     timeline.AddScheduleSeconds(
                         playerObj: playerObj,
-                        seconds: new ModelOfSchedulerO2ndTaskArgs.Model(spanModel).Duration);
+                        seconds: new ModelOfSchedulerO2ndTaskParameters.Model(spanModel).Duration);
                 }
             }
 

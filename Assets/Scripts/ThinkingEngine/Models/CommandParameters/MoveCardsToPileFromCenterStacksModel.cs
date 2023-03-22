@@ -1,9 +1,9 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandArgs
+﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandParameters
 {
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    internal class MoveCardsToPileFromCenterStacksModel : ICommandArg
+    internal class MoveCardsToPileFromCenterStacksModel : IModel
     {
         // - 生成
 

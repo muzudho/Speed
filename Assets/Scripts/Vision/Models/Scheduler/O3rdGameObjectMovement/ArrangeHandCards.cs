@@ -108,7 +108,7 @@
                         homePositionOfHand: staticDestination.GetPosition(),
                         homeRotationOfHand: staticDestination.GetRotation());
 
-                    setTimelineSpan(Helper.GenerateSpan(
+                    setTimelineSpan(new ModelOfSchedulerO1stTimelineSpan.Model(
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,
@@ -144,7 +144,7 @@
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;
 
-                    setTimelineSpan(Helper.GenerateSpan(
+                    setTimelineSpan(new ModelOfSchedulerO1stTimelineSpan.Model(
                         startSeconds: startSeconds,
                         duration: duration,
                         target: idOfGo,

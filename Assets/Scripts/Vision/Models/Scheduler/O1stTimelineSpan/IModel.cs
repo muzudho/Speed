@@ -1,5 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan
 {
+    using System;
+
     /// <summary>
     /// タイムライン上のスパン要素
     /// </summary>
@@ -22,6 +24,11 @@
         /// </summary>
         /// <returns></returns>
         float EndSeconds { get; }
+
+        /// <summary>
+        /// 終了時の処理
+        /// </summary>
+        Action OnFinished { get; }
 
         // - メソッド
 

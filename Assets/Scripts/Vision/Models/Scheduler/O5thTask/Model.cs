@@ -1,8 +1,8 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O5thTask
 {
     using Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
-    using ModelOfSchedulerO2ndTaskArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs;
-    using ModelOfSchedulerO4thGameOperation = Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
+    using ModelOfSchedulerO2ndTaskParameters = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
+    using ModelOfSchedulerO4thSourceCode = Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
 
     /// <summary>
     /// タスク
@@ -18,15 +18,15 @@
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
         /// <param name="args">スパン・モデル</param>
-        /// <param name="gameOperation"></param>
+        /// <param name="sourceCode"></param>
         public Model(
             float startSeconds,
-            ModelOfSchedulerO2ndTaskArgs.Model args,
-            ModelOfSchedulerO4thGameOperation.IModel gameOperation)
+            ModelOfSchedulerO2ndTaskParameters.Model args,
+            ModelOfSchedulerO4thSourceCode.IModel sourceCode)
         {
             this.StartSeconds = startSeconds;
             this.Args = args;
-            this.GameOperation = gameOperation;
+            this.SourceCode = sourceCode;
         }
 
         // - プロパティ
@@ -41,8 +41,14 @@
         /// </summary>
         public float EndSeconds => StartSeconds + this.Args.Duration;
 
-        public ModelOfSchedulerO2ndTaskArgs.Model Args { get; private set; }
+        /// <summary>
+        /// 引数のようなもの
+        /// </summary>
+        public ModelOfSchedulerO2ndTaskParameters.Model Args { get; private set; }
 
-        public ModelOfSchedulerO4thGameOperation.IModel GameOperation { get; private set; }
+        /// <summary>
+        /// ソースコードのようなもの
+        /// </summary>
+        public ModelOfSchedulerO4thSourceCode.IModel SourceCode { get; private set; }
     }
 }

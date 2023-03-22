@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode
 {
-    using ModelOfSchedulerTaskArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskArgs;
+    using ModelOfSchedulerO2ndTaskParameters = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
 
     internal interface ITask
     {
@@ -16,8 +16,8 @@
         /// </summary>
         public float EndSeconds => StartSeconds + this.Args.Duration;
 
-        public ModelOfSchedulerTaskArgs.Model Args { get; }
+        public ModelOfSchedulerO2ndTaskParameters.Model Args { get; }
 
-        public IModel GameOperation { get; }
+        public IModel SourceCode { get; }
     }
 }

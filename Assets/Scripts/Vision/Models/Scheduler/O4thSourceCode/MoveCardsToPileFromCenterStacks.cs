@@ -3,7 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using System;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
@@ -11,7 +11,7 @@
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    class MoveCardsToPileFromCenterStacksView : ItsAbstract
+    class MoveCardsToPileFromCenterStacks : ItsAbstract
     {
         // - 生成
 
@@ -21,7 +21,7 @@
         /// <returns></returns>
         public override IModel NewThis()
         {
-            return new MoveCardsToPileFromCenterStacksView();
+            return new MoveCardsToPileFromCenterStacks();
         }
 
         // - メソッド

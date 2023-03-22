@@ -1,9 +1,9 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandArgs
+﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandParameters
 {
     /// <summary>
     /// 間（ま）を設定
     /// </summary>
-    internal class SetIdling : ICommandArg
+    internal class SetIdling : IModel
     {
         // - その他（生成）
 

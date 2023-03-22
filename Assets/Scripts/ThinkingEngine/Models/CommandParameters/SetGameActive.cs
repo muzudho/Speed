@@ -1,9 +1,9 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandArgs
+﻿namespace Assets.Scripts.ThinkingEngine.Models.CommandParameters
 {
     /// <summary>
     /// 対局中か設定
     /// </summary>
-    internal class SetGameActive : ICommandArg
+    internal class SetGameActive : IModel
     {
         // - その他（生成）
 

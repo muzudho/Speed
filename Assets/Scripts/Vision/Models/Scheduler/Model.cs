@@ -62,6 +62,12 @@
                     // 動作完了
                     ongoingSpan.Lerp(1.0f);
 
+                    // （あれば）終了時の処理
+                    if (ongoingSpan.OnFinished!=null)
+                    {
+                        ongoingSpan.OnFinished();
+                    }
+
                     // リストから除去
                     ongoingSpans.RemoveAt(i);
                     continue;

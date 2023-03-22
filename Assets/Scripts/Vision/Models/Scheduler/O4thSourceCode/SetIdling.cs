@@ -2,13 +2,13 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
+    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
 
     /// <summary>
     /// なんにもしません
     /// </summary>
-    class SetIdlingView : ItsAbstract
+    class SetIdling : ItsAbstract
     {
         // - その他（生成）
 
@@ -18,7 +18,7 @@
         /// <returns></returns>
         public override IModel NewThis()
         {
-            return new SetIdlingView();
+            return new SetIdling();
         }
 
         // - メソッド
@@ -34,9 +34,9 @@
             // なんにもしません
         }
 
-        SetIdling GetArg(ITask task)
+        ThinkingEngine.Models.CommandParameters.SetIdling GetArg(ITask task)
         {
-            return (SetIdling)task.Args.CommandArg;
+            return (ThinkingEngine.Models.CommandParameters.SetIdling)task.Args.CommandArg;
         }
     }
 }
