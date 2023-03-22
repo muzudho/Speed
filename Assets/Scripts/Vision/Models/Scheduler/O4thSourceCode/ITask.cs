@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode
 {
     using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
-    using ModelOfSchedulerO2ndTaskParameters = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
+    using ModelOfCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
 
     internal interface ITask
     {
@@ -17,7 +17,7 @@
         /// </summary>
         public float EndSeconds => StartSeconds + DurationMapping.GetDurationBy(this.Args.GetType());
 
-        public ModelOfSchedulerO2ndTaskParameters.Model Args { get; }
+        public ModelOfCommandParameter.IModel Args { get; }
 
         public IModel SourceCode { get; }
     }

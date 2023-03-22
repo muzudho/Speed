@@ -6,7 +6,6 @@
     using UnityEngine;
     using ModelOfCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfSchedulerO2ndTaskParameters = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using ModelOfSchedulerO5thTask = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
     using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thSourceCodePackage;
 
@@ -59,12 +58,12 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="commandArg">コマンド引数</param>
-        internal void AddJustNow(ModelOfSchedulerO2ndTaskParameters.Model taskArg)
+        internal void AddJustNow(ModelOfCommandParameter.IModel parameter)
         {
             var task = new ModelOfSchedulerO5thTask.Model(
                     startSeconds: GameModel.ElapsedSeconds,
-                    args: taskArg,
-                    sourceCode: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(taskArg.CommandArg.GetType()));
+                    parameter: parameter,
+                    sourceCode: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(parameter.GetType()));
 
             this.Tasks.Add(task);
         }
@@ -80,7 +79,7 @@
         {
             var task = new ModelOfSchedulerO5thTask.Model(
                     startSeconds: this.ScheduledSeconds[playerObj.AsInt],
-                    args: new ModelOfSchedulerO2ndTaskParameters.Model(parameter),
+                    parameter: parameter,
                     sourceCode: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(parameter.GetType()));
 
             this.Tasks.Add(task);

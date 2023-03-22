@@ -2,7 +2,6 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
 
     /// <summary>
@@ -36,7 +35,7 @@
 
         ThinkingEngine.Models.CommandParameters.SetIdling GetArg(ITask task)
         {
-            return (ThinkingEngine.Models.CommandParameters.SetIdling)task.Args.CommandArg;
+            return (ThinkingEngine.Models.CommandParameters.SetIdling)task.Args;
         }
     }
 }

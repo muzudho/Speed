@@ -151,7 +151,7 @@
 
         MoveCardToCenterStackFromHandModel GetArg(ITask task)
         {
-            return (MoveCardToCenterStackFromHandModel)task.Args.CommandArg;
+            return (MoveCardToCenterStackFromHandModel)task.Args;
         }
     }
 }

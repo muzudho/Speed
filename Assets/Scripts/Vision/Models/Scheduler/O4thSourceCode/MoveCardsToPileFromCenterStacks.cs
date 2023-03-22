@@ -81,7 +81,7 @@
 
         MoveCardsToPileFromCenterStacksModel GetArg(ITask task)
         {
-            return (MoveCardsToPileFromCenterStacksModel)task.Args.CommandArg;
+            return (MoveCardsToPileFromCenterStacksModel)task.Args;
         }
     }
 }

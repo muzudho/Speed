@@ -2,7 +2,7 @@
 {
     using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
-    using ModelOfSchedulerO2ndTaskParameters = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
+    using ModelOfCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfSchedulerO4thSourceCode = Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
 
     /// <summary>
@@ -18,15 +18,15 @@
         /// 生成
         /// </summary>
         /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="args">スパン・モデル</param>
+        /// <param name="parameter">スパン・モデル</param>
         /// <param name="sourceCode"></param>
         public Model(
             float startSeconds,
-            ModelOfSchedulerO2ndTaskParameters.Model args,
+            ModelOfCommandParameter.IModel parameter,
             ModelOfSchedulerO4thSourceCode.IModel sourceCode)
         {
             this.StartSeconds = startSeconds;
-            this.Args = args;
+            this.Args = parameter;
             this.SourceCode = sourceCode;
         }
 
@@ -45,7 +45,7 @@
         /// <summary>
         /// 引数のようなもの
         /// </summary>
-        public ModelOfSchedulerO2ndTaskParameters.Model Args { get; private set; }
+        public ModelOfCommandParameter.IModel Args { get; private set; }
 
         /// <summary>
         /// ソースコードのようなもの

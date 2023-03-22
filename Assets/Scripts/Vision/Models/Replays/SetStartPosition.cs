@@ -5,7 +5,6 @@
     using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfSchedulerO2ndTaskParameters = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using ModelOfSchedulerO5thTask = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
     using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thSourceCodePackage;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
@@ -22,13 +21,12 @@
             while (0 < model.GetLengthOfCenterStackCards(Commons.RightCenterStack))
             {
                 // 即実行
-                var timedCommandArg = new ModelOfSchedulerO2ndTaskParameters.Model(new MoveCardsToPileFromCenterStacksModel(
-                        placeObj: Commons.RightCenterStack
-                        ));
+                var parameter = new MoveCardsToPileFromCenterStacksModel(
+                        placeObj: Commons.RightCenterStack);
                 var task = new ModelOfSchedulerO5thTask.Model(
                         startSeconds: 0.0f,
-                        args: timedCommandArg,
-                        sourceCode: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(timedCommandArg.GetType()));
+                        parameter: parameter,
+                        sourceCode: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(parameter.GetType()));
                 task.SourceCode.Build(
                     task,
                     modelBuffer,
@@ -84,19 +82,18 @@
 
             // 対局開始の合図
             {
-                var spanModel = new SetGameActive(
+                var taskParameter = new SetGameActive(
                     isGameActive: true);
 
                 {
                     var playerObj = Commons.Player1; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
-                    timeline.AddWithinScheduler(playerObj, spanModel);
+                    timeline.AddWithinScheduler(playerObj, taskParameter);
                 }
                 {
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
-                    var taskParameter = new ModelOfSchedulerO2ndTaskParameters.Model(spanModel);
                     timeline.AddScheduleSeconds(
                         playerObj: playerObj,
-                        seconds: DurationMapping.GetDurationBy(taskParameter.CommandArg.GetType()));
+                        seconds: DurationMapping.GetDurationBy(taskParameter.GetType()));
                 }
             }
 

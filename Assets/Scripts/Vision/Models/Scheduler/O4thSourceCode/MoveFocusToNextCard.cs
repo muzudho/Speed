@@ -116,7 +116,7 @@
 
         MoveFocusToNextCardModel GetArg(ITask task)
         {
-            return (MoveFocusToNextCardModel)task.Args.CommandArg;
+            return (MoveFocusToNextCardModel)task.Args;
         }
     }
 }

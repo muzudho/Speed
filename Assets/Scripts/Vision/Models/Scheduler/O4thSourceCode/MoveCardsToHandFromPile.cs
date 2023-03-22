@@ -92,7 +92,7 @@
 
         MoveCardsToHandFromPileModel GetArg(ITask task)
         {
-            return (MoveCardsToHandFromPileModel)task.Args.CommandArg;
+            return (MoveCardsToHandFromPileModel)task.Args;
         }
     }
 }
