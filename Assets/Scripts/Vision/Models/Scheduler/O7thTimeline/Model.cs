@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O7thTimeline
 {
     using Assets.Scripts.ThinkingEngine.Models;
+    using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using System.Collections.Generic;
     using UnityEngine;
     using ModelOfCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
@@ -83,7 +84,7 @@
                     sourceCode: ModelOfSchedulerO6thGameOperationMapping.Model.NewSourceCodeFromModel(parameter.GetType()));
 
             this.Tasks.Add(task);
-            this.ScheduledSeconds[playerObj.AsInt] += task.Args.Duration;
+            this.ScheduledSeconds[playerObj.AsInt] += DurationMapping.GetDurationBy(task.Args.GetType());
         }
 
         internal void AddScheduleSeconds(Player playerObj, float seconds)

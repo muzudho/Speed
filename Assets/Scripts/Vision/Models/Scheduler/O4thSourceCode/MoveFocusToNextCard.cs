@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using Assets.Scripts.Vision.Models.World;
     using System;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
@@ -90,7 +91,7 @@
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.DropHandCard.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: task.Args.Duration,
+                    duration: DurationMapping.GetDurationBy(task.Args.GetType()),
                     idOfCard: idOfCard));
             }
 
@@ -105,7 +106,7 @@
                 // 今回フォーカスするカードを持ち上げる
                 setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PickupHandCard.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: task.Args.Duration,
+                    duration: DurationMapping.GetDurationBy(task.Args.GetType()),
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,

@@ -14,16 +14,10 @@
         internal Model(ModelOfCommandParameter.IModel commandArg)
         {
             this.CommandArg = commandArg;
-            this.Duration = DurationMapping.GetDurationBy(CommandArg.GetType());
         }
 
         // - プロパティ
 
         internal ModelOfCommandParameter.IModel CommandArg { get; private set; }
-
-        /// <summary>
-        /// 持続時間（秒）
-        /// </summary>
-        internal float Duration { get; private set; }
     }
 }

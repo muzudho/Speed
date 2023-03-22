@@ -3,6 +3,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
@@ -132,7 +133,7 @@
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.RightCenterStack)); // 右の
 
-                    spamSeconds[playerObj.AsInt] = taskParameter.Duration;
+                    spamSeconds[playerObj.AsInt] = DurationMapping.GetDurationBy(taskParameter.CommandArg.GetType());
                     timeline.AddJustNow(taskParameter);
                     handled[playerObj.AsInt] = true;
                 }
@@ -152,7 +153,7 @@
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.RightCenterStack)); // 右の
 
-                    spamSeconds[playerObj.AsInt] = taskParameter.Duration;
+                    spamSeconds[playerObj.AsInt] = DurationMapping.GetDurationBy(taskParameter.CommandArg.GetType());
                     timeline.AddJustNow(taskParameter);
                     handled[playerObj.AsInt] = true;
                 }
@@ -175,7 +176,7 @@
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.LeftCenterStack));  // 左の
 
-                    spamSeconds[playerObj.AsInt] = taskParameter.Duration;
+                    spamSeconds[playerObj.AsInt] = DurationMapping.GetDurationBy(taskParameter.CommandArg.GetType());
                     timeline.AddJustNow(taskParameter);
                     handled[playerObj.AsInt] = true;
                 }
@@ -195,7 +196,7 @@
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.LeftCenterStack));  // 左の
 
-                    spamSeconds[playerObj.AsInt] = taskParameter.Duration;
+                    spamSeconds[playerObj.AsInt] = DurationMapping.GetDurationBy(taskParameter.CommandArg.GetType());
                     timeline.AddJustNow(taskParameter);
                     handled[playerObj.AsInt] = true;
                 }
@@ -225,7 +226,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft));
 
-                        spamSeconds[playerObj.AsInt] = taskParameter.Duration;
+                        spamSeconds[playerObj.AsInt] = DurationMapping.GetDurationBy(taskParameter.CommandArg.GetType());
                         timeline.AddJustNow(taskParameter);
                     }
                 }
@@ -242,7 +243,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickRight));
 
-                        spamSeconds[playerObj.AsInt] = taskParameter.Duration;
+                        spamSeconds[playerObj.AsInt] = DurationMapping.GetDurationBy(taskParameter.CommandArg.GetType());
                         timeline.AddJustNow(taskParameter);
                     }
                 }
@@ -269,7 +270,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft));
 
-                        spamSeconds[playerObj.AsInt] = taskParameter.Duration;
+                        spamSeconds[playerObj.AsInt] = DurationMapping.GetDurationBy(taskParameter.CommandArg.GetType());
                         timeline.AddJustNow(taskParameter);
                     }
                 }
@@ -286,7 +287,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickRight));
 
-                        spamSeconds[playerObj.AsInt] = taskParameter.Duration;
+                        spamSeconds[playerObj.AsInt] = DurationMapping.GetDurationBy(taskParameter.CommandArg.GetType());
                         timeline.AddJustNow(taskParameter);
                     }
                 }
@@ -303,7 +304,7 @@
                         playerObj: playerObj,
                         numberOfCards: 1));
 
-                    spamSeconds[playerObj.AsInt] = taskParameter.Duration;
+                    spamSeconds[playerObj.AsInt] = DurationMapping.GetDurationBy(taskParameter.CommandArg.GetType());
                     timeline.AddJustNow(taskParameter);
                 }
             }

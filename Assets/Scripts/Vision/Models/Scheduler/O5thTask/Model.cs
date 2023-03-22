@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O5thTask
 {
+    using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
     using ModelOfSchedulerO2ndTaskParameters = Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using ModelOfSchedulerO4thSourceCode = Assets.Scripts.Vision.Models.Scheduler.O4thSourceCode;
@@ -39,7 +40,7 @@
         /// <summary>
         /// 終了時間（秒）
         /// </summary>
-        public float EndSeconds => StartSeconds + this.Args.Duration;
+        public float EndSeconds => StartSeconds + DurationMapping.GetDurationBy(this.Args.GetType());
 
         /// <summary>
         /// 引数のようなもの

@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using System;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
@@ -71,7 +72,7 @@
 
                 setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PutCardToPile.GenerateSpan(
                     startSeconds: task.StartSeconds,
-                    duration: task.Args.Duration,
+                    duration: DurationMapping.GetDurationBy(task.Args.GetType()),
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード

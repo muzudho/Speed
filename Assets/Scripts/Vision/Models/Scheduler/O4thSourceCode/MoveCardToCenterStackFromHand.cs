@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using Assets.Scripts.Vision.Models.Scheduler.O2ndTaskParameters;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
@@ -96,7 +97,7 @@
                     // 台札へ置く
                     setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PutCardToCenterStack.GenerateSpan(
                         startSeconds: task.StartSeconds,
-                        duration: task.Args.Duration / 2.0f,
+                        duration: DurationMapping.GetDurationBy(task.Args.GetType()) / 2.0f,
                         playerObj: playerObj,
                         placeObj: placeObj,
                         target: targetToRemoveObj,
@@ -104,8 +105,8 @@
 
                     // 場札の位置調整（をしないと歯抜けになる）
                     ModelOfSchedulerO3rdSpanGenerator.ArrangeHandCards.GenerateSpan(
-                        startSeconds: task.StartSeconds + task.Args.Duration / 2.0f,
-                        duration: task.Args.Duration / 2.0f,
+                        startSeconds: task.StartSeconds + DurationMapping.GetDurationBy(task.Args.GetType()) / 2.0f,
+                        duration: DurationMapping.GetDurationBy(task.Args.GetType()) / 2.0f,
                         playerObj: playerObj,
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,
