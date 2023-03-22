@@ -6,7 +6,7 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
-    using ModelOfSchedulerO5thGameOperationSpan = Assets.Scripts.Vision.Models.Scheduler.O5thGameOperationSpan;
+    using ModelOfSchedulerO5thTask = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
     using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thGameOperationMapping;
 
     /// <summary>
@@ -33,13 +33,13 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<ModelOfSchedulerO5thGameOperationSpan.Model> gameOperationSpans = new();
+        List<ModelOfSchedulerO5thTask.Model> tasks = new();
 
-        internal List<ModelOfSchedulerO5thGameOperationSpan.Model> GameOperationSpans
+        internal List<ModelOfSchedulerO5thTask.Model> Tasks
         {
             get
             {
-                return this.gameOperationSpans;
+                return this.tasks;
             }
         }
 
@@ -60,12 +60,12 @@
         /// <param name="commandArg">コマンド引数</param>
         internal void AddJustNow(ModelOfSchedulerO2ndTimedCommandArgs.Model timedCommandArg)
         {
-            var timedGenerator = new ModelOfSchedulerO5thGameOperationSpan.Model(
+            var task = new ModelOfSchedulerO5thTask.Model(
                     startSeconds: GameModel.ElapsedSeconds,
-                    timedCommandArg: timedCommandArg,
+                    args: timedCommandArg,
                     gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewGameOperationFromModel(timedCommandArg.CommandArg.GetType()));
 
-            this.GameOperationSpans.Add(timedGenerator);
+            this.Tasks.Add(task);
         }
 
         /// <summary>
@@ -77,13 +77,13 @@
         /// <param name="commandArg">コマンド引数</param>
         internal void AddWithinScheduler(Player playerObj, ICommandArg commandArg)
         {
-            var timedGenerator = new ModelOfSchedulerO5thGameOperationSpan.Model(
+            var task = new ModelOfSchedulerO5thTask.Model(
                     startSeconds: this.ScheduledSeconds[playerObj.AsInt],
-                    timedCommandArg: new ModelOfSchedulerO2ndTimedCommandArgs.Model(commandArg),
+                    args: new ModelOfSchedulerO2ndTimedCommandArgs.Model(commandArg),
                     gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewGameOperationFromModel(commandArg.GetType()));
 
-            this.GameOperationSpans.Add(timedGenerator);
-            this.ScheduledSeconds[playerObj.AsInt] += timedGenerator.TimedCommandArg.Duration;
+            this.Tasks.Add(task);
+            this.ScheduledSeconds[playerObj.AsInt] += task.Args.Duration;
         }
 
         internal void AddScheduleSeconds(Player playerObj, float seconds)
@@ -91,24 +91,24 @@
             this.ScheduledSeconds[playerObj.AsInt] += seconds;
         }
 
-        internal ModelOfSchedulerO5thGameOperationSpan.Model GetGameOperationSpanAt(int index)
+        internal ModelOfSchedulerO5thTask.Model GetGameOperationSpanAt(int index)
         {
-            return this.GameOperationSpans[index];
+            return this.Tasks[index];
         }
 
         internal int GetCountGameOperationSpans()
         {
-            return this.GameOperationSpans.Count;
+            return this.Tasks.Count;
         }
 
         internal void RemoveAt(int index)
         {
-            this.GameOperationSpans.RemoveAt(index);
+            this.Tasks.RemoveAt(index);
         }
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Vision.Models.Scheduler.SpanOfLerp.TimedGenerator.Simulator DebugWrite] gameOperationSpans.Count:{gameOperationSpans.Count}");
+            Debug.Log($"[Assets.Scripts.Vision.Models.Scheduler.SpanOfLerp.TimedGenerator.Simulator DebugWrite] gameOperationSpans.Count:{tasks.Count}");
         }
 
         internal float LastSeconds() => Mathf.Max(this.ScheduledSeconds[0], ScheduledSeconds[1]);

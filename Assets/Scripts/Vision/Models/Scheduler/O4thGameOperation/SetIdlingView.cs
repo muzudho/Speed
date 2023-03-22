@@ -21,26 +21,22 @@
             return new SetIdlingView();
         }
 
-        // - フィールド
-
-        // - プロパティ
-
-        SetIdling GetModel(IGameOperationSpan timedGenerator)
-        {
-            return (SetIdling)timedGenerator.TimedCommandArg.CommandArg;
-        }
-
         // - メソッド
 
         /// <summary>
         /// ゲーム画面の同期を始めます
         /// </summary>
         public override void CreateSpan(
-            IGameOperationSpan timedGenerator,
+            ITask task,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setViewMovement)
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             // なんにもしません
+        }
+
+        SetIdling GetArg(ITask task)
+        {
+            return (SetIdling)task.Args.CommandArg;
         }
     }
 }

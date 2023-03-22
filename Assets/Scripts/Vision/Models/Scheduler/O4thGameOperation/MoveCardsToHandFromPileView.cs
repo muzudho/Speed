@@ -24,13 +24,6 @@
             return new MoveCardsToHandFromPileView();
         }
 
-        // - プロパティ
-
-        MoveCardsToHandFromPileModel GetModel(IGameOperationSpan timedGenerator)
-        {
-            return (MoveCardsToHandFromPileModel)timedGenerator.TimedCommandArg.CommandArg;
-        }
-
         // - メソッド
 
         /// <summary>
@@ -40,27 +33,27 @@
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override void CreateSpan(
-            IGameOperationSpan timedGenerator,
+            ITask task,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setViewMovement)
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             // 確定：手札の枚数
-            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetModel(timedGenerator).PlayerObj.AsInt].Count;
+            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetArg(task).PlayerObj.AsInt].Count;
 
-            if (length < GetModel(timedGenerator).NumberOfCards)
+            if (length < GetArg(task).NumberOfCards)
             {
                 // できない指示は無視
                 // Debug.Log("[MoveCardsToHandFromPileView OnEnter] できない指示は無視");
                 return;
             }
 
-            var playerObj = GetModel(timedGenerator).PlayerObj;
+            var playerObj = GetArg(task).PlayerObj;
 
             // モデル更新：場札への移動
             gameModelBuffer.MoveCardsToHandFromPile(
                 playerObj: playerObj,
-                startIndexObj: new PlayerPileCardIndex(length - GetModel(timedGenerator).NumberOfCards),
-                numberOfCards: GetModel(timedGenerator).NumberOfCards);
+                startIndexObj: new PlayerPileCardIndex(length - GetArg(task).NumberOfCards),
+                numberOfCards: GetArg(task).NumberOfCards);
             // 場札は１枚以上になる
 
             // モデル更新：もし、ピックアップ場札がなかったら、先頭の場札をピックアップする
@@ -81,19 +74,24 @@
             if (0 < numberOfCards)
             {
                 ModelOfSchedulerO3rdSpanGenerator.ArrangeHandCards.GenerateSpan(
-                    startSeconds: timedGenerator.StartSeconds,
-                    duration: timedGenerator.TimedCommandArg.Duration,
+                    startSeconds: task.StartSeconds,
+                    duration: task.Args.Duration,
                     playerObj: playerObj,
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
                     keepPickup: true,
-                    setSpanToLerp: setViewMovement);
+                    setSpanToLerp: setTimelineSpan);
             }
 
             // TODO ★ ピックアップしている場札を持ち上げる
             {
 
             }
+        }
+
+        MoveCardsToHandFromPileModel GetArg(ITask task)
+        {
+            return (MoveCardsToHandFromPileModel)task.Args.CommandArg;
         }
     }
 }

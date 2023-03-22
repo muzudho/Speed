@@ -24,13 +24,6 @@
             return new MoveCardToCenterStackFromHandView();
         }
 
-        // - プロパティ
-
-        MoveCardToCenterStackFromHandModel GetModel(IGameOperationSpan timedGenerator)
-        {
-            return (MoveCardToCenterStackFromHandModel)timedGenerator.TimedCommandArg.CommandArg;
-        }
-
         // - メソッド
 
         /// <summary>
@@ -41,12 +34,12 @@
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
         public override void CreateSpan(
-            IGameOperationSpan timedGenerator,
+            ITask task,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setViewMovement)
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             var gameModel = new ModelOfGame.Default(gameModelBuffer);
-            var playerObj = GetModel(timedGenerator).PlayerObj;
+            var playerObj = GetArg(task).PlayerObj;
 
             // ピックアップしているカードは、場札から抜くカード
             GetIndexOfFocusedHandCard(
@@ -54,7 +47,7 @@
                 playerObj: playerObj,
                 (indexToRemoveObj) =>  // 確定：場札から抜くのは何枚目
                 {
-                    var placeObj = GetModel(timedGenerator).PlaceObj;
+                    var placeObj = GetArg(task).PlaceObj;
 
                     // 確定：（抜いた後に）次にピックアップするカード（が先頭から何枚目か）
                     HandCardIndex indexOfNextPickObj;
@@ -101,9 +94,9 @@
                     gameModelBuffer.AddCardOfCenterStack(placeObj, targetToRemoveObj);
 
                     // 台札へ置く
-                    setViewMovement(ModelOfSchedulerO3rdSpanGenerator.PutCardToCenterStack.GenerateSpan(
-                        startSeconds: timedGenerator.StartSeconds,
-                        duration: timedGenerator.TimedCommandArg.Duration / 2.0f,
+                    setTimelineSpan(ModelOfSchedulerO3rdSpanGenerator.PutCardToCenterStack.GenerateSpan(
+                        startSeconds: task.StartSeconds,
+                        duration: task.Args.Duration / 2.0f,
                         playerObj: playerObj,
                         placeObj: placeObj,
                         target: targetToRemoveObj,
@@ -111,13 +104,13 @@
 
                     // 場札の位置調整（をしないと歯抜けになる）
                     ModelOfSchedulerO3rdSpanGenerator.ArrangeHandCards.GenerateSpan(
-                        startSeconds: timedGenerator.StartSeconds + timedGenerator.TimedCommandArg.Duration / 2.0f,
-                        duration: timedGenerator.TimedCommandArg.Duration / 2.0f,
+                        startSeconds: task.StartSeconds + task.Args.Duration / 2.0f,
+                        duration: task.Args.Duration / 2.0f,
                         playerObj: playerObj,
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,
                         keepPickup: true,
-                        setSpanToLerp: setViewMovement); // 場札
+                        setSpanToLerp: setTimelineSpan); // 場札
 
                     // TODO ★ ピックアップしている場札を持ち上げる
                     {
@@ -153,6 +146,11 @@
 
 
             return true;
+        }
+
+        MoveCardToCenterStackFromHandModel GetArg(ITask task)
+        {
+            return (MoveCardToCenterStackFromHandModel)task.Args.CommandArg;
         }
     }
 }

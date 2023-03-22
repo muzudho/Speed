@@ -26,11 +26,11 @@
         /// <summary>
         /// ゲーム画面の同期を始めます
         /// </summary>
-        /// <param name="timedGenerator"></param>
+        /// <param name="task"></param>
         /// <param name="gameModelBuffer"></param>
         /// <param name="setViewMovement"></param>
         virtual public void CreateSpan(
-            IGameOperationSpan timedGenerator,
+            ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setViewMovement)
         {

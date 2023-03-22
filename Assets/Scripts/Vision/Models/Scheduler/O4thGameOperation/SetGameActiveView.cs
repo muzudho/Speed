@@ -25,22 +25,15 @@
 
         bool handled;
 
-        // - プロパティ
-
-        SetGameActive GetModel(IGameOperationSpan timedGenerator)
-        {
-            return (SetGameActive)timedGenerator.TimedCommandArg.CommandArg;
-        }
-
         // - メソッド
 
         /// <summary>
         /// ゲーム画面の同期を始めます
         /// </summary>
         public override void CreateSpan(
-            IGameOperationSpan timedGenerator,
+            ITask task,
             GameModelBuffer gameModelBuffer,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setViewMovement)
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             if (handled)
             {
@@ -48,10 +41,15 @@
             }
 
             // モデル更新：１回実行すれば充分
-            gameModelBuffer.IsGameActive = GetModel(timedGenerator).IsGameActive;
+            gameModelBuffer.IsGameActive = GetArg(task).IsGameActive;
             handled = true;
 
             // ビュー更新：なし
+        }
+
+        SetGameActive GetArg(ITask task)
+        {
+            return (SetGameActive)task.Args.CommandArg;
         }
     }
 }

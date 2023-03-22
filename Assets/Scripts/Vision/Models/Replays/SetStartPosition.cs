@@ -5,7 +5,7 @@
     using Assets.Scripts.ThinkingEngine.Models.CommandArgs;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO2ndTimedCommandArgs = Assets.Scripts.Vision.Models.Scheduler.O2ndTimedCommandArgs;
-    using ModelOfSchedulerO5thGameOperationSpan = Assets.Scripts.Vision.Models.Scheduler.O5thGameOperationSpan;
+    using ModelOfSchedulerO5thGameOperationSpan = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
     using ModelOfSchedulerO6thGameOperationMapping = Assets.Scripts.Vision.Models.Scheduler.O6thGameOperationMapping;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
@@ -24,12 +24,12 @@
                 var timedCommandArg = new ModelOfSchedulerO2ndTimedCommandArgs.Model(new MoveCardsToPileFromCenterStacksModel(
                         placeObj: Commons.RightCenterStack
                         ));
-                var timedGenerator = new ModelOfSchedulerO5thGameOperationSpan.Model(
+                var task = new ModelOfSchedulerO5thGameOperationSpan.Model(
                         startSeconds: 0.0f,
-                        timedCommandArg: timedCommandArg,
+                        args: timedCommandArg,
                         gameOperation: ModelOfSchedulerO6thGameOperationMapping.Model.NewGameOperationFromModel(timedCommandArg.GetType()));
-                timedGenerator.GameOperation.CreateSpan(
-                    timedGenerator,
+                task.GameOperation.CreateSpan(
+                    task,
                     modelBuffer,
                     setSpanToLerp: (movementViewModel) => movementViewModel.Lerp(1.0f));
             }
