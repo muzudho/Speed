@@ -3,7 +3,7 @@
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
     /// </summary>
-    internal class MoveCardsToPileFromCenterStacksModel : IModel
+    internal class MoveCardsToPileFromCenterStacks : IModel
     {
         // - 生成
 
@@ -11,7 +11,7 @@
         /// 生成
         /// </summary>
         /// <param name="placeObj"></param>
-        internal MoveCardsToPileFromCenterStacksModel(CenterStackPlace placeObj)
+        internal MoveCardsToPileFromCenterStacks(CenterStackPlace placeObj)
         {
             this.PlaceObj = placeObj;
         }

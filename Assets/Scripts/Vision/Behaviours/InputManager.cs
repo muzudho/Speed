@@ -2,12 +2,12 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
+    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
 
     /// <summary>
     /// 入力マネージャー
@@ -128,7 +128,7 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                    var taskParameter = new MoveCardToCenterStackFromHandModel(
+                    var taskParameter = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.RightCenterStack); // 右の
 
@@ -148,7 +148,7 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                    var taskParameter = new MoveCardToCenterStackFromHandModel(
+                    var taskParameter = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.RightCenterStack); // 右の
 
@@ -171,7 +171,7 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                    var taskParameter = new MoveCardToCenterStackFromHandModel(
+                    var taskParameter = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.LeftCenterStack);  // 左の
 
@@ -191,7 +191,7 @@
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                    var taskParameter = new MoveCardToCenterStackFromHandModel(
+                    var taskParameter = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.LeftCenterStack);  // 左の
 
@@ -221,7 +221,7 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var taskParameter = new MoveFocusToNextCardModel(
+                        var taskParameter = new ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard(
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft);
 
@@ -238,7 +238,7 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var taskParameter = new MoveFocusToNextCardModel(
+                        var taskParameter = new ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard(
                             playerObj: playerObj,
                             directionObj: Commons.PickRight);
 
@@ -265,7 +265,7 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var taskParameter = new MoveFocusToNextCardModel(
+                        var taskParameter = new ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard(
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft);
 
@@ -282,7 +282,7 @@
                     //      場札が２枚以上あるときに限る
                     if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
                     {
-                        var taskParameter = new MoveFocusToNextCardModel(
+                        var taskParameter = new ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard(
                             playerObj: playerObj,
                             directionObj: Commons.PickRight);
 
@@ -299,12 +299,12 @@
                 foreach (var playerObj in Commons.Players)
                 {
                     // 場札を並べる
-                    var taskParameter = new MoveCardsToHandFromPileModel(
+                    var parameter = new ModelOfThinkingEngineCommandParameter.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 1);
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.DurationMapping.GetDurationBy(taskParameter.GetType());
-                    timeline.AddJustNow(taskParameter);
+                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.DurationMapping.GetDurationBy(parameter.GetType());
+                    timeline.AddJustNow(parameter);
                 }
             }
         }

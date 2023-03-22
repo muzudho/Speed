@@ -3,10 +3,10 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
+    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -89,9 +89,9 @@
             }
         }
 
-        MoveCardsToHandFromPileModel GetArg(ITask task)
+        ModelOfThinkingEngineCommandParameter.MoveCardsToHandFromPile GetArg(ITask task)
         {
-            return (MoveCardsToHandFromPileModel)task.Args;
+            return (ModelOfThinkingEngineCommandParameter.MoveCardsToHandFromPile)task.Args;
         }
     }
 }

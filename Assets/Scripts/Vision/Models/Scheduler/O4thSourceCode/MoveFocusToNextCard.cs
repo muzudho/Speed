@@ -3,12 +3,12 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using Assets.Scripts.Vision.Models.World;
     using System;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
+    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
@@ -113,9 +113,9 @@
             }
         }
 
-        MoveFocusToNextCardModel GetArg(ITask task)
+        ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard GetArg(ITask task)
         {
-            return (MoveFocusToNextCardModel)task.Args;
+            return (ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard)task.Args;
         }
     }
 }

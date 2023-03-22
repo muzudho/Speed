@@ -3,10 +3,10 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using System;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
+    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
@@ -78,9 +78,9 @@
             }
         }
 
-        MoveCardsToPileFromCenterStacksModel GetArg(ITask task)
+        ModelOfThinkingEngineCommandParameter.MoveCardsToPileFromCenterStacks GetArg(ITask task)
         {
-            return (MoveCardsToPileFromCenterStacksModel)task.Args;
+            return (ModelOfThinkingEngineCommandParameter.MoveCardsToPileFromCenterStacks)task.Args;
         }
     }
 }

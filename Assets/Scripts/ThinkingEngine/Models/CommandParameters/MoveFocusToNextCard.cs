@@ -3,7 +3,7 @@
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>
-    internal class MoveFocusToNextCardModel : IModel
+    internal class MoveFocusToNextCard : IModel
     {
         // - 生成
 
@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="playerObj"></param>
         /// <param name="directionObj"></param>
-        internal MoveFocusToNextCardModel(Player playerObj, PickingDirection directionObj)
+        internal MoveFocusToNextCard(Player playerObj, PickingDirection directionObj)
         {
             this.PlayerObj = playerObj;
             this.DirectionObj = directionObj;

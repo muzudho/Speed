@@ -3,6 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
+    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
 
     /// <summary>
     /// なんにもしません
@@ -33,9 +34,9 @@
             // なんにもしません
         }
 
-        ThinkingEngine.Models.CommandParameters.SetIdling GetArg(ITask task)
+        ModelOfThinkingEngineCommandParameter.SetIdling GetArg(ITask task)
         {
-            return (ThinkingEngine.Models.CommandParameters.SetIdling)task.Args;
+            return (ModelOfThinkingEngineCommandParameter.SetIdling)task.Args;
         }
     }
 }

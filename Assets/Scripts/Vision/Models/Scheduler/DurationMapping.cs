@@ -1,8 +1,8 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler
 {
-    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using System;
     using System.Collections.Generic;
+    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
 
     /// <summary>
     /// コマンド引数に、推定実行時間を紐づけます
@@ -19,12 +19,12 @@
             // 隣の場札をピックアップする秒
             float durationOfMoveFocusToNextCard = 0.15f;
 
-            DurationOfModels.Add(typeof(MoveCardsToHandFromPileModel).GetHashCode(), 0.15f + durationOfMoveFocusToNextCard);
-            DurationOfModels.Add(typeof(MoveCardsToPileFromCenterStacksModel).GetHashCode(), 0.3f);
-            DurationOfModels.Add(typeof(MoveCardToCenterStackFromHandModel).GetHashCode(), 0.15f + durationOfMoveFocusToNextCard);
-            DurationOfModels.Add(typeof(MoveFocusToNextCardModel).GetHashCode(), durationOfMoveFocusToNextCard);
-            DurationOfModels.Add(typeof(SetGameActive).GetHashCode(), forMoment);
-            DurationOfModels.Add(typeof(SetIdling).GetHashCode(), forMoment); // Idling の duration は可変の想定
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommandParameter.MoveCardsToHandFromPile).GetHashCode(), 0.15f + durationOfMoveFocusToNextCard);
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommandParameter.MoveCardsToPileFromCenterStacks).GetHashCode(), 0.3f);
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand).GetHashCode(), 0.15f + durationOfMoveFocusToNextCard);
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard).GetHashCode(), durationOfMoveFocusToNextCard);
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommandParameter.SetGameActive).GetHashCode(), forMoment);
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommandParameter.SetIdling).GetHashCode(), forMoment); // Idling の duration は可変の想定
         }
 
         // - プロパティ

@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Models.Replays
 {
     using Assets.Scripts.ThinkingEngine;
-    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
+    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     static class Demo
@@ -35,7 +35,7 @@
                     // １プレイヤーの右隣のカードへフォーカスを移します
                     {
                         var playerObj = Commons.Player1;
-                        var spanModel = new MoveFocusToNextCardModel(
+                        var spanModel = new ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard(
                                 playerObj: playerObj,
                                 directionObj: Commons.PickRight);
                         timeline.AddWithinScheduler(playerObj, spanModel);
@@ -44,7 +44,7 @@
                     // ２プレイヤーの右隣のカードへフォーカスを移します
                     {
                         var playerObj = Commons.Player2;
-                        var spanModel = new MoveFocusToNextCardModel(
+                        var spanModel = new ModelOfThinkingEngineCommandParameter.MoveFocusToNextCard(
                                 playerObj: playerObj,
                                 directionObj: Commons.PickRight);
                         timeline.AddWithinScheduler(playerObj, spanModel);
@@ -62,14 +62,14 @@
             {
                 {
                     var playerObj = Commons.Player1;
-                    var spanModel = new MoveCardToCenterStackFromHandModel(
+                    var spanModel = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // １プレイヤーが
                             placeObj: Commons.LeftCenterStack); // 左の台札
                     timeline.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
                     var playerObj = Commons.Player2;
-                    var spanModel = new MoveCardToCenterStackFromHandModel(
+                    var spanModel = new ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // ２プレイヤーが
                             placeObj: Commons.RightCenterStack); // 右の台札
                     timeline.AddWithinScheduler(playerObj, spanModel);
@@ -87,7 +87,7 @@
                 {
                     // １プレイヤーは手札から１枚抜いて、場札として置く
                     var playerObj = Commons.Player1;
-                    var parameter = new MoveCardsToHandFromPileModel(
+                    var parameter = new ModelOfThinkingEngineCommandParameter.MoveCardsToHandFromPile(
                             playerObj: playerObj,
                             numberOfCards: 1);
                     timeline.AddWithinScheduler(playerObj, parameter);
@@ -95,7 +95,7 @@
                 {
                     // ２プレイヤーは手札から１枚抜いて、場札として置く
                     var playerObj = Commons.Player2;
-                    var parameter = new MoveCardsToHandFromPileModel(
+                    var parameter = new ModelOfThinkingEngineCommandParameter.MoveCardsToHandFromPile(
                             playerObj: playerObj,
                             numberOfCards: 1);
                     timeline.AddWithinScheduler(playerObj, parameter);

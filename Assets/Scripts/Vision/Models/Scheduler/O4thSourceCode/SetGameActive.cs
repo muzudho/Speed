@@ -3,6 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
+    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -46,9 +47,9 @@
             // ビュー更新：なし
         }
 
-        ThinkingEngine.Models.CommandParameters.SetGameActive GetArg(ITask task)
+        ModelOfThinkingEngineCommandParameter.SetGameActive GetArg(ITask task)
         {
-            return (ThinkingEngine.Models.CommandParameters.SetGameActive)task.Args;
+            return (ModelOfThinkingEngineCommandParameter.SetGameActive)task.Args;
         }
     }
 }

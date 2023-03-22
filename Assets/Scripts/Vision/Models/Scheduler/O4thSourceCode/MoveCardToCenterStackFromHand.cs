@@ -3,10 +3,10 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.CommandParameters;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSpanGenerator = Assets.Scripts.Vision.Models.Scheduler.O3rdSpanGenerator;
+    using ModelOfThinkingEngineCommandParameter = Assets.Scripts.ThinkingEngine.Models.CommandParameters;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
@@ -148,9 +148,9 @@
             return true;
         }
 
-        MoveCardToCenterStackFromHandModel GetArg(ITask task)
+        ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand GetArg(ITask task)
         {
-            return (MoveCardToCenterStackFromHandModel)task.Args;
+            return (ModelOfThinkingEngineCommandParameter.MoveCardToCenterStackFromHand)task.Args;
         }
     }
 }
