@@ -54,8 +54,8 @@
             ModelOfThinkingEngineCommand.IModel command)
         {
             this.Commands.Add(ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
-                        startObj: startObj,
-                        command: command));
+                startObj: startObj,
+                command: command));
         }
 
         /// <summary>
@@ -64,12 +64,12 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="playerObj"></param>
-        /// <param name="commandOfThinkingEngine">コマンド引数</param>
-        internal void AddWithinScheduler(Player playerObj, ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+        /// <param name="command">コマンド引数</param>
+        internal void AddWithinScheduler(Player playerObj, ModelOfThinkingEngineCommand.IModel command)
         {
             var commandOfScheduler = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
                         startObj: this.ScheduledTimesObj[playerObj.AsInt],
-                        command: commandOfThinkingEngine);
+                        command: command);
 
             this.Commands.Add(commandOfScheduler);
 
