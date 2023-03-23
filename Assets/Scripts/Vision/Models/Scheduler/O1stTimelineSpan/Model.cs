@@ -32,6 +32,7 @@
         {
             this.StartTimeObj = startSeconds;
             this.DurationObj = duration;
+            this.EndTimeObj = new GameSeconds(StartTimeObj.AsFloat + DurationObj.AsFloat);
             this.Target = target;
             this.GetBegin = getBegin;
             this.GetEnd = getEnd;
@@ -50,7 +51,10 @@
         /// </summary>
         public GameSeconds DurationObj { get; private set; }
 
-        public GameSeconds EndTimeObj => new GameSeconds(StartTimeObj.AsFloat + DurationObj.AsFloat);
+        /// <summary>
+        /// 終了時間（秒）
+        /// </summary>
+        public GameSeconds EndTimeObj { get; private set; }
 
         /// <summary>
         /// 終了時の処理
