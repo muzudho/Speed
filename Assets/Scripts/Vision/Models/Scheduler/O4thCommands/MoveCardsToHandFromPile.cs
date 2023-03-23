@@ -35,27 +35,28 @@
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override void GenerateSpan(
-            ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
-            // 確定：手札の枚数
-            var length = gameModelBuffer.IdOfCardsOfPlayersPile[GetCommandOfThinkingEngine(task).PlayerObj.AsInt].Count;
+            var command = (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)this.CommandOfThinkingEngine;
 
-            if (length < GetCommandOfThinkingEngine(task).NumberOfCards)
+            // 確定：手札の枚数
+            var length = gameModelBuffer.IdOfCardsOfPlayersPile[command.PlayerObj.AsInt].Count;
+
+            if (length < command.NumberOfCards)
             {
                 // できない指示は無視
                 // Debug.Log("[MoveCardsToHandFromPileView OnEnter] できない指示は無視");
                 return;
             }
 
-            var playerObj = GetCommandOfThinkingEngine(task).PlayerObj;
+            var playerObj = command.PlayerObj;
 
             // モデル更新：場札への移動
             gameModelBuffer.MoveCardsToHandFromPile(
                 playerObj: playerObj,
-                startIndexObj: new PlayerPileCardIndex(length - GetCommandOfThinkingEngine(task).NumberOfCards),
-                numberOfCards: GetCommandOfThinkingEngine(task).NumberOfCards);
+                startIndexObj: new PlayerPileCardIndex(length - command.NumberOfCards),
+                numberOfCards: command.NumberOfCards);
             // 場札は１枚以上になる
 
             // モデル更新：もし、ピックアップ場札がなかったら、先頭の場札をピックアップする
@@ -76,7 +77,7 @@
             if (0 < numberOfCards)
             {
                 ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
-                    timeRange: task.CommandOfScheduler.TimeRangeObj,
+                    timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
@@ -88,11 +89,6 @@
             {
 
             }
-        }
-
-        ModelOfThinkingEngineCommand.MoveCardsToHandFromPile GetCommandOfThinkingEngine(ITask task)
-        {
-            return (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)task.CommandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }

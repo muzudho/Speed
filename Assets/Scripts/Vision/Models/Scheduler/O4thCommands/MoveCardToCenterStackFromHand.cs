@@ -36,12 +36,13 @@
         /// <param name="player">何番目のプレイヤー</param>
         /// <param name="place">右なら0、左なら1</param>
         public override void GenerateSpan(
-            ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
+            var command = (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)this.CommandOfThinkingEngine;
+
             var gameModel = new ModelOfGame.Default(gameModelBuffer);
-            var playerObj = GetCommandOfThinkingEngine(task).PlayerObj;
+            var playerObj = command.PlayerObj;
 
             // ピックアップしているカードは、場札から抜くカード
             GetIndexOfFocusedHandCard(
@@ -49,7 +50,7 @@
                 playerObj: playerObj,
                 (indexToRemoveObj) =>  // 確定：場札から抜くのは何枚目
                 {
-                    var placeObj = GetCommandOfThinkingEngine(task).PlaceObj;
+                    var placeObj = command.PlaceObj;
 
                     // 確定：（抜いた後に）次にピックアップするカード（が先頭から何枚目か）
                     HandCardIndex indexOfNextPickObj;
@@ -98,8 +99,8 @@
                     // 台札へ置く
                     setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToCenterStack.GenerateSpan(
                         timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
-                            start: task.CommandOfScheduler.TimeRangeObj.StartObj,
-                            duration: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
+                            start: this.TimeRangeObj.StartObj,
+                            duration: new GameSeconds(CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
                         playerObj: playerObj,
                         placeObj: placeObj,
                         target: targetToRemoveObj,
@@ -108,8 +109,8 @@
                     // 場札の位置調整（をしないと歯抜けになる）
                     ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
                         timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
-                            start: new GameSeconds(task.CommandOfScheduler.TimeRangeObj.StartObj.AsFloat + CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
-                            duration: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
+                            start: new GameSeconds(this.TimeRangeObj.StartObj.AsFloat + CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
+                            duration: new GameSeconds(CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
                         playerObj: playerObj,
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,
@@ -135,26 +136,21 @@
             setIndex(handIndex);
         }
 
-        private bool CanRemoveHandCardAt(
-            GameModelBuffer gameModelBuffer,
-            int player,
-            int indexToRemove)
-        {
-            // 抜く前の場札の数
-            var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
-            if (indexToRemove < 0 || lengthBeforeRemove <= indexToRemove)
-            {
-                // 抜くのに失敗
-                return false;
-            }
+        // TODO ★ 消す
+        //private bool CanRemoveHandCardAt(
+        //    GameModelBuffer gameModelBuffer,
+        //    int player,
+        //    int indexToRemove)
+        //{
+        //    // 抜く前の場札の数
+        //    var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
+        //    if (indexToRemove < 0 || lengthBeforeRemove <= indexToRemove)
+        //    {
+        //        // 抜くのに失敗
+        //        return false;
+        //    }
 
-
-            return true;
-        }
-
-        ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand GetCommandOfThinkingEngine(ITask task)
-        {
-            return (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)task.CommandOfScheduler.CommandOfThinkingEngine;
-        }
+        //    return true;
+        //}
     }
 }

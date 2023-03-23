@@ -8,6 +8,7 @@
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
+    using ModelOfSchedulerO4thCommand = Assets.Scripts.Vision.Models.Scheduler.O4thCommands;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
@@ -38,15 +39,16 @@
         /// <param name="player"></param>
         /// <param name="direction">後ろ:0, 前:1</param>
         public override void GenerateSpan(
-            ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
+            var command = (ModelOfThinkingEngineCommand.MoveFocusToNextCard)this.CommandOfThinkingEngine;
+
             ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
-            var indexOfPreviousObj = gameModelBuffer.IndexOfFocusedCardOfPlayersObj[GetCommandOfThinkingEngine(task).PlayerObj.AsInt]; // 下ろす場札
+            var indexOfPreviousObj = gameModelBuffer.IndexOfFocusedCardOfPlayersObj[command.PlayerObj.AsInt]; // 下ろす場札
 
             HandCardIndex indexOfCurrentObj; // ピックアップする場札
-            var length = gameModelBuffer.IdOfCardsOfPlayersHand[GetCommandOfThinkingEngine(task).PlayerObj.AsInt].Count;
+            var length = gameModelBuffer.IdOfCardsOfPlayersHand[command.PlayerObj.AsInt].Count;
 
             if (length < 1)
             {
@@ -55,7 +57,7 @@
             }
             else
             {
-                if (GetCommandOfThinkingEngine(task).DirectionObj == Commons.PickRight)
+                if (command.DirectionObj == Commons.PickRight)
                 {
                     if (indexOfPreviousObj == Commons.HandCardIndexNoSelected || length <= indexOfPreviousObj.AsInt + 1)
                     {
@@ -67,7 +69,7 @@
                         indexOfCurrentObj = new HandCardIndex(indexOfPreviousObj.AsInt + 1);
                     }
                 }
-                else if (GetCommandOfThinkingEngine(task).DirectionObj == Commons.PickLeft)
+                else if (command.DirectionObj == Commons.PickLeft)
                 {
                     if (indexOfPreviousObj.AsInt - 1 < 0)
                     {
@@ -87,25 +89,25 @@
 
             if (Commons.HandCardIndexFirst <= indexOfPreviousObj && indexOfPreviousObj.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetCommandOfThinkingEngine(task).PlayerObj, indexOfPreviousObj); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(command.PlayerObj, indexOfPreviousObj); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.DropHandCard.GenerateSpan(
-                    timeRange: task.CommandOfScheduler.TimeRangeObj,
+                    timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard));
             }
 
             // モデル更新：ピックアップしている場札の、インデックス更新
-            gameModelBuffer.IndexOfFocusedCardOfPlayersObj[GetCommandOfThinkingEngine(task).PlayerObj.AsInt] = indexOfCurrentObj;
+            gameModelBuffer.IndexOfFocusedCardOfPlayersObj[command.PlayerObj.AsInt] = indexOfCurrentObj;
 
             if (Commons.HandCardIndexFirst <= indexOfCurrentObj && indexOfCurrentObj.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(GetCommandOfThinkingEngine(task).PlayerObj, indexOfCurrentObj); // ピックアップしている場札
+                var idOfCard = gameModel.GetCardAtOfPlayerHand(command.PlayerObj, indexOfCurrentObj); // ピックアップしている場札
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PickupHandCard.GenerateSpan(
-                    timeRange: task.CommandOfScheduler.TimeRangeObj,
+                    timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,
@@ -113,9 +115,10 @@
             }
         }
 
-        ModelOfThinkingEngineCommand.MoveFocusToNextCard GetCommandOfThinkingEngine(ITask task)
+        ModelOfThinkingEngineCommand.MoveFocusToNextCard GetCommandOfThinkingEngine(
+            ModelOfSchedulerO4thCommand.IModel commandOfScheduler)
         {
-            return (ModelOfThinkingEngineCommand.MoveFocusToNextCard)task.CommandOfScheduler.CommandOfThinkingEngine;
+            return (ModelOfThinkingEngineCommand.MoveFocusToNextCard)commandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }

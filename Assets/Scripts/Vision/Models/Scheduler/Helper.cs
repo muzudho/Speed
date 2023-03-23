@@ -28,12 +28,12 @@
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
             int i = 0;
-            while (i < timeline.GetCountTasks())
+            while (i < timeline.GetCountCommands())
             {
-                var task = timeline.GetTaskAt(i);
+                var commandOfScheduler = timeline.GetCommandAt(i);
 
                 // まだ
-                if (elapsedSeconds.AsFloat < task.CommandOfScheduler.TimeRangeObj.StartObj.AsFloat)
+                if (elapsedSeconds.AsFloat < commandOfScheduler.TimeRangeObj.StartObj.AsFloat)
                 {
                     i++;
                     continue;
@@ -47,8 +47,7 @@
                 timeline.RemoveAt(i);
 
                 // ゲーム画面の同期を始めます
-                task.CommandOfScheduler.GenerateSpan(
-                    task,
+                commandOfScheduler.GenerateSpan(
                     gameModelBuffer,
                     setTimelineSpan: setTimelineSpan);
             }

@@ -41,11 +41,10 @@
         /// 
         /// - ゲーム画面の同期を始めます
         /// </summary>
-        /// <param name="task"></param>
+        /// <param name="commandOfScheduler"></param>
         /// <param name="gameModelBuffer"></param>
         /// <param name="setTimelineSpan"></param>
         virtual public void GenerateSpan(
-            ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {

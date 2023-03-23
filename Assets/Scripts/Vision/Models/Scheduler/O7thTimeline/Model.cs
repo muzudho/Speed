@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfSchedulerO5thTask = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
+    using ModelOfSchedulerO4thCommand = Assets.Scripts.Vision.Models.Scheduler.O4thCommands;
     using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
@@ -32,9 +32,9 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<ModelOfSchedulerO5thTask.Model> tasks = new();
+        List<ModelOfSchedulerO4thCommand.IModel> commands = new();
 
-        internal List<ModelOfSchedulerO5thTask.Model> Tasks => this.tasks;
+        internal List<ModelOfSchedulerO4thCommand.IModel> Commands => this.commands;
 
         /// <summary>
         /// タイム・ライン作成用カウンター
@@ -53,12 +53,9 @@
         /// <param name="commandArg">コマンド引数</param>
         internal void AddJustNow(ModelOfThinkingEngineCommand.IModel command)
         {
-            var task = new ModelOfSchedulerO5thTask.Model(
-                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
+            this.Commands.Add(ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
                         startObj: this.GameModel.ElapsedSeconds,
                         command: command));
-
-            this.Tasks.Add(task);
         }
 
         /// <summary>
@@ -70,17 +67,15 @@
         /// <param name="commandOfThinkingEngine">コマンド引数</param>
         internal void AddWithinScheduler(Player playerObj, ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
-            var task = new ModelOfSchedulerO5thTask.Model(
-                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
+            var commandOfScheduler = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
                         startObj: this.ScheduledTimesObj[playerObj.AsInt],
-                        command: commandOfThinkingEngine));
+                        command: commandOfThinkingEngine);
 
-            this.Tasks.Add(task);
+            this.Commands.Add(commandOfScheduler);
 
-            var a = this.ScheduledTimesObj[playerObj.AsInt].AsFloat;
-            var key = task.CommandOfScheduler.CommandOfThinkingEngine.GetType();
-            var b = CommandDurationMapping.GetDurationBy(key).AsFloat;
-            this.ScheduledTimesObj[playerObj.AsInt] = new GameSeconds(a + b);
+            // 次の時間
+            this.ScheduledTimesObj[playerObj.AsInt] = new GameSeconds(
+                this.ScheduledTimesObj[playerObj.AsInt].AsFloat + commandOfScheduler.TimeRangeObj.DurationObj.AsFloat);
         }
 
         internal void AddScheduleSeconds(Player playerObj, GameSeconds time)
@@ -88,24 +83,24 @@
             this.ScheduledTimesObj[playerObj.AsInt] = new GameSeconds(this.ScheduledTimesObj[playerObj.AsInt].AsFloat + time.AsFloat);
         }
 
-        internal ModelOfSchedulerO5thTask.Model GetTaskAt(int index)
+        internal ModelOfSchedulerO4thCommand.IModel GetCommandAt(int index)
         {
-            return this.Tasks[index];
+            return this.Commands[index];
         }
 
-        internal int GetCountTasks()
+        internal int GetCountCommands()
         {
-            return this.Tasks.Count;
+            return this.Commands.Count;
         }
 
         internal void RemoveAt(int index)
         {
-            this.Tasks.RemoveAt(index);
+            this.Commands.RemoveAt(index);
         }
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Vision.Models.Scheduler.SpanOfLerp.TimedGenerator.Simulator DebugWrite] gameOperationSpans.Count:{tasks.Count}");
+            Debug.Log($"[Assets.Scripts.Vision.Models.Scheduler.SpanOfLerp.TimedGenerator.Simulator DebugWrite] commands.Count:{commands.Count}");
         }
 
         internal float LastSeconds() => Mathf.Max(this.ScheduledTimesObj[0].AsFloat, ScheduledTimesObj[1].AsFloat);

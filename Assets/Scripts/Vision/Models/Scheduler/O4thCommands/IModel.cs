@@ -32,7 +32,6 @@
         /// </summary>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         void GenerateSpan(
-            ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan);
     }

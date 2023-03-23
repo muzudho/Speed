@@ -33,7 +33,6 @@
         /// ゲーム画面の同期を始めます
         /// </summary>
         public override void GenerateSpan(
-            ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
@@ -42,16 +41,13 @@
                 return;
             }
 
+            var command = (ModelOfThinkingEngineCommand.SetGameActive)this.CommandOfThinkingEngine;
+
             // モデル更新：１回実行すれば充分
-            gameModelBuffer.IsGameActive = GetCommandOfThinkingEngine(task).IsGameActive;
+            gameModelBuffer.IsGameActive = command.IsGameActive;
             handled = true;
 
             // ビュー更新：なし
-        }
-
-        ModelOfThinkingEngineCommand.SetGameActive GetCommandOfThinkingEngine(ITask task)
-        {
-            return (ModelOfThinkingEngineCommand.SetGameActive)task.CommandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }

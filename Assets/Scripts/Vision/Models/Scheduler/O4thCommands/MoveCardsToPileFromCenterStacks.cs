@@ -36,18 +36,19 @@
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
         public override void GenerateSpan(
-            ITask task,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
+            var command = (ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks)this.CommandOfThinkingEngine;
+
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
-            var length = gameModelBuffer.IdOfCardsOfCenterStacks[GetCommandOfThinkingEngine(task).PlaceObj.AsInt].Count; // 台札の枚数
+            var length = gameModelBuffer.IdOfCardsOfCenterStacks[command.PlaceObj.AsInt].Count; // 台札の枚数
             if (1 <= length)
             {
                 var startIndexObj = new CenterStackCardIndex(length - numberOfCards);
-                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[GetCommandOfThinkingEngine(task).PlaceObj.AsInt][startIndexObj.AsInt]; // 台札の１番上のカード
-                gameModelBuffer.RemoveCardAtOfCenterStack(GetCommandOfThinkingEngine(task).PlaceObj, startIndexObj);
+                var idOfCardOfCenterStack = gameModelBuffer.IdOfCardsOfCenterStacks[command.PlaceObj.AsInt][startIndexObj.AsInt]; // 台札の１番上のカード
+                gameModelBuffer.RemoveCardAtOfCenterStack(command.PlaceObj, startIndexObj);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 Player playerObj;
@@ -72,16 +73,11 @@
                 gameModelBuffer.AddCardOfPlayersPile(playerObj, idOfCardOfCenterStack);
 
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
-                    timeRange: task.CommandOfScheduler.TimeRangeObj,
+                    timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
             }
-        }
-
-        ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks GetCommandOfThinkingEngine(ITask task)
-        {
-            return (ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks)task.CommandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }

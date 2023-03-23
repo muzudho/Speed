@@ -4,7 +4,6 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
-    using ModelOfSchedulerO5thTask = Assets.Scripts.Vision.Models.Scheduler.O5thTask;
     using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
@@ -32,12 +31,7 @@
                     startObj: GameSeconds.Zero,
                     command: commandOfThinkingEngine);
 
-                // TODO ★ Task と CommandOfScheduler のどっちが親か？
-                var task = new ModelOfSchedulerO5thTask.Model(
-                        commandOfScheduler: commandOfScheduler);
-
                 commandOfScheduler.GenerateSpan(
-                    task: task,
                     gameModelBuffer: modelBuffer,
                     setTimelineSpan: (movementViewModel) => movementViewModel.Lerp(1.0f));
             }
