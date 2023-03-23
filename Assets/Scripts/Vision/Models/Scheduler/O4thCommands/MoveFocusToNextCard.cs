@@ -89,8 +89,7 @@
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.DropHandCard.GenerateSpan(
-                    startTimeObj: task.TimeRangeObj.StartObj,
-                    durationObj: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
+                    timeRange: task.TimeRangeObj,
                     idOfCard: idOfCard));
             }
 
@@ -104,8 +103,7 @@
 
                 // 今回フォーカスするカードを持ち上げる
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PickupHandCard.GenerateSpan(
-                    startTimeObj: task.TimeRangeObj.StartObj,
-                    durationObj: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
+                    timeRange: task.TimeRangeObj,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,

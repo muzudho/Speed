@@ -23,8 +23,7 @@
         /// <summary>
         /// ムーブメント生成
         /// </summary>
-        /// <param name="startTimeObj"></param>
-        /// <param name="durationObj"></param>
+        /// <param name="timeRange"></param>
         /// <param name="gameModel"></param>
         /// <param name="playerObj"></param>
         /// <param name="indexOfPickupObj">ピックアップしている場札は何番目</param>
@@ -32,8 +31,7 @@
         /// <param name="setTimelineSpan"></param>
         /// <exception cref="Exception"></exception>
         internal static void GenerateSpan(
-            GameSeconds startTimeObj,
-            GameSeconds durationObj,
+            ModelOfSchedulerO1stTimelineSpan.Range timeRange,
             Player playerObj,
             HandCardIndex indexOfPickupObj,
             List<IdOfPlayingCards> idOfHandCards,
@@ -110,8 +108,7 @@
                         homeRotationOfHand: staticDestination.GetRotation());
 
                     setTimelineSpan(new ModelOfSchedulerO1stTimelineSpan.Model(
-                        startSeconds: startTimeObj,
-                        duration: durationObj,
+                        timeRange: timeRange,
                         target: idOfGo,
                         getBegin: () =>
                         {
@@ -146,8 +143,7 @@
                     Quaternion? startRotation = null;
 
                     setTimelineSpan(new ModelOfSchedulerO1stTimelineSpan.Model(
-                        startSeconds: startTimeObj,
-                        duration: durationObj,
+                        timeRange: timeRange,
                         target: idOfGo,
                         getBegin: () =>
                         {

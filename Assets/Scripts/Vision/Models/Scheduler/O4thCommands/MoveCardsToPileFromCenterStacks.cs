@@ -70,8 +70,7 @@
                 gameModelBuffer.AddCardOfPlayersPile(playerObj, idOfCardOfCenterStack);
 
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
-                    startTimeObj: task.TimeRangeObj.StartObj,
-                    durationObj: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
+                    timeRange: task.TimeRangeObj,
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード

@@ -16,12 +16,10 @@
         /// <summary>
         /// ムーブメント生成
         /// </summary>
-        /// <param name="startTimeObj">ゲーム内時間（秒）</param>
-        /// <param name="durationObj">持続時間（秒）</param>
+        /// <param name="timeRange"></param>
         /// <param name="idOfCard">ピックアップしているカードのId</param>
         internal static ModelOfSchedulerO1stTimelineSpan.IModel GenerateSpan(
-            GameSeconds startTimeObj,
-            GameSeconds durationObj,
+            ModelOfSchedulerO1stTimelineSpan.Range timeRange,
             IdOfPlayingCards idOfCard)
         {
             var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
@@ -32,8 +30,7 @@
             Quaternion? endRotation = null;
 
             return new ModelOfSchedulerO1stTimelineSpan.Model(
-                startSeconds: startTimeObj,
-                duration: durationObj,
+                timeRange: timeRange,
                 target: idOfGo,
                 getBegin: () => new PositionAndRotationLazy(
                     getPosition: () =>

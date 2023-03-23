@@ -23,14 +23,13 @@
         /// <param name="getBegin">開始時の位置と回転</param>
         /// <param name="getEnd">終了時の位置と回転</param>
         public Model(
-            GameSeconds startSeconds,
-            GameSeconds duration,
+            Range timeRange,
             IdOfGameObjects target,
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
             LazyArgs.GetValue<PositionAndRotationLazy> getEnd,
             Action onFinished = null)
         {
-            this.TimeRangeObj = new Range(startSeconds, duration);
+            this.TimeRangeObj = timeRange;
             this.Target = target;
             this.GetBegin = getBegin;
             this.GetEnd = getEnd;

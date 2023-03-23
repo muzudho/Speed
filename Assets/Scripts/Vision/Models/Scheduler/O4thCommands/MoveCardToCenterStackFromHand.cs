@@ -95,17 +95,19 @@
 
                     // 台札へ置く
                     setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToCenterStack.GenerateSpan(
-                        startTimeObj: task.TimeRangeObj.StartObj,
-                        durationObj: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
+                        timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
+                            start: task.TimeRangeObj.StartObj,
+                            duration: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
                         playerObj: playerObj,
                         placeObj: placeObj,
                         target: targetToRemoveObj,
-                        idOfPreviousTop));
+                        idOfPreviousTop: idOfPreviousTop));
 
                     // 場札の位置調整（をしないと歯抜けになる）
                     ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
-                        startTimeObj: new GameSeconds(task.TimeRangeObj.StartObj.AsFloat + CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
-                        durationObj: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
+                        timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
+                            start: new GameSeconds(task.TimeRangeObj.StartObj.AsFloat + CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
+                            duration: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
                         playerObj: playerObj,
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,
