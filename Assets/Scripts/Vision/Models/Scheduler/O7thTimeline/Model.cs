@@ -51,11 +51,11 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="commandArg">コマンド引数</param>
-        internal void AddJustNow(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+        internal void AddJustNow(ModelOfThinkingEngineCommand.IModel command)
         {
             var task = new ModelOfSchedulerO5thTask.Model(
                     startTimeObj: this.GameModel.ElapsedSeconds,
-                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(commandOfThinkingEngine));
+                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(command));
 
             this.Tasks.Add(task);
         }

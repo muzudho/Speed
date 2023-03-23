@@ -95,7 +95,7 @@
 
                     // 台札へ置く
                     setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToCenterStack.GenerateSpan(
-                        startTimeObj: task.StartTimeObj,
+                        startTimeObj: task.TimeRangeObj.StartObj,
                         durationObj: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
                         playerObj: playerObj,
                         placeObj: placeObj,
@@ -104,7 +104,7 @@
 
                     // 場札の位置調整（をしないと歯抜けになる）
                     ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
-                        startTimeObj: new GameSeconds(task.StartTimeObj.AsFloat + CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
+                        startTimeObj: new GameSeconds(task.TimeRangeObj.StartObj.AsFloat + CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
                         durationObj: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
                         playerObj: playerObj,
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove

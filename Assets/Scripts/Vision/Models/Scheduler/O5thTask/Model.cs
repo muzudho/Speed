@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O5thTask
 {
     using Assets.Scripts.Vision.Models.Scheduler.O4thCommands;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO4thCommand = Assets.Scripts.Vision.Models.Scheduler.O4thCommands;
 
     /// <summary>
@@ -22,23 +22,16 @@
             GameSeconds startTimeObj,
             ModelOfSchedulerO4thCommand.IModel commandOfScheduler)
         {
-            this.StartTimeObj = startTimeObj;
+            this.TimeRangeObj = new ModelOfSchedulerO1stTimelineSpan.Range(startTimeObj, CommandDurationMapping.GetDurationBy(commandOfScheduler.CommandOfThinkingEngine.GetType()));
             this.CommandOfScheduler = commandOfScheduler;
         }
 
         // - プロパティ
 
         /// <summary>
-        /// 開始時間（秒）
-        /// 
-        /// TODO ★ Start,End,Durationは、 TimeRangeクラスを作って分けたい
+        /// ゲーム時間範囲（単位：秒）
         /// </summary>
-        public GameSeconds StartTimeObj { get; private set; }
-
-        /// <summary>
-        /// 終了時間（秒）
-        /// </summary>
-        public GameSeconds EndTimeObj => new GameSeconds(StartTimeObj.AsFloat + CommandDurationMapping.GetDurationBy(this.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat);
+        public ModelOfSchedulerO1stTimelineSpan.Range TimeRangeObj { get; private set; }
 
         /// <summary>
         /// スケジューラー用のコマンド

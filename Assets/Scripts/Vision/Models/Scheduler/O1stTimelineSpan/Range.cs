@@ -10,15 +10,15 @@
         /// <summary>
         /// 生成
         /// </summary>
-        /// <param name="startSeconds">ゲーム内時間（秒）</param>
+        /// <param name="start">ゲーム内時間（秒）</param>
         /// <param name="duration">持続時間（秒）</param>
         public Range(
-            GameSeconds startSeconds,
+            GameSeconds start,
             GameSeconds duration)
         {
-            this.StartTimeObj = startSeconds;
+            this.StartObj = start;
             this.DurationObj = duration;
-            this.EndTimeObj = new GameSeconds(StartTimeObj.AsFloat + DurationObj.AsFloat);
+            this.EndObj = new GameSeconds(StartObj.AsFloat + DurationObj.AsFloat);
         }
 
         // - プロパティ
@@ -26,7 +26,7 @@
         /// <summary>
         /// 開始時間（秒）
         /// </summary>
-        public GameSeconds StartTimeObj { get; private set; }
+        public GameSeconds StartObj { get; private set; }
 
         /// <summary>
         /// 持続時間（秒）
@@ -36,6 +36,6 @@
         /// <summary>
         /// 終了時間（秒）
         /// </summary>
-        public GameSeconds EndTimeObj { get; private set; }
+        public GameSeconds EndObj { get; private set; }
     }
 }

@@ -74,7 +74,7 @@
             if (0 < numberOfCards)
             {
                 ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
-                    startTimeObj: task.StartTimeObj,
+                    startTimeObj: task.TimeRangeObj.StartObj,
                     durationObj: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
                     playerObj: playerObj,
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),

@@ -33,7 +33,7 @@
                 var task = timeline.GetTaskAt(i);
 
                 // まだ
-                if (elapsedSeconds.AsFloat < task.StartTimeObj.AsFloat)
+                if (elapsedSeconds.AsFloat < task.TimeRangeObj.StartObj.AsFloat)
                 {
                     i++;
                     continue;

@@ -12,7 +12,7 @@
         /// <summary>
         /// ゲーム時間範囲（単位：秒）
         /// </summary>
-        Range RangeObj { get; }
+        Range TimeRangeObj { get; }
 
         /// <summary>
         /// 終了時の処理
