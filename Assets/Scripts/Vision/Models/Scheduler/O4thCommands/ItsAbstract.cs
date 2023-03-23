@@ -14,12 +14,20 @@
     {
         // - その他（生成）
 
-        protected ItsAbstract(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+        protected ItsAbstract(
+            GameSeconds startTimeObj,
+            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
+            this.TimeRangeObj = new ModelOfSchedulerO1stTimelineSpan.Range(startTimeObj, CommandDurationMapping.GetDurationBy(commandOfThinkingEngine.GetType()));
             this.CommandOfThinkingEngine = commandOfThinkingEngine;
         }
 
         // - プロパティ
+
+        /// <summary>
+        /// ゲーム時間範囲（単位：秒）
+        /// </summary>
+        public ModelOfSchedulerO1stTimelineSpan.Range TimeRangeObj { get; private set; }
 
         /// <summary>
         /// 思考エンジン用のコマンド

@@ -19,8 +19,10 @@
         /// 生成
         /// </summary>
         /// <param name="commandOfThinkingEngine"></param>
-        public MoveCardsToHandFromPile(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
-            : base(commandOfThinkingEngine)
+        public MoveCardsToHandFromPile(
+            GameSeconds startObj, 
+            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            : base(startObj, commandOfThinkingEngine)
         {
         }
 
@@ -74,7 +76,7 @@
             if (0 < numberOfCards)
             {
                 ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
-                    timeRange: task.TimeRangeObj,
+                    timeRange: task.CommandOfScheduler.TimeRangeObj,
                     playerObj: playerObj,
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),

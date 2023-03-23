@@ -19,19 +19,12 @@
         /// <param name="startTimeObj">ゲーム内時間（秒）</param>
         /// <param name="commandOfScheduler">スケジューラー用のコマンド</param>
         public Model(
-            GameSeconds startTimeObj,
             ModelOfSchedulerO4thCommand.IModel commandOfScheduler)
         {
-            this.TimeRangeObj = new ModelOfSchedulerO1stTimelineSpan.Range(startTimeObj, CommandDurationMapping.GetDurationBy(commandOfScheduler.CommandOfThinkingEngine.GetType()));
             this.CommandOfScheduler = commandOfScheduler;
         }
 
         // - プロパティ
-
-        /// <summary>
-        /// ゲーム時間範囲（単位：秒）
-        /// </summary>
-        public ModelOfSchedulerO1stTimelineSpan.Range TimeRangeObj { get; private set; }
 
         /// <summary>
         /// スケジューラー用のコマンド

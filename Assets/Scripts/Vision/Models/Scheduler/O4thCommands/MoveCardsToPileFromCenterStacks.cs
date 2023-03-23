@@ -19,8 +19,10 @@
         /// 生成
         /// </summary>
         /// <param name="commandOfThinkingEngine"></param>
-        public MoveCardsToPileFromCenterStacks(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
-            : base(commandOfThinkingEngine)
+        public MoveCardsToPileFromCenterStacks(
+            GameSeconds startObj,
+            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            : base(startObj, commandOfThinkingEngine)
         {
         }
 
@@ -70,7 +72,7 @@
                 gameModelBuffer.AddCardOfPlayersPile(playerObj, idOfCardOfCenterStack);
 
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
-                    timeRange: task.TimeRangeObj,
+                    timeRange: task.CommandOfScheduler.TimeRangeObj,
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード

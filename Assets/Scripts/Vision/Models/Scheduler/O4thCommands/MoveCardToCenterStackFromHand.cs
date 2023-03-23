@@ -19,8 +19,10 @@
         /// 生成
         /// </summary>
         /// <param name="commandOfThinkingEngine"></param>
-        public MoveCardToCenterStackFromHand(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
-            : base(commandOfThinkingEngine)
+        public MoveCardToCenterStackFromHand(
+            GameSeconds startObj,
+            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            : base(startObj, commandOfThinkingEngine)
         {
         }
 
@@ -96,7 +98,7 @@
                     // 台札へ置く
                     setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToCenterStack.GenerateSpan(
                         timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
-                            start: task.TimeRangeObj.StartObj,
+                            start: task.CommandOfScheduler.TimeRangeObj.StartObj,
                             duration: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
                         playerObj: playerObj,
                         placeObj: placeObj,
@@ -106,7 +108,7 @@
                     // 場札の位置調整（をしないと歯抜けになる）
                     ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
                         timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
-                            start: new GameSeconds(task.TimeRangeObj.StartObj.AsFloat + CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
+                            start: new GameSeconds(task.CommandOfScheduler.TimeRangeObj.StartObj.AsFloat + CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
                             duration: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
                         playerObj: playerObj,
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove

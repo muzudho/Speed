@@ -12,17 +12,19 @@
     {
         static Model()
         {
-            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.MoveCardsToHandFromPile).GetHashCode(), (command) => new ModelOfSchedulerO4thCommand.MoveCardsToHandFromPile(command));
-            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks).GetHashCode(), (command) => new ModelOfSchedulerO4thCommand.MoveCardsToPileFromCenterStacks(command));
-            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand).GetHashCode(), (command) => new ModelOfSchedulerO4thCommand.MoveCardToCenterStackFromHand(command));
-            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.MoveFocusToNextCard).GetHashCode(), (command) => new ModelOfSchedulerO4thCommand.MoveFocusToNextCard(command));
-            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.SetGameActive).GetHashCode(), (command) => new ModelOfSchedulerO4thCommand.SetGameActive(command));
-            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.SetIdling).GetHashCode(), (command) => new ModelOfSchedulerO4thCommand.SetIdling(command));
+            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.MoveCardsToHandFromPile).GetHashCode(), (args) => new ModelOfSchedulerO4thCommand.MoveCardsToHandFromPile(args.Item1, args.Item2));
+            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks).GetHashCode(), (args) => new ModelOfSchedulerO4thCommand.MoveCardsToPileFromCenterStacks(args.Item1, args.Item2));
+            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand).GetHashCode(), (args) => new ModelOfSchedulerO4thCommand.MoveCardToCenterStackFromHand(args.Item1, args.Item2));
+            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.MoveFocusToNextCard).GetHashCode(), (args) => new ModelOfSchedulerO4thCommand.MoveFocusToNextCard(args.Item1, args.Item2));
+            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.SetGameActive).GetHashCode(), (args) => new ModelOfSchedulerO4thCommand.SetGameActive(args.Item1, args.Item2));
+            CommandMapping.Add(typeof(ModelOfThinkingEngineCommand.SetIdling).GetHashCode(), (args) => new ModelOfSchedulerO4thCommand.SetIdling(args.Item1, args.Item2));
         }
 
         // - プロパティ
 
-        static Dictionary<int, LazyArgs.ConvertValue<ModelOfThinkingEngineCommand.IModel, ModelOfSchedulerO4thCommand.IModel>> CommandMapping = new();
+        static Dictionary<int, LazyArgs.ConvertValue<
+            (GameSeconds startTimeObj, ModelOfThinkingEngineCommand.IModel),
+            ModelOfSchedulerO4thCommand.IModel>> CommandMapping = new();
 
         // - メソッド
 
@@ -32,9 +34,10 @@
         /// <param name="command"></param>
         /// <returns></returns>
         internal static ModelOfSchedulerO4thCommand.IModel WrapCommand(
+            GameSeconds startObj,
             ModelOfThinkingEngineCommand.IModel command)
         {
-            return CommandMapping[command.GetType().GetHashCode()](command);
+            return CommandMapping[command.GetType().GetHashCode()]((startObj, command));
         }
     }
 }

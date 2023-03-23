@@ -16,8 +16,10 @@
         /// 生成
         /// </summary>
         /// <param name="commandOfThinkingEngine"></param>
-        public SetGameActive(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
-            : base(commandOfThinkingEngine)
+        public SetGameActive(
+            GameSeconds startObj,
+            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            : base(startObj, commandOfThinkingEngine)
         {
         }
 

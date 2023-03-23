@@ -28,11 +28,12 @@
                         placeObj: Commons.RightCenterStack);
 
                 // コマンド作成（画面用）
-                var commandOfScheduler = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(commandOfThinkingEngine);
+                var commandOfScheduler = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
+                    startObj: GameSeconds.Zero,
+                    command: commandOfThinkingEngine);
 
                 // TODO ★ Task と CommandOfScheduler のどっちが親か？
                 var task = new ModelOfSchedulerO5thTask.Model(
-                        startTimeObj: GameSeconds.Zero,
                         commandOfScheduler: commandOfScheduler);
 
                 commandOfScheduler.GenerateSpan(

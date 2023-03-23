@@ -21,8 +21,10 @@
         /// 生成
         /// </summary>
         /// <param name="commandOfThinkingEngine"></param>
-        public MoveFocusToNextCard(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
-            : base(commandOfThinkingEngine)
+        public MoveFocusToNextCard(
+            GameSeconds startObj,
+            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            : base(startObj, commandOfThinkingEngine)
         {
         }
 
@@ -89,7 +91,7 @@
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.DropHandCard.GenerateSpan(
-                    timeRange: task.TimeRangeObj,
+                    timeRange: task.CommandOfScheduler.TimeRangeObj,
                     idOfCard: idOfCard));
             }
 
@@ -103,7 +105,7 @@
 
                 // 今回フォーカスするカードを持ち上げる
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PickupHandCard.GenerateSpan(
-                    timeRange: task.TimeRangeObj,
+                    timeRange: task.CommandOfScheduler.TimeRangeObj,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,

@@ -6,11 +6,6 @@
     {
         // - プロパティ
 
-        /// <summary>
-        /// ゲーム時間範囲（単位：秒）
-        /// </summary>
-        ModelOfSchedulerO1stTimelineSpan.Range TimeRangeObj { get; }
-
         IModel CommandOfScheduler { get; }
     }
 }

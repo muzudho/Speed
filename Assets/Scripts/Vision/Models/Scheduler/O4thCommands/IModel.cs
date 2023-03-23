@@ -6,7 +6,7 @@
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
-    /// ソースコードのようなもの
+    /// 画面用のコマンド
     /// 
     /// - タイムライン上に配置されたもの
     /// - スパン（IBasecaseSpan）を生成します
@@ -14,6 +14,11 @@
     interface IModel
     {
         // - プロパティ
+
+        /// <summary>
+        /// ゲーム時間範囲（単位：秒）
+        /// </summary>
+        ModelOfSchedulerO1stTimelineSpan.Range TimeRangeObj { get; }
 
         /// <summary>
         /// 思考エンジン用のコマンド

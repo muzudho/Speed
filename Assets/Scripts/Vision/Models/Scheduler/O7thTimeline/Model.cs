@@ -54,8 +54,9 @@
         internal void AddJustNow(ModelOfThinkingEngineCommand.IModel command)
         {
             var task = new ModelOfSchedulerO5thTask.Model(
-                    startTimeObj: this.GameModel.ElapsedSeconds,
-                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(command));
+                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
+                        startObj: this.GameModel.ElapsedSeconds,
+                        command: command));
 
             this.Tasks.Add(task);
         }
@@ -70,8 +71,9 @@
         internal void AddWithinScheduler(Player playerObj, ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
             var task = new ModelOfSchedulerO5thTask.Model(
-                    startTimeObj: this.ScheduledTimesObj[playerObj.AsInt],
-                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(commandOfThinkingEngine));
+                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
+                        startObj: this.ScheduledTimesObj[playerObj.AsInt],
+                        command: commandOfThinkingEngine));
 
             this.Tasks.Add(task);
 
