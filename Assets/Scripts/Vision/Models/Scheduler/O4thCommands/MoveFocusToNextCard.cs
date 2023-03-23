@@ -15,15 +15,15 @@
     /// </summary>
     class MoveFocusToNextCard : ItsAbstract
     {
-        // - 生成
+        // - その他
 
         /// <summary>
         /// 生成
         /// </summary>
-        /// <returns></returns>
-        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+        /// <param name="commandOfThinkingEngine"></param>
+        public MoveFocusToNextCard(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            : base(commandOfThinkingEngine)
         {
-            return new MoveFocusToNextCard();
         }
 
         // - メソッド
@@ -89,8 +89,8 @@
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.DropHandCard.GenerateSpan(
-                    startSeconds: task.StartSeconds,
-                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
+                    startTimeObj: task.StartTimeObj,
+                    durationObj: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
                     idOfCard: idOfCard));
             }
 
@@ -104,8 +104,8 @@
 
                 // 今回フォーカスするカードを持ち上げる
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PickupHandCard.GenerateSpan(
-                    startSeconds: task.StartSeconds,
-                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
+                    startTimeObj: task.StartTimeObj,
+                    durationObj: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,

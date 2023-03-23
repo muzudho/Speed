@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Models
 {
+    using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
 
     /// <summary>
@@ -17,7 +18,7 @@
         public bool IsGameActive { get; set; }
 
         // ゲーム内経過時間
-        internal float ElapsedSeconds { get; set; } = 0.0f;
+        internal GameSeconds ElapsedTimeObj { get; set; } = GameSeconds.Zero;
 
         /// <summary>
         /// 台札

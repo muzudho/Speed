@@ -13,15 +13,15 @@
     /// </summary>
     class MoveCardsToPileFromCenterStacks : ItsAbstract
     {
-        // - 生成
+        // - その他
 
         /// <summary>
         /// 生成
         /// </summary>
-        /// <returns></returns>
-        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+        /// <param name="commandOfThinkingEngine"></param>
+        public MoveCardsToPileFromCenterStacks(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            : base(commandOfThinkingEngine)
         {
-            return new MoveCardsToPileFromCenterStacks();
         }
 
         // - メソッド
@@ -70,8 +70,8 @@
                 gameModelBuffer.AddCardOfPlayersPile(playerObj, idOfCardOfCenterStack);
 
                 setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
-                    startSeconds: task.StartSeconds,
-                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
+                    startTimeObj: task.StartTimeObj,
+                    durationObj: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード

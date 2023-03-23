@@ -21,21 +21,21 @@
             // 隣の場札をピックアップする秒
             float durationOfMoveFocusToNextCard = 0.15f;
 
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.MoveCardsToHandFromPile).GetHashCode(), 0.15f + durationOfMoveFocusToNextCard);
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks).GetHashCode(), 0.3f);
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand).GetHashCode(), 0.15f + durationOfMoveFocusToNextCard);
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.MoveFocusToNextCard).GetHashCode(), durationOfMoveFocusToNextCard);
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.SetGameActive).GetHashCode(), forMoment);
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.SetIdling).GetHashCode(), forMoment); // Idling の duration は可変の想定
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.MoveCardsToHandFromPile).GetHashCode(), new GameSeconds(0.15f + durationOfMoveFocusToNextCard));
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks).GetHashCode(), new GameSeconds(0.3f));
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand).GetHashCode(), new GameSeconds(0.15f + durationOfMoveFocusToNextCard));
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.MoveFocusToNextCard).GetHashCode(), new GameSeconds(durationOfMoveFocusToNextCard));
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.SetGameActive).GetHashCode(), new GameSeconds(forMoment));
+            DurationOfModels.Add(typeof(ModelOfThinkingEngineCommand.SetIdling).GetHashCode(), new GameSeconds(forMoment)); // Idling の duration は可変の想定
         }
 
         // - プロパティ
 
-        internal static Dictionary<int, float> DurationOfModels = new();
+        internal static Dictionary<int, GameSeconds> DurationOfModels = new();
 
         // - メソッド
 
-        internal static float GetDurationBy(Type type)
+        internal static GameSeconds GetDurationBy(Type type)
         {
             return DurationOfModels[type.GetHashCode()];
         }

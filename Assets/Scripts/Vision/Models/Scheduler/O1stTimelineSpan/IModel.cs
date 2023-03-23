@@ -12,18 +12,18 @@
         /// <summary>
         /// 開始時間（秒）
         /// </summary>
-        float StartSeconds { get; }
+        GameSeconds StartTimeObj { get; }
 
         /// <summary>
         /// 持続時間（秒）
         /// </summary>
-        float Duration { get; }
+        GameSeconds DurationObj { get; }
 
         /// <summary>
         /// 終了時間（秒）
         /// </summary>
         /// <returns></returns>
-        float EndSeconds { get; }
+        GameSeconds EndTimeObj { get; }
 
         /// <summary>
         /// 終了時の処理

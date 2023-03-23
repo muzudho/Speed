@@ -21,7 +21,7 @@
         /// <param name="setTimelineSpan"></param>
         internal static void ConvertToSpans(
             ModelOfSchedulerO7thTimeline.Model timeline,
-            float elapsedSeconds,
+            GameSeconds elapsedSeconds,
             GameModelBuffer gameModelBuffer,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
@@ -33,7 +33,7 @@
                 var task = timeline.GetTaskAt(i);
 
                 // まだ
-                if (elapsedSeconds < task.StartSeconds)
+                if (elapsedSeconds.AsFloat < task.StartTimeObj.AsFloat)
                 {
                     i++;
                     continue;

@@ -1,5 +1,7 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Models.Commands
 {
+    using Assets.Scripts.Vision.Models;
+
     /// <summary>
     /// 間（ま）を設定
     /// </summary>
@@ -10,14 +12,14 @@
         /// <summary>
         /// 生成
         /// </summary>
-        /// <param name="seconds">間</param>
-        internal SetIdling(float seconds)
+        /// <param name="time">間</param>
+        internal SetIdling(GameSeconds time)
         {
-            Seconds = seconds;
+            TimeObj = time;
         }
 
         // - プロパティ
 
-        internal float Seconds { get; private set; }
+        internal GameSeconds TimeObj { get; private set; }
     }
 }

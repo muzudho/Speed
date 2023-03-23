@@ -34,14 +34,14 @@
 
         List<ModelOfSchedulerO5thTask.Model> tasks = new();
 
-        internal List<ModelOfSchedulerO5thTask.Model> Tasks=> this.tasks;
+        internal List<ModelOfSchedulerO5thTask.Model> Tasks => this.tasks;
 
         /// <summary>
         /// タイム・ライン作成用カウンター
         /// 
         /// - プレイヤー別
         /// </summary>
-        internal float[] ScheduledSeconds { get; private set; } = { 0.0f, 0.0f };
+        internal GameSeconds[] ScheduledTimesObj { get; private set; } = { GameSeconds.Zero, GameSeconds.Zero };
 
         // - メソッド
 
@@ -54,8 +54,8 @@
         internal void AddJustNow(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
             var task = new ModelOfSchedulerO5thTask.Model(
-                    startSeconds: GameModel.ElapsedSeconds,
-                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.NewSourceCodeFromModel(commandOfThinkingEngine));
+                    startTimeObj: this.GameModel.ElapsedSeconds,
+                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(commandOfThinkingEngine));
 
             this.Tasks.Add(task);
         }
@@ -70,16 +70,20 @@
         internal void AddWithinScheduler(Player playerObj, ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
         {
             var task = new ModelOfSchedulerO5thTask.Model(
-                    startSeconds: this.ScheduledSeconds[playerObj.AsInt],
-                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.NewSourceCodeFromModel(commandOfThinkingEngine));
+                    startTimeObj: this.ScheduledTimesObj[playerObj.AsInt],
+                    commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(commandOfThinkingEngine));
 
             this.Tasks.Add(task);
-            this.ScheduledSeconds[playerObj.AsInt] += CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType());
+
+            var a = this.ScheduledTimesObj[playerObj.AsInt].AsFloat;
+            var key = task.CommandOfScheduler.CommandOfThinkingEngine.GetType();
+            var b = CommandDurationMapping.GetDurationBy(key).AsFloat;
+            this.ScheduledTimesObj[playerObj.AsInt] = new GameSeconds(a + b);
         }
 
-        internal void AddScheduleSeconds(Player playerObj, float seconds)
+        internal void AddScheduleSeconds(Player playerObj, GameSeconds time)
         {
-            this.ScheduledSeconds[playerObj.AsInt] += seconds;
+            this.ScheduledTimesObj[playerObj.AsInt] = new GameSeconds(this.ScheduledTimesObj[playerObj.AsInt].AsFloat + time.AsFloat);
         }
 
         internal ModelOfSchedulerO5thTask.Model GetTaskAt(int index)
@@ -102,6 +106,6 @@
             Debug.Log($"[Assets.Scripts.Vision.Models.Scheduler.SpanOfLerp.TimedGenerator.Simulator DebugWrite] gameOperationSpans.Count:{tasks.Count}");
         }
 
-        internal float LastSeconds() => Mathf.Max(this.ScheduledSeconds[0], ScheduledSeconds[1]);
+        internal float LastSeconds() => Mathf.Max(this.ScheduledTimesObj[0].AsFloat, ScheduledTimesObj[1].AsFloat);
     }
 }

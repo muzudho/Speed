@@ -13,15 +13,15 @@
     /// </summary>
     class MoveCardsToHandFromPile : ItsAbstract
     {
-        // - その他（生成）
+        // - その他
 
         /// <summary>
         /// 生成
         /// </summary>
-        /// <returns></returns>
-        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+        /// <param name="commandOfThinkingEngine"></param>
+        public MoveCardsToHandFromPile(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            : base(commandOfThinkingEngine)
         {
-            return new MoveCardsToHandFromPile();
         }
 
         // - メソッド
@@ -74,8 +74,8 @@
             if (0 < numberOfCards)
             {
                 ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
-                    startSeconds: task.StartSeconds,
-                    duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
+                    startTimeObj: task.StartTimeObj,
+                    durationObj: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()),
                     playerObj: playerObj,
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),

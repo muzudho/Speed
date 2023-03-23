@@ -21,14 +21,23 @@
             while (0 < model.GetLengthOfCenterStackCards(Commons.RightCenterStack))
             {
                 // 即実行
+                // ======
+
+                // コマンド作成（思考エンジン用）
                 var commandOfThinkingEngine = new ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks(
                         placeObj: Commons.RightCenterStack);
+
+                // コマンド作成（画面用）
+                var commandOfScheduler = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(commandOfThinkingEngine);
+
+                // TODO ★ Task と CommandOfScheduler のどっちが親か？
                 var task = new ModelOfSchedulerO5thTask.Model(
-                        startSeconds: 0.0f,
-                        commandOfScheduler: ModelOfSchedulerO6thCommandMapping.Model.NewSourceCodeFromModel(commandOfThinkingEngine));
-                task.CommandOfScheduler.GenerateSpan(
-                    task,
-                    modelBuffer,
+                        startTimeObj: GameSeconds.Zero,
+                        commandOfScheduler: commandOfScheduler);
+
+                commandOfScheduler.GenerateSpan(
+                    task: task,
+                    gameModelBuffer: modelBuffer,
                     setTimelineSpan: (movementViewModel) => movementViewModel.Lerp(1.0f));
             }
 
@@ -49,13 +58,13 @@
             }
 
             // 間
-            float interval = 0.85f;
+            GameSeconds intervalObj = new GameSeconds(0.85f);
 
             // 間
             {
                 foreach (var playerObj in Commons.Players)
                 {
-                    timeline.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
+                    timeline.AddScheduleSeconds(playerObj: playerObj, time: intervalObj);
                 }
             }
 
@@ -92,7 +101,7 @@
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
                     timeline.AddScheduleSeconds(
                         playerObj: playerObj,
-                        seconds: ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType()));
+                        time: ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType()));
                 }
             }
 

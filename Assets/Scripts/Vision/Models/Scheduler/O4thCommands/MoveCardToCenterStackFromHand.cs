@@ -13,15 +13,15 @@
     /// </summary>
     class MoveCardToCenterStackFromHand : ItsAbstract
     {
-        // - 生成
+        // - その他
 
         /// <summary>
         /// 生成
         /// </summary>
-        /// <returns></returns>
-        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+        /// <param name="commandOfThinkingEngine"></param>
+        public MoveCardToCenterStackFromHand(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            : base(commandOfThinkingEngine)
         {
-            return new MoveCardToCenterStackFromHand();
         }
 
         // - メソッド
@@ -95,8 +95,8 @@
 
                     // 台札へ置く
                     setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToCenterStack.GenerateSpan(
-                        startSeconds: task.StartSeconds,
-                        duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()) / 2.0f,
+                        startTimeObj: task.StartTimeObj,
+                        durationObj: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
                         playerObj: playerObj,
                         placeObj: placeObj,
                         target: targetToRemoveObj,
@@ -104,8 +104,8 @@
 
                     // 場札の位置調整（をしないと歯抜けになる）
                     ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
-                        startSeconds: task.StartSeconds + CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()) / 2.0f,
-                        duration: CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()) / 2.0f,
+                        startTimeObj: new GameSeconds(task.StartTimeObj.AsFloat + CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
+                        durationObj: new GameSeconds(CommandDurationMapping.GetDurationBy(task.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
                         playerObj: playerObj,
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,

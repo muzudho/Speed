@@ -18,12 +18,12 @@
             // 卓準備
 
             // 間
-            float interval = 0.85f;
+            GameSeconds intervalObj = new GameSeconds(0.85f);
 
             // 間
             foreach (var playerObj in Commons.Players)
             {
-                timeline.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
+                timeline.AddScheduleSeconds(playerObj: playerObj, time: intervalObj);
             }
 
             // ゲーム・デモ開始
@@ -53,7 +53,7 @@
                     // 間
                     foreach (var playerObj in Commons.Players)
                     {
-                        timeline.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
+                        timeline.AddScheduleSeconds(playerObj: playerObj, time: intervalObj);
                     }
                 }
             }
@@ -79,7 +79,7 @@
             // 間
             foreach (var playerObj in Commons.Players)
             {
-                timeline.AddScheduleSeconds(playerObj: playerObj, seconds: interval);
+                timeline.AddScheduleSeconds(playerObj: playerObj, time: intervalObj);
             }
 
             // 登録：手札から１枚引く

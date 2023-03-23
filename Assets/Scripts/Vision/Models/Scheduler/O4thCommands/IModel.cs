@@ -13,14 +13,6 @@
     /// </summary>
     interface IModel
     {
-        // - その他
-
-        /// <summary>
-        /// 生成
-        /// </summary>
-        /// <returns></returns>
-        IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine);
-
         // - プロパティ
 
         /// <summary>

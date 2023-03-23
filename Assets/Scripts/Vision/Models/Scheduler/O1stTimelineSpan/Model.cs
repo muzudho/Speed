@@ -23,15 +23,15 @@
         /// <param name="getBegin">開始時の位置と回転</param>
         /// <param name="getEnd">終了時の位置と回転</param>
         public Model(
-            float startSeconds,
-            float duration,
+            GameSeconds startSeconds,
+            GameSeconds duration,
             IdOfGameObjects target,
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
             LazyArgs.GetValue<PositionAndRotationLazy> getEnd,
             Action onFinished = null)
         {
-            this.StartSeconds = startSeconds;
-            this.Duration = duration;
+            this.StartTimeObj = startSeconds;
+            this.DurationObj = duration;
             this.Target = target;
             this.GetBegin = getBegin;
             this.GetEnd = getEnd;
@@ -43,14 +43,14 @@
         /// <summary>
         /// 開始時間（秒）
         /// </summary>
-        public float StartSeconds { get; private set; }
+        public GameSeconds StartTimeObj { get; private set; }
 
         /// <summary>
         /// 持続時間（秒）
         /// </summary>
-        public float Duration { get; private set; }
+        public GameSeconds DurationObj { get; private set; }
 
-        public float EndSeconds => StartSeconds + Duration;
+        public GameSeconds EndTimeObj => new GameSeconds(StartTimeObj.AsFloat + DurationObj.AsFloat);
 
         /// <summary>
         /// 終了時の処理

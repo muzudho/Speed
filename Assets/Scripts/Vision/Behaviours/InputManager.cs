@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
+    using Assets.Scripts.Vision.Models;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
@@ -29,9 +30,9 @@
         StalemateManager stalemateManager;
 
         /// <summary>
-        /// タイムライン・スパムの実行開始時間（秒）
+        /// タイムライン・スパンの実行開始時間（秒）
         /// </summary>
-        float[] spamSeconds = new[] { 0f, 0f };
+        GameSeconds[] spanTimesObj = new[] { GameSeconds.Zero, GameSeconds.Zero };
 
         /// <summary>
         /// コンピューター・プレイヤーか？
@@ -78,7 +79,7 @@
                 //
                 // - スパム中
                 // - 対局停止中
-                handled[playerObj.AsInt] = 0 < spamSeconds[playerObj.AsInt] || !gameModel.IsGameActive;
+                handled[playerObj.AsInt] = 0.0f < spanTimesObj[playerObj.AsInt].AsFloat || !gameModel.IsGameActive;
 
                 if (!handled[playerObj.AsInt])
                 {
@@ -104,10 +105,10 @@
                 }
 
                 // スパン時間消化
-                if (0 < spamSeconds[playerObj.AsInt])
+                if (0.0f < spanTimesObj[playerObj.AsInt].AsFloat)
                 {
                     // 負数になっても気にしない
-                    spamSeconds[playerObj.AsInt] -= Time.deltaTime;
+                    spanTimesObj[playerObj.AsInt] = new GameSeconds(spanTimesObj[playerObj.AsInt].AsFloat - Time.deltaTime);
                 }
             }
 
@@ -135,7 +136,7 @@
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.RightCenterStack); // 右の
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddJustNow(command);
                     handled[playerObj.AsInt] = true;
                 }
@@ -155,7 +156,7 @@
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.RightCenterStack); // 右の
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddJustNow(command);
                     handled[playerObj.AsInt] = true;
                 }
@@ -178,7 +179,7 @@
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.LeftCenterStack);  // 左の
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddJustNow(command);
                     handled[playerObj.AsInt] = true;
                 }
@@ -198,7 +199,7 @@
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.LeftCenterStack);  // 左の
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddJustNow(command);
                     handled[playerObj.AsInt] = true;
                 }
@@ -228,7 +229,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft);
 
-                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddJustNow(command);
                     }
                 }
@@ -245,7 +246,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickRight);
 
-                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddJustNow(command);
                     }
                 }
@@ -272,7 +273,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft);
 
-                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddJustNow(command);
                     }
                 }
@@ -289,7 +290,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickRight);
 
-                        spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddJustNow(command);
                     }
                 }
@@ -306,7 +307,7 @@
                         playerObj: playerObj,
                         numberOfCards: 1);
 
-                    spamSeconds[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(parameter.GetType());
+                    spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(parameter.GetType());
                     timeline.AddJustNow(parameter);
                 }
             }

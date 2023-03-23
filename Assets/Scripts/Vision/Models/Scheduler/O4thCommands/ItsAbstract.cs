@@ -14,18 +14,17 @@
     {
         // - その他（生成）
 
-        /// <summary>
-        /// 生成
-        /// </summary>
-        /// <returns></returns>
-        public abstract IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine);
+        protected ItsAbstract(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+        {
+            this.CommandOfThinkingEngine = commandOfThinkingEngine;
+        }
 
         // - プロパティ
 
         /// <summary>
         /// 思考エンジン用のコマンド
         /// </summary>
-        public ModelOfThinkingEngineCommand.IModel CommandOfThinkingEngine { get; protected set; }
+        public ModelOfThinkingEngineCommand.IModel CommandOfThinkingEngine { get; private set; }
 
         // - メソッド
 

@@ -16,13 +16,13 @@
         /// <summary>
         /// 生成
         /// </summary>
-        /// <param name="startSeconds">ゲーム内時間（秒）</param>
+        /// <param name="startTimeObj">ゲーム内時間（秒）</param>
         /// <param name="commandOfScheduler">スケジューラー用のコマンド</param>
         public Model(
-            float startSeconds,
+            GameSeconds startTimeObj,
             ModelOfSchedulerO4thCommand.IModel commandOfScheduler)
         {
-            this.StartSeconds = startSeconds;
+            this.StartTimeObj = startTimeObj;
             this.CommandOfScheduler = commandOfScheduler;
         }
 
@@ -30,13 +30,15 @@
 
         /// <summary>
         /// 開始時間（秒）
+        /// 
+        /// TODO ★ Start,End,Durationは、 TimeRangeクラスを作って分けたい
         /// </summary>
-        public float StartSeconds { get; private set; }
+        public GameSeconds StartTimeObj { get; private set; }
 
         /// <summary>
         /// 終了時間（秒）
         /// </summary>
-        public float EndSeconds => StartSeconds + CommandDurationMapping.GetDurationBy(this.CommandOfScheduler.CommandOfThinkingEngine.GetType());
+        public GameSeconds EndTimeObj => new GameSeconds(StartTimeObj.AsFloat + CommandDurationMapping.GetDurationBy(this.CommandOfScheduler.CommandOfThinkingEngine.GetType()).AsFloat);
 
         /// <summary>
         /// スケジューラー用のコマンド

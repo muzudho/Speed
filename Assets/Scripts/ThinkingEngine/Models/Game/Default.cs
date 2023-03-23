@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Models.Game
 {
+    using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
 
     /// <summary>
@@ -22,7 +23,7 @@
 
         // - プロパティ
 
-        internal float ElapsedSeconds => gameModelBuffer.ElapsedSeconds;
+        internal GameSeconds ElapsedSeconds => gameModelBuffer.ElapsedTimeObj;
 
         /// <summary>
         /// 対局中か？
@@ -42,7 +43,7 @@
             return new GameModelBuffer()
             {
                 // ゲーム内経過時間
-                ElapsedSeconds = this.gameModelBuffer.ElapsedSeconds,
+                ElapsedTimeObj = this.gameModelBuffer.ElapsedTimeObj,
 
                 // 台札
                 IdOfCardsOfCenterStacks = new List<List<IdOfPlayingCards>>()

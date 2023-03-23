@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
+    using Assets.Scripts.Vision.Models;
     using Assets.Scripts.Vision.Models.Replays;
     using Assets.Scripts.Vision.Models.World;
     using System;
@@ -25,7 +26,7 @@
         ModelOfScheduler.Model scheduler;
 
         // ゲーム内単位時間
-        float tickSeconds = 1.0f / 60.0f;
+        GameSeconds gameTimeObj = new GameSeconds(1.0f / 60.0f);
 
         // - プロパティ
 
@@ -86,7 +87,7 @@
             InvokeRepeating(
                 methodName: nameof(OnTick),
                 time: this.Timeline.LastSeconds(),
-                repeatRate: tickSeconds);
+                repeatRate: gameTimeObj.AsFloat);
         }
 
         // - イベントハンドラ
@@ -208,7 +209,7 @@
                         var previousTopCard = modelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt][length - 2]; // 天辺より１つ下のカードが、前のカード
                         var goPreviousTopCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(previousTopCard)];
                         goCard.transform.position = Vision.Commons.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
-                                                                                                                         // 裏返す
+                                                                                                                               // 裏返す
                         goCard.transform.rotation = Quaternion.Euler(
                             x: goCard.transform.rotation.x,
                             y: goCard.transform.rotation.y,
@@ -237,7 +238,7 @@
             // スケジュールを消化していきます
             ModelOfScheduler.Helper.ConvertToSpans(
                 this.Timeline,
-                modelBuffer.ElapsedSeconds,
+                modelBuffer.ElapsedTimeObj,
                 modelBuffer,
                 setTimelineSpan: (spanToLerp) =>
                 {
@@ -246,12 +247,12 @@
 
             // モーションの補間
             this.scheduler.Add(additionSpansToLerp);
-            this.scheduler.DrawThisMoment(modelBuffer.ElapsedSeconds);
+            this.scheduler.DrawThisMoment(modelBuffer.ElapsedTimeObj);
 
             //this.Timeline.DebugWrite();
             //this.playerToLerp.DebugWrite();
 
-            modelBuffer.ElapsedSeconds += tickSeconds;
+            modelBuffer.ElapsedTimeObj = new GameSeconds(modelBuffer.ElapsedTimeObj.AsFloat + gameTimeObj.AsFloat);
         }
     }
 }

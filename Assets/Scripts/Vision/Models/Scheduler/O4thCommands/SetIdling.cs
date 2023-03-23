@@ -10,15 +10,15 @@
     /// </summary>
     class SetIdling : ItsAbstract
     {
-        // - その他（生成）
+        // - その他
 
         /// <summary>
         /// 生成
         /// </summary>
-        /// <returns></returns>
-        public override IModel NewThis(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+        /// <param name="commandOfThinkingEngine"></param>
+        public SetIdling(ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            : base(commandOfThinkingEngine)
         {
-            return new SetIdling();
         }
 
         // - メソッド

@@ -9,12 +9,12 @@
         /// <summary>
         /// 開始時間（秒）
         /// </summary>
-        float StartSeconds { get; }
+        GameSeconds StartTimeObj { get; }
 
         /// <summary>
         /// 終了時間（秒）
         /// </summary>
-        float EndSeconds { get; }
+        GameSeconds EndTimeObj { get; }
 
         IModel CommandOfScheduler { get; }
     }
