@@ -32,6 +32,8 @@
 
         TMP_Text countDownText;
 
+        ModelOfGame.Default gameModel;
+
         // - プロパティ
 
         /// <summary>
@@ -46,6 +48,8 @@
         /// </summary>
         internal void CheckStalemate(ModelOfGame.Default gameModel)
         {
+            this.gameModel = gameModel;
+
             if (gameModel.IsGameActive &&  // 対局が開始しており
                 !this.IsStalemate)              // まだ、ステールメートしていないとき
             {
@@ -88,7 +92,7 @@
         /// カウントダウンを開始して、
         /// ピックアップ中の場札を　強制的に　台札へ置かせます
         /// </summary>
-        internal void Reopening()
+        void Reopening()
         {
             StartCoroutine(WorkingOfReopening());
         }
@@ -98,7 +102,7 @@
         /// <summary>
         /// コルーチン
         /// </summary>
-        internal IEnumerator WorkingOfReopening()
+        IEnumerator WorkingOfReopening()
         {
             // カウントダウン
             // ==============
@@ -118,19 +122,23 @@
             this.countDownText.text = "";
             {
                 // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                var timedCommandArg = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                     playerObj: Commons.Player1,             // １プレイヤーが
                     placeObj: Commons.RightCenterStack);    // 右の
 
-                this.timeline.AddJustNow(timedCommandArg);
+                this.timeline.AddCommand(
+                    startObj: this.gameModel.ElapsedSeconds,
+                    command: command);
             }
             {
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                var timedCommandArg = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                     playerObj: Commons.Player2,             // ２プレイヤーが
                     placeObj: Commons.LeftCenterStack);     // 左の
 
-                this.timeline.AddJustNow(timedCommandArg);
+                this.timeline.AddCommand(
+                    startObj: this.gameModel.ElapsedSeconds,
+                    command: command);
             }
             yield return new WaitForSeconds(1f);
 

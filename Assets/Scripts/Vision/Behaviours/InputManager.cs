@@ -137,7 +137,9 @@
                         placeObj: Commons.RightCenterStack); // 右の
 
                     spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                    timeline.AddJustNow(command);
+                    timeline.AddCommand(
+                        startObj: gameModel.ElapsedSeconds,
+                        command: command);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -157,7 +159,9 @@
                         placeObj: Commons.RightCenterStack); // 右の
 
                     spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                    timeline.AddJustNow(command);
+                    timeline.AddCommand(
+                        startObj: gameModel.ElapsedSeconds,
+                        command: command);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -180,7 +184,9 @@
                         placeObj: Commons.LeftCenterStack);  // 左の
 
                     spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                    timeline.AddJustNow(command);
+                    timeline.AddCommand(
+                        startObj: gameModel.ElapsedSeconds,
+                        command: command);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -200,7 +206,9 @@
                         placeObj: Commons.LeftCenterStack);  // 左の
 
                     spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                    timeline.AddJustNow(command);
+                    timeline.AddCommand(
+                        startObj: gameModel.ElapsedSeconds,
+                        command: command);
                     handled[playerObj.AsInt] = true;
                 }
             }
@@ -230,7 +238,9 @@
                             directionObj: Commons.PickLeft);
 
                         spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                        timeline.AddJustNow(command);
+                        timeline.AddCommand(
+                            startObj: gameModel.ElapsedSeconds,
+                            command: command);
                     }
                 }
                 // 行動：
@@ -247,7 +257,9 @@
                             directionObj: Commons.PickRight);
 
                         spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                        timeline.AddJustNow(command);
+                        timeline.AddCommand(
+                            startObj: gameModel.ElapsedSeconds,
+                            command: command);
                     }
                 }
             }
@@ -274,7 +286,9 @@
                             directionObj: Commons.PickLeft);
 
                         spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                        timeline.AddJustNow(command);
+                        timeline.AddCommand(
+                            startObj: gameModel.ElapsedSeconds,
+                            command: command);
                     }
                 }
                 // 行動：
@@ -291,7 +305,9 @@
                             directionObj: Commons.PickRight);
 
                         spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                        timeline.AddJustNow(command);
+                        timeline.AddCommand(
+                            startObj: gameModel.ElapsedSeconds,
+                            command: command);
                     }
                 }
             }
@@ -303,12 +319,14 @@
                 foreach (var playerObj in Commons.Players)
                 {
                     // 場札を並べる
-                    var parameter = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+                    var command = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 1);
 
-                    spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(parameter.GetType());
-                    timeline.AddJustNow(parameter);
+                    spanTimesObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    timeline.AddCommand(
+                        startObj: gameModel.ElapsedSeconds,
+                        command: command);
                 }
             }
         }

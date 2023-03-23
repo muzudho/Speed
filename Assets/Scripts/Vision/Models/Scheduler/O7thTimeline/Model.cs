@@ -47,14 +47,14 @@
 
         /// <summary>
         /// 追加
-        /// 
-        /// - タイムを自動的に付ける
         /// </summary>
-        /// <param name="commandArg">コマンド引数</param>
-        internal void AddJustNow(ModelOfThinkingEngineCommand.IModel command)
+        /// <param name="command">コマンド</param>
+        internal void AddCommand(
+            GameSeconds startObj,
+            ModelOfThinkingEngineCommand.IModel command)
         {
             this.Commands.Add(ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
-                        startObj: this.GameModel.ElapsedSeconds,
+                        startObj: startObj,
                         command: command));
         }
 
