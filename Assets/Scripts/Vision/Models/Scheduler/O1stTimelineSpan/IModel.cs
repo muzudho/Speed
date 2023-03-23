@@ -10,20 +10,9 @@
         // - プロパティ
 
         /// <summary>
-        /// 開始時間（秒）
+        /// ゲーム時間範囲（単位：秒）
         /// </summary>
-        GameSeconds StartTimeObj { get; }
-
-        /// <summary>
-        /// 持続時間（秒）
-        /// </summary>
-        GameSeconds DurationObj { get; }
-
-        /// <summary>
-        /// 終了時間（秒）
-        /// </summary>
-        /// <returns></returns>
-        GameSeconds EndTimeObj { get; }
+        Range RangeObj { get; }
 
         /// <summary>
         /// 終了時の処理

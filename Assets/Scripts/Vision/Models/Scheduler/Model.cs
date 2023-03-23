@@ -56,7 +56,7 @@
                 var ongoingSpan = ongoingSpans[i];
 
                 // 期限切れ
-                if (ongoingSpan.EndTimeObj.AsFloat <= elapsedSeconds.AsFloat)
+                if (ongoingSpan.RangeObj.EndTimeObj.AsFloat <= elapsedSeconds.AsFloat)
                 {
                     // TODO ★★ 動作が完了する前に、次の動作を行うと、カードがどんどん沈んでいく、といったことが起こる。連打スパム対策が必要
                     // 動作完了
@@ -74,7 +74,7 @@
                 }
 
                 // 進捗 0.0 ～ 1.0
-                float progress = (elapsedSeconds.AsFloat - ongoingSpan.StartTimeObj.AsFloat) / ongoingSpan.DurationObj.AsFloat;
+                float progress = (elapsedSeconds.AsFloat - ongoingSpan.RangeObj.StartTimeObj.AsFloat) / ongoingSpan.RangeObj.DurationObj.AsFloat;
                 // 補間
                 ongoingSpan.Lerp(progress);
 

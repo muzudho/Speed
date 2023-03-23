@@ -30,9 +30,7 @@
             LazyArgs.GetValue<PositionAndRotationLazy> getEnd,
             Action onFinished = null)
         {
-            this.StartTimeObj = startSeconds;
-            this.DurationObj = duration;
-            this.EndTimeObj = new GameSeconds(StartTimeObj.AsFloat + DurationObj.AsFloat);
+            this.RangeObj = new Range(startSeconds, duration);
             this.Target = target;
             this.GetBegin = getBegin;
             this.GetEnd = getEnd;
@@ -42,19 +40,9 @@
         // - プロパティ
 
         /// <summary>
-        /// 開始時間（秒）
+        /// ゲーム時間範囲（単位：秒）
         /// </summary>
-        public GameSeconds StartTimeObj { get; private set; }
-
-        /// <summary>
-        /// 持続時間（秒）
-        /// </summary>
-        public GameSeconds DurationObj { get; private set; }
-
-        /// <summary>
-        /// 終了時間（秒）
-        /// </summary>
-        public GameSeconds EndTimeObj { get; private set; }
+        public Range RangeObj { get; private set; }
 
         /// <summary>
         /// 終了時の処理
