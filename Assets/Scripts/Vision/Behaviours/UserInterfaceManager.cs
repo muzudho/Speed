@@ -22,8 +22,8 @@
 
         public void On1pVs2p()
         {
-            inputManager.InputOfPlayers[Commons.Player1.AsInt].Computer = null;
-            inputManager.InputOfPlayers[Commons.Player2.AsInt].Computer = null;
+            inputManager.Model.Players[Commons.Player1.AsInt].Computer = null;
+            inputManager.Model.Players[Commons.Player2.AsInt].Computer = null;
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p1Keys.SetActive(true);
@@ -33,8 +33,8 @@
 
         public void On1pVsCom()
         {
-            inputManager.InputOfPlayers[Commons.Player1.AsInt].Computer = null;
-            inputManager.InputOfPlayers[Commons.Player2.AsInt].Computer = new Computer(Commons.Player2.AsInt);
+            inputManager.Model.Players[Commons.Player1.AsInt].Computer = null;
+            inputManager.Model.Players[Commons.Player2.AsInt].Computer = new Computer(Commons.Player2.AsInt);
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p1Keys.SetActive(true);
@@ -43,8 +43,8 @@
 
         public void OnComVs2p()
         {
-            inputManager.InputOfPlayers[Commons.Player1.AsInt].Computer = new Computer(Commons.Player1.AsInt);
-            inputManager.InputOfPlayers[Commons.Player2.AsInt].Computer = null;
+            inputManager.Model.Players[Commons.Player1.AsInt].Computer = new Computer(Commons.Player1.AsInt);
+            inputManager.Model.Players[Commons.Player2.AsInt].Computer = null;
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p2Keys.SetActive(true);
@@ -53,8 +53,8 @@
 
         public void OnComVsCom()
         {
-            inputManager.InputOfPlayers[Commons.Player1.AsInt].Computer = new Computer(Commons.Player1.AsInt);
-            inputManager.InputOfPlayers[Commons.Player2.AsInt].Computer = new Computer(Commons.Player2.AsInt);
+            inputManager.Model.Players[Commons.Player1.AsInt].Computer = new Computer(Commons.Player1.AsInt);
+            inputManager.Model.Players[Commons.Player2.AsInt].Computer = new Computer(Commons.Player2.AsInt);
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             timelineManager.StartGame();
