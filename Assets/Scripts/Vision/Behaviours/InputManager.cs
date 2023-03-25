@@ -2,7 +2,6 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.Vision.Models;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
@@ -77,53 +76,14 @@
         /// </summary>
         void Update()
         {
-            // もう入力できないなら真
-            bool[] handled = { false, false };
-
-            // キー入力を翻訳する
+            // 初期化
             foreach (var playerObj in Commons.Players)
             {
-                // TODO ★
-                this.InputOfPlayers[playerObj.AsInt].Translate();
+                // もう入力できないなら真
+                this.InputOfPlayers[playerObj.AsInt].Handled = false;
 
-                // キー入力の解析：クリアー
-                this.InputOfPlayers[playerObj.AsInt].Meaning.Clear();
-
-                // 前判定：もう入力できないなら真
-                //
-                // - スパム中
-                // - 対局停止中
-                handled[playerObj.AsInt] = 0.0f < this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj.AsFloat || !gameModel.IsGameActive;
-
-                if (!handled[playerObj.AsInt])
-                {
-                    if (this.InputOfPlayers[playerObj.AsInt].Computer == null)
-                    {
-                        // キー入力の解析：人間の入力を受付
-                        this.InputOfPlayers[playerObj.AsInt].Meaning.UpdateFromInput();
-                    }
-                    else
-                    {
-                        // コンピューター・プレイヤーが思考して、操作を決める
-                        this.InputOfPlayers[playerObj.AsInt].Computer.Think(gameModel);
-
-                        // キー入力の解析：コンピューターからの入力を受付
-                        this.InputOfPlayers[playerObj.AsInt].Meaning.Overwrite(
-                            playerObj: playerObj,
-                            moveCardToCenterStackNearMe: this.InputOfPlayers[playerObj.AsInt].Computer.MoveCardToCenterStackNearMe,
-                            moveCardToFarCenterStack: this.InputOfPlayers[playerObj.AsInt].Computer.MoveCardToFarCenterStack,
-                            pickupCardToForward: this.InputOfPlayers[playerObj.AsInt].Computer.PickupCardToForward,
-                            pickupCardToBackward: this.InputOfPlayers[playerObj.AsInt].Computer.PickupCardToBackward,
-                            drawing: this.InputOfPlayers[playerObj.AsInt].Computer.Drawing);
-                    }
-                }
-
-                // スパン時間消化
-                if (0.0f < this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj.AsFloat)
-                {
-                    // 負数になっても気にしない
-                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = new GameSeconds(this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj.AsFloat - Time.deltaTime);
-                }
+                // キー入力を翻訳する
+                this.InputOfPlayers[playerObj.AsInt].Translate(gameModel);
             }
 
             // ステールメートしてるかどうかの判定
@@ -140,7 +100,7 @@
             // - 自分の近い方の台札へ置く
             {
                 var playerObj = Commons.Player1;
-                if (!handled[playerObj.AsInt] &&
+                if (!this.InputOfPlayers[playerObj.AsInt].Handled &&
                     !this.stalemateManager.IsStalemate &&
                     this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToCenterStackNearMe &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
@@ -154,7 +114,7 @@
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
-                    handled[playerObj.AsInt] = true;
+                    this.InputOfPlayers[playerObj.AsInt].Handled = true;
                 }
             }
 
@@ -162,7 +122,7 @@
             // - 自分から遠い方の台札へ置く
             {
                 var playerObj = Commons.Player2;
-                if (!handled[playerObj.AsInt] &&
+                if (!this.InputOfPlayers[playerObj.AsInt].Handled &&
                     !this.stalemateManager.IsStalemate &&
                     this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToFarCenterStack &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
@@ -176,7 +136,7 @@
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
-                    handled[playerObj.AsInt] = true;
+                    this.InputOfPlayers[playerObj.AsInt].Handled = true;
                 }
             }
 
@@ -187,7 +147,7 @@
             // - 自分の近い方の台札へ置く
             {
                 var playerObj = Commons.Player2;
-                if (!handled[playerObj.AsInt] &&
+                if (!this.InputOfPlayers[playerObj.AsInt].Handled &&
                     !this.stalemateManager.IsStalemate &&
                     this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToCenterStackNearMe &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
@@ -201,7 +161,7 @@
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
-                    handled[playerObj.AsInt] = true;
+                    this.InputOfPlayers[playerObj.AsInt].Handled = true;
                 }
             }
 
@@ -209,7 +169,7 @@
             // - 自分から遠い方の台札へ置く
             {
                 var playerObj = Commons.Player1;
-                if (!handled[playerObj.AsInt] &&
+                if (!this.InputOfPlayers[playerObj.AsInt].Handled &&
                     !this.stalemateManager.IsStalemate &&
                     this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToFarCenterStack &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
@@ -223,7 +183,7 @@
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
-                    handled[playerObj.AsInt] = true;
+                    this.InputOfPlayers[playerObj.AsInt].Handled = true;
                 }
             }
 
@@ -234,7 +194,7 @@
             {
                 var playerObj = Commons.Player1;
 
-                if (handled[playerObj.AsInt])
+                if (this.InputOfPlayers[playerObj.AsInt].Handled)
                 {
 
                 }
@@ -282,7 +242,7 @@
             {
                 var playerObj = Commons.Player2;
 
-                if (handled[playerObj.AsInt])
+                if (this.InputOfPlayers[playerObj.AsInt].Handled)
                 {
 
                 }
