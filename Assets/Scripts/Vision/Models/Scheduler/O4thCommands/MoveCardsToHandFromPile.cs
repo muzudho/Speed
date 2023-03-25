@@ -52,6 +52,7 @@
             // 手札がないのに、手札を引こうとしたとき
             if (length < command.NumberOfCards)
             {
+                // TODO ★ なぜここにくる？
                 // できない指示は無視
                 // Debug.Log("[MoveCardsToHandFromPileView OnEnter] できない指示は無視");
 

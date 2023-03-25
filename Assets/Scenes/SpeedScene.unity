@@ -2325,7 +2325,7 @@ GameObject:
   - component: {fileID: 680338717}
   - component: {fileID: 680338718}
   m_Layer: 0
-  m_Name: Timeline Manager
+  m_Name: Scheduler Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
