@@ -315,7 +315,8 @@
             }
 
             // 場札の補充
-            if (inputToMeaning.Drawing)
+            if (inputToMeaning.MeaningOfPlayers[Commons.Player1.AsInt].Drawing ||
+                inputToMeaning.MeaningOfPlayers[Commons.Player2.AsInt].Drawing)
             {
                 // 両プレイヤーは手札から１枚抜いて、場札として置く
                 foreach (var playerObj in Commons.Players)

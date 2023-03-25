@@ -22,19 +22,16 @@
                 onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.DownArrow),
                 onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.UpArrow),
                 onPickupCardToForward: ()=>Input.GetKeyDown(KeyCode.RightArrow),
-                onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.LeftArrow)),
+                onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.LeftArrow),
+                onDrawing: ()=>Input.GetKeyDown(KeyCode.Space)),    // １プレイヤーと、２プレイヤーの２回判定されてしまう
 
             new MeaningOfPlayer(
                 onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.S),
                 onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.W),
                 onPickupCardToForward: ()=>Input.GetKeyDown(KeyCode.D),
-                onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.A)),
+                onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.A),
+                onDrawing:()=>Input.GetKeyDown(KeyCode.Space)),     // １プレイヤーと、２プレイヤーの２回判定されてしまう
         };
-
-        /// <summary>
-        /// 手札から場札を補充する
-        /// </summary>
-        internal bool Drawing { get; private set; } = false;
 
         // - メソッド
 
@@ -49,9 +46,8 @@
                 this.MeaningOfPlayers[player].MoveCardToFarCenterStack = false;
                 this.MeaningOfPlayers[player].PickupCardToForward = false;
                 this.MeaningOfPlayers[player].PickupCardToBackward = false;
+                this.MeaningOfPlayers[player].Drawing = false;
             }
-
-            Drawing = false;
         }
 
         /// <summary>
@@ -60,12 +56,7 @@
         /// <param name="playerObj"></param>
         internal void UpdateFromInput(Player playerObj)
         {
-            this.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe = this.MeaningOfPlayers[playerObj.AsInt].OnMoveCardToCenterStackNearMe();
-            this.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack = this.MeaningOfPlayers[playerObj.AsInt].OnMoveCardToFarCenterStack();
-            this.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward = this.MeaningOfPlayers[playerObj.AsInt].OnPickupCardToForward();
-            this.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward = this.MeaningOfPlayers[playerObj.AsInt].OnPickupCardToBackward();
-
-            Drawing = Input.GetKeyDown(KeyCode.Space); // １プレイヤーと、２プレイヤーの２回判定されてしまう
+            this.MeaningOfPlayers[playerObj.AsInt].UpdateFromInput();
         }
 
         /// <summary>
@@ -83,7 +74,7 @@
             this.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack = moveCardToFarCenterStack;
             this.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward = pickupCardToForward;
             this.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward = pickupCardToBackward;
-            Drawing = drawing;
+            this.MeaningOfPlayers[playerObj.AsInt].Drawing = drawing;
         }
     }
 }
