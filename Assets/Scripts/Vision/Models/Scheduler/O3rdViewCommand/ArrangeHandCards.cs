@@ -102,7 +102,7 @@
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;
 
-                    // TODO ★ ピックアップ後の座標を計算したい。ピックアップ前の座標は指定する
+                    // ピックアップ後の座標を計算したい。ピックアップ前の座標は指定する
                     var endPositionAndRotation = ModelOfSchedulerO3rdViewCommand.PickupHandCard.CalculateEnd(
                         homePositionOfHand: staticDestination.GetPosition(),
                         homeRotationOfHand: staticDestination.GetRotation());

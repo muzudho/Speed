@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
@@ -37,6 +38,7 @@
         /// <param name="place">右なら0、左なら1</param>
         public override void GenerateSpan(
             GameModelBuffer gameModelBuffer,
+            ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             var command = (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)this.CommandOfThinkingEngine;
@@ -134,22 +136,5 @@
 
             setIndex(handIndex);
         }
-
-        // TODO ★ 消す
-        //private bool CanRemoveHandCardAt(
-        //    GameModelBuffer gameModelBuffer,
-        //    int player,
-        //    int indexToRemove)
-        //{
-        //    // 抜く前の場札の数
-        //    var lengthBeforeRemove = gameModelBuffer.IdOfCardsOfPlayersHand[player].Count;
-        //    if (indexToRemove < 0 || lengthBeforeRemove <= indexToRemove)
-        //    {
-        //        // 抜くのに失敗
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
     }
 }

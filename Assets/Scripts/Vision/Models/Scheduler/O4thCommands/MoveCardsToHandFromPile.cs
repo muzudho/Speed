@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
@@ -36,6 +37,7 @@
         /// </summary>
         public override void GenerateSpan(
             GameModelBuffer gameModelBuffer,
+            ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             var command = (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)this.CommandOfThinkingEngine;
@@ -83,11 +85,6 @@
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
                     keepPickup: true,
                     setTimelineSpan: setTimelineSpan);
-            }
-
-            // TODO ★ ピックアップしている場札を持ち上げる
-            {
-
             }
         }
     }

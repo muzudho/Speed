@@ -65,9 +65,8 @@ public class SchedulerManager : MonoBehaviour
 
         // スケジュールを消化していきます
         ModelOfScheduler.Helper.ConvertToSpans(
-            this.Model.Timeline,
-            gameModelBuffer.ElapsedTimeObj,
             gameModelBuffer,
+            this.Model,
             setTimelineSpan: (spanToLerp) =>
             {
                 additionSpansToLerp.Add(spanToLerp);

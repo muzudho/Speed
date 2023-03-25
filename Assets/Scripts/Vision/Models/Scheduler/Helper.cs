@@ -2,8 +2,8 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
     /// スケジューラーのヘルパー
@@ -16,24 +16,22 @@
         /// ゲーム画面の同期を始めます
         /// </summary>
         /// <param name="timeline"></param>
-        /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="setTimelineSpan"></param>
         internal static void ConvertToSpans(
-            ModelOfSchedulerO7thTimeline.Model timeline,
-            GameSeconds elapsedSeconds,
             GameModelBuffer gameModelBuffer,
+            ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
             int i = 0;
-            while (i < timeline.GetCountCommands())
+            while (i < schedulerModel.Timeline.GetCountCommands())
             {
-                var commandOfScheduler = timeline.GetCommandAt(i);
+                var commandOfScheduler = schedulerModel.Timeline.GetCommandAt(i);
 
                 // まだ
-                if (elapsedSeconds.AsFloat < commandOfScheduler.TimeRangeObj.StartObj.AsFloat)
+                if (gameModelBuffer.ElapsedTimeObj.AsFloat < commandOfScheduler.TimeRangeObj.StartObj.AsFloat)
                 {
                     i++;
                     continue;
@@ -41,14 +39,15 @@
 
                 // 起動
                 // ----
-                // Debug.Log($"[Assets.Scripts.Vision.World.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{timeSpan.StartSeconds} <= elapsedSeconds:{elapsedSeconds}");
+                // Debug.Log($"[Assets.Scripts.Vision.World.Models.Timeline.Model OnEnter] タイム・スパン実行 span.StartSeconds:{timeSpan.StartSeconds} <= gameModelBuffer.ElapsedTimeObj:{gameModelBuffer.ElapsedTimeObj}");
 
                 // スケジュールから除去
-                timeline.RemoveAt(i);
+                schedulerModel.Timeline.RemoveAt(i);
 
                 // ゲーム画面の同期を始めます
                 commandOfScheduler.GenerateSpan(
                     gameModelBuffer,
+                    schedulerModel,
                     setTimelineSpan: setTimelineSpan);
             }
         }

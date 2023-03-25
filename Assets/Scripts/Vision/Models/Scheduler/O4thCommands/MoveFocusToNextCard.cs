@@ -6,6 +6,7 @@
     using Assets.Scripts.Vision.Models.World;
     using System;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
     using ModelOfSchedulerO4thCommand = Assets.Scripts.Vision.Models.Scheduler.O4thCommands;
@@ -40,6 +41,7 @@
         /// <param name="direction">後ろ:0, 前:1</param>
         public override void GenerateSpan(
             GameModelBuffer gameModelBuffer,
+            ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             var command = (ModelOfThinkingEngineCommand.MoveFocusToNextCard)this.CommandOfThinkingEngine;

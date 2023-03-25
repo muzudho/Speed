@@ -12,7 +12,9 @@
     /// </summary>
     static class SetStartPosition
     {
-        internal static void DoIt(GameModelBuffer modelBuffer, ModelOfScheduler.Model schedulerModel)
+        internal static void DoIt(
+            GameModelBuffer modelBuffer,
+            ModelOfScheduler.Model schedulerModel)
         {
             var model = new ModelOfGame.Default(modelBuffer);
 
@@ -32,6 +34,7 @@
 
                 commandOfScheduler.GenerateSpan(
                     gameModelBuffer: modelBuffer,
+                    schedulerModel: schedulerModel,
                     setTimelineSpan: (movementViewModel) => movementViewModel.Lerp(1.0f));
             }
 

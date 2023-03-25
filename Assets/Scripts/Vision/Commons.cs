@@ -15,8 +15,6 @@
     {
         // - プロパティー
 
-        // TODO ★ Vector3 のプロパティ自体は readonly ではない
-
         /// <summary>
         /// カードを積み重ねるときの厚み
         /// </summary>
