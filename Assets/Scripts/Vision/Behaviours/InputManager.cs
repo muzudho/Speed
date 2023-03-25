@@ -9,6 +9,7 @@
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfInputOfPlayer = Assets.Scripts.Vision.Models.Input.Players;
 
     /// <summary>
     /// 入力マネージャー
@@ -29,12 +30,14 @@
         /// </summary>
         StalemateManager stalemateManager;
 
+        // - プロパティ
+
         /// <summary>
-        /// 入力の権利
+        /// プレイヤーの入力
         /// 
         /// - プレイヤー別
         /// </summary>
-        readonly ModelOfInput.Rights[] Rights = new ModelOfInput.Rights[] { new ModelOfInput.Rights(), new ModelOfInput.Rights() };
+        readonly ModelOfInput.Player[] InputOfPlayers = new ModelOfInput.Player[] { new ModelOfInput.Player(), new ModelOfInput.Player() };
 
         /// <summary>
         /// コンピューター・プレイヤーか？
@@ -45,7 +48,27 @@
         internal Computer[] Computers { get; set; } = new Computer[] { null, null, };
         // internal Computer[] Computers { get; set; } = new Computer[] { new Computer(0), new Computer(1), };
 
-        ModelOfInput.ToMeaning inputToMeaning = new ModelOfInput.ToMeaning();
+        /// <summary>
+        /// 入力の意味
+        /// 
+        /// - プレイヤー別
+        /// </summary>
+        internal ModelOfInputOfPlayer.Meaning[] MeaningOfPlayers { get; private set; } = new[]
+        {
+            new ModelOfInputOfPlayer.Meaning(
+                onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.DownArrow),
+                onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.UpArrow),
+                onPickupCardToForward: ()=>Input.GetKeyDown(KeyCode.RightArrow),
+                onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.LeftArrow),
+                onDrawing: ()=>Input.GetKeyDown(KeyCode.Space)),    // １プレイヤーと、２プレイヤーの２回判定されてしまう
+
+            new ModelOfInputOfPlayer.Meaning(
+                onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.S),
+                onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.W),
+                onPickupCardToForward: ()=>Input.GetKeyDown(KeyCode.D),
+                onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.A),
+                onDrawing:()=>Input.GetKeyDown(KeyCode.Space)),     // １プレイヤーと、２プレイヤーの２回判定されてしまう
+        };
 
         // - イベントハンドラ
 
@@ -75,20 +98,20 @@
             foreach (var playerObj in Commons.Players)
             {
                 // キー入力の解析：クリアー
-                inputToMeaning.MeaningOfPlayers[playerObj.AsInt].Clear();
+                this.MeaningOfPlayers[playerObj.AsInt].Clear();
 
                 // 前判定：もう入力できないなら真
                 //
                 // - スパム中
                 // - 対局停止中
-                handled[playerObj.AsInt] = 0.0f < this.Rights[playerObj.AsInt].TimeOfRestObj.AsFloat || !gameModel.IsGameActive;
+                handled[playerObj.AsInt] = 0.0f < this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj.AsFloat || !gameModel.IsGameActive;
 
                 if (!handled[playerObj.AsInt])
                 {
                     if (Computers[playerObj.AsInt] == null)
                     {
                         // キー入力の解析：人間の入力を受付
-                        inputToMeaning.MeaningOfPlayers[playerObj.AsInt].UpdateFromInput();
+                        this.MeaningOfPlayers[playerObj.AsInt].UpdateFromInput();
                     }
                     else
                     {
@@ -96,7 +119,7 @@
                         Computers[playerObj.AsInt].Think(gameModel);
 
                         // キー入力の解析：コンピューターからの入力を受付
-                        inputToMeaning.MeaningOfPlayers[playerObj.AsInt].Overwrite(
+                        this.MeaningOfPlayers[playerObj.AsInt].Overwrite(
                             playerObj: playerObj,
                             moveCardToCenterStackNearMe: Computers[playerObj.AsInt].MoveCardToCenterStackNearMe,
                             moveCardToFarCenterStack: Computers[playerObj.AsInt].MoveCardToFarCenterStack,
@@ -107,10 +130,10 @@
                 }
 
                 // スパン時間消化
-                if (0.0f < this.Rights[playerObj.AsInt].TimeOfRestObj.AsFloat)
+                if (0.0f < this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj.AsFloat)
                 {
                     // 負数になっても気にしない
-                    this.Rights[playerObj.AsInt].TimeOfRestObj = new GameSeconds(this.Rights[playerObj.AsInt].TimeOfRestObj.AsFloat - Time.deltaTime);
+                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = new GameSeconds(this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj.AsFloat - Time.deltaTime);
                 }
             }
 
@@ -130,7 +153,7 @@
                 var playerObj = Commons.Player1;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    inputToMeaning.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe &&
+                    this.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
@@ -138,7 +161,7 @@
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.RightCenterStack); // 右の
 
-                    this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
@@ -152,7 +175,7 @@
                 var playerObj = Commons.Player2;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    inputToMeaning.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack &&
+                    this.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
@@ -160,7 +183,7 @@
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.RightCenterStack); // 右の
 
-                    this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
@@ -177,7 +200,7 @@
                 var playerObj = Commons.Player2;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    inputToMeaning.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe &&
+                    this.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
@@ -185,7 +208,7 @@
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.LeftCenterStack);  // 左の
 
-                    this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
@@ -199,7 +222,7 @@
                 var playerObj = Commons.Player1;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    inputToMeaning.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack &&
+                    this.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
@@ -207,7 +230,7 @@
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.LeftCenterStack);  // 左の
 
-                    this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
@@ -229,7 +252,7 @@
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
                 //      左隣のカードをピックアップするように変えます
-                else if (inputToMeaning.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward)
+                else if (this.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -239,7 +262,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft);
 
-                        this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddCommand(
                             startObj: gameModel.ElapsedSeconds,
                             command: command);
@@ -248,7 +271,7 @@
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
                 //      右隣のカードをピックアップするように変えます
-                else if (inputToMeaning.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward)
+                else if (this.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -258,7 +281,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickRight);
 
-                        this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddCommand(
                             startObj: gameModel.ElapsedSeconds,
                             command: command);
@@ -277,7 +300,7 @@
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
                 //      左隣のカードをピックアップするように変えます
-                else if (inputToMeaning.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward)
+                else if (this.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -287,7 +310,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft);
 
-                        this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddCommand(
                             startObj: gameModel.ElapsedSeconds,
                             command: command);
@@ -296,7 +319,7 @@
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
                 //      右隣のカードをピックアップするように変えます
-                else if (inputToMeaning.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward)
+                else if (this.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -306,7 +329,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickRight);
 
-                        this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddCommand(
                             startObj: gameModel.ElapsedSeconds,
                             command: command);
@@ -315,8 +338,8 @@
             }
 
             // 場札の補充
-            if (inputToMeaning.MeaningOfPlayers[Commons.Player1.AsInt].Drawing ||
-                inputToMeaning.MeaningOfPlayers[Commons.Player2.AsInt].Drawing)
+            if (this.MeaningOfPlayers[Commons.Player1.AsInt].Drawing ||
+                this.MeaningOfPlayers[Commons.Player2.AsInt].Drawing)
             {
                 // 両プレイヤーは手札から１枚抜いて、場札として置く
                 foreach (var playerObj in Commons.Players)
@@ -326,7 +349,7 @@
                         playerObj: playerObj,
                         numberOfCards: 1);
 
-                    this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
