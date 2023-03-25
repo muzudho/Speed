@@ -3,6 +3,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
@@ -14,6 +15,7 @@
     {
         internal static void DoIt(
             GameModelBuffer modelBuffer,
+            ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel)
         {
             var model = new ModelOfGame.Default(modelBuffer);
@@ -34,6 +36,7 @@
 
                 commandOfScheduler.GenerateSpan(
                     gameModelBuffer: modelBuffer,
+                    inputModel: inputModel,
                     schedulerModel: schedulerModel,
                     setTimelineSpan: (movementViewModel) => movementViewModel.Lerp(1.0f));
             }

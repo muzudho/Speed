@@ -63,7 +63,7 @@
             foreach (var playerObj in Commons.Players)
             {
                 // もう入力できないなら真
-                this.Model.Players[playerObj.AsInt].Rights.ClearHandle();
+                this.Model.Players[playerObj.AsInt].Rights.ClearHandleBeforeTick();
 
                 // キー入力を翻訳する
                 this.Model.Players[playerObj.AsInt].Translate(gameModel);

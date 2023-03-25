@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
 
@@ -20,6 +21,7 @@
         /// <param name="setTimelineSpan"></param>
         internal static void ConvertToSpans(
             GameModelBuffer gameModelBuffer,
+            ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
@@ -47,6 +49,7 @@
                 // ゲーム画面の同期を始めます
                 commandOfScheduler.GenerateSpan(
                     gameModelBuffer,
+                    inputModel,
                     schedulerModel,
                     setTimelineSpan: setTimelineSpan);
             }

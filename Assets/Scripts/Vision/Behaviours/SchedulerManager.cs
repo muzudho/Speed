@@ -5,6 +5,7 @@ using Assets.Scripts.Vision.Models.Replays;
 using System.Collections.Generic;
 using UnityEngine;
 using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+using ModelOfInput = Assets.Scripts.Vision.Models.Input;
 using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
 using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
 
@@ -17,6 +18,11 @@ public class SchedulerManager : MonoBehaviour
 
     // ゲーム内単位時間
     GameSeconds gameTimeObj = new GameSeconds(1.0f / 60.0f);
+
+    /// <summary>
+    /// 入力・モデル
+    /// </summary>
+    internal ModelOfInput.Init InputModel { get; private set; }
 
     /// <summary>
     /// スケジューラー・モデル
@@ -43,6 +49,7 @@ public class SchedulerManager : MonoBehaviour
         // 開始局面まで登録
         SetStartPosition.DoIt(
             gameModelBuffer,
+            this.InputModel,
             this.Model);
 
         // 以下、デモ・プレイを登録
@@ -66,6 +73,7 @@ public class SchedulerManager : MonoBehaviour
         // スケジュールを消化していきます
         ModelOfScheduler.Helper.ConvertToSpans(
             gameModelBuffer,
+            this.InputModel,
             this.Model,
             setTimelineSpan: (spanToLerp) =>
             {
@@ -90,6 +98,9 @@ public class SchedulerManager : MonoBehaviour
         var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         this.gameModel = gameManager.Model;
         this.gameModelBuffer = gameManager.ModelBuffer;
+
+        var inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
+        this.InputModel = inputManager.Model;
 
         // スケジューラー・モデル
         this.Model = new ModelOfScheduler.Model(this.gameModel);

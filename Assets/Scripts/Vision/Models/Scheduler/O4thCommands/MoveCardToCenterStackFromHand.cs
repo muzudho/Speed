@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
@@ -38,6 +39,7 @@
         /// <param name="place">右なら0、左なら1</param>
         public override void GenerateSpan(
             GameModelBuffer gameModelBuffer,
+            ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
@@ -110,7 +112,7 @@
                         onFinishedOrNull: ()=>
                         {
                             // TODO ★ 終了時の処理
-
+                            inputModel.Players[playerObj.AsInt].Rights.IsThrowingCardIntoCenterStack = false;                            
                         }));
 
                     // 場札の位置調整（をしないと歯抜けになる）

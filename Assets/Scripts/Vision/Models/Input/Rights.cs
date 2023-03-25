@@ -24,10 +24,10 @@
 
         // - メソッド
 
-        internal void ClearHandle()
+        internal void ClearHandleBeforeTick()
         {
             this.IsGameInactive = false;
-            this.IsThrowingCardIntoCenterStack = false;
+            // this.IsThrowingCardIntoCenterStack = false;
         }
 
         /// <summary>
