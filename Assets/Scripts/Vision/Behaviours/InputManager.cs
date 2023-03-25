@@ -130,7 +130,7 @@
                 var playerObj = Commons.Player1;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    inputToMeaning.MoveCardToCenterStackNearMe[playerObj.AsInt] &&
+                    inputToMeaning.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
@@ -152,7 +152,7 @@
                 var playerObj = Commons.Player2;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    inputToMeaning.MoveCardToFarCenterStack[playerObj.AsInt] &&
+                    inputToMeaning.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
@@ -177,7 +177,7 @@
                 var playerObj = Commons.Player2;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    inputToMeaning.MoveCardToCenterStackNearMe[playerObj.AsInt] &&
+                    inputToMeaning.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
@@ -199,7 +199,7 @@
                 var playerObj = Commons.Player1;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    inputToMeaning.MoveCardToFarCenterStack[playerObj.AsInt] &&
+                    inputToMeaning.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
@@ -229,7 +229,7 @@
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
                 //      左隣のカードをピックアップするように変えます
-                else if (inputToMeaning.PickupCardToBackward[playerObj.AsInt])
+                else if (inputToMeaning.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -248,7 +248,7 @@
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
                 //      右隣のカードをピックアップするように変えます
-                else if (inputToMeaning.PickupCardToForward[playerObj.AsInt])
+                else if (inputToMeaning.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -277,7 +277,7 @@
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
                 //      左隣のカードをピックアップするように変えます
-                else if (inputToMeaning.PickupCardToBackward[playerObj.AsInt])
+                else if (inputToMeaning.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -296,7 +296,7 @@
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
                 //      右隣のカードをピックアップするように変えます
-                else if (inputToMeaning.PickupCardToForward[playerObj.AsInt])
+                else if (inputToMeaning.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る

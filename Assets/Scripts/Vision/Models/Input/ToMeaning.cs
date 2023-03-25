@@ -12,24 +12,24 @@
         // - プロパティ
 
         /// <summary>
-        /// 自分に近い方の台札へ置く
+        /// 入力の意味
+        /// 
+        /// - プレイヤー別
         /// </summary>
-        internal bool[] MoveCardToCenterStackNearMe { get; private set; } = new[] { false, false };
+        internal MeaningOfPlayer[] MeaningOfPlayers { get; private set; } = new[]
+        {
+            new MeaningOfPlayer(
+                onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.DownArrow),
+                onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.UpArrow),
+                onPickupCardToForward: ()=>Input.GetKeyDown(KeyCode.RightArrow),
+                onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.LeftArrow)),
 
-        /// <summary>
-        /// 自分から遠い方の台札へ置く
-        /// </summary>
-        internal bool[] MoveCardToFarCenterStack { get; private set; } = new[] { false, false };
-
-        /// <summary>
-        /// 自分から見て（今ピックアップしているカードの）右隣のカードをピックアップ
-        /// </summary>
-        internal bool[] PickupCardToForward { get; private set; } = new[] { false, false };
-
-        /// <summary>
-        /// 自分から見て（今ピックアップしているカードの）左隣のカードをピックアップ
-        /// </summary>
-        internal bool[] PickupCardToBackward { get; private set; } = new[] { false, false };
+            new MeaningOfPlayer(
+                onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.S),
+                onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.W),
+                onPickupCardToForward: ()=>Input.GetKeyDown(KeyCode.D),
+                onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.A)),
+        };
 
         /// <summary>
         /// 手札から場札を補充する
@@ -45,10 +45,10 @@
         {
             for (var player = 0; player < 2; player++)
             {
-                MoveCardToCenterStackNearMe[player] = false;
-                MoveCardToFarCenterStack[player] = false;
-                PickupCardToForward[player] = false;
-                PickupCardToBackward[player] = false;
+                this.MeaningOfPlayers[player].MoveCardToCenterStackNearMe = false;
+                this.MeaningOfPlayers[player].MoveCardToFarCenterStack = false;
+                this.MeaningOfPlayers[player].PickupCardToForward = false;
+                this.MeaningOfPlayers[player].PickupCardToBackward = false;
             }
 
             Drawing = false;
@@ -60,20 +60,10 @@
         /// <param name="playerObj"></param>
         internal void UpdateFromInput(Player playerObj)
         {
-            if (playerObj == Commons.Player1)
-            {
-                MoveCardToCenterStackNearMe[playerObj.AsInt] = Input.GetKeyDown(KeyCode.DownArrow);
-                MoveCardToFarCenterStack[playerObj.AsInt] = Input.GetKeyDown(KeyCode.UpArrow);
-                PickupCardToForward[playerObj.AsInt] = Input.GetKeyDown(KeyCode.RightArrow);
-                PickupCardToBackward[playerObj.AsInt] = Input.GetKeyDown(KeyCode.LeftArrow);
-            }
-            else
-            {
-                MoveCardToCenterStackNearMe[playerObj.AsInt] = Input.GetKeyDown(KeyCode.S);
-                MoveCardToFarCenterStack[playerObj.AsInt] = Input.GetKeyDown(KeyCode.W);
-                PickupCardToForward[playerObj.AsInt] = Input.GetKeyDown(KeyCode.D);
-                PickupCardToBackward[playerObj.AsInt] = Input.GetKeyDown(KeyCode.A);
-            }
+            this.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe = this.MeaningOfPlayers[playerObj.AsInt].OnMoveCardToCenterStackNearMe();
+            this.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack = this.MeaningOfPlayers[playerObj.AsInt].OnMoveCardToFarCenterStack();
+            this.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward = this.MeaningOfPlayers[playerObj.AsInt].OnPickupCardToForward();
+            this.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward = this.MeaningOfPlayers[playerObj.AsInt].OnPickupCardToBackward();
 
             Drawing = Input.GetKeyDown(KeyCode.Space); // １プレイヤーと、２プレイヤーの２回判定されてしまう
         }
@@ -89,10 +79,10 @@
             bool pickupCardToBackward,
             bool drawing)
         {
-            MoveCardToCenterStackNearMe[playerObj.AsInt] = moveCardToCenterStackNearMe;
-            MoveCardToFarCenterStack[playerObj.AsInt] = moveCardToFarCenterStack;
-            PickupCardToForward[playerObj.AsInt] = pickupCardToForward;
-            PickupCardToBackward[playerObj.AsInt] = pickupCardToBackward;
+            this.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe = moveCardToCenterStackNearMe;
+            this.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack = moveCardToFarCenterStack;
+            this.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward = pickupCardToForward;
+            this.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward = pickupCardToBackward;
             Drawing = drawing;
         }
     }
