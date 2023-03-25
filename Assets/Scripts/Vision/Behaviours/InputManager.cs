@@ -152,38 +152,20 @@
                 //      左隣のカードをピックアップするように変えます
                 else if (this.InputOfPlayers[playerObj.AsInt].Meaning.PickupCardToBackward)
                 {
-                    // 制約：
-                    //      場札が２枚以上あるときに限る
-                    if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
-                    {
-                        var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
-                            playerObj: playerObj,
-                            directionObj: Commons.PickLeft);
-
-                        this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                        timeline.AddCommand(
-                            startObj: gameModel.ElapsedSeconds,
-                            command: command);
-                    }
+                    this.InputOfPlayers[playerObj.AsInt].PickupCardToBackward(
+                        this.gameModel,
+                        this.stalemateManager,
+                        this.timeline);
                 }
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
                 //      右隣のカードをピックアップするように変えます
                 else if (this.InputOfPlayers[playerObj.AsInt].Meaning.PickupCardToForward)
                 {
-                    // 制約：
-                    //      場札が２枚以上あるときに限る
-                    if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
-                    {
-                        var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
-                            playerObj: playerObj,
-                            directionObj: Commons.PickRight);
-
-                        this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                        timeline.AddCommand(
-                            startObj: gameModel.ElapsedSeconds,
-                            command: command);
-                    }
+                    this.InputOfPlayers[playerObj.AsInt].PickupCardToForward(
+                        this.gameModel,
+                        this.stalemateManager,
+                        this.timeline);
                 }
             }
 
@@ -200,38 +182,20 @@
                 //      左隣のカードをピックアップするように変えます
                 else if (this.InputOfPlayers[playerObj.AsInt].Meaning.PickupCardToBackward)
                 {
-                    // 制約：
-                    //      場札が２枚以上あるときに限る
-                    if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
-                    {
-                        var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
-                            playerObj: playerObj,
-                            directionObj: Commons.PickLeft);
-
-                        this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                        timeline.AddCommand(
-                            startObj: gameModel.ElapsedSeconds,
-                            command: command);
-                    }
+                    this.InputOfPlayers[playerObj.AsInt].PickupCardToBackward(
+                        this.gameModel,
+                        this.stalemateManager,
+                        this.timeline);
                 }
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
                 //      右隣のカードをピックアップするように変えます
                 else if (this.InputOfPlayers[playerObj.AsInt].Meaning.PickupCardToForward)
                 {
-                    // 制約：
-                    //      場札が２枚以上あるときに限る
-                    if (2 <= this.gameModel.GetCardsOfPlayerHand(playerObj).Count)
-                    {
-                        var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
-                            playerObj: playerObj,
-                            directionObj: Commons.PickRight);
-
-                        this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                        timeline.AddCommand(
-                            startObj: gameModel.ElapsedSeconds,
-                            command: command);
-                    }
+                    this.InputOfPlayers[playerObj.AsInt].PickupCardToForward(
+                        this.gameModel,
+                        this.stalemateManager,
+                        this.timeline);
                 }
             }
 
