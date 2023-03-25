@@ -17,8 +17,6 @@
     {
         // - フィールド
 
-        ModelOfSchedulerO7thTimeline.Model timeline;
-
         /// <summary>
         /// コンピューター・プレイヤー用
         /// </summary>
@@ -28,6 +26,11 @@
         /// ステールメート管理
         /// </summary>
         StalemateManager stalemateManager;
+
+        /// <summary>
+        /// タイムライン
+        /// </summary>
+        ModelOfSchedulerO7thTimeline.Model timeline;
 
         // - プロパティ
 
@@ -39,6 +42,9 @@
         internal readonly ModelOfInput.Player[] InputOfPlayers = new ModelOfInput.Player[]
         {
             new ModelOfInput.Player(
+                playerIdObj: Commons.Player1,
+                nearCenterStackPlace: Commons.RightCenterStack,     // 1Pは右の台札にカードを置ける
+                farCenterStackPlace: Commons.LeftCenterStack,       // 1Pは左の台札にカードを置ける
                 meaning: new ModelOfInputOfPlayer.Meaning(
                 onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.DownArrow),
                 onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.UpArrow),
@@ -47,6 +53,9 @@
                 onDrawing: ()=>Input.GetKeyDown(KeyCode.Space))),       // １プレイヤーと、２プレイヤーの２回判定されてしまう
 
             new ModelOfInput.Player(
+                playerIdObj: Commons.Player2,
+                nearCenterStackPlace: Commons.LeftCenterStack,      // 2Pは左の台札にカードを置ける
+                farCenterStackPlace: Commons.RightCenterStack,      // 2Pは右の台札にカードを置ける
                 meaning: new ModelOfInputOfPlayer.Meaning(
                 onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.S),
                 onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.W),
@@ -98,94 +107,34 @@
 
             // - １プレイヤー
             // - 自分の近い方の台札へ置く
-            {
-                var playerObj = Commons.Player1;
-                if (!this.InputOfPlayers[playerObj.AsInt].Handled &&
-                    !this.stalemateManager.IsStalemate &&
-                    this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToCenterStackNearMe &&
-                    LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
-                {
-                    // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                    var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                        playerObj: playerObj,      // １プレイヤーが
-                        placeObj: Commons.RightCenterStack); // 右の
-
-                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                    timeline.AddCommand(
-                        startObj: gameModel.ElapsedSeconds,
-                        command: command);
-                    this.InputOfPlayers[playerObj.AsInt].Handled = true;
-                }
-            }
+            this.InputOfPlayers[Commons.Player1.AsInt].MoveCardToNearCenterStackFromHand(
+                this.gameModel,
+                this.stalemateManager,
+                this.timeline);
 
             // - ２プレイヤー
             // - 自分から遠い方の台札へ置く
-            {
-                var playerObj = Commons.Player2;
-                if (!this.InputOfPlayers[playerObj.AsInt].Handled &&
-                    !this.stalemateManager.IsStalemate &&
-                    this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToFarCenterStack &&
-                    LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
-                {
-                    // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                    var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                        playerObj: playerObj,      // ２プレイヤーが
-                        placeObj: Commons.RightCenterStack); // 右の
-
-                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                    timeline.AddCommand(
-                        startObj: gameModel.ElapsedSeconds,
-                        command: command);
-                    this.InputOfPlayers[playerObj.AsInt].Handled = true;
-                }
-            }
+            this.InputOfPlayers[Commons.Player2.AsInt].MoveCardToFarCenterStackFromHand(
+                this.gameModel,
+                this.stalemateManager,
+                this.timeline);
 
             // （ボタン押下が同時なら）左の台札は２プレイヤー優先
             // ==================================================
 
             // - ２プレイヤー
             // - 自分の近い方の台札へ置く
-            {
-                var playerObj = Commons.Player2;
-                if (!this.InputOfPlayers[playerObj.AsInt].Handled &&
-                    !this.stalemateManager.IsStalemate &&
-                    this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToCenterStackNearMe &&
-                    LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
-                {
-                    // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                    var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                        playerObj: playerObj,      // ２プレイヤーが
-                        placeObj: Commons.LeftCenterStack);  // 左の
-
-                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                    timeline.AddCommand(
-                        startObj: gameModel.ElapsedSeconds,
-                        command: command);
-                    this.InputOfPlayers[playerObj.AsInt].Handled = true;
-                }
-            }
+            this.InputOfPlayers[Commons.Player2.AsInt].MoveCardToNearCenterStackFromHand(
+                this.gameModel,
+                this.stalemateManager,
+                this.timeline);
 
             // - １プレイヤー
             // - 自分から遠い方の台札へ置く
-            {
-                var playerObj = Commons.Player1;
-                if (!this.InputOfPlayers[playerObj.AsInt].Handled &&
-                    !this.stalemateManager.IsStalemate &&
-                    this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToFarCenterStack &&
-                    LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
-                {
-                    // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                    var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                        playerObj: playerObj,      // １プレイヤーが
-                        placeObj: Commons.LeftCenterStack);  // 左の
-
-                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                    timeline.AddCommand(
-                        startObj: gameModel.ElapsedSeconds,
-                        command: command);
-                    this.InputOfPlayers[playerObj.AsInt].Handled = true;
-                }
-            }
+            this.InputOfPlayers[Commons.Player1.AsInt].MoveCardToFarCenterStackFromHand(
+                this.gameModel,
+                this.stalemateManager,
+                this.timeline);
 
             // それ以外のキー入力は、同時でも勝敗に関係しない
             // ==============================================

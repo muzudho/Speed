@@ -1,9 +1,14 @@
 ﻿namespace Assets.Scripts.Vision.Models.Input
 {
+    using Assets.Scripts.ThinkingEngine.Models;
+    using Assets.Scripts.Vision.Behaviours;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInputOfPlayer = Assets.Scripts.Vision.Models.Input.Players;
+    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
+    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
     using ScriptOfThinkingEngine = Assets.Scripts.ThinkingEngine;
 
     /// <summary>
@@ -19,8 +24,15 @@
         /// 生成
         /// </summary>
         /// <param name="meaning"></param>
-        internal Player(ModelOfInputOfPlayer.Meaning meaning)
+        internal Player(
+            ModelOfThinkingEngine.Player playerIdObj,
+            ModelOfThinkingEngine.CenterStackPlace nearCenterStackPlace,
+            ModelOfThinkingEngine.CenterStackPlace farCenterStackPlace,
+            ModelOfInputOfPlayer.Meaning meaning)
         {
+            this.PlayerIdObj = playerIdObj;
+            this.NearCenterStackPlace = nearCenterStackPlace;
+            this.FarCenterStackPlace = farCenterStackPlace;
             this.Meaning = meaning;
         }
 
@@ -29,7 +41,7 @@
         /// <summary>
         /// Id
         /// </summary>
-        internal ModelOfThinkingEngine.Player PlayerObj { get; private set; }
+        internal ModelOfThinkingEngine.Player PlayerIdObj { get; private set; }
 
         /// <summary>
         /// もう入力できないなら真
@@ -58,6 +70,16 @@
         /// - プレイヤー別
         /// </summary>
         internal ModelOfInputOfPlayer.Meaning Meaning { get; private set; }
+
+        /// <summary>
+        /// 自分に近い方の台札
+        /// </summary>
+        internal ModelOfThinkingEngine.CenterStackPlace NearCenterStackPlace { get; private set; }
+
+        /// <summary>
+        /// 自分から遠い方の台札
+        /// </summary>
+        internal ModelOfThinkingEngine.CenterStackPlace FarCenterStackPlace { get; private set; }
 
         // - メソッド
 
@@ -90,7 +112,7 @@
 
                     // キー入力の解析：コンピューターからの入力を受付
                     this.Meaning.Overwrite(
-                        playerObj: this.PlayerObj,
+                        playerObj: this.PlayerIdObj,
                         moveCardToCenterStackNearMe: this.Computer.MoveCardToCenterStackNearMe,
                         moveCardToFarCenterStack: this.Computer.MoveCardToFarCenterStack,
                         pickupCardToForward: this.Computer.PickupCardToForward,
@@ -104,6 +126,58 @@
             {
                 // 負数になっても気にしない
                 this.Rights.TimeOfRestObj = new GameSeconds(this.Rights.TimeOfRestObj.AsFloat - Time.deltaTime);
+            }
+        }
+
+        /// <summary>
+        /// 自分に近い方の台札へ置く
+        /// </summary>
+        internal void MoveCardToNearCenterStackFromHand(
+            ModelOfGame.Default gameModel,
+            StalemateManager stalemateManager,
+            ModelOfSchedulerO7thTimeline.Model timeline)
+        {
+            if (!this.Handled &&
+                !stalemateManager.IsStalemate &&
+                this.Meaning.MoveCardToCenterStackNearMe &&
+                LegalMove.CanPutToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetIndexOfFocusedCardOfPlayer(this.PlayerIdObj), this.NearCenterStackPlace))
+            {
+                // ピックアップ中の場札を抜いて、台札へ積み上げる
+                var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                    playerObj: this.PlayerIdObj,
+                    placeObj: this.NearCenterStackPlace);
+
+                this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                timeline.AddCommand(
+                    startObj: gameModel.ElapsedSeconds,
+                    command: command);
+                this.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// 自分から遠い方の台札へ置く
+        /// </summary>
+        internal void MoveCardToFarCenterStackFromHand(
+            ModelOfGame.Default gameModel,
+            StalemateManager stalemateManager,
+            ModelOfSchedulerO7thTimeline.Model timeline)
+        {
+            if (!this.Handled &&
+                !stalemateManager.IsStalemate &&
+                this.Meaning.MoveCardToFarCenterStack &&
+                LegalMove.CanPutToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetIndexOfFocusedCardOfPlayer(this.PlayerIdObj), this.FarCenterStackPlace))
+            {
+                // ピックアップ中の場札を抜いて、台札へ積み上げる
+                var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                    playerObj: this.PlayerIdObj,
+                    placeObj: this.FarCenterStackPlace);
+
+                this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                timeline.AddCommand(
+                    startObj: gameModel.ElapsedSeconds,
+                    command: command);
+                this.Handled = true;
             }
         }
     }
