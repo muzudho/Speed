@@ -6,6 +6,7 @@
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
+    using ScriptOfThinkingEngine = Assets.Scripts.ThinkingEngine;
 
     /// <summary>
     /// 入力マネージャー
@@ -130,7 +131,8 @@
                 //      左隣のカードをピックアップするように変えます
                 else if (this.Model.Players[playerObj.AsInt].Meaning.PickupCardToBackward)
                 {
-                    this.Model.Players[playerObj.AsInt].PickupCardToBackward(
+                    this.Model.Players[playerObj.AsInt].PickupCardToNext(
+                        ScriptOfThinkingEngine.Commons.PickLeft,
                         this.gameModel,
                         this.stalemateManager,
                         this.schedulerModel);
@@ -140,7 +142,8 @@
                 //      右隣のカードをピックアップするように変えます
                 else if (this.Model.Players[playerObj.AsInt].Meaning.PickupCardToForward)
                 {
-                    this.Model.Players[playerObj.AsInt].PickupCardToForward(
+                    this.Model.Players[playerObj.AsInt].PickupCardToNext(
+                        ScriptOfThinkingEngine.Commons.PickRight,
                         this.gameModel,
                         this.stalemateManager,
                         this.schedulerModel);
@@ -160,7 +163,8 @@
                 //      左隣のカードをピックアップするように変えます
                 else if (this.Model.Players[playerObj.AsInt].Meaning.PickupCardToBackward)
                 {
-                    this.Model.Players[playerObj.AsInt].PickupCardToBackward(
+                    this.Model.Players[playerObj.AsInt].PickupCardToNext(
+                        ScriptOfThinkingEngine.Commons.PickLeft,
                         this.gameModel,
                         this.stalemateManager,
                         this.schedulerModel);
@@ -170,7 +174,8 @@
                 //      右隣のカードをピックアップするように変えます
                 else if (this.Model.Players[playerObj.AsInt].Meaning.PickupCardToForward)
                 {
-                    this.Model.Players[playerObj.AsInt].PickupCardToForward(
+                    this.Model.Players[playerObj.AsInt].PickupCardToNext(
+                        ScriptOfThinkingEngine.Commons.PickRight,
                         this.gameModel,
                         this.stalemateManager,
                         this.schedulerModel);

@@ -154,31 +154,9 @@
                     playerObj: this.PlayerIdObj,
                     placeObj: this.GetCenterStackPlace(nearOrFarOfCenterStack));
 
-                this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                schedulerModel.Timeline.AddCommand(
-                    startObj: gameModel.ElapsedSeconds,
-                    command: command);
+                // 制約の付加
                 this.Rights.IsThrowingCardIntoCenterStack = true;
-            }
-        }
 
-        /// <summary>
-        /// 左隣のカードをピックアップするように変えます
-        /// </summary>
-        internal void PickupCardToBackward(
-            ModelOfGame.Default gameModel,
-            StalemateManager stalemateManager,
-            ModelOfScheduler.Model schedulerModel)
-        {
-            // 制約：
-            //      場札が２枚以上あるときに限る
-            if (2 <= gameModel.GetCardsOfPlayerHand(this.PlayerIdObj).Count)
-            {
-                var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
-                    playerObj: this.PlayerIdObj,
-                    directionObj: ScriptOfThinkingEngine.Commons.PickLeft);
-
-                this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                 schedulerModel.Timeline.AddCommand(
                     startObj: gameModel.ElapsedSeconds,
                     command: command);
@@ -186,9 +164,10 @@
         }
 
         /// <summary>
-        /// 右隣のカードをピックアップするように変えます
+        /// 隣のカードをピックアップするように変えます
         /// </summary>
-        internal void PickupCardToForward(
+        internal void PickupCardToNext(
+            PickingDirection pickingDirection,
             ModelOfGame.Default gameModel,
             StalemateManager stalemateManager,
             ModelOfScheduler.Model schedulerModel)
@@ -199,9 +178,11 @@
             {
                 var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
                     playerObj: this.PlayerIdObj,
-                    directionObj: ScriptOfThinkingEngine.Commons.PickRight);
+                    directionObj: pickingDirection);
 
+                // 制約の付加
                 this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+
                 schedulerModel.Timeline.AddCommand(
                     startObj: gameModel.ElapsedSeconds,
                     command: command);
@@ -220,7 +201,9 @@
                 playerObj: this.PlayerIdObj,
                 numberOfCards: 1);
 
+            // 制約の付加
             this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+
             schedulerModel.Timeline.AddCommand(
                 startObj: gameModel.ElapsedSeconds,
                 command: command);
