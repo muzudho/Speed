@@ -45,8 +45,8 @@
         /// <summary>
         /// この瞬間を描画
         /// </summary>
-        /// <param name="elapsedSeconds">ゲーム内消費時間（秒）</param>
-        internal void DrawThisMoment(GameSeconds elapsedSeconds)
+        /// <param name="elapsedTime">ゲーム内消費時間（秒）</param>
+        internal void Update(GameSeconds elapsedTime)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
@@ -56,7 +56,7 @@
                 var ongoingSpan = ongoingSpans[i];
 
                 // 期限切れ
-                if (ongoingSpan.TimeRangeObj.EndObj.AsFloat <= elapsedSeconds.AsFloat)
+                if (ongoingSpan.TimeRangeObj.EndObj.AsFloat <= elapsedTime.AsFloat)
                 {
                     // TODO ★★ 動作が完了する前に、次の動作を行うと、カードがどんどん沈んでいく、といったことが起こる。連打スパム対策が必要
                     // 動作完了
@@ -74,7 +74,7 @@
                 }
 
                 // 進捗 0.0 ～ 1.0
-                float progress = (elapsedSeconds.AsFloat - ongoingSpan.TimeRangeObj.StartObj.AsFloat) / ongoingSpan.TimeRangeObj.DurationObj.AsFloat;
+                float progress = (elapsedTime.AsFloat - ongoingSpan.TimeRangeObj.StartObj.AsFloat) / ongoingSpan.TimeRangeObj.DurationObj.AsFloat;
                 // 補間
                 ongoingSpan.Lerp(progress);
 

@@ -101,7 +101,7 @@ public class TimelineManager : MonoBehaviour
 
         // ƒ‚[ƒVƒ‡ƒ“‚Ì•âŠÔ
         this.scheduler.Add(additionSpansToLerp);
-        this.scheduler.DrawThisMoment(gameModelBuffer.ElapsedTimeObj);
+        this.scheduler.Update(gameModelBuffer.ElapsedTimeObj);
 
         //this.Timeline.DebugWrite();
         //this.playerToLerp.DebugWrite();

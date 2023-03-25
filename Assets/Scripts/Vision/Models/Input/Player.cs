@@ -5,7 +5,6 @@
     using System;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfInputOfPlayer = Assets.Scripts.Vision.Models.Input.Players;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
@@ -29,7 +28,7 @@
             ModelOfThinkingEngine.Player playerIdObj,
             ModelOfThinkingEngine.CenterStackPlace nearCenterStackPlace,
             ModelOfThinkingEngine.CenterStackPlace farCenterStackPlace,
-            ModelOfInputOfPlayer.Meaning meaning)
+            Meaning meaning)
         {
             this.PlayerIdObj = playerIdObj;
             this.NearCenterStackPlace = nearCenterStackPlace;
@@ -63,7 +62,7 @@
         /// 
         /// - プレイヤー別
         /// </summary>
-        internal ModelOfInputOfPlayer.Meaning Meaning { get; private set; }
+        internal Meaning Meaning { get; private set; }
 
         #region プロパティ（台札の位置）
         /// <summary>
@@ -120,7 +119,6 @@
 
                     // キー入力の解析：コンピューターからの入力を受付
                     this.Meaning.Overwrite(
-                        playerObj: this.PlayerIdObj,
                         moveCardToCenterStackNearMe: this.Computer.MoveCardToCenterStackNearMe,
                         moveCardToFarCenterStack: this.Computer.MoveCardToFarCenterStack,
                         pickupCardToForward: this.Computer.PickupCardToForward,

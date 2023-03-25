@@ -1,7 +1,7 @@
-﻿namespace Assets.Scripts.Vision.Models.Input.Players
+﻿namespace Assets.Scripts.Vision.Models.Input
 {
     using Assets.Scripts.Coding;
-    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
     using System;
 
     /// <summary>
@@ -45,14 +45,14 @@
         /// </summary>
         internal bool MoveCardToFarCenterStack { get; set; } = false;
 
-        internal bool MoveCardToCenterStack(NearFar nearFar)
+        internal bool MoveCardToCenterStack(ModelOfThinkingEngine.NearFar nearFar)
         {
             switch (nearFar)
             {
-                case NearFar.Near:
+                case ModelOfThinkingEngine.NearFar.Near:
                     return this.MoveCardToCenterStackNearMe;
 
-                case NearFar.Far:
+                case ModelOfThinkingEngine.NearFar.Far:
                     return this.MoveCardToFarCenterStack;
 
                 default:
@@ -125,7 +125,6 @@
         /// 解析結果を全部上書きする
         /// </summary>
         internal void Overwrite(
-            Player playerObj,
             bool moveCardToCenterStackNearMe,
             bool moveCardToFarCenterStack,
             bool pickupCardToForward,

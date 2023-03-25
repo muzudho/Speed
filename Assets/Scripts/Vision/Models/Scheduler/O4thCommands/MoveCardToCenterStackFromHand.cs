@@ -104,7 +104,12 @@
                         playerObj: playerObj,
                         placeObj: placeObj,
                         target: targetToRemoveObj,
-                        idOfPreviousTop: idOfPreviousTop));
+                        idOfPreviousTop: idOfPreviousTop,
+                        onFinishedOrNull: ()=>
+                        {
+                            // TODO ★ 終了時の処理
+
+                        }));
 
                     // 場札の位置調整（をしないと歯抜けになる）
                     ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
@@ -116,12 +121,6 @@
                         idOfHandCards: idOfHandCardsAfterRemove,
                         keepPickup: true,
                         setTimelineSpan: setTimelineSpan); // 場札
-
-                    // TODO ★ ピックアップしている場札を持ち上げる
-                    {
-
-                    }
-
                 });
         }
 

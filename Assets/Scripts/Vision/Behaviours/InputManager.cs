@@ -5,10 +5,7 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfInputOfPlayer = Assets.Scripts.Vision.Models.Input.Players;
-    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
     /// 入力マネージャー
@@ -45,7 +42,7 @@
                 playerIdObj: Commons.Player1,
                 nearCenterStackPlace: Commons.RightCenterStack,     // 1Pは右の台札にカードを置ける
                 farCenterStackPlace: Commons.LeftCenterStack,       // 1Pは左の台札にカードを置ける
-                meaning: new ModelOfInputOfPlayer.Meaning(
+                meaning: new ModelOfInput.Meaning(
                 onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.DownArrow),
                 onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.UpArrow),
                 onPickupCardToForward: ()=>Input.GetKeyDown(KeyCode.RightArrow),
@@ -56,7 +53,7 @@
                 playerIdObj: Commons.Player2,
                 nearCenterStackPlace: Commons.LeftCenterStack,      // 2Pは左の台札にカードを置ける
                 farCenterStackPlace: Commons.RightCenterStack,      // 2Pは右の台札にカードを置ける
-                meaning: new ModelOfInputOfPlayer.Meaning(
+                meaning: new ModelOfInput.Meaning(
                 onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.S),
                 onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.W),
                 onPickupCardToForward: ()=>Input.GetKeyDown(KeyCode.D),

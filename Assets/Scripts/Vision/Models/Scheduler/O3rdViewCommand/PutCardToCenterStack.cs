@@ -24,7 +24,8 @@
             Player playerObj,
             CenterStackPlace placeObj,
             IdOfPlayingCards target,
-            IdOfPlayingCards idOfPreviousTop)
+            IdOfPlayingCards idOfPreviousTop,
+            Action onFinishedOrNull)
         {
             // 台札の新しい天辺の座標
             Vector3 nextTop;
@@ -99,7 +100,8 @@
                                 z: src.z + shake.z);
                         }
                         return endRotation ?? throw new Exception();
-                    }));
+                    }),
+                onFinishedOrNull: onFinishedOrNull);
         }
 
     }

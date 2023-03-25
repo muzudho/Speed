@@ -17,23 +17,23 @@
         /// <summary>
         /// 生成
         /// </summary>
-        /// <param name="startSeconds">ゲーム内時間（秒）</param>
-        /// <param name="duration">持続時間（秒）</param>
+        /// <param name="timeRange">時間範囲</param>
         /// <param name="target">ゲーム・オブジェクトId</param>
         /// <param name="getBegin">開始時の位置と回転</param>
         /// <param name="getEnd">終了時の位置と回転</param>
+        /// <param name="onFinishedOrNull">（あれば）終了時の処理</param>
         public Model(
             Range timeRange,
             IdOfGameObjects target,
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
             LazyArgs.GetValue<PositionAndRotationLazy> getEnd,
-            Action onFinished = null)
+            Action onFinishedOrNull = null)
         {
             this.TimeRangeObj = timeRange;
             this.Target = target;
             this.GetBegin = getBegin;
             this.GetEnd = getEnd;
-            this.OnFinished = onFinished;
+            this.OnFinished = onFinishedOrNull;
         }
 
         // - プロパティ
