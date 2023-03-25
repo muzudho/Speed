@@ -1,17 +1,19 @@
-﻿namespace Assets.Scripts.Vision.Models.Input
+﻿namespace Assets.Scripts.Vision.Models.Input.Players
 {
     using Assets.Scripts.Coding;
+    using Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>
     /// 入力の意味
     /// 
     /// - 編集可
+    /// - プレイヤー１人分
     /// </summary>
-    internal class MeaningOfPlayer
+    internal class Meaning
     {
         // - その他
 
-        internal MeaningOfPlayer(
+        internal Meaning(
             LazyArgs.GetValue<bool> onMoveCardToCenterStackNearMe,
             LazyArgs.GetValue<bool> onMoveCardToFarCenterStack,
             LazyArgs.GetValue<bool> onPickupCardToForward,
@@ -88,6 +90,36 @@
         internal LazyArgs.GetValue<bool> OnDrawing { get; private set; }
 
         // - メソッド
+
+        /// <summary>
+        /// 解析結果を全部消す
+        /// </summary>
+        internal void Clear()
+        {
+            this.MoveCardToCenterStackNearMe = false;
+            this.MoveCardToFarCenterStack = false;
+            this.PickupCardToForward = false;
+            this.PickupCardToBackward = false;
+            this.Drawing = false;
+        }
+
+        /// <summary>
+        /// 解析結果を全部上書きする
+        /// </summary>
+        internal void Overwrite(
+            Player playerObj,
+            bool moveCardToCenterStackNearMe,
+            bool moveCardToFarCenterStack,
+            bool pickupCardToForward,
+            bool pickupCardToBackward,
+            bool drawing)
+        {
+            this.MoveCardToCenterStackNearMe = moveCardToCenterStackNearMe;
+            this.MoveCardToFarCenterStack = moveCardToFarCenterStack;
+            this.PickupCardToForward = pickupCardToForward;
+            this.PickupCardToBackward = pickupCardToBackward;
+            this.Drawing = drawing;
+        }
 
         /// <summary>
         /// 物理的なキー入力を、意味的に置き換える

@@ -68,15 +68,15 @@
         /// </summary>
         void Update()
         {
-            // キー入力の解析：クリアー
-            inputToMeaning.Clear();
-
             // もう入力できないなら真
             bool[] handled = { false, false };
 
             // キー入力を翻訳する
             foreach (var playerObj in Commons.Players)
             {
+                // キー入力の解析：クリアー
+                inputToMeaning.MeaningOfPlayers[playerObj.AsInt].Clear();
+
                 // 前判定：もう入力できないなら真
                 //
                 // - スパム中
@@ -88,7 +88,7 @@
                     if (Computers[playerObj.AsInt] == null)
                     {
                         // キー入力の解析：人間の入力を受付
-                        inputToMeaning.UpdateFromInput(playerObj);
+                        inputToMeaning.MeaningOfPlayers[playerObj.AsInt].UpdateFromInput();
                     }
                     else
                     {
@@ -96,7 +96,7 @@
                         Computers[playerObj.AsInt].Think(gameModel);
 
                         // キー入力の解析：コンピューターからの入力を受付
-                        inputToMeaning.Overwrite(
+                        inputToMeaning.MeaningOfPlayers[playerObj.AsInt].Overwrite(
                             playerObj: playerObj,
                             moveCardToCenterStackNearMe: Computers[playerObj.AsInt].MoveCardToCenterStackNearMe,
                             moveCardToFarCenterStack: Computers[playerObj.AsInt].MoveCardToFarCenterStack,
