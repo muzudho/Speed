@@ -89,7 +89,7 @@
             foreach (var playerObj in Commons.Players)
             {
                 // もう入力できないなら真
-                this.InputOfPlayers[playerObj.AsInt].Handled = false;
+                this.InputOfPlayers[playerObj.AsInt].Rights.ClearHandle();
 
                 // キー入力を翻訳する
                 this.InputOfPlayers[playerObj.AsInt].Translate(gameModel);
@@ -147,9 +147,9 @@
             {
                 var playerObj = Commons.Player1;
 
-                if (this.InputOfPlayers[playerObj.AsInt].Handled)
+                if (this.InputOfPlayers[playerObj.AsInt].Rights.IsHandled())
                 {
-
+                    // 今は入力できません
                 }
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
@@ -177,9 +177,9 @@
             {
                 var playerObj = Commons.Player2;
 
-                if (this.InputOfPlayers[playerObj.AsInt].Handled)
+                if (this.InputOfPlayers[playerObj.AsInt].Rights.IsHandled())
                 {
-
+                    // 今は入力できません
                 }
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）

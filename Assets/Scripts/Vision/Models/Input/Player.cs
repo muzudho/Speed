@@ -45,15 +45,6 @@
         internal ModelOfThinkingEngine.Player PlayerIdObj { get; private set; }
 
         /// <summary>
-        /// もう入力できないなら真
-        /// 
-        /// TODO ★ 理由を紐づけたい
-        /// 
-        /// - 編集可
-        /// </summary>
-        internal bool Handled { get; set; }
-
-        /// <summary>
         /// 入力の権利
         /// </summary>
         internal Rights Rights { get; private set; } = new Rights();
@@ -112,13 +103,10 @@
             // キー入力の解析：クリアー
             this.Meaning.Clear();
 
-            // 前判定：もう入力できないなら真
-            //
-            // - スパム中
-            // - 対局停止中
-            this.Handled = 0.0f < this.Rights.TimeOfRestObj.AsFloat || !gameModel.IsGameActive;
+            // - 対局停止中か？
+            this.Rights.IsGameInactive = !gameModel.IsGameActive;
 
-            if (!this.Handled)
+            if (!this.Rights.IsHandled())
             {
                 if (this.Computer == null)
                 {
@@ -159,7 +147,7 @@
             StalemateManager stalemateManager,
             ModelOfSchedulerO7thTimeline.Model timeline)
         {
-            if (!this.Handled &&
+            if (!this.Rights.IsHandled() &&
                 !stalemateManager.IsStalemate &&
                 this.Meaning.MoveCardToCenterStack(nearOrFarOfCenterStack) &&
                 LegalMove.CanPutToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetIndexOfFocusedCardOfPlayer(this.PlayerIdObj), this.GetCenterStackPlace(nearOrFarOfCenterStack)))
@@ -173,7 +161,7 @@
                 timeline.AddCommand(
                     startObj: gameModel.ElapsedSeconds,
                     command: command);
-                this.Handled = true;
+                this.Rights.IsThrowingCardIntoCenterStack = true;
             }
         }
 
