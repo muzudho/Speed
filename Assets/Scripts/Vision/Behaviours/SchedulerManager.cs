@@ -1,23 +1,17 @@
+using Assets.Scripts.ThinkingEngine.Models;
+using Assets.Scripts.Vision.Behaviours;
 using Assets.Scripts.Vision.Models;
-using System.Collections;
+using Assets.Scripts.Vision.Models.Replays;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts.ThinkingEngine;
-using Assets.Scripts.ThinkingEngine.Models;
-using Assets.Scripts.Vision.Models.Replays;
-using Assets.Scripts.Vision.Models.World;
-using System;
-using System.Linq;
 using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
 using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
 using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
-using Assets.Scripts.Vision.Behaviours;
 
 /// <summary>
 /// タイムライン・マネージャー
 /// </summary>
-public class TimelineManager : MonoBehaviour
+public class SchedulerManager : MonoBehaviour
 {
     // - フィールド
 
@@ -25,9 +19,9 @@ public class TimelineManager : MonoBehaviour
     GameSeconds gameTimeObj = new GameSeconds(1.0f / 60.0f);
 
     /// <summary>
-    /// スケジューラー
+    /// スケジューラー・モデル
     /// </summary>
-    ModelOfScheduler.Model scheduler;
+    internal ModelOfScheduler.Model Model { get; private set; }
 
     /// <summary>
     /// コンピューター・プレイヤー用
@@ -39,26 +33,6 @@ public class TimelineManager : MonoBehaviour
     /// </summary>
     GameModelBuffer gameModelBuffer;
 
-    // - プロパティ
-
-    ModelOfSchedulerO7thTimeline.Model timeline;
-
-    /// <summary>
-    /// タイムライン
-    /// </summary>
-    internal ModelOfSchedulerO7thTimeline.Model Timeline
-    {
-        get
-        {
-            if (timeline == null)
-            {
-                // タイムラインは、ゲーム・モデルを持つ。
-                timeline = new ModelOfSchedulerO7thTimeline.Model(this.gameModel);
-            }
-            return timeline;
-        }
-    }
-
     // - メソッド
 
     /// <summary>
@@ -69,7 +43,7 @@ public class TimelineManager : MonoBehaviour
         // 開始局面まで登録
         SetStartPosition.DoIt(
             gameModelBuffer,
-            this.Timeline);
+            this.Model.Timeline);
 
         // 以下、デモ・プレイを登録
         // SetupDemo(this.Timeline);
@@ -77,7 +51,7 @@ public class TimelineManager : MonoBehaviour
         // 【OnTick を ○秒後に呼び出し、以降は tickSeconds 秒毎に実行】
         InvokeRepeating(
             methodName: nameof(OnTick),
-            time: this.Timeline.LastSeconds(),
+            time: this.Model.Timeline.LastSeconds(),
             repeatRate: gameTimeObj.AsFloat);
     }
 
@@ -91,7 +65,7 @@ public class TimelineManager : MonoBehaviour
 
         // スケジュールを消化していきます
         ModelOfScheduler.Helper.ConvertToSpans(
-            this.Timeline,
+            this.Model.Timeline,
             gameModelBuffer.ElapsedTimeObj,
             gameModelBuffer,
             setTimelineSpan: (spanToLerp) =>
@@ -100,8 +74,8 @@ public class TimelineManager : MonoBehaviour
             });
 
         // モーションの補間
-        this.scheduler.Add(additionSpansToLerp);
-        this.scheduler.Update(gameModelBuffer.ElapsedTimeObj);
+        this.Model.Add(additionSpansToLerp);
+        this.Model.Update(gameModelBuffer.ElapsedTimeObj);
 
         //this.Timeline.DebugWrite();
         //this.playerToLerp.DebugWrite();
@@ -118,13 +92,13 @@ public class TimelineManager : MonoBehaviour
         this.gameModel = gameManager.Model;
         this.gameModelBuffer = gameManager.ModelBuffer;
 
-        // Lerp を実行するだけのクラス
-        this.scheduler = new ModelOfScheduler.Model();
+        // スケジューラー・モデル
+        this.Model = new ModelOfScheduler.Model(this.gameModel);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

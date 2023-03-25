@@ -16,7 +16,7 @@
         [SerializeField] GameObject p2Keys;
 
         InputManager inputManager;
-        TimelineManager timelineManager;
+        SchedulerManager schedulerManager;
 
         // - メソッド
 
@@ -28,7 +28,7 @@
             playerButtons.SetActive(false);
             p1Keys.SetActive(true);
             p2Keys.SetActive(true);
-            timelineManager.StartGame();
+            schedulerManager.StartGame();
         }
 
         public void On1pVsCom()
@@ -38,7 +38,7 @@
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p1Keys.SetActive(true);
-            timelineManager.StartGame();
+            schedulerManager.StartGame();
         }
 
         public void OnComVs2p()
@@ -48,7 +48,7 @@
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p2Keys.SetActive(true);
-            timelineManager.StartGame();
+            schedulerManager.StartGame();
         }
 
         public void OnComVsCom()
@@ -57,7 +57,7 @@
             inputManager.Model.Players[Commons.Player2.AsInt].Computer = new Computer(Commons.Player2.AsInt);
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
-            timelineManager.StartGame();
+            schedulerManager.StartGame();
         }
 
         // - イベントハンドラ
@@ -66,7 +66,7 @@
         void Start()
         {
             inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
-            timelineManager = GameObject.Find("Timeline Manager").GetComponent<TimelineManager>();
+            schedulerManager = GameObject.Find("Scheduler Manager").GetComponent<SchedulerManager>();
 
             p1Keys.SetActive(false);
             p2Keys.SetActive(false);

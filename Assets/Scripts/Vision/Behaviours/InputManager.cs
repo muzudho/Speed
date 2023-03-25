@@ -5,6 +5,7 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
+    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
@@ -23,6 +24,11 @@
         /// ステールメート管理
         /// </summary>
         StalemateManager stalemateManager;
+
+        /// <summary>
+        /// スケジューラー・モデル
+        /// </summary>
+        ModelOfScheduler.Model schedulerModel;
 
         /// <summary>
         /// タイムライン
@@ -44,8 +50,9 @@
             var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
             gameModel = gameManager.Model;
 
-            var timelineManager = GameObject.Find("Timeline Manager").GetComponent<TimelineManager>();
-            timeline = timelineManager.Timeline;
+            var schedulerManager = GameObject.Find("Scheduler Manager").GetComponent<SchedulerManager>();
+            this.schedulerModel = schedulerManager.Model;
+            timeline = schedulerManager.Model.Timeline;
 
             this.stalemateManager = GameObject.Find("Stalemate Manager").GetComponent<StalemateManager>();
             this.stalemateManager.Init(this.timeline);

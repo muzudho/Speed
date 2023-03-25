@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using UnityEngine;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
+    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
     /// スケジューラーのモデル
@@ -13,11 +15,20 @@
     {
         // - その他（生成）
 
-        public Model()
+        public Model(ModelOfGame.Default gameModel)
         {
+            // タイムラインは、ゲーム・モデルを持つ。
+            this.Timeline = new ModelOfSchedulerO7thTimeline.Model(gameModel);
         }
 
         // - プロパティ
+
+        #region プロパティ（タイムライン）
+        /// <summary>
+        /// タイムライン
+        /// </summary>
+        internal ModelOfSchedulerO7thTimeline.Model Timeline { get; }
+        #endregion
 
         /// <summary>
         /// 補間を実行中の項目
