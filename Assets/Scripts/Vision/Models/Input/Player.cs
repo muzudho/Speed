@@ -6,7 +6,6 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
-    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
     using ScriptOfThinkingEngine = Assets.Scripts.ThinkingEngine;
@@ -143,7 +142,7 @@
             NearFar nearOrFarOfCenterStack,
             ModelOfGame.Default gameModel,
             StalemateManager stalemateManager,
-            ModelOfSchedulerO7thTimeline.Model timeline)
+            ModelOfScheduler.Model schedulerModel)
         {
             if (!this.Rights.IsHandled() &&
                 !stalemateManager.IsStalemate &&
@@ -156,7 +155,7 @@
                     placeObj: this.GetCenterStackPlace(nearOrFarOfCenterStack));
 
                 this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                timeline.AddCommand(
+                schedulerModel.Timeline.AddCommand(
                     startObj: gameModel.ElapsedSeconds,
                     command: command);
                 this.Rights.IsThrowingCardIntoCenterStack = true;
@@ -169,7 +168,7 @@
         internal void PickupCardToBackward(
             ModelOfGame.Default gameModel,
             StalemateManager stalemateManager,
-            ModelOfSchedulerO7thTimeline.Model timeline)
+            ModelOfScheduler.Model schedulerModel)
         {
             // 制約：
             //      場札が２枚以上あるときに限る
@@ -180,7 +179,7 @@
                     directionObj: ScriptOfThinkingEngine.Commons.PickLeft);
 
                 this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                timeline.AddCommand(
+                schedulerModel.Timeline.AddCommand(
                     startObj: gameModel.ElapsedSeconds,
                     command: command);
             }
@@ -192,7 +191,7 @@
         internal void PickupCardToForward(
             ModelOfGame.Default gameModel,
             StalemateManager stalemateManager,
-            ModelOfSchedulerO7thTimeline.Model timeline)
+            ModelOfScheduler.Model schedulerModel)
         {
             // 制約：
             //      場札が２枚以上あるときに限る
@@ -203,7 +202,7 @@
                     directionObj: ScriptOfThinkingEngine.Commons.PickRight);
 
                 this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                timeline.AddCommand(
+                schedulerModel.Timeline.AddCommand(
                     startObj: gameModel.ElapsedSeconds,
                     command: command);
             }
@@ -214,7 +213,7 @@
         /// </summary>
         internal void DrawingHandCard(
             ModelOfGame.Default gameModel,
-            ModelOfSchedulerO7thTimeline.Model timeline)
+            ModelOfScheduler.Model schedulerModel)
         {
             // 場札を並べる
             var command = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
@@ -222,7 +221,7 @@
                 numberOfCards: 1);
 
             this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-            timeline.AddCommand(
+            schedulerModel.Timeline.AddCommand(
                 startObj: gameModel.ElapsedSeconds,
                 command: command);
         }

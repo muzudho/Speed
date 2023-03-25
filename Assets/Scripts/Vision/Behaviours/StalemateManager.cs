@@ -6,7 +6,7 @@
     using TMPro;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
-    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
+    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
@@ -21,14 +21,17 @@
         /// <summary>
         /// 初期化
         /// </summary>
-        internal void Init(ModelOfSchedulerO7thTimeline.Model timeline)
+        internal void Init(ModelOfScheduler.Model schedulerModel)
         {
-            this.timeline = timeline;
+            this.SchedulerModel = schedulerModel;
         }
 
         // - フィールド
 
-        ModelOfSchedulerO7thTimeline.Model timeline;
+        /// <summary>
+        /// スケジューラー・モデル
+        /// </summary>
+        ModelOfScheduler.Model SchedulerModel { get; set; }
 
         TMP_Text countDownText;
 
@@ -126,7 +129,7 @@
                     playerObj: Commons.Player1,             // １プレイヤーが
                     placeObj: Commons.RightCenterStack);    // 右の
 
-                this.timeline.AddCommand(
+                this.SchedulerModel.Timeline.AddCommand(
                     startObj: this.gameModel.ElapsedSeconds,
                     command: command);
             }
@@ -136,7 +139,7 @@
                     playerObj: Commons.Player2,             // ２プレイヤーが
                     placeObj: Commons.LeftCenterStack);     // 左の
 
-                this.timeline.AddCommand(
+                this.SchedulerModel.Timeline.AddCommand(
                     startObj: this.gameModel.ElapsedSeconds,
                     command: command);
             }

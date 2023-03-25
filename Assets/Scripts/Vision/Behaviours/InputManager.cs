@@ -6,7 +6,6 @@
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
-    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
     /// <summary>
     /// 入力マネージャー
@@ -30,11 +29,6 @@
         /// </summary>
         ModelOfScheduler.Model schedulerModel;
 
-        /// <summary>
-        /// タイムライン
-        /// </summary>
-        ModelOfSchedulerO7thTimeline.Model timeline;
-
         // - プロパティ
 
         /// <summary>
@@ -52,10 +46,9 @@
 
             var schedulerManager = GameObject.Find("Scheduler Manager").GetComponent<SchedulerManager>();
             this.schedulerModel = schedulerManager.Model;
-            timeline = schedulerManager.Model.Timeline;
 
             this.stalemateManager = GameObject.Find("Stalemate Manager").GetComponent<StalemateManager>();
-            this.stalemateManager.Init(this.timeline);
+            this.stalemateManager.Init(this.schedulerModel);
         }
 
         /// <summary>
@@ -92,7 +85,7 @@
                 NearFar.Near,
                 this.gameModel,
                 this.stalemateManager,
-                this.timeline);
+                this.schedulerModel);
 
             // - ２プレイヤー
             // - 自分から遠い方の台札へ置く
@@ -100,7 +93,7 @@
                 NearFar.Far,
                 this.gameModel,
                 this.stalemateManager,
-                this.timeline);
+                this.schedulerModel);
 
             // （ボタン押下が同時なら）左の台札は２プレイヤー優先
             // ==================================================
@@ -111,7 +104,7 @@
                 NearFar.Near,
                 this.gameModel,
                 this.stalemateManager,
-                this.timeline);
+                this.schedulerModel);
 
             // - １プレイヤー
             // - 自分から遠い方の台札へ置く
@@ -119,7 +112,7 @@
                 NearFar.Far,
                 this.gameModel,
                 this.stalemateManager,
-                this.timeline);
+                this.schedulerModel);
 
             // それ以外のキー入力は、同時でも勝敗に関係しない
             // ==============================================
@@ -140,7 +133,7 @@
                     this.Model.Players[playerObj.AsInt].PickupCardToBackward(
                         this.gameModel,
                         this.stalemateManager,
-                        this.timeline);
+                        this.schedulerModel);
                 }
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
@@ -150,7 +143,7 @@
                     this.Model.Players[playerObj.AsInt].PickupCardToForward(
                         this.gameModel,
                         this.stalemateManager,
-                        this.timeline);
+                        this.schedulerModel);
                 }
             }
 
@@ -170,7 +163,7 @@
                     this.Model.Players[playerObj.AsInt].PickupCardToBackward(
                         this.gameModel,
                         this.stalemateManager,
-                        this.timeline);
+                        this.schedulerModel);
                 }
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
@@ -180,7 +173,7 @@
                     this.Model.Players[playerObj.AsInt].PickupCardToForward(
                         this.gameModel,
                         this.stalemateManager,
-                        this.timeline);
+                        this.schedulerModel);
                 }
             }
 
@@ -193,7 +186,7 @@
                 {
                     this.Model.Players[playerObj.AsInt].DrawingHandCard(
                         this.gameModel,
-                        this.timeline);
+                        this.schedulerModel);
                 }
             }
         }

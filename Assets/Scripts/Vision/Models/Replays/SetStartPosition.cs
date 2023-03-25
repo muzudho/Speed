@@ -5,7 +5,6 @@
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;
-    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
@@ -13,7 +12,7 @@
     /// </summary>
     static class SetStartPosition
     {
-        internal static void DoIt(GameModelBuffer modelBuffer, ModelOfSchedulerO7thTimeline.Model timeline)
+        internal static void DoIt(GameModelBuffer modelBuffer, ModelOfScheduler.Model schedulerModel)
         {
             var model = new ModelOfGame.Default(modelBuffer);
 
@@ -42,14 +41,14 @@
                 var parameter = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 5);
-                timeline.AddWithinScheduler(playerObj, parameter);
+                schedulerModel.Timeline.AddWithinScheduler(playerObj, parameter);
             }
             {
                 var playerObj = Commons.Player2;
                 var parameter = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 5);
-                timeline.AddWithinScheduler(playerObj, parameter);
+                schedulerModel.Timeline.AddWithinScheduler(playerObj, parameter);
             }
 
             // 間
@@ -59,7 +58,7 @@
             {
                 foreach (var playerObj in Commons.Players)
                 {
-                    timeline.AddScheduleSeconds(playerObj: playerObj, time: intervalObj);
+                    schedulerModel.Timeline.AddScheduleSeconds(playerObj: playerObj, time: intervalObj);
                 }
             }
 
@@ -71,7 +70,7 @@
                     var spanModel = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // １プレイヤーが
                             placeObj: Commons.RightCenterStack); // 右の
-                    timeline.AddWithinScheduler(playerObj, spanModel);
+                    schedulerModel.Timeline.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
@@ -79,7 +78,7 @@
                     var spanModel = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // ２プレイヤーが
                             placeObj: Commons.LeftCenterStack); // 左の;
-                    timeline.AddWithinScheduler(playerObj, spanModel);
+                    schedulerModel.Timeline.AddWithinScheduler(playerObj, spanModel);
                 }
             }
 
@@ -90,11 +89,11 @@
 
                 {
                     var playerObj = Commons.Player1; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
-                    timeline.AddWithinScheduler(playerObj, command);
+                    schedulerModel.Timeline.AddWithinScheduler(playerObj, command);
                 }
                 {
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
-                    timeline.AddScheduleSeconds(
+                    schedulerModel.Timeline.AddScheduleSeconds(
                         playerObj: playerObj,
                         time: ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType()));
                 }

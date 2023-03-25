@@ -43,7 +43,7 @@ public class SchedulerManager : MonoBehaviour
         // 開始局面まで登録
         SetStartPosition.DoIt(
             gameModelBuffer,
-            this.Model.Timeline);
+            this.Model);
 
         // 以下、デモ・プレイを登録
         // SetupDemo(this.Timeline);
