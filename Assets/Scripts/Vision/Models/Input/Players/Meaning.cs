@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
+    using System;
 
     /// <summary>
     /// 入力の意味
@@ -29,6 +30,7 @@
 
         // - プロパティ
 
+        #region プロパティ（台札へ置く）
         /// <summary>
         /// 自分に近い方の台札へ置く
         /// 
@@ -42,6 +44,22 @@
         /// - 編集可
         /// </summary>
         internal bool MoveCardToFarCenterStack { get; set; } = false;
+
+        internal bool MoveCardToCenterStack(NearFar nearFar)
+        {
+            switch (nearFar)
+            {
+                case NearFar.Near:
+                    return this.MoveCardToCenterStackNearMe;
+
+                case NearFar.Far:
+                    return this.MoveCardToFarCenterStack;
+
+                default:
+                    throw new InvalidOperationException($"undexpected near_far:{nearFar}");
+            }
+        }
+        #endregion
 
         /// <summary>
         /// 自分から見て（今ピックアップしているカードの）右隣のカードをピックアップ

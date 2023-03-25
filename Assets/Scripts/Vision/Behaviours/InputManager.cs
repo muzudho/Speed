@@ -107,14 +107,16 @@
 
             // - １プレイヤー
             // - 自分の近い方の台札へ置く
-            this.InputOfPlayers[Commons.Player1.AsInt].MoveCardToNearCenterStackFromHand(
+            this.InputOfPlayers[Commons.Player1.AsInt].MoveCardToCenterStackFromHand(
+                NearFar.Near,
                 this.gameModel,
                 this.stalemateManager,
                 this.timeline);
 
             // - ２プレイヤー
             // - 自分から遠い方の台札へ置く
-            this.InputOfPlayers[Commons.Player2.AsInt].MoveCardToFarCenterStackFromHand(
+            this.InputOfPlayers[Commons.Player2.AsInt].MoveCardToCenterStackFromHand(
+                NearFar.Far,
                 this.gameModel,
                 this.stalemateManager,
                 this.timeline);
@@ -124,14 +126,16 @@
 
             // - ２プレイヤー
             // - 自分の近い方の台札へ置く
-            this.InputOfPlayers[Commons.Player2.AsInt].MoveCardToNearCenterStackFromHand(
+            this.InputOfPlayers[Commons.Player2.AsInt].MoveCardToCenterStackFromHand(
+                NearFar.Near,
                 this.gameModel,
                 this.stalemateManager,
                 this.timeline);
 
             // - １プレイヤー
             // - 自分から遠い方の台札へ置く
-            this.InputOfPlayers[Commons.Player1.AsInt].MoveCardToFarCenterStackFromHand(
+            this.InputOfPlayers[Commons.Player1.AsInt].MoveCardToCenterStackFromHand(
+                NearFar.Far,
                 this.gameModel,
                 this.stalemateManager,
                 this.timeline);
@@ -206,15 +210,9 @@
                 // 両プレイヤーは手札から１枚抜いて、場札として置く
                 foreach (var playerObj in Commons.Players)
                 {
-                    // 場札を並べる
-                    var command = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
-                        playerObj: playerObj,
-                        numberOfCards: 1);
-
-                    this.InputOfPlayers[playerObj.AsInt].Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                    timeline.AddCommand(
-                        startObj: gameModel.ElapsedSeconds,
-                        command: command);
+                    this.InputOfPlayers[playerObj.AsInt].DrawingHandCard(
+                        this.gameModel,
+                        this.timeline);
                 }
             }
         }

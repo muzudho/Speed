@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Behaviours;
+    using System;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInputOfPlayer = Assets.Scripts.Vision.Models.Input.Players;
@@ -46,6 +47,8 @@
         /// <summary>
         /// もう入力できないなら真
         /// 
+        /// TODO ★ 理由を紐づけたい
+        /// 
         /// - 編集可
         /// </summary>
         internal bool Handled { get; set; }
@@ -71,6 +74,7 @@
         /// </summary>
         internal ModelOfInputOfPlayer.Meaning Meaning { get; private set; }
 
+        #region プロパティ（台札の位置）
         /// <summary>
         /// 自分に近い方の台札
         /// </summary>
@@ -80,6 +84,22 @@
         /// 自分から遠い方の台札
         /// </summary>
         internal ModelOfThinkingEngine.CenterStackPlace FarCenterStackPlace { get; private set; }
+
+        ModelOfThinkingEngine.CenterStackPlace GetCenterStackPlace(NearFar nearFar)
+        {
+            switch (nearFar)
+            {
+                case NearFar.Near:
+                    return this.NearCenterStackPlace;
+
+                case NearFar.Far:
+                    return this.FarCenterStackPlace;
+
+                default:
+                    throw new InvalidOperationException($"undexpected near_far:{nearFar}");
+            }
+        }
+        #endregion
 
         // - メソッド
 
@@ -130,48 +150,24 @@
         }
 
         /// <summary>
-        /// 自分に近い方の台札へ置く
+        /// 台札へ置く
         /// </summary>
-        internal void MoveCardToNearCenterStackFromHand(
+        /// <param name="nearOrFarOfCenterStack">自分に近い方の台札、または、自分から遠い方の台札</param>
+        internal void MoveCardToCenterStackFromHand(
+            NearFar nearOrFarOfCenterStack,
             ModelOfGame.Default gameModel,
             StalemateManager stalemateManager,
             ModelOfSchedulerO7thTimeline.Model timeline)
         {
             if (!this.Handled &&
                 !stalemateManager.IsStalemate &&
-                this.Meaning.MoveCardToCenterStackNearMe &&
-                LegalMove.CanPutToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetIndexOfFocusedCardOfPlayer(this.PlayerIdObj), this.NearCenterStackPlace))
+                this.Meaning.MoveCardToCenterStack(nearOrFarOfCenterStack) &&
+                LegalMove.CanPutToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetIndexOfFocusedCardOfPlayer(this.PlayerIdObj), this.GetCenterStackPlace(nearOrFarOfCenterStack)))
             {
                 // ピックアップ中の場札を抜いて、台札へ積み上げる
                 var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                     playerObj: this.PlayerIdObj,
-                    placeObj: this.NearCenterStackPlace);
-
-                this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
-                timeline.AddCommand(
-                    startObj: gameModel.ElapsedSeconds,
-                    command: command);
-                this.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// 自分から遠い方の台札へ置く
-        /// </summary>
-        internal void MoveCardToFarCenterStackFromHand(
-            ModelOfGame.Default gameModel,
-            StalemateManager stalemateManager,
-            ModelOfSchedulerO7thTimeline.Model timeline)
-        {
-            if (!this.Handled &&
-                !stalemateManager.IsStalemate &&
-                this.Meaning.MoveCardToFarCenterStack &&
-                LegalMove.CanPutToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetIndexOfFocusedCardOfPlayer(this.PlayerIdObj), this.FarCenterStackPlace))
-            {
-                // ピックアップ中の場札を抜いて、台札へ積み上げる
-                var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                    playerObj: this.PlayerIdObj,
-                    placeObj: this.FarCenterStackPlace);
+                    placeObj: this.GetCenterStackPlace(nearOrFarOfCenterStack));
 
                 this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                 timeline.AddCommand(
@@ -226,5 +222,24 @@
                     command: command);
             }
         }
+
+        /// <summary>
+        /// 手札を引く
+        /// </summary>
+        internal void DrawingHandCard(
+            ModelOfGame.Default gameModel,
+            ModelOfSchedulerO7thTimeline.Model timeline)
+        {
+            // 場札を並べる
+            var command = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+                playerObj: this.PlayerIdObj,
+                numberOfCards: 1);
+
+            this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+            timeline.AddCommand(
+                startObj: gameModel.ElapsedSeconds,
+                command: command);
+        }
+
     }
 }
