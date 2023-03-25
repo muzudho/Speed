@@ -23,6 +23,11 @@
         internal bool IsPickupCartToNext { get; set; }
 
         /// <summary>
+        /// 手札を、引いている途中
+        /// </summary>
+        internal bool IsPileCardDrawing { get; set; }
+
+        /// <summary>
         /// コマンド実行の残り時間（秒）
         /// </summary>
         internal GameSeconds TimeOfRestObj { get; set; } = GameSeconds.Zero;
@@ -45,6 +50,7 @@
                 this.IsGameInactive ||                  // 非ゲーム中
                 this.IsThrowingCardIntoCenterStack ||   // カードを台札へ投げている途中
                 this.IsPickupCartToNext ||              // 隣の場札を、ピックアップしている途中
+                this.IsPileCardDrawing ||               // 手札を、引いている途中
                 (0.0f < this.TimeOfRestObj.AsFloat);    // モーション中
         }
     }

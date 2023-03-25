@@ -3,6 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
+    using System;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -43,18 +44,21 @@
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
         {
             var command = (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)this.CommandOfThinkingEngine;
+            var playerObj = command.PlayerObj;
 
             // 確定：手札の枚数
             var length = gameModelBuffer.IdOfCardsOfPlayersPile[command.PlayerObj.AsInt].Count;
 
+            // 手札がないのに、手札を引こうとしたとき
             if (length < command.NumberOfCards)
             {
                 // できない指示は無視
                 // Debug.Log("[MoveCardsToHandFromPileView OnEnter] できない指示は無視");
+
+                // 制約の解除
+                inputModel.Players[playerObj.AsInt].Rights.IsPileCardDrawing = false;
                 return;
             }
-
-            var playerObj = command.PlayerObj;
 
             // モデル更新：場札への移動
             gameModelBuffer.MoveCardsToHandFromPile(
@@ -86,7 +90,17 @@
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
                     keepPickup: true,
-                    setTimelineSpan: setTimelineSpan);
+                    setTimelineSpan: setTimelineSpan,
+                    onFinishedOrNull: () =>
+                    {
+                        // 制約の解除
+                        inputModel.Players[playerObj.AsInt].Rights.IsPileCardDrawing = false;
+                    });
+            }
+            else
+            {
+                // 制約の解除
+                inputModel.Players[playerObj.AsInt].Rights.IsPileCardDrawing = false;
             }
         }
     }

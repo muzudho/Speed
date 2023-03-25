@@ -189,7 +189,7 @@
                 // 両プレイヤーは手札から１枚抜いて、場札として置く
                 foreach (var playerObj in Commons.Players)
                 {
-                    this.Model.Players[playerObj.AsInt].DrawingHandCard(
+                    this.Model.Players[playerObj.AsInt].DrawingHandCardFromPileCard(
                         this.gameModel,
                         this.schedulerModel);
                 }

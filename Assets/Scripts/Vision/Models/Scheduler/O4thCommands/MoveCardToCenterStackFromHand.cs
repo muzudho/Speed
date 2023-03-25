@@ -109,10 +109,10 @@
                         placeObj: placeObj,
                         target: targetToRemoveObj,
                         idOfPreviousTop: idOfPreviousTop,
-                        onFinishedOrNull: ()=>
+                        onFinishedOrNull: () =>
                         {
                             // 制約の解除
-                            inputModel.Players[playerObj.AsInt].Rights.IsThrowingCardIntoCenterStack = false;                            
+                            inputModel.Players[playerObj.AsInt].Rights.IsThrowingCardIntoCenterStack = false;
                         }));
 
                     // 場札の位置調整（をしないと歯抜けになる）
@@ -124,7 +124,8 @@
                         indexOfPickupObj: indexOfNextPickObj, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                         idOfHandCards: idOfHandCardsAfterRemove,
                         keepPickup: true,
-                        setTimelineSpan: setTimelineSpan); // 場札
+                        setTimelineSpan: setTimelineSpan,
+                        onFinishedOrNull: null);
                 });
         }
 

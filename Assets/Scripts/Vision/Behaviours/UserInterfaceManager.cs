@@ -22,41 +22,67 @@
 
         public void On1pVs2p()
         {
+            // コンピューター設定
             inputManager.Model.Players[Commons.Player1.AsInt].Computer = null;
             inputManager.Model.Players[Commons.Player2.AsInt].Computer = null;
+
+            // UI非表示
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
+
+            // UI表示
             p1Keys.SetActive(true);
             p2Keys.SetActive(true);
+
+            // 対局開始
             schedulerManager.StartGame();
         }
 
         public void On1pVsCom()
         {
+            // コンピューター設定
             inputManager.Model.Players[Commons.Player1.AsInt].Computer = null;
             inputManager.Model.Players[Commons.Player2.AsInt].Computer = new Computer(Commons.Player2.AsInt);
+
+            // UI非表示
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
+
+            // UI表示
             p1Keys.SetActive(true);
+
+            // 対局開始
             schedulerManager.StartGame();
         }
 
         public void OnComVs2p()
         {
+            // コンピューター設定
             inputManager.Model.Players[Commons.Player1.AsInt].Computer = new Computer(Commons.Player1.AsInt);
             inputManager.Model.Players[Commons.Player2.AsInt].Computer = null;
+
+            // UI非表示
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
+
+            // UI表示
             p2Keys.SetActive(true);
+
+            // 対局開始
             schedulerManager.StartGame();
         }
 
         public void OnComVsCom()
         {
+            // コンピューター設定
             inputManager.Model.Players[Commons.Player1.AsInt].Computer = new Computer(Commons.Player1.AsInt);
             inputManager.Model.Players[Commons.Player2.AsInt].Computer = new Computer(Commons.Player2.AsInt);
+
+            // UI非表示
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
+
+            // 対局開始
             schedulerManager.StartGame();
         }
 

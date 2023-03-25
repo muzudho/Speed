@@ -122,6 +122,11 @@
                         inputModel.Players[command.PlayerObj.AsInt].Rights.IsPickupCartToNext = false;
                     }));
             }
+            else
+            {
+                // 制約の解除
+                inputModel.Players[command.PlayerObj.AsInt].Rights.IsPickupCartToNext = false;
+            }
         }
 
         ModelOfThinkingEngineCommand.MoveFocusToNextCard GetCommandOfThinkingEngine(

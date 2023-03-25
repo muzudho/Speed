@@ -192,7 +192,7 @@
         /// <summary>
         /// 手札を引く
         /// </summary>
-        internal void DrawingHandCard(
+        internal void DrawingHandCardFromPileCard(
             ModelOfGame.Default gameModel,
             ModelOfScheduler.Model schedulerModel)
         {
@@ -202,7 +202,7 @@
                 numberOfCards: 1);
 
             // 制約の付加
-            this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+            this.Rights.IsPileCardDrawing = true;
 
             schedulerModel.Timeline.AddCommand(
                 startObj: gameModel.ElapsedSeconds,
