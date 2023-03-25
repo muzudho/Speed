@@ -30,11 +30,11 @@
         StalemateManager stalemateManager;
 
         /// <summary>
-        /// コマンド実行の残り時間（秒）
+        /// 入力の権利
         /// 
         /// - プレイヤー別
         /// </summary>
-        GameSeconds[] timesOfRestObj = new[] { GameSeconds.Zero, GameSeconds.Zero };
+        readonly ModelOfInput.Rights[] Rights = new ModelOfInput.Rights[] { new ModelOfInput.Rights(), new ModelOfInput.Rights() };
 
         /// <summary>
         /// コンピューター・プレイヤーか？
@@ -81,7 +81,7 @@
                 //
                 // - スパム中
                 // - 対局停止中
-                handled[playerObj.AsInt] = 0.0f < timesOfRestObj[playerObj.AsInt].AsFloat || !gameModel.IsGameActive;
+                handled[playerObj.AsInt] = 0.0f < this.Rights[playerObj.AsInt].TimeOfRestObj.AsFloat || !gameModel.IsGameActive;
 
                 if (!handled[playerObj.AsInt])
                 {
@@ -107,10 +107,10 @@
                 }
 
                 // スパン時間消化
-                if (0.0f < timesOfRestObj[playerObj.AsInt].AsFloat)
+                if (0.0f < this.Rights[playerObj.AsInt].TimeOfRestObj.AsFloat)
                 {
                     // 負数になっても気にしない
-                    timesOfRestObj[playerObj.AsInt] = new GameSeconds(timesOfRestObj[playerObj.AsInt].AsFloat - Time.deltaTime);
+                    this.Rights[playerObj.AsInt].TimeOfRestObj = new GameSeconds(this.Rights[playerObj.AsInt].TimeOfRestObj.AsFloat - Time.deltaTime);
                 }
             }
 
@@ -138,7 +138,7 @@
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.RightCenterStack); // 右の
 
-                    timesOfRestObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
@@ -160,7 +160,7 @@
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.RightCenterStack); // 右の
 
-                    timesOfRestObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
@@ -185,7 +185,7 @@
                         playerObj: playerObj,      // ２プレイヤーが
                         placeObj: Commons.LeftCenterStack);  // 左の
 
-                    timesOfRestObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
@@ -207,7 +207,7 @@
                         playerObj: playerObj,      // １プレイヤーが
                         placeObj: Commons.LeftCenterStack);  // 左の
 
-                    timesOfRestObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);
@@ -239,7 +239,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft);
 
-                        timesOfRestObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddCommand(
                             startObj: gameModel.ElapsedSeconds,
                             command: command);
@@ -258,7 +258,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickRight);
 
-                        timesOfRestObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddCommand(
                             startObj: gameModel.ElapsedSeconds,
                             command: command);
@@ -287,7 +287,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickLeft);
 
-                        timesOfRestObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddCommand(
                             startObj: gameModel.ElapsedSeconds,
                             command: command);
@@ -306,7 +306,7 @@
                             playerObj: playerObj,
                             directionObj: Commons.PickRight);
 
-                        timesOfRestObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                        this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                         timeline.AddCommand(
                             startObj: gameModel.ElapsedSeconds,
                             command: command);
@@ -325,7 +325,7 @@
                         playerObj: playerObj,
                         numberOfCards: 1);
 
-                    timesOfRestObj[playerObj.AsInt] = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                    this.Rights[playerObj.AsInt].TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
                     timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
                         command: command);

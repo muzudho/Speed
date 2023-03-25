@@ -6707,4 +6707,25 @@ namespace Assets.Scripts.ThinkingEngine
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　台札に投げたカードの　モーションの終点で　フラグ立てるか」  
 
+# 📅 2023-03-22 wed 19:14
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　これから　風呂入って　ビール飲んで　まだやる気があったら　開発するぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　開発ブログやる気無くなってるの　わらう」  
+
+# 📅 2023-03-23 thu 19:35
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　はあ～　Unity の顔も見たくねー、起動だけ　するか～」  
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　やる気がない時期を　やりすごすのが　長く続けるには　重要なのよ」  
+
+📅 2023-03-23 thu 23:11  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　ソースコードを掃除した。今日は終わり」  
+
 # // 書きかけ
