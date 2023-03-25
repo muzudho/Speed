@@ -42,7 +42,8 @@
         internal static ModelOfSchedulerO1stTimelineSpan.IModel GenerateSpan(
             ModelOfSchedulerO1stTimelineSpan.Range timeRange,
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
-            IdOfPlayingCards idOfCard)
+            IdOfPlayingCards idOfCard,
+            Action onFinishedOrNull)
         {
             // 持ち上がっている状態は、初回アクセス時に確定
             Vector3? startPosition = null;
@@ -102,7 +103,8 @@
 
                             return endRotation ?? throw new Exception();
                         });
-                });
+                },
+                onFinishedOrNull: onFinishedOrNull);
         }
     }
 }

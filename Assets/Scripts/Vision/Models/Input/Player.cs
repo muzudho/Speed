@@ -181,7 +181,7 @@
                     directionObj: pickingDirection);
 
                 // 制約の付加
-                this.Rights.TimeOfRestObj = ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType());
+                this.Rights.IsPickupCartToNext = true;
 
                 schedulerModel.Timeline.AddCommand(
                     startObj: gameModel.ElapsedSeconds,

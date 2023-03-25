@@ -115,7 +115,12 @@
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
                         getPosition: () => GameObjectStorage.Items[idOfGo].transform.position,
-                        getRotation: () => GameObjectStorage.Items[idOfGo].transform.rotation)));
+                        getRotation: () => GameObjectStorage.Items[idOfGo].transform.rotation),
+                    onFinishedOrNull: () =>
+                    {
+                        // 制約の解除
+                        inputModel.Players[command.PlayerObj.AsInt].Rights.IsPickupCartToNext = false;
+                    }));
             }
         }
 

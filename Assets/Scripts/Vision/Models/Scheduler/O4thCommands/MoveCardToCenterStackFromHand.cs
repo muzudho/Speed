@@ -111,7 +111,7 @@
                         idOfPreviousTop: idOfPreviousTop,
                         onFinishedOrNull: ()=>
                         {
-                            // TODO ★ 終了時の処理
+                            // 制約の解除
                             inputModel.Players[playerObj.AsInt].Rights.IsThrowingCardIntoCenterStack = false;                            
                         }));
 
