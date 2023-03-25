@@ -15,8 +15,8 @@
         [SerializeField] GameObject p1Keys;
         [SerializeField] GameObject p2Keys;
 
-        GameManager gameManager;
         InputManager inputManager;
+        TimelineManager timelineManager;
 
         // - メソッド
 
@@ -28,7 +28,7 @@
             playerButtons.SetActive(false);
             p1Keys.SetActive(true);
             p2Keys.SetActive(true);
-            gameManager.StartGame();
+            timelineManager.StartGame();
         }
 
         public void On1pVsCom()
@@ -38,7 +38,7 @@
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p1Keys.SetActive(true);
-            gameManager.StartGame();
+            timelineManager.StartGame();
         }
 
         public void OnComVs2p()
@@ -48,7 +48,7 @@
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p2Keys.SetActive(true);
-            gameManager.StartGame();
+            timelineManager.StartGame();
         }
 
         public void OnComVsCom()
@@ -57,7 +57,7 @@
             inputManager.InputOfPlayers[Commons.Player2.AsInt].Computer = new Computer(Commons.Player2.AsInt);
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
-            gameManager.StartGame();
+            timelineManager.StartGame();
         }
 
         // - イベントハンドラ
@@ -65,8 +65,8 @@
         // Start is called before the first frame update
         void Start()
         {
-            gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
             inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
+            timelineManager = GameObject.Find("Timeline Manager").GetComponent<TimelineManager>();
 
             p1Keys.SetActive(false);
             p2Keys.SetActive(false);

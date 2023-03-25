@@ -70,8 +70,10 @@
         void Start()
         {
             var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-            timeline = gameManager.Timeline;
             gameModel = gameManager.Model;
+
+            var timelineManager = GameObject.Find("Timeline Manager").GetComponent<TimelineManager>();
+            timeline = timelineManager.Timeline;
 
             this.stalemateManager = GameObject.Find("Stalemate Manager").GetComponent<StalemateManager>();
             this.stalemateManager.Init(this.timeline);
