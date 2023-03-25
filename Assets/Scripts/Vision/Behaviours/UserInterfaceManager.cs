@@ -22,7 +22,8 @@
 
         public void On1pVs2p()
         {
-            inputManager.Computers = new Computer[] { null, null };
+            inputManager.InputOfPlayers[Commons.Player1.AsInt].Computer = null;
+            inputManager.InputOfPlayers[Commons.Player2.AsInt].Computer = null;
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p1Keys.SetActive(true);
@@ -32,7 +33,8 @@
 
         public void On1pVsCom()
         {
-            inputManager.Computers = new Computer[] { null, new Computer(1) };
+            inputManager.InputOfPlayers[Commons.Player1.AsInt].Computer = null;
+            inputManager.InputOfPlayers[Commons.Player2.AsInt].Computer = new Computer(Commons.Player2.AsInt);
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p1Keys.SetActive(true);
@@ -41,7 +43,8 @@
 
         public void OnComVs2p()
         {
-            inputManager.Computers = new Computer[] { new Computer(0), null };
+            inputManager.InputOfPlayers[Commons.Player1.AsInt].Computer = new Computer(Commons.Player1.AsInt);
+            inputManager.InputOfPlayers[Commons.Player2.AsInt].Computer = null;
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             p2Keys.SetActive(true);
@@ -50,7 +53,8 @@
 
         public void OnComVsCom()
         {
-            inputManager.Computers = new Computer[] { new Computer(0), new Computer(1) };
+            inputManager.InputOfPlayers[Commons.Player1.AsInt].Computer = new Computer(Commons.Player1.AsInt);
+            inputManager.InputOfPlayers[Commons.Player2.AsInt].Computer = new Computer(Commons.Player2.AsInt);
             playerSelectBackground.SetActive(false);
             playerButtons.SetActive(false);
             gameManager.StartGame();

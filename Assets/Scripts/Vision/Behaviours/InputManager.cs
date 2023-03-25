@@ -6,10 +6,10 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
+    using ModelOfInputOfPlayer = Assets.Scripts.Vision.Models.Input.Players;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
-    using ModelOfInputOfPlayer = Assets.Scripts.Vision.Models.Input.Players;
 
     /// <summary>
     /// 入力マネージャー
@@ -37,37 +37,23 @@
         /// 
         /// - プレイヤー別
         /// </summary>
-        readonly ModelOfInput.Player[] InputOfPlayers = new ModelOfInput.Player[] { new ModelOfInput.Player(), new ModelOfInput.Player() };
-
-        /// <summary>
-        /// コンピューター・プレイヤーか？
-        /// 
-        /// - コンピューターなら Computer インスタンス
-        /// - コンピューターでなければヌル
-        /// </summary>
-        internal Computer[] Computers { get; set; } = new Computer[] { null, null, };
-        // internal Computer[] Computers { get; set; } = new Computer[] { new Computer(0), new Computer(1), };
-
-        /// <summary>
-        /// 入力の意味
-        /// 
-        /// - プレイヤー別
-        /// </summary>
-        internal ModelOfInputOfPlayer.Meaning[] MeaningOfPlayers { get; private set; } = new[]
+        internal readonly ModelOfInput.Player[] InputOfPlayers = new ModelOfInput.Player[]
         {
-            new ModelOfInputOfPlayer.Meaning(
+            new ModelOfInput.Player(
+                meaning: new ModelOfInputOfPlayer.Meaning(
                 onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.DownArrow),
                 onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.UpArrow),
                 onPickupCardToForward: ()=>Input.GetKeyDown(KeyCode.RightArrow),
                 onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.LeftArrow),
-                onDrawing: ()=>Input.GetKeyDown(KeyCode.Space)),    // １プレイヤーと、２プレイヤーの２回判定されてしまう
+                onDrawing: ()=>Input.GetKeyDown(KeyCode.Space))),       // １プレイヤーと、２プレイヤーの２回判定されてしまう
 
-            new ModelOfInputOfPlayer.Meaning(
+            new ModelOfInput.Player(
+                meaning: new ModelOfInputOfPlayer.Meaning(
                 onMoveCardToCenterStackNearMe: ()=>Input.GetKeyDown(KeyCode.S),
                 onMoveCardToFarCenterStack: ()=>Input.GetKeyDown(KeyCode.W),
                 onPickupCardToForward: ()=>Input.GetKeyDown(KeyCode.D),
                 onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.A),
-                onDrawing:()=>Input.GetKeyDown(KeyCode.Space)),     // １プレイヤーと、２プレイヤーの２回判定されてしまう
+                onDrawing:()=>Input.GetKeyDown(KeyCode.Space))),        // １プレイヤーと、２プレイヤーの２回判定されてしまう
         };
 
         // - イベントハンドラ
@@ -97,8 +83,11 @@
             // キー入力を翻訳する
             foreach (var playerObj in Commons.Players)
             {
+                // TODO ★
+                this.InputOfPlayers[playerObj.AsInt].Translate();
+
                 // キー入力の解析：クリアー
-                this.MeaningOfPlayers[playerObj.AsInt].Clear();
+                this.InputOfPlayers[playerObj.AsInt].Meaning.Clear();
 
                 // 前判定：もう入力できないなら真
                 //
@@ -108,24 +97,24 @@
 
                 if (!handled[playerObj.AsInt])
                 {
-                    if (Computers[playerObj.AsInt] == null)
+                    if (this.InputOfPlayers[playerObj.AsInt].Computer == null)
                     {
                         // キー入力の解析：人間の入力を受付
-                        this.MeaningOfPlayers[playerObj.AsInt].UpdateFromInput();
+                        this.InputOfPlayers[playerObj.AsInt].Meaning.UpdateFromInput();
                     }
                     else
                     {
                         // コンピューター・プレイヤーが思考して、操作を決める
-                        Computers[playerObj.AsInt].Think(gameModel);
+                        this.InputOfPlayers[playerObj.AsInt].Computer.Think(gameModel);
 
                         // キー入力の解析：コンピューターからの入力を受付
-                        this.MeaningOfPlayers[playerObj.AsInt].Overwrite(
+                        this.InputOfPlayers[playerObj.AsInt].Meaning.Overwrite(
                             playerObj: playerObj,
-                            moveCardToCenterStackNearMe: Computers[playerObj.AsInt].MoveCardToCenterStackNearMe,
-                            moveCardToFarCenterStack: Computers[playerObj.AsInt].MoveCardToFarCenterStack,
-                            pickupCardToForward: Computers[playerObj.AsInt].PickupCardToForward,
-                            pickupCardToBackward: Computers[playerObj.AsInt].PickupCardToBackward,
-                            drawing: Computers[playerObj.AsInt].Drawing);
+                            moveCardToCenterStackNearMe: this.InputOfPlayers[playerObj.AsInt].Computer.MoveCardToCenterStackNearMe,
+                            moveCardToFarCenterStack: this.InputOfPlayers[playerObj.AsInt].Computer.MoveCardToFarCenterStack,
+                            pickupCardToForward: this.InputOfPlayers[playerObj.AsInt].Computer.PickupCardToForward,
+                            pickupCardToBackward: this.InputOfPlayers[playerObj.AsInt].Computer.PickupCardToBackward,
+                            drawing: this.InputOfPlayers[playerObj.AsInt].Computer.Drawing);
                     }
                 }
 
@@ -153,7 +142,7 @@
                 var playerObj = Commons.Player1;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    this.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe &&
+                    this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToCenterStackNearMe &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.RightCenterStack))  // 1Pは右の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
@@ -175,7 +164,7 @@
                 var playerObj = Commons.Player2;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    this.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack &&
+                    this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToFarCenterStack &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.RightCenterStack))  // 2Pは右の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
@@ -200,7 +189,7 @@
                 var playerObj = Commons.Player2;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    this.MeaningOfPlayers[playerObj.AsInt].MoveCardToCenterStackNearMe &&
+                    this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToCenterStackNearMe &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player2, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player2), Commons.LeftCenterStack)) // 2Pは左の台札にカードを置ける
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
@@ -222,7 +211,7 @@
                 var playerObj = Commons.Player1;
                 if (!handled[playerObj.AsInt] &&
                     !this.stalemateManager.IsStalemate &&
-                    this.MeaningOfPlayers[playerObj.AsInt].MoveCardToFarCenterStack &&
+                    this.InputOfPlayers[playerObj.AsInt].Meaning.MoveCardToFarCenterStack &&
                     LegalMove.CanPutToCenterStack(this.gameModel, Commons.Player1, gameModel.GetIndexOfFocusedCardOfPlayer(Commons.Player1), Commons.LeftCenterStack))    // 1Pは左の台札にカードを置ける
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
@@ -252,7 +241,7 @@
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
                 //      左隣のカードをピックアップするように変えます
-                else if (this.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward)
+                else if (this.InputOfPlayers[playerObj.AsInt].Meaning.PickupCardToBackward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -271,7 +260,7 @@
                 // 行動：
                 //      １プレイヤーのピックアップしているカードから見て、（１プレイヤーから見て）
                 //      右隣のカードをピックアップするように変えます
-                else if (this.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward)
+                else if (this.InputOfPlayers[playerObj.AsInt].Meaning.PickupCardToForward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -300,7 +289,7 @@
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
                 //      左隣のカードをピックアップするように変えます
-                else if (this.MeaningOfPlayers[playerObj.AsInt].PickupCardToBackward)
+                else if (this.InputOfPlayers[playerObj.AsInt].Meaning.PickupCardToBackward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -319,7 +308,7 @@
                 // 行動：
                 //      ２プレイヤーのピックアップしているカードから見て、（２プレイヤーから見て）
                 //      右隣のカードをピックアップするように変えます
-                else if (this.MeaningOfPlayers[playerObj.AsInt].PickupCardToForward)
+                else if (this.InputOfPlayers[playerObj.AsInt].Meaning.PickupCardToForward)
                 {
                     // 制約：
                     //      場札が２枚以上あるときに限る
@@ -338,8 +327,8 @@
             }
 
             // 場札の補充
-            if (this.MeaningOfPlayers[Commons.Player1.AsInt].Drawing ||
-                this.MeaningOfPlayers[Commons.Player2.AsInt].Drawing)
+            if (this.InputOfPlayers[Commons.Player1.AsInt].Meaning.Drawing ||
+                this.InputOfPlayers[Commons.Player2.AsInt].Meaning.Drawing)
             {
                 // 両プレイヤーは手札から１枚抜いて、場札として置く
                 foreach (var playerObj in Commons.Players)
