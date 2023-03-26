@@ -62,7 +62,7 @@
                 {
                     foreach (var centerStackPlace in Commons.CenterStacks)
                     {
-                        var max = gameModel.GetPlayer(playerObj).GetCardsOfPlayerHand().Count;
+                        var max = gameModel.GetPlayer(playerObj).GetCardsOfHand().Count;
                         for (int i = 0; i < max; i++)
                         {
                             if (LegalMove.CanPutToCenterStack(

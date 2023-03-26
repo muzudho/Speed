@@ -34,16 +34,16 @@
             {
                 // １プレイヤー
                 new(
-                    idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(),
-                    idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(),
-                    indexOfFocusedCardOfPlayersObj: Commons.HandCardIndexNoSelected
+                    idOfCardsOfPile: new List<IdOfPlayingCards>(),
+                    idOfCardsOfHand: new List<IdOfPlayingCards>(),
+                    indexOfFocusedCard: Commons.HandCardIndexNoSelected
                     ),
 
                 // ２プレイヤー
                 new(
-                    idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(),
-                    idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(),
-                    indexOfFocusedCardOfPlayersObj: Commons.HandCardIndexNoSelected
+                    idOfCardsOfPile: new List<IdOfPlayingCards>(),
+                    idOfCardsOfHand: new List<IdOfPlayingCards>(),
+                    indexOfFocusedCard: Commons.HandCardIndexNoSelected
                     ),
             });
 
@@ -173,12 +173,12 @@
                             throw new Exception();
                     }
 
-                    modelBuffer.GetPlayer(playerObj).AddCardOfPlayersPile(idOfCard);
+                    modelBuffer.GetPlayer(playerObj).AddCardOfPile(idOfCard);
 
                     // 画面上の位置も調整
                     var goCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(idOfCard)];
 
-                    var length = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersPile.Count;
+                    var length = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPile.Count;
                     // 最初の１枚目
                     if (length == 1)
                     {
@@ -192,7 +192,7 @@
                     }
                     else
                     {
-                        var previousTopCard = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersPile[length - 2]; // 天辺より１つ下のカードが、前のカード
+                        var previousTopCard = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPile[length - 2]; // 天辺より１つ下のカードが、前のカード
                         var goPreviousTopCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(previousTopCard)];
                         goCard.transform.position = Vision.Commons.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
                                                                                                                                // 裏返す

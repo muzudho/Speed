@@ -34,27 +34,27 @@
         /// 
         /// - 選択中の場札が無いなら、-1
         /// </summary>
-        internal HandCardIndex GetIndexOfFocusedCardOfPlayer()
+        internal HandCardIndex GetIndexOfFocusedCard()
         {
-            return this.gameModelBuffer.GetPlayer(this.playerObj).IndexOfFocusedCardOfPlayersObj;
+            return this.gameModelBuffer.GetPlayer(this.playerObj).IndexOfFocusedCard;
         }
 
         /// <summary>
         /// ｎプレイヤーの、場札の枚数
         /// </summary>
         /// <returns></returns>
-        internal int GetLengthOfPlayerHandCards()
+        internal int GetLengthOfHandCards()
         {
-            return this.gameModelBuffer.GetPlayer(this.playerObj).IdOfCardsOfPlayersHand.Count;
+            return this.gameModelBuffer.GetPlayer(this.playerObj).IdOfCardsOfHand.Count;
         }
 
         /// <summary>
         /// ｎプレイヤーの、場札をリストで取得
         /// </summary>
         /// <returns></returns>
-        internal List<IdOfPlayingCards> GetCardsOfPlayerHand()
+        internal List<IdOfPlayingCards> GetCardsOfHand()
         {
-            return this.gameModelBuffer.GetPlayer(this.playerObj).IdOfCardsOfPlayersHand;
+            return this.gameModelBuffer.GetPlayer(this.playerObj).IdOfCardsOfHand;
         }
 
         /// <summary>
@@ -62,9 +62,9 @@
         /// </summary>
         /// <param name="handIndexObj"></param>
         /// <returns></returns>
-        internal IdOfPlayingCards GetCardAtOfPlayerHand(HandCardIndex handIndexObj)
+        internal IdOfPlayingCards GetCardAtOfHand(HandCardIndex handIndexObj)
         {
-            return this.gameModelBuffer.GetPlayer(this.playerObj).IdOfCardsOfPlayersHand[handIndexObj.AsInt];
+            return this.gameModelBuffer.GetPlayer(this.playerObj).IdOfCardsOfHand[handIndexObj.AsInt];
         }
     }
 }

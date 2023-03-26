@@ -76,12 +76,12 @@
                 }
 
                 // プレイヤーの手札を積み上げる
-                gameModelBuffer.GetPlayer(playerObj).AddCardOfPlayersPile(idOfCardOfCenterStack);
+                gameModelBuffer.GetPlayer(playerObj).AddCardOfPile(idOfCardOfCenterStack);
 
                 setTimespan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
-                    idOfPlayerPileCards: gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersPile,
+                    idOfPlayerPileCards: gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile,
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
             }
         }

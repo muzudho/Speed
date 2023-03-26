@@ -83,21 +83,21 @@
                     // １プレイヤー
                     new(
                         // 手札
-                        idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player1).IdOfCardsOfPlayersPile.ToArray()),
+                        idOfCardsOfPile: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player1).IdOfCardsOfPile.ToArray()),
                         // 場札
-                        idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player1).IdOfCardsOfPlayersHand.ToArray()),
+                        idOfCardsOfHand: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player1).IdOfCardsOfHand.ToArray()),
                         // ピックアップ場札
-                        indexOfFocusedCardOfPlayersObj: this.gameModelBuffer.GetPlayer(Commons.Player1).IndexOfFocusedCardOfPlayersObj
+                        indexOfFocusedCard: this.gameModelBuffer.GetPlayer(Commons.Player1).IndexOfFocusedCard
                         ),
 
                     // ２プレイヤー
                     new(
                         // 手札
-                        idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player2).IdOfCardsOfPlayersPile.ToArray()),
+                        idOfCardsOfPile: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player2).IdOfCardsOfPile.ToArray()),
                         // 場札
-                        idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player2).IdOfCardsOfPlayersHand.ToArray()),
+                        idOfCardsOfHand: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player2).IdOfCardsOfHand.ToArray()),
                         // ピックアップ場札
-                        indexOfFocusedCardOfPlayersObj: this.gameModelBuffer.GetPlayer(Commons.Player2).IndexOfFocusedCardOfPlayersObj
+                        indexOfFocusedCard: this.gameModelBuffer.GetPlayer(Commons.Player2).IndexOfFocusedCard
                         ),
                 }
                 )

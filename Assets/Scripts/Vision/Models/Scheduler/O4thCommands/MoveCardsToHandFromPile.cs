@@ -49,7 +49,7 @@
             var playerObj = command.PlayerObj;
 
             // 確定：手札の枚数
-            var length = gameModelBuffer.GetPlayer(command.PlayerObj).IdOfCardsOfPlayersPile.Count;
+            var length = gameModelBuffer.GetPlayer(command.PlayerObj).IdOfCardsOfPile.Count;
 
             // 手札がないのに、手札を引こうとしたとき
             if (length < command.NumberOfCards)
@@ -75,13 +75,13 @@
             //
             // - 初回配布のケース
             // - 場札無しの勝利後に配ったケース
-            if (gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCardOfPlayersObj == Commons.HandCardIndexNoSelected)
+            if (gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard == Commons.HandCardIndexNoSelected)
             {
-                gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCardOfPlayersObj = Commons.HandCardIndexFirst;
+                gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard = Commons.HandCardIndexFirst;
             }
 
             // 確定：場札の枚数
-            int numberOfCards = gameModel.GetPlayer(playerObj).GetLengthOfPlayerHandCards();
+            int numberOfCards = gameModel.GetPlayer(playerObj).GetLengthOfHandCards();
 
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
@@ -89,8 +89,8 @@
                 ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
-                    indexOfPickupObj: gameModel.GetPlayer(playerObj).GetIndexOfFocusedCardOfPlayer(),
-                    idOfHandCards: gameModel.GetPlayer(playerObj).GetCardsOfPlayerHand(),
+                    indexOfPickupObj: gameModel.GetPlayer(playerObj).GetIndexOfFocusedCard(),
+                    idOfHandCards: gameModel.GetPlayer(playerObj).GetCardsOfHand(),
                     keepPickup: true,
                     setTimespan: setTimespan,
                     onProgressOrNull: (progress) =>
