@@ -10,11 +10,11 @@
     /// 
     /// - 読み取り専用。(Immutable)
     /// </summary>
-    class Default
+    class Model
     {
         // - その他
 
-        public Default(ModelOfGameBuffer.Model gameModelBuffer)
+        public Model(ModelOfGameBuffer.Model gameModelBuffer)
         {
             this.gameModelBuffer = gameModelBuffer;
 

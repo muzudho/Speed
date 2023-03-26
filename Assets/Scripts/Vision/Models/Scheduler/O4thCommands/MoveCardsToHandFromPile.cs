@@ -44,7 +44,7 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
-            ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
+            ModelOfGame.Model gameModel = new ModelOfGame.Model(gameModelBuffer);
             var command = (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)this.CommandOfThinkingEngine;
             var playerObj = command.PlayerObj;
 

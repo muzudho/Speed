@@ -18,7 +18,7 @@
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel)
         {
-            var model = new ModelOfGame.Default(modelBuffer);
+            var model = new ModelOfGame.Model(modelBuffer);
 
             // とりあえず右の台札
             while (0 < model.GetCenterStack(Commons.RightCenterStack).GetLengthOfCards())

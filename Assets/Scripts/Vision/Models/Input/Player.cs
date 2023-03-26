@@ -96,7 +96,7 @@
         /// 入力を翻訳
         /// </summary>
         internal void Translate(
-            ModelOfGame.Default gameModel)
+            ModelOfGame.Model gameModel)
         {
             // キー入力の解析：クリアー
             this.Meaning.Clear();
@@ -140,7 +140,7 @@
         /// <param name="nearOrFarOfCenterStack">自分に近い方の台札、または、自分から遠い方の台札</param>
         internal void MoveCardToCenterStackFromHand(
             NearFar nearOrFarOfCenterStack,
-            ModelOfGame.Default gameModel,
+            ModelOfGame.Model gameModel,
             StalemateManager stalemateManager,
             ModelOfScheduler.Model schedulerModel)
         {
@@ -170,7 +170,7 @@
         /// </summary>
         internal void PickupCardToNext(
             PickingDirection pickingDirection,
-            ModelOfGame.Default gameModel,
+            ModelOfGame.Model gameModel,
             StalemateManager stalemateManager,
             ModelOfScheduler.Model schedulerModel)
         {
@@ -195,7 +195,7 @@
         /// 手札を引く
         /// </summary>
         internal void DrawingHandCardFromPileCard(
-            ModelOfGame.Default gameModel,
+            ModelOfGame.Model gameModel,
             ModelOfScheduler.Model schedulerModel)
         {
             // 場札を並べる

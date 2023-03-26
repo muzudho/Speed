@@ -54,7 +54,7 @@
         /// コンピューター・プレイヤーが思考して、操作を決める
         /// </summary>
         /// <param name="gameModel">現在の局面</param>
-        internal void Think(ModelOfGame.Default gameModel)
+        internal void Think(ModelOfGame.Model gameModel)
         {
             // 今回の入力予定
             var moveCardToCenterStackNearMe = false;

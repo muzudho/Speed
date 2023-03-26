@@ -17,14 +17,14 @@
     {
         // - その他（生成）
 
-        public Model(ModelOfGame.Default gameModel)
+        public Model(ModelOfGame.Model gameModel)
         {
             this.GameModel = gameModel;
         }
 
         // - プロパティ
 
-        internal ModelOfGame.Default GameModel { get; private set; }
+        internal ModelOfGame.Model GameModel { get; private set; }
 
         /// <summary>
         /// スケジュールに登録されている残りの項目

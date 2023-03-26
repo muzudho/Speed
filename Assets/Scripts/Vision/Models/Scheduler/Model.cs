@@ -15,7 +15,7 @@
     {
         // - その他（生成）
 
-        public Model(ModelOfGame.Default gameModel)
+        public Model(ModelOfGame.Model gameModel)
         {
             // タイムラインは、ゲーム・モデルを持つ。
             this.Timeline = new ModelOfSchedulerO7thTimeline.Model(gameModel);

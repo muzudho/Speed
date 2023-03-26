@@ -48,7 +48,7 @@
         {
             var command = (ModelOfThinkingEngineCommand.MoveFocusToNextCard)this.CommandOfThinkingEngine;
 
-            ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
+            ModelOfGame.Model gameModel = new ModelOfGame.Model(gameModelBuffer);
             var indexOfPreviousObj = gameModelBuffer.GetPlayer(command.PlayerObj).IndexOfFocusedCard; // 下ろす場札
 
             HandCardIndex indexOfCurrentObj; // ピックアップする場札

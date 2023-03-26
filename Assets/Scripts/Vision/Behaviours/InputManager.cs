@@ -18,7 +18,7 @@
         /// <summary>
         /// コンピューター・プレイヤー用
         /// </summary>
-        ModelOfGame.Default gameModel;
+        ModelOfGame.Model gameModel;
 
         /// <summary>
         /// ステールメート管理

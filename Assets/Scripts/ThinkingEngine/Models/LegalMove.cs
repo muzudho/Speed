@@ -7,7 +7,7 @@
         // - メソッド
 
         internal static bool CanPutToCenterStack(
-            ModelOfGame.Default gameModel,
+            ModelOfGame.Model gameModel,
             Player playerObj,
             HandCardIndex indexObj,
             CenterStackPlace placeOfCenterStackObj)

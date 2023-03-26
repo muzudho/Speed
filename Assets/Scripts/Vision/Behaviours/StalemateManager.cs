@@ -35,7 +35,7 @@
 
         TMP_Text countDownText;
 
-        ModelOfGame.Default gameModel;
+        ModelOfGame.Model gameModel;
 
         // - プロパティ
 
@@ -49,7 +49,7 @@
         /// <summary>
         /// ステールメートしているか確認します
         /// </summary>
-        internal void CheckStalemate(ModelOfGame.Default gameModel)
+        internal void CheckStalemate(ModelOfGame.Model gameModel)
         {
             this.gameModel = gameModel;
 

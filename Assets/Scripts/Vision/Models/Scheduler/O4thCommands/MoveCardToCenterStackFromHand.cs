@@ -44,7 +44,7 @@
         {
             var command = (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)this.CommandOfThinkingEngine;
 
-            var gameModel = new ModelOfGame.Default(gameModelBuffer);
+            var gameModel = new ModelOfGame.Model(gameModelBuffer);
             var playerObj = command.PlayerObj;
             var indexToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard; // 何枚目の場札をピックアップしているか
 
@@ -84,6 +84,7 @@
             var targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand[indexToRemoveObj.AsInt];
 
             // モデル更新：場札を１枚抜く
+            // ==========================
             gameModelBuffer.GetPlayer(playerObj).RemoveCardAtOfHand(indexToRemoveObj);
 
             // 確定：場札の枚数
@@ -93,12 +94,14 @@
             var idOfHandCardsAfterRemove = gameModel.GetPlayer(playerObj).GetCardsOfHand();
 
             // モデル更新：何枚目の場札をピックアップしているか
+            // ================================================
             gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard = indexOfNextPickObj;
 
             // 確定：前の台札の天辺のカード
             IdOfPlayingCards idOfPreviousTop = gameModel.GetCenterStack(placeObj).GetTopCard();
 
             // モデル更新：次に、台札として置く
+            // ================================
             var indexOfCenterStack = gameModelBuffer.GetCenterStack(placeObj).GetLength();
             gameModelBuffer.GetCenterStack(placeObj).AddCard(targetToRemoveObj);
 

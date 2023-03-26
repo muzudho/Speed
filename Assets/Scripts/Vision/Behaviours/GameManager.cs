@@ -60,19 +60,19 @@
         #endregion
 
         #region プロパティ（ゲーム・モデル）
-        ModelOfGame.Default model;
+        ModelOfGame.Model model;
 
         /// <summary>
         /// ゲーム・モデル
         /// </summary>
-        internal ModelOfGame.Default Model
+        internal ModelOfGame.Model Model
         {
             get
             {
                 if (model == null)
                 {
                     // ゲーム・モデルは、ゲーム・モデル・バッファーを持つ
-                    model = new ModelOfGame.Default(modelBuffer);
+                    model = new ModelOfGame.Model(modelBuffer);
                 }
                 return model;
             }

@@ -44,7 +44,7 @@
         {
             var command = (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)this.CommandOfThinkingEngine;
 
-            var gameModel = new ModelOfGame.Default(gameModelBuffer);
+            var gameModel = new ModelOfGame.Model(gameModelBuffer);
             var playerObj = command.PlayerObj;
             var indexToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard; // 何枚目の場札をピックアップしているか
 

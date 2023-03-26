@@ -32,7 +32,7 @@ public class SchedulerManager : MonoBehaviour
     /// <summary>
     /// コンピューター・プレイヤー用
     /// </summary>
-    ModelOfGame.Default gameModel;
+    ModelOfGame.Model gameModel;
 
     /// <summary>
     /// ゲーム・モデル・バッファー
