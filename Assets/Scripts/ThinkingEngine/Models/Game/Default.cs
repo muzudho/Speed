@@ -17,6 +17,13 @@
         public Default(ModelOfGameBuffer.Model gameModelBuffer)
         {
             this.gameModelBuffer = gameModelBuffer;
+
+            this.CenterStacks = new CenterStack[2]
+            {
+                new CenterStack(gameModelBuffer, Commons.RightCenterStack),
+                new CenterStack(gameModelBuffer, Commons.LeftCenterStack),
+            };
+
             this.Players = new Player[2]
             {
                 new Player(gameModelBuffer, Commons.Player1),
@@ -37,6 +44,20 @@
         /// </summary>
         /// <returns></returns>
         internal bool IsGameActive => this.gameModelBuffer.IsGameActive;
+
+        #region プロパティ（台札別）
+        internal CenterStack[] CenterStacks { get; private set; }
+
+        /// <summary>
+        /// 台札取得
+        /// </summary>
+        /// <param name="playerObj"></param>
+        /// <returns></returns>
+        public CenterStack GetPlayer(ModelOfThinkingEngine.CenterStackPlace placeObj)
+        {
+            return this.CenterStacks[placeObj.AsInt];
+        }
+        #endregion
 
         #region プロパティ（プレイヤー別）
         internal Player[] Players { get; private set; }

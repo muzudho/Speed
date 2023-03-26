@@ -23,9 +23,9 @@
 
         // - フィールド
 
-        readonly ModelOfThinkingEngine.Player playerObj;
-
         readonly ModelOfGameBuffer.Model gameModelBuffer;
+
+        readonly ModelOfThinkingEngine.Player playerObj;
 
         // - メソッド
 
