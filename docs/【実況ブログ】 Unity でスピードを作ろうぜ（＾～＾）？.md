@@ -6728,4 +6728,21 @@ namespace Assets.Scripts.ThinkingEngine
 ![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
 「　ソースコードを掃除した。今日は終わり」  
 
+# 📅 2023-03-25 sat 16:25
+
+![202108__character__12--ohkina-hiyoko-futsu2.png](https://crieit.now.sh/upload_images/31f0f35be3a4b6b05ce597c7aab702b763c675227892a.png)  
+「　今日はプログラミングすんの？」  
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　待ってくれだぜ　つら。  
+ジュース飲んで　気分が上がってくれば　プログラミングするぜ」  
+
+# 📅 2023-03-26 sat 13:56
+
+![202101__character__31--ramen-tabero-futsu2.png](https://crieit.now.sh/upload_images/5b53e954894672b36c716412a272826b63c674b756465.png)  
+「　気分が乗ったら　プログラミングするぜ」  
+
+![202101__character__28--kifuwarabe-futsu.png](https://crieit.now.sh/upload_images/e846bc7782a0e037a1665e6b3d51b02463c6750a6308a.png)  
+「　起動する元気も大事だしな」  
+
 # // 書きかけ

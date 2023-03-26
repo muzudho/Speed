@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan
 {
-    using System;
+    using Assets.Scripts.Coding;
 
     /// <summary>
     /// タイムライン上のスパン要素
@@ -15,9 +15,9 @@
         Range TimeRangeObj { get; }
 
         /// <summary>
-        /// 終了時の処理
+        /// 進行中の処理
         /// </summary>
-        Action OnFinished { get; }
+        LazyArgs.SetValue<float> OnProgressOrNull { get; }
 
         // - メソッド
 

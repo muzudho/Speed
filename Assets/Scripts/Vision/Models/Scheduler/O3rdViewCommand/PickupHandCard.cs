@@ -43,7 +43,7 @@
             ModelOfSchedulerO1stTimelineSpan.Range timeRange,
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
             IdOfPlayingCards idOfCard,
-            Action onFinishedOrNull)
+            LazyArgs.SetValue<float> onProgressOrNull)
         {
             // 持ち上がっている状態は、初回アクセス時に確定
             Vector3? startPosition = null;
@@ -104,7 +104,7 @@
                             return endRotation ?? throw new Exception();
                         });
                 },
-                onFinishedOrNull: onFinishedOrNull);
+                onProgressOrNull: onProgressOrNull);
         }
     }
 }

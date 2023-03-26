@@ -21,19 +21,19 @@
         /// <param name="target">ゲーム・オブジェクトId</param>
         /// <param name="getBegin">開始時の位置と回転</param>
         /// <param name="getEnd">終了時の位置と回転</param>
-        /// <param name="onFinishedOrNull">（あれば）終了時の処理</param>
+        /// <param name="onProgressOrNull">（あれば）進行中の処理</param>
         public Model(
             Range timeRange,
             IdOfGameObjects target,
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
             LazyArgs.GetValue<PositionAndRotationLazy> getEnd,
-            Action onFinishedOrNull = null)
+            LazyArgs.SetValue<float> onProgressOrNull = null)
         {
             this.TimeRangeObj = timeRange;
             this.Target = target;
             this.GetBegin = getBegin;
             this.GetEnd = getEnd;
-            this.OnFinished = onFinishedOrNull;
+            this.OnProgressOrNull = onProgressOrNull;
         }
 
         // - プロパティ
@@ -44,9 +44,9 @@
         public Range TimeRangeObj { get; private set; }
 
         /// <summary>
-        /// 終了時の処理
+        /// 進行中の処理
         /// </summary>
-        public Action OnFinished { get; private set; }
+        public LazyArgs.SetValue<float> OnProgressOrNull { get; private set; }
 
         internal IdOfGameObjects Target { get; private set; }
 

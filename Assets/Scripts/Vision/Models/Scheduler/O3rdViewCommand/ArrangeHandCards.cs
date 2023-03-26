@@ -37,7 +37,7 @@
             List<IdOfPlayingCards> idOfHandCards,
             bool keepPickup,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan,
-            Action onFinishedOrNull)
+            LazyArgs.SetValue<float> onProgressOrNull)
         {
             // 最大25枚の場札が並べるように調整してある
 
@@ -137,7 +137,7 @@
                             getPosition: () => endPositionAndRotation.Position,
                             getRotation: () => endPositionAndRotation.Rotation
                             ),
-                        onFinishedOrNull: onFinishedOrNull));
+                        onProgressOrNull: onProgressOrNull));
                 }
                 else
                 {
@@ -170,7 +170,7 @@
                                 });
                         },
                         getEnd: () => staticDestination,
-                        onFinishedOrNull: onFinishedOrNull));
+                        onProgressOrNull: onProgressOrNull));
                 }
 
                 // 更新

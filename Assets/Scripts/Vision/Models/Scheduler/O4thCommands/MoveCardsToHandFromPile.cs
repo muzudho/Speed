@@ -23,7 +23,7 @@
         /// </summary>
         /// <param name="commandOfThinkingEngine"></param>
         public MoveCardsToHandFromPile(
-            GameSeconds startObj, 
+            GameSeconds startObj,
             ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
             : base(startObj, commandOfThinkingEngine)
         {
@@ -92,10 +92,13 @@
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
                     keepPickup: true,
                     setTimelineSpan: setTimelineSpan,
-                    onFinishedOrNull: () =>
+                    onProgressOrNull: (progress) =>
                     {
-                        // 制約の解除
-                        inputModel.Players[playerObj.AsInt].Rights.IsPileCardDrawing = false;
+                        if (1.0f <= progress)
+                        {
+                            // 制約の解除
+                            inputModel.Players[playerObj.AsInt].Rights.IsPileCardDrawing = false;
+                        }
                     });
             }
             else

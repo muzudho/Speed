@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand
 {
+    using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
     using System;
@@ -25,7 +26,7 @@
             CenterStackPlace placeObj,
             IdOfPlayingCards target,
             IdOfPlayingCards idOfPreviousTop,
-            Action onFinishedOrNull)
+            LazyArgs.SetValue<float> onProgressOrNull)
         {
             // 台札の新しい天辺の座標
             Vector3 nextTop;
@@ -101,7 +102,7 @@
                         }
                         return endRotation ?? throw new Exception();
                     }),
-                onFinishedOrNull: onFinishedOrNull);
+                onProgressOrNull: onProgressOrNull);
         }
 
     }

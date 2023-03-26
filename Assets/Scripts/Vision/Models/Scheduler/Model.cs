@@ -65,19 +65,22 @@
             while (i < this.ongoingSpans.Count)
             {
                 var ongoingSpan = ongoingSpans[i];
+                float progress;
 
                 // 期限切れ
                 if (ongoingSpan.TimeRangeObj.EndObj.AsFloat <= elapsedTime.AsFloat)
                 {
+                    progress = 1.0f;
+
                     // 動作完了
                     //
                     // - 動作が完了する前に、次の動作を行うと、カードがどんどん沈んでいく、といったことが起こる。連打スパム対策は別途行ってください
-                    ongoingSpan.Lerp(1.0f);
+                    ongoingSpan.Lerp(progress);
 
-                    // （あれば）終了時の処理
-                    if (ongoingSpan.OnFinished!=null)
+                    // （あれば）進行中の処理
+                    if (ongoingSpan.OnProgressOrNull != null)
                     {
-                        ongoingSpan.OnFinished();
+                        ongoingSpan.OnProgressOrNull(progress);
                     }
 
                     // リストから除去
@@ -86,7 +89,14 @@
                 }
 
                 // 進捗 0.0 ～ 1.0
-                float progress = (elapsedTime.AsFloat - ongoingSpan.TimeRangeObj.StartObj.AsFloat) / ongoingSpan.TimeRangeObj.DurationObj.AsFloat;
+                progress = (elapsedTime.AsFloat - ongoingSpan.TimeRangeObj.StartObj.AsFloat) / ongoingSpan.TimeRangeObj.DurationObj.AsFloat;
+
+                // （あれば）進行中の処理
+                if (ongoingSpan.OnProgressOrNull != null)
+                {
+                    ongoingSpan.OnProgressOrNull(progress);
+                }
+
                 // 補間
                 ongoingSpan.Lerp(progress);
 
