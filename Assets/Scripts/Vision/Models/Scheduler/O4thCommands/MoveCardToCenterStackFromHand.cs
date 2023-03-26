@@ -84,7 +84,7 @@
             var targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersHand[indexToRemoveObj.AsInt];
 
             // モデル更新：場札を１枚抜く
-            gameModelBuffer.RemoveCardAtOfPlayerHand(playerObj, indexToRemoveObj);
+            gameModelBuffer.GetPlayer(playerObj).RemoveCardAtOfPlayerHand(indexToRemoveObj);
 
             // 確定：場札の枚数
             var lengthOfHandCards = gameModel.GetLengthOfPlayerHandCards(playerObj);

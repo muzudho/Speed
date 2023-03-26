@@ -63,8 +63,7 @@
             }
 
             // モデル更新：場札への移動
-            gameModelBuffer.MoveCardsToHandFromPile(
-                playerObj: playerObj,
+            gameModelBuffer.GetPlayer(playerObj).MoveCardsToHandFromPile(
                 startIndexObj: new PlayerPileCardIndex(length - command.NumberOfCards),
                 numberOfCards: command.NumberOfCards);
             // 場札は１枚以上になる

@@ -171,7 +171,7 @@
                             throw new Exception();
                     }
 
-                    modelBuffer.AddCardOfPlayersPile(playerObj, idOfCard);
+                    modelBuffer.GetPlayer(playerObj).AddCardOfPlayersPile(idOfCard);
 
                     // 画面上の位置も調整
                     var goCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(idOfCard)];

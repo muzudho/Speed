@@ -76,7 +76,7 @@
                 }
 
                 // プレイヤーの手札を積み上げる
-                gameModelBuffer.AddCardOfPlayersPile(playerObj, idOfCardOfCenterStack);
+                gameModelBuffer.GetPlayer(playerObj).AddCardOfPlayersPile(idOfCardOfCenterStack);
 
                 setTimespan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
                     timeRange: this.TimeRangeObj,
