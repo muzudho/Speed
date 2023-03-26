@@ -20,7 +20,8 @@
         {
             var model = new ModelOfGame.Default(modelBuffer);
 
-            while (0 < model.GetLengthOfCenterStackCards(Commons.RightCenterStack))
+            // とりあえず右の台札
+            while (0 < model.GetCenterStack(Commons.RightCenterStack).GetLengthOfCards())
             {
                 // 即実行
                 // ======

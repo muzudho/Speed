@@ -96,7 +96,7 @@
             gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard = indexOfNextPickObj;
 
             // 確定：前の台札の天辺のカード
-            IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(placeObj);
+            IdOfPlayingCards idOfPreviousTop = gameModel.GetCenterStack(placeObj).GetTopCard();
 
             // モデル更新：次に、台札として置く
             var indexOfCenterStack = gameModelBuffer.GetCenterStack(placeObj).GetLength();

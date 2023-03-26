@@ -17,7 +17,7 @@
                 return false;
             }
 
-            IdOfPlayingCards topCard = gameModel.GetLastCardOfCenterStack(placeOfCenterStackObj);
+            IdOfPlayingCards topCard = gameModel.GetCenterStack(placeOfCenterStackObj).GetLastCard();
             if (topCard == IdOfPlayingCards.None)
             {
                 return false;

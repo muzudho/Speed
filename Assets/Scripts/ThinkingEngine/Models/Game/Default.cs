@@ -10,7 +10,7 @@
     /// 
     /// - 読み取り専用。(Immutable)
     /// </summary>
-    partial class Default
+    class Default
     {
         // - その他
 
@@ -53,7 +53,7 @@
         /// </summary>
         /// <param name="playerObj"></param>
         /// <returns></returns>
-        public CenterStack GetPlayer(ModelOfThinkingEngine.CenterStackPlace placeObj)
+        public CenterStack GetCenterStack(ModelOfThinkingEngine.CenterStackPlace placeObj)
         {
             return this.CenterStacks[placeObj.AsInt];
         }
