@@ -6,6 +6,7 @@
     using Assets.Scripts.Vision.Models.World;
     using System;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -23,11 +24,12 @@
         /// <summary>
         /// 生成
         /// </summary>
-        /// <param name="commandOfThinkingEngine"></param>
+        /// <param name="startObj"></param>
+        /// <param name="command"></param>
         public MoveFocusToNextCard(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
-            : base(startObj, commandOfThinkingEngine)
+            ModelOfThinkingEngineCommand.IModel command)
+            : base(startObj, command)
         {
         }
 
@@ -38,13 +40,11 @@
         /// 
         /// - ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
         /// </summary>
-        /// <param name="player"></param>
-        /// <param name="direction">後ろ:0, 前:1</param>
         public override void GenerateSpan(
-            GameModelBuffer gameModelBuffer,
+            ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
             var command = (ModelOfThinkingEngineCommand.MoveFocusToNextCard)this.CommandOfThinkingEngine;
 
@@ -96,7 +96,7 @@
                 var idOfCard = gameModel.GetCardAtOfPlayerHand(command.PlayerObj, indexOfPreviousObj); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
-                setTimelineSpan(ModelOfSchedulerO3rdViewCommand.DropHandCard.GenerateSpan(
+                setTimespan(ModelOfSchedulerO3rdViewCommand.DropHandCard.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard));
             }
@@ -110,7 +110,7 @@
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
-                setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PickupHandCard.GenerateSpan(
+                setTimespan(ModelOfSchedulerO3rdViewCommand.PickupHandCard.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(

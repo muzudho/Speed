@@ -149,6 +149,8 @@
                 this.Meaning.MoveCardToCenterStack(nearOrFarOfCenterStack) &&
                 LegalMove.CanPutToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetIndexOfFocusedCardOfPlayer(this.PlayerIdObj), this.GetCenterStackPlace(nearOrFarOfCenterStack)))
             {
+                // TODO ★ ブーメランになることは？
+
                 // ピックアップ中の場札を抜いて、台札へ積み上げる
                 var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                     playerObj: this.PlayerIdObj,

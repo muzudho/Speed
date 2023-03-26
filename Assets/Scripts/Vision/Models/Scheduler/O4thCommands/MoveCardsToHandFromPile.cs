@@ -3,8 +3,8 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using System;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -21,11 +21,12 @@
         /// <summary>
         /// 生成
         /// </summary>
-        /// <param name="commandOfThinkingEngine"></param>
+        /// <param name="startObj"></param>
+        /// <param name="command"></param>
         public MoveCardsToHandFromPile(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
-            : base(startObj, commandOfThinkingEngine)
+            ModelOfThinkingEngineCommand.IModel command)
+            : base(startObj, command)
         {
         }
 
@@ -38,10 +39,10 @@
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override void GenerateSpan(
-            GameModelBuffer gameModelBuffer,
+            ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
             var command = (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)this.CommandOfThinkingEngine;
             var playerObj = command.PlayerObj;
@@ -91,7 +92,7 @@
                     indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
                     idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
                     keepPickup: true,
-                    setTimelineSpan: setTimelineSpan,
+                    setTimespan: setTimespan,
                     onProgressOrNull: (progress) =>
                     {
                         if (1.0f <= progress)

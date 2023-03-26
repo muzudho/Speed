@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
 
     /// <summary>
     /// ゲーム・モデル
@@ -12,14 +13,14 @@
     {
         // - その他
 
-        public Default(GameModelBuffer gameModelBuffer)
+        public Default(ModelOfGameBuffer.Model gameModelBuffer)
         {
             this.gameModelBuffer = gameModelBuffer;
         }
 
         // - フィールド
 
-        GameModelBuffer gameModelBuffer;
+        ModelOfGameBuffer.Model gameModelBuffer;
 
         // - プロパティ
 
@@ -37,10 +38,10 @@
         /// TODO 本当は JSON か何かで出力して、 GameModelBuffer が JSON を読込むような感じにしたい
         /// </summary>
         /// <returns></returns>
-        internal GameModelBuffer CreateGameModelBuffer()
+        internal ModelOfGameBuffer.Model CreateGameModelBuffer()
         {
             // ディープ・コピー
-            return new GameModelBuffer()
+            return new ModelOfGameBuffer.Model()
             {
                 // ゲーム内経過時間
                 ElapsedTimeObj = this.gameModelBuffer.ElapsedTimeObj,

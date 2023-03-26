@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using System;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -20,11 +21,12 @@
         /// <summary>
         /// 生成
         /// </summary>
-        /// <param name="commandOfThinkingEngine"></param>
+        /// <param name="startObj"></param>
+        /// <param name="command"></param>
         public MoveCardsToPileFromCenterStacks(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
-            : base(startObj, commandOfThinkingEngine)
+            ModelOfThinkingEngineCommand.IModel command)
+            : base(startObj, command)
         {
         }
 
@@ -38,10 +40,10 @@
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
         public override void GenerateSpan(
-            GameModelBuffer gameModelBuffer,
+            ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
             var command = (ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks)this.CommandOfThinkingEngine;
 
@@ -76,7 +78,7 @@
                 // プレイヤーの手札を積み上げる
                 gameModelBuffer.AddCardOfPlayersPile(playerObj, idOfCardOfCenterStack);
 
-                setTimelineSpan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
+                setTimespan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],

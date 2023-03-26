@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models
+﻿namespace Assets.Scripts.ThinkingEngine.Models.GameBuffer
 {
     using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@
     /// 
     /// - 編集可能
     /// </summary>
-    public class GameModelBuffer
+    public class Model
     {
         // - プロパティ
 

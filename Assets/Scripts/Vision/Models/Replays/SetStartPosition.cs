@@ -1,8 +1,8 @@
 ﻿namespace Assets.Scripts.Vision.Models.Replays
 {
     using Assets.Scripts.ThinkingEngine;
-    using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;
@@ -14,7 +14,7 @@
     static class SetStartPosition
     {
         internal static void DoIt(
-            GameModelBuffer modelBuffer,
+            ModelOfGameBuffer.Model modelBuffer,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel)
         {
@@ -34,11 +34,12 @@
                     startObj: GameSeconds.Zero,
                     command: commandOfThinkingEngine);
 
+                // タイムスパン作成・登録
                 commandOfScheduler.GenerateSpan(
                     gameModelBuffer: modelBuffer,
                     inputModel: inputModel,
                     schedulerModel: schedulerModel,
-                    setTimelineSpan: (movementViewModel) => movementViewModel.Lerp(1.0f));
+                    setTimespan: (timespan) => timespan.Lerp(1.0f));
             }
 
             // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）

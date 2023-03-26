@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler
 {
     using Assets.Scripts.Coding;
-    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -18,12 +18,12 @@
         /// </summary>
         /// <param name="timeline"></param>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
-        /// <param name="setTimelineSpan"></param>
+        /// <param name="setTimespan"></param>
         internal static void ConvertToSpans(
-            GameModelBuffer gameModelBuffer,
+            ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan)
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化
@@ -46,12 +46,12 @@
                 // スケジュールから除去
                 schedulerModel.Timeline.RemoveAt(i);
 
-                // ゲーム画面の同期を始めます
+                // タイムスパン作成・登録
                 commandOfScheduler.GenerateSpan(
                     gameModelBuffer,
                     inputModel,
                     schedulerModel,
-                    setTimelineSpan: setTimelineSpan);
+                    setTimespan: setTimespan);
             }
         }
     }

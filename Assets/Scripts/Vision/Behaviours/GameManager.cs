@@ -8,6 +8,7 @@
     using System.Linq;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
 
     /// <summary>
     /// ゲーム・マネージャー
@@ -19,12 +20,12 @@
         // - プロパティ
 
         #region プロパティ（ゲーム・モデル・バッファー）
-        GameModelBuffer modelBuffer = new GameModelBuffer();
+        ModelOfGameBuffer.Model modelBuffer = new ModelOfGameBuffer.Model();
 
         /// <summary>
         /// ゲーム・モデル・バッファー
         /// </summary>
-        internal GameModelBuffer ModelBuffer
+        internal ModelOfGameBuffer.Model ModelBuffer
         {
             get
             {

@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommands
 {
     using Assets.Scripts.Coding;
-    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -34,9 +34,9 @@
         /// </summary>
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         void GenerateSpan(
-            GameModelBuffer gameModelBuffer,
+            ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan);
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan);
     }
 }

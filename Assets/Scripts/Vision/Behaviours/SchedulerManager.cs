@@ -1,10 +1,10 @@
-using Assets.Scripts.ThinkingEngine.Models;
 using Assets.Scripts.Vision.Behaviours;
 using Assets.Scripts.Vision.Models;
 using Assets.Scripts.Vision.Models.Replays;
 using System.Collections.Generic;
 using UnityEngine;
 using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
 using ModelOfInput = Assets.Scripts.Vision.Models.Input;
 using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
 using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -37,7 +37,7 @@ public class SchedulerManager : MonoBehaviour
     /// <summary>
     /// ゲーム・モデル・バッファー
     /// </summary>
-    GameModelBuffer gameModelBuffer;
+    ModelOfGameBuffer.Model gameModelBuffer;
 
     // - メソッド
 
@@ -75,7 +75,7 @@ public class SchedulerManager : MonoBehaviour
             gameModelBuffer,
             this.InputModel,
             this.Model,
-            setTimelineSpan: (spanToLerp) =>
+            setTimespan: (spanToLerp) =>
             {
                 additionSpansToLerp.Add(spanToLerp);
             });

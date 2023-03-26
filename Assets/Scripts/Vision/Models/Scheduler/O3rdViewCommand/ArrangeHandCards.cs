@@ -28,7 +28,7 @@
         /// <param name="playerObj"></param>
         /// <param name="indexOfPickupObj">ピックアップしている場札は何番目</param>
         /// <param name="idOfHandCards">場札のIdリスト</param>
-        /// <param name="setTimelineSpan"></param>
+        /// <param name="setTimespan"></param>
         /// <exception cref="Exception"></exception>
         internal static void GenerateSpan(
             ModelOfSchedulerO1stTimelineSpan.Range timeRange,
@@ -36,7 +36,7 @@
             HandCardIndex indexOfPickupObj,
             List<IdOfPlayingCards> idOfHandCards,
             bool keepPickup,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimelineSpan,
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan,
             LazyArgs.SetValue<float> onProgressOrNull)
         {
             // 最大25枚の場札が並べるように調整してある
@@ -108,7 +108,7 @@
                         homePositionOfHand: staticDestination.GetPosition(),
                         homeRotationOfHand: staticDestination.GetRotation());
 
-                    setTimelineSpan(new ModelOfSchedulerO1stTimelineSpan.Model(
+                    setTimespan(new ModelOfSchedulerO1stTimelineSpan.Model(
                         timeRange: timeRange,
                         target: idOfGo,
                         getBegin: () =>
@@ -144,7 +144,7 @@
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;
 
-                    setTimelineSpan(new ModelOfSchedulerO1stTimelineSpan.Model(
+                    setTimespan(new ModelOfSchedulerO1stTimelineSpan.Model(
                         timeRange: timeRange,
                         target: idOfGo,
                         getBegin: () =>

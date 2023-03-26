@@ -13,9 +13,9 @@
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
-    /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
+    /// 場札から、台札へ向かったカードが、場札へまた戻ってくる動き
     /// </summary>
-    class MoveCardToCenterStackFromHand : ItsAbstract
+    internal class MoveLikeBoomerang : ItsAbstract
     {
         // - その他
 
@@ -24,7 +24,7 @@
         /// </summary>
         /// <param name="startObj"></param>
         /// <param name="command"></param>
-        public MoveCardToCenterStackFromHand(
+        public MoveLikeBoomerang(
             GameSeconds startObj,
             ModelOfThinkingEngineCommand.IModel command)
             : base(startObj, command)
