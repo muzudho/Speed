@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
+    using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>
     /// ゲームの状態
@@ -21,13 +22,22 @@
         internal GameSeconds ElapsedTimeObj { get; set; } = GameSeconds.Zero;
 
         /// <summary>
-        /// 台札
+        /// ゲーム・モデル・バッファー
         /// 
-        /// - 画面中央に積んでいる札
-        /// - 0: 右
-        /// - 1: 左
+        /// - プレイヤー別
         /// </summary>
-        internal List<List<IdOfPlayingCards>> IdOfCardsOfCenterStacks { get; set; } = new() { new(), new() };
+        internal Player[] Players { get; set; } = new Player[2]
+        {
+            // １プレイヤー
+            new(
+                idOfCardsOfCenterStacks: new List<IdOfPlayingCards>()
+                ),
+
+            // ２プレイヤー
+            new(
+                idOfCardsOfCenterStacks: new List<IdOfPlayingCards>()
+                ),
+        };
 
         /// <summary>
         /// 手札
@@ -64,7 +74,7 @@
         /// <param name="idOfCard"></param>
         internal IdOfPlayingCards GetCardOfCenterStack(CenterStackPlace placeObj, int index)
         {
-            return this.IdOfCardsOfCenterStacks[placeObj.AsInt][index];
+            return this.Players[placeObj.AsInt].IdOfCardsOfCenterStacks[index];
         }
 
         /// <summary>
@@ -74,7 +84,7 @@
         /// <param name="idOfCard"></param>
         internal int GetLengthOfCenterStack(CenterStackPlace placeObj)
         {
-            return this.IdOfCardsOfCenterStacks[placeObj.AsInt].Count;
+            return this.Players[placeObj.AsInt].IdOfCardsOfCenterStacks.Count;
         }
 
         /// <summary>
@@ -85,7 +95,7 @@
         internal void AddCardOfCenterStack(CenterStackPlace placeObj, IdOfPlayingCards idOfCard)
         {
             // TODO スレッド・セーフだろうか？
-            this.IdOfCardsOfCenterStacks[placeObj.AsInt].Add(idOfCard);
+            this.Players[placeObj.AsInt].IdOfCardsOfCenterStacks.Add(idOfCard);
         }
 
         /// <summary>
@@ -95,7 +105,7 @@
         /// <param name="startIndexObj"></param>
         internal void RemoveCardAtOfCenterStack(CenterStackPlace place, CenterStackCardIndex startIndexObj)
         {
-            this.IdOfCardsOfCenterStacks[place.AsInt].RemoveAt(startIndexObj.AsInt);
+            this.Players[place.AsInt].IdOfCardsOfCenterStacks.RemoveAt(startIndexObj.AsInt);
         }
         #endregion
 
@@ -105,7 +115,7 @@
         /// </summary>
         /// <param name="playerObj"></param>
         /// <param name="idOfCard"></param>
-        internal void AddCardOfPlayersPile(Player playerObj, IdOfPlayingCards idOfCard)
+        internal void AddCardOfPlayersPile(ModelOfThinkingEngine.Player playerObj, IdOfPlayingCards idOfCard)
         {
             this.IdOfCardsOfPlayersPile[playerObj.AsInt].Add(idOfCard);
         }
@@ -116,7 +126,7 @@
         /// <param name="playerObj"></param>
         /// <param name="startIndexObj"></param>
         /// <param name="numberOfCards"></param>
-        internal void RemoveRangeCardsOfPlayerPile(Player playerObj, PlayerPileCardIndex startIndexObj, int numberOfCards)
+        internal void RemoveRangeCardsOfPlayerPile(ModelOfThinkingEngine.Player playerObj, PlayerPileCardIndex startIndexObj, int numberOfCards)
         {
             this.IdOfCardsOfPlayersPile[playerObj.AsInt].RemoveRange(startIndexObj.AsInt, numberOfCards);
         }
@@ -128,7 +138,7 @@
         /// </summary>
         /// <param name="playerObj"></param>
         /// <param name="idOfCards"></param>
-        internal void AddRangeCardsOfPlayerHand(Player playerObj, List<IdOfPlayingCards> idOfCards)
+        internal void AddRangeCardsOfPlayerHand(ModelOfThinkingEngine.Player playerObj, List<IdOfPlayingCards> idOfCards)
         {
             this.IdOfCardsOfPlayersHand[playerObj.AsInt].AddRange(idOfCards);
         }
@@ -138,7 +148,7 @@
         /// </summary>
         /// <param name="playerObj"></param>
         /// <param name="handIndexObj"></param>
-        internal void RemoveCardAtOfPlayerHand(Player playerObj, HandCardIndex handIndexObj)
+        internal void RemoveCardAtOfPlayerHand(ModelOfThinkingEngine.Player playerObj, HandCardIndex handIndexObj)
         {
             this.IdOfCardsOfPlayersHand[playerObj.AsInt].RemoveAt(handIndexObj.AsInt);
         }
@@ -150,7 +160,7 @@
         /// <param name="playerObj"></param>
         /// <param name="startIndexObj"></param>
         /// <param name="numberOfCards"></param>
-        internal void MoveCardsToHandFromPile(Player playerObj, PlayerPileCardIndex startIndexObj, int numberOfCards)
+        internal void MoveCardsToHandFromPile(ModelOfThinkingEngine.Player playerObj, PlayerPileCardIndex startIndexObj, int numberOfCards)
         {
             var idOfCards = this.IdOfCardsOfPlayersPile[playerObj.AsInt].GetRange(startIndexObj.AsInt, numberOfCards);
 

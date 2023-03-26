@@ -134,7 +134,7 @@
                 case IdOfPlayingCards.Spades13:
                     return IdOfCardSuits.Spades;
 
-                default: throw new ArgumentOutOfRangeException("idOfCard");
+                default: throw new ArgumentOutOfRangeException($"idOfCard:{idOfCard}");
             }
         }
 
@@ -220,7 +220,7 @@
                 case IdOfPlayingCards.Spades13:
                     return 13;
 
-                default: throw new ArgumentOutOfRangeException("idOfCard");
+                default: throw new ArgumentOutOfRangeException($"idOfCard:{idOfCard}");
             }
         }
     }

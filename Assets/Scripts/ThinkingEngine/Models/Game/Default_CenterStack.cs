@@ -6,7 +6,7 @@
 
         internal ReadonlyList<IdOfPlayingCards> GetCenterStack(CenterStackPlace placeObj)
         {
-            return new ReadonlyList<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfCenterStacks[placeObj.AsInt]);
+            return new ReadonlyList<IdOfPlayingCards>(this.gameModelBuffer.Players[placeObj.AsInt].IdOfCardsOfCenterStacks);
         }
 
         /// <summary>
@@ -19,13 +19,13 @@
             var length = this.GetLengthOfCenterStackCards(placeObj);
             var startIndex = length - 1;
 
-            if (startIndex == -1 || this.gameModelBuffer.IdOfCardsOfCenterStacks[placeObj.AsInt].Count <= startIndex)
+            if (startIndex == -1 || this.gameModelBuffer.Players[placeObj.AsInt].IdOfCardsOfCenterStacks.Count <= startIndex)
             {
                 return IdOfPlayingCards.None;
             }
 
             // Debug.Log($"[GameModel GetLastCardOfCenterStack] place:{place} stack-count:{this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count} startIndex:{startIndex}");
-            return this.gameModelBuffer.IdOfCardsOfCenterStacks[placeObj.AsInt][startIndex]; // 最後のカード
+            return this.gameModelBuffer.Players[placeObj.AsInt].IdOfCardsOfCenterStacks[startIndex]; // 最後のカード
         }
 
         /// <summary>
@@ -34,7 +34,7 @@
         /// <param name="placeObj">右:0, 左:1</param>
         internal int GetLengthOfCenterStackCards(CenterStackPlace placeObj)
         {
-            return this.gameModelBuffer.IdOfCardsOfCenterStacks[placeObj.AsInt].Count;
+            return this.gameModelBuffer.Players[placeObj.AsInt].IdOfCardsOfCenterStacks.Count;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         /// <returns></returns>
         internal IdOfPlayingCards GetTopOfCenterStack(CenterStackPlace placeObj)
         {
-            var centerStack = this.gameModelBuffer.IdOfCardsOfCenterStacks[placeObj.AsInt];
+            var centerStack = this.gameModelBuffer.Players[placeObj.AsInt].IdOfCardsOfCenterStacks;
 
             var length = centerStack.Count;
             if (length < 1)

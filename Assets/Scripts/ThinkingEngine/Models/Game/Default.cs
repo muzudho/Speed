@@ -46,32 +46,39 @@
                 // ゲーム内経過時間
                 ElapsedTimeObj = this.gameModelBuffer.ElapsedTimeObj,
 
-                // 台札
-                IdOfCardsOfCenterStacks = new List<List<IdOfPlayingCards>>()
+                // プレイヤー別
+                Players = new ModelOfGameBuffer.Player[2]
                 {
-                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfCenterStacks[0].ToArray()),
-                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfCenterStacks[1].ToArray()),
+                    // １プレイヤー
+                    new(
+                        idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player1.AsInt].IdOfCardsOfCenterStacks.ToArray())// 台札
+                        ),
+
+                    // ２プレイヤー
+                    new(
+                        idOfCardsOfCenterStacks : new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player2.AsInt].IdOfCardsOfCenterStacks.ToArray()) // 台札
+                        ),
                 },
 
                 // 手札
                 IdOfCardsOfPlayersPile = new List<List<IdOfPlayingCards>>()
                 {
-                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersPile[0].ToArray()),
-                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersPile[1].ToArray()),
+                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersPile[Commons.Player1.AsInt].ToArray()),
+                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersPile[Commons.Player2.AsInt].ToArray()),
                 },
 
                 // 場札
                 IdOfCardsOfPlayersHand = new List<List<IdOfPlayingCards>>()
                 {
-                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersHand[0].ToArray()),
-                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersHand[1].ToArray()),
+                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersHand[Commons.Player1.AsInt].ToArray()),
+                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersHand[Commons.Player2.AsInt].ToArray()),
                 },
 
                 // ピックアップ場札
                 IndexOfFocusedCardOfPlayersObj = new HandCardIndex[]
                 {
-                    this.gameModelBuffer.IndexOfFocusedCardOfPlayersObj[0],
-                    this.gameModelBuffer.IndexOfFocusedCardOfPlayersObj[1],
+                    this.gameModelBuffer.IndexOfFocusedCardOfPlayersObj[Commons.Player1.AsInt],
+                    this.gameModelBuffer.IndexOfFocusedCardOfPlayersObj[Commons.Player2.AsInt],
                 }
             };
         }
