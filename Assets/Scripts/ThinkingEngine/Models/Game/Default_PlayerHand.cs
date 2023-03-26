@@ -27,7 +27,7 @@
         /// <returns></returns>
         internal int GetLengthOfPlayerHandCards(Player playerObj)
         {
-            return this.gameModelBuffer.IdOfCardsOfPlayersHand[playerObj.AsInt].Count;
+            return this.gameModelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersHand.Count;
         }
 
         /// <summary>
@@ -37,7 +37,7 @@
         /// <returns></returns>
         internal List<IdOfPlayingCards> GetCardsOfPlayerHand(Player playerObj)
         {
-            return this.gameModelBuffer.IdOfCardsOfPlayersHand[playerObj.AsInt];
+            return this.gameModelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersHand;
         }
 
         /// <summary>
@@ -48,7 +48,7 @@
         /// <returns></returns>
         internal IdOfPlayingCards GetCardAtOfPlayerHand(Player playerObj, HandCardIndex handIndexObj)
         {
-            return this.gameModelBuffer.IdOfCardsOfPlayersHand[playerObj.AsInt][handIndexObj.AsInt];
+            return this.gameModelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersHand[handIndexObj.AsInt];
         }
     }
 }

@@ -31,24 +31,17 @@
             // １プレイヤー
             new(
                 idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(),
-                idOfCardsOfPlayersPile: new List<IdOfPlayingCards>()
+                idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(),
+                idOfCardsOfPlayersHand: new List<IdOfPlayingCards>()
                 ),
 
             // ２プレイヤー
             new(
                 idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(),
-                idOfCardsOfPlayersPile: new List<IdOfPlayingCards>()
+                idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(),
+                idOfCardsOfPlayersHand: new List<IdOfPlayingCards>()
                 ),
         };
-
-        /// <summary>
-        /// 場札
-        /// 
-        /// - プレイヤー側でオープンしている札
-        /// - 0: １プレイヤー（黒色）
-        /// - 1: ２プレイヤー（黒色）
-        /// </summary>
-        internal List<List<IdOfPlayingCards>> IdOfCardsOfPlayersHand { get; set; } = new() { new(), new() };
 
         /// <summary>
         /// ｎプレイヤーが選択している場札は、先頭から何枚目
@@ -133,7 +126,7 @@
         /// <param name="idOfCards"></param>
         internal void AddRangeCardsOfPlayerHand(ModelOfThinkingEngine.Player playerObj, List<IdOfPlayingCards> idOfCards)
         {
-            this.IdOfCardsOfPlayersHand[playerObj.AsInt].AddRange(idOfCards);
+            this.Players[playerObj.AsInt].IdOfCardsOfPlayersHand.AddRange(idOfCards);
         }
 
         /// <summary>
@@ -143,7 +136,7 @@
         /// <param name="handIndexObj"></param>
         internal void RemoveCardAtOfPlayerHand(ModelOfThinkingEngine.Player playerObj, HandCardIndex handIndexObj)
         {
-            this.IdOfCardsOfPlayersHand[playerObj.AsInt].RemoveAt(handIndexObj.AsInt);
+            this.Players[playerObj.AsInt].IdOfCardsOfPlayersHand.RemoveAt(handIndexObj.AsInt);
         }
         #endregion
 

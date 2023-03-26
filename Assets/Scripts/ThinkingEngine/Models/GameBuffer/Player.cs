@@ -16,10 +16,12 @@
         /// </summary>
         internal Player(
             List<IdOfPlayingCards> idOfCardsOfCenterStacks,
-            List<IdOfPlayingCards> idOfCardsOfPlayersPile)
+            List<IdOfPlayingCards> idOfCardsOfPlayersPile,
+            List<IdOfPlayingCards> idOfCardsOfPlayersHand)
         {
             this.IdOfCardsOfCenterStacks = idOfCardsOfCenterStacks;
             this.IdOfCardsOfPlayersPile = idOfCardsOfPlayersPile;
+            this.IdOfCardsOfPlayersHand = idOfCardsOfPlayersHand;
         }
 
         // - プロパティ
@@ -39,5 +41,14 @@
         /// - プレイヤー側で積んでる札
         /// </summary>
         internal List<IdOfPlayingCards> IdOfCardsOfPlayersPile { get; private set; }
+
+        /// <summary>
+        /// 場札
+        /// 
+        /// - プレイヤー側でオープンしている札
+        /// - 0: １プレイヤー（黒色）
+        /// - 1: ２プレイヤー（黒色）
+        /// </summary>
+        internal List<IdOfPlayingCards> IdOfCardsOfPlayersHand { get; private set; }
     }
 }

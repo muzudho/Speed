@@ -54,7 +54,9 @@
                         // 台札
                         idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player1.AsInt].IdOfCardsOfCenterStacks.ToArray()),
                         // 手札
-                        idOfCardsOfPlayersPile :new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player1.AsInt].IdOfCardsOfPlayersPile.ToArray())
+                        idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player1.AsInt].IdOfCardsOfPlayersPile.ToArray()),
+                        // 場札
+                        idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player1.AsInt].IdOfCardsOfPlayersHand.ToArray())
                         ),
 
                     // ２プレイヤー
@@ -62,15 +64,10 @@
                         // 台札
                         idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player2.AsInt].IdOfCardsOfCenterStacks.ToArray()),
                         // 手札
-                        idOfCardsOfPlayersPile :new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player2.AsInt].IdOfCardsOfPlayersPile.ToArray())
+                        idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player2.AsInt].IdOfCardsOfPlayersPile.ToArray()),
+                        // 場札
+                        idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player2.AsInt].IdOfCardsOfPlayersHand.ToArray())
                         ),
-                },
-
-                // 場札
-                IdOfCardsOfPlayersHand = new List<List<IdOfPlayingCards>>()
-                {
-                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersHand[Commons.Player1.AsInt].ToArray()),
-                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersHand[Commons.Player2.AsInt].ToArray()),
                 },
 
                 // ピックアップ場札

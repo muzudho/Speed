@@ -52,7 +52,7 @@
             var indexOfPreviousObj = gameModelBuffer.IndexOfFocusedCardOfPlayersObj[command.PlayerObj.AsInt]; // 下ろす場札
 
             HandCardIndex indexOfCurrentObj; // ピックアップする場札
-            var length = gameModelBuffer.IdOfCardsOfPlayersHand[command.PlayerObj.AsInt].Count;
+            var length = gameModelBuffer.Players[command.PlayerObj.AsInt].IdOfCardsOfPlayersHand.Count;
 
             if (length < 1)
             {
