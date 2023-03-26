@@ -48,7 +48,7 @@
             var playerObj = command.PlayerObj;
 
             // 確定：手札の枚数
-            var length = gameModelBuffer.Players[command.PlayerObj.AsInt].IdOfCardsOfPlayersPile.Count;
+            var length = gameModelBuffer.GetPlayer(command.PlayerObj).IdOfCardsOfPlayersPile.Count;
 
             // 手札がないのに、手札を引こうとしたとき
             if (length < command.NumberOfCards)

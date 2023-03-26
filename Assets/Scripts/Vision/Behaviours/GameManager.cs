@@ -1,7 +1,8 @@
 ﻿namespace Assets.Scripts.Vision.Behaviours
 {
     using Assets.Scripts.ThinkingEngine;
-    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
+    using Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using Assets.Scripts.Vision.Models.World;
     using System;
     using System.Collections.Generic;
@@ -9,6 +10,7 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
+    using Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>
     /// ゲーム・マネージャー
@@ -20,7 +22,28 @@
         // - プロパティ
 
         #region プロパティ（ゲーム・モデル・バッファー）
-        ModelOfGameBuffer.Model modelBuffer = new ModelOfGameBuffer.Model();
+        ModelOfGameBuffer.Model modelBuffer = new ModelOfGameBuffer.Model(
+            centerStacks: new CenterStack[2]
+            {
+                // 右
+                new(idOfCardsOfCenterStacks: new List<ModelOfThinkingEngine.IdOfPlayingCards>()),
+                // 左
+                new(idOfCardsOfCenterStacks: new List<ModelOfThinkingEngine.IdOfPlayingCards>()),
+            },
+            players: new ModelOfGameBuffer.Player[2]
+            {
+                // １プレイヤー
+                new(
+                    idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(),
+                    idOfCardsOfPlayersHand: new List<IdOfPlayingCards>()
+                    ),
+
+                // ２プレイヤー
+                new(
+                    idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(),
+                    idOfCardsOfPlayersHand: new List<IdOfPlayingCards>()
+                    ),
+            });
 
         /// <summary>
         /// ゲーム・モデル・バッファー
@@ -119,10 +142,10 @@
             // ゲーム初期状態へセット
             {
                 // ゲーム開始時、とりあえず、すべてのカードを集める
-                List<IdOfPlayingCards> cardsOfGame = new();
+                List<ModelOfThinkingEngine.IdOfPlayingCards> cardsOfGame = new();
                 foreach (var idOfGo in GameObjectStorage.CreatePlayingCards().Keys)
                 {
-                    cardsOfGame.Add(IdMapping.GetIdOfPlayingCard(idOfGo));
+                    cardsOfGame.Add(ModelOfThinkingEngine.IdMapping.GetIdOfPlayingCard(idOfGo));
                 }
 
                 // すべてのカードをシャッフル
@@ -131,16 +154,16 @@
                 // すべてのカードを、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
                 foreach (var idOfCard in cardsOfGame)
                 {
-                    Player playerObj;
+                    ModelOfThinkingEngine.Player playerObj;
                     switch (idOfCard.Suit())
                     {
-                        case IdOfCardSuits.Clubs:
-                        case IdOfCardSuits.Spades:
+                        case ModelOfThinkingEngine.IdOfCardSuits.Clubs:
+                        case ModelOfThinkingEngine.IdOfCardSuits.Spades:
                             playerObj = Commons.Player1;
                             break;
 
-                        case IdOfCardSuits.Diamonds:
-                        case IdOfCardSuits.Hearts:
+                        case ModelOfThinkingEngine.IdOfCardSuits.Diamonds:
+                        case ModelOfThinkingEngine.IdOfCardSuits.Hearts:
                             playerObj = Commons.Player2;
                             break;
 
@@ -151,9 +174,9 @@
                     modelBuffer.AddCardOfPlayersPile(playerObj, idOfCard);
 
                     // 画面上の位置も調整
-                    var goCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(idOfCard)];
+                    var goCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(idOfCard)];
 
-                    var length = modelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersPile.Count;
+                    var length = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersPile.Count;
                     // 最初の１枚目
                     if (length == 1)
                     {
@@ -167,8 +190,8 @@
                     }
                     else
                     {
-                        var previousTopCard = modelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersPile[length - 2]; // 天辺より１つ下のカードが、前のカード
-                        var goPreviousTopCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(previousTopCard)];
+                        var previousTopCard = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersPile[length - 2]; // 天辺より１つ下のカードが、前のカード
+                        var goPreviousTopCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(previousTopCard)];
                         goCard.transform.position = Vision.Commons.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
                                                                                                                                // 裏返す
                         goCard.transform.rotation = Quaternion.Euler(

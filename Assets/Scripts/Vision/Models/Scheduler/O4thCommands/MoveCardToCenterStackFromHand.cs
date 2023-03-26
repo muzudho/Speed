@@ -49,7 +49,7 @@
             var indexToRemoveObj = gameModelBuffer.IndexOfFocusedCardOfPlayersObj[playerObj.AsInt]; // 何枚目の場札をピックアップしているか
 
             // 範囲外は無視
-            if (indexToRemoveObj < Commons.HandCardIndexFirst || gameModelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersHand.Count <= indexToRemoveObj.AsInt)
+            if (indexToRemoveObj < Commons.HandCardIndexFirst || gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersHand.Count <= indexToRemoveObj.AsInt)
             {
                 return;
             }
@@ -64,7 +64,7 @@
                 int lengthAfterRemove;
                 {
                     // 抜く前の場札の数
-                    var lengthBeforeRemove = gameModelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersHand.Count;
+                    var lengthBeforeRemove = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersHand.Count;
                     lengthAfterRemove = lengthBeforeRemove - 1;
                 }
 
@@ -81,7 +81,7 @@
             }
 
             // 確定：場札から台札へ移動するカード
-            var targetToRemoveObj = gameModelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersHand[indexToRemoveObj.AsInt];
+            var targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersHand[indexToRemoveObj.AsInt];
 
             // モデル更新：場札を１枚抜く
             gameModelBuffer.RemoveCardAtOfPlayerHand(playerObj, indexToRemoveObj);

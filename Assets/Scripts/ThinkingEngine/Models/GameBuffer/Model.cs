@@ -11,6 +11,19 @@
     /// </summary>
     public class Model
     {
+        // - その他
+
+        /// <summary>
+        /// 生成
+        /// </summary>
+        internal Model(
+            CenterStack[] centerStacks,
+            Player[] players)
+        {
+            this.CenterStacks = centerStacks;
+            this.Players = players;
+        }
+
         // - プロパティ
 
         /// <summary>
@@ -24,24 +37,26 @@
         /// <summary>
         /// ゲーム・モデル・バッファー
         /// 
+        /// - 台札別
+        /// </summary>
+        CenterStack[] CenterStacks { get; set; }
+
+        internal CenterStack GetCenterStack(CenterStackPlace place)
+        {
+            return this.CenterStacks[place.AsInt];
+        }
+
+        /// <summary>
+        /// ゲーム・モデル・バッファー
+        /// 
         /// - プレイヤー別
         /// </summary>
-        internal Player[] Players { get; set; } = new Player[2]
-        {
-            // １プレイヤー
-            new(
-                idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(),
-                idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(),
-                idOfCardsOfPlayersHand: new List<IdOfPlayingCards>()
-                ),
+        Player[] Players { get; set; }
 
-            // ２プレイヤー
-            new(
-                idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(),
-                idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(),
-                idOfCardsOfPlayersHand: new List<IdOfPlayingCards>()
-                ),
-        };
+        internal Player GetPlayer(ModelOfThinkingEngine.Player player)
+        {
+            return this.Players[player.AsInt];
+        }
 
         /// <summary>
         /// ｎプレイヤーが選択している場札は、先頭から何枚目
@@ -60,7 +75,7 @@
         /// <param name="idOfCard"></param>
         internal IdOfPlayingCards GetCardOfCenterStack(CenterStackPlace placeObj, int index)
         {
-            return this.Players[placeObj.AsInt].IdOfCardsOfCenterStacks[index];
+            return this.CenterStacks[placeObj.AsInt].IdOfCardsOfCenterStacks[index];
         }
 
         /// <summary>
@@ -70,7 +85,7 @@
         /// <param name="idOfCard"></param>
         internal int GetLengthOfCenterStack(CenterStackPlace placeObj)
         {
-            return this.Players[placeObj.AsInt].IdOfCardsOfCenterStacks.Count;
+            return this.CenterStacks[placeObj.AsInt].IdOfCardsOfCenterStacks.Count;
         }
 
         /// <summary>
@@ -81,7 +96,7 @@
         internal void AddCardOfCenterStack(CenterStackPlace placeObj, IdOfPlayingCards idOfCard)
         {
             // TODO スレッド・セーフだろうか？
-            this.Players[placeObj.AsInt].IdOfCardsOfCenterStacks.Add(idOfCard);
+            this.CenterStacks[placeObj.AsInt].IdOfCardsOfCenterStacks.Add(idOfCard);
         }
 
         /// <summary>
@@ -91,7 +106,7 @@
         /// <param name="startIndexObj"></param>
         internal void RemoveCardAtOfCenterStack(CenterStackPlace place, CenterStackCardIndex startIndexObj)
         {
-            this.Players[place.AsInt].IdOfCardsOfCenterStacks.RemoveAt(startIndexObj.AsInt);
+            this.CenterStacks[place.AsInt].IdOfCardsOfCenterStacks.RemoveAt(startIndexObj.AsInt);
         }
         #endregion
 

@@ -49,11 +49,11 @@
 
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
-            var length = gameModelBuffer.Players[command.PlaceObj.AsInt].IdOfCardsOfCenterStacks.Count; // 台札の枚数
+            var length = gameModelBuffer.GetCenterStack(command.PlaceObj).IdOfCardsOfCenterStacks.Count; // 台札の枚数
             if (1 <= length)
             {
                 var startIndexObj = new CenterStackCardIndex(length - numberOfCards);
-                var idOfCardOfCenterStack = gameModelBuffer.Players[command.PlaceObj.AsInt].IdOfCardsOfCenterStacks[startIndexObj.AsInt]; // 台札の１番上のカード
+                var idOfCardOfCenterStack = gameModelBuffer.GetCenterStack(command.PlaceObj).IdOfCardsOfCenterStacks[startIndexObj.AsInt]; // 台札の１番上のカード
                 gameModelBuffer.RemoveCardAtOfCenterStack(command.PlaceObj, startIndexObj);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
@@ -81,7 +81,7 @@
                 setTimespan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
-                    idOfPlayerPileCards: gameModelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersPile,
+                    idOfPlayerPileCards: gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersPile,
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
             }
         }
