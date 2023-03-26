@@ -114,13 +114,17 @@
                         onProgressOrNull: (progress) =>
                         {
                             // 下のカードの数が、自分のカードの数の隣でなければ
+                            // Debug.Log($"テストA indexOfCenterStack:{indexOfCenterStack}");
                             if (0 < indexOfCenterStack)
                             {
+                                // Debug.Log($"テストB placeObj:{placeObj.AsInt}");
+
                                 // 下のカード
                                 var previousCard = gameModelBuffer.GetCardOfCenterStack(placeObj, indexOfCenterStack);
+                                // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
 
                                 // 隣ではないか？
-                                if (CardNumberHelper.IsNext(
+                                if (!CardNumberHelper.IsNext(
                                     topCard: previousCard,
                                     pickupCard: targetToRemoveObj))
                                 {
