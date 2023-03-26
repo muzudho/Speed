@@ -23,16 +23,12 @@
                 return false;
             }
 
-            var numberOfPickup = gameModel.GetCardsOfPlayerHand(playerObj)[indexObj.AsInt].Number();
-            int numberOfTopCard = topCard.Number();
+            var numberOfPickup = gameModel.GetCardsOfPlayerHand(playerObj)[indexObj.AsInt];
+            var numberOfTopCard = topCard;
 
-            // とりあえず差分を取る。
-            // 負数が出ると、負数の剰余はプログラムによって結果が異なるので、面倒だ。
-            // 割る数を先に足しておけば、剰余をしても負数にはならない
-            int divisor = 13; // 法
-            int remainder = (numberOfTopCard - numberOfPickup + divisor) % divisor;
-
-            return remainder == 1 || remainder == divisor - 1;
+            return CardNumberHelper.IsNext(
+                topCard: numberOfTopCard,
+                pickupCard: numberOfPickup);
         }
     }
 }

@@ -3,6 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
+    using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -98,6 +99,7 @@
                     IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(placeObj);
 
                     // モデル更新：次に、台札として置く
+                    var indexOfCenterStack = gameModelBuffer.GetLengthOfCenterStack(placeObj);
                     gameModelBuffer.AddCardOfCenterStack(placeObj, targetToRemoveObj);
 
                     // 台札へ置く
@@ -111,6 +113,21 @@
                         idOfPreviousTop: idOfPreviousTop,
                         onProgressOrNull: (progress) =>
                         {
+                            // 下のカードの数が、自分のカードの数の隣でなければ
+                            if (0 < indexOfCenterStack)
+                            {
+                                // 下のカード
+                                var previousCard = gameModelBuffer.GetCardOfCenterStack(placeObj, indexOfCenterStack);
+
+                                // 隣ではないか？
+                                if (CardNumberHelper.IsNext(
+                                    topCard: previousCard,
+                                    pickupCard: targetToRemoveObj))
+                                {
+                                    Debug.Log($"置いたカードが隣ではなかった topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
+                                }
+                            }
+
                             if (1.0f <= progress)
                             {
                                 // 制約の解除

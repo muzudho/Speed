@@ -56,14 +56,25 @@
 
         // - メソッド
 
+        #region メソッド（台札関連）
         /// <summary>
-        /// 台札を削除
+        /// 台札の枚数
         /// </summary>
-        /// <param name="place"></param>
-        /// <param name="startIndexObj"></param>
-        internal void RemoveCardAtOfCenterStack(CenterStackPlace place, CenterStackCardIndex startIndexObj)
+        /// <param name="placeObj"></param>
+        /// <param name="idOfCard"></param>
+        internal IdOfPlayingCards GetCardOfCenterStack(CenterStackPlace placeObj, int index)
         {
-            this.IdOfCardsOfCenterStacks[place.AsInt].RemoveAt(startIndexObj.AsInt);
+            return this.IdOfCardsOfCenterStacks[placeObj.AsInt][index];
+        }
+
+        /// <summary>
+        /// 台札の枚数
+        /// </summary>
+        /// <param name="placeObj"></param>
+        /// <param name="idOfCard"></param>
+        internal int GetLengthOfCenterStack(CenterStackPlace placeObj)
+        {
+            return this.IdOfCardsOfCenterStacks[placeObj.AsInt].Count;
         }
 
         /// <summary>
@@ -73,9 +84,22 @@
         /// <param name="idOfCard"></param>
         internal void AddCardOfCenterStack(CenterStackPlace placeObj, IdOfPlayingCards idOfCard)
         {
+            // TODO スレッド・セーフだろうか？
             this.IdOfCardsOfCenterStacks[placeObj.AsInt].Add(idOfCard);
         }
 
+        /// <summary>
+        /// 台札を削除
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="startIndexObj"></param>
+        internal void RemoveCardAtOfCenterStack(CenterStackPlace place, CenterStackCardIndex startIndexObj)
+        {
+            this.IdOfCardsOfCenterStacks[place.AsInt].RemoveAt(startIndexObj.AsInt);
+        }
+        #endregion
+
+        #region メソッド（手札関連）
         /// <summary>
         /// 手札を追加
         /// </summary>
@@ -96,7 +120,9 @@
         {
             this.IdOfCardsOfPlayersPile[playerObj.AsInt].RemoveRange(startIndexObj.AsInt, numberOfCards);
         }
+        #endregion
 
+        #region メソッド（場札関連）
         /// <summary>
         /// 場札を追加
         /// </summary>
@@ -116,6 +142,7 @@
         {
             this.IdOfCardsOfPlayersHand[playerObj.AsInt].RemoveAt(handIndexObj.AsInt);
         }
+        #endregion
 
         /// <summary>
         /// 手札から場札へ移動
