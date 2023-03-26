@@ -26,9 +26,9 @@
             centerStacks: new CenterStack[2]
             {
                 // 右
-                new(idOfCardsOfCenterStacks: new List<ModelOfThinkingEngine.IdOfPlayingCards>()),
+                new(idOfCards: new List<ModelOfThinkingEngine.IdOfPlayingCards>()),
                 // 左
-                new(idOfCardsOfCenterStacks: new List<ModelOfThinkingEngine.IdOfPlayingCards>()),
+                new(idOfCards: new List<ModelOfThinkingEngine.IdOfPlayingCards>()),
             },
             players: new ModelOfGameBuffer.Player[2]
             {

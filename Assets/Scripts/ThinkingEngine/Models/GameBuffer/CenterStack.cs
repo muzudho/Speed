@@ -15,9 +15,9 @@
         /// 生成
         /// </summary>
         internal CenterStack(
-            List<IdOfPlayingCards> idOfCardsOfCenterStacks)
+            List<IdOfPlayingCards> idOfCards)
         {
-            IdOfCardsOfCenterStacks = idOfCardsOfCenterStacks;
+            IdOfCards = idOfCards;
         }
 
         // - プロパティ
@@ -29,6 +29,44 @@
         /// - 0: 右
         /// - 1: 左
         /// </summary>
-        internal List<IdOfPlayingCards> IdOfCardsOfCenterStacks { get; private set; }
+        internal List<IdOfPlayingCards> IdOfCards { get; private set; }
+
+        // - メソッド
+
+        /// <summary>
+        /// 台札の枚数
+        /// </summary>
+        /// <param name="idOfCard"></param>
+        internal IdOfPlayingCards GetCard(int index)
+        {
+            return this.IdOfCards[index];
+        }
+
+        /// <summary>
+        /// 台札の枚数
+        /// </summary>
+        /// <param name="idOfCard"></param>
+        internal int GetLength()
+        {
+            return this.IdOfCards.Count;
+        }
+
+        /// <summary>
+        /// 台札を追加
+        /// </summary>
+        /// <param name="idOfCard"></param>
+        internal void AddCard(IdOfPlayingCards idOfCard)
+        {
+            this.IdOfCards.Add(idOfCard);
+        }
+
+        /// <summary>
+        /// 台札を削除
+        /// </summary>
+        /// <param name="startIndexObj"></param>
+        internal void RemoveCardAt(CenterStackCardIndex startIndexObj)
+        {
+            this.IdOfCards.RemoveAt(startIndexObj.AsInt);
+        }
     }
 }

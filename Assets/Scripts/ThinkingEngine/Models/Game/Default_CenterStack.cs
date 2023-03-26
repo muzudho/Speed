@@ -6,7 +6,7 @@
 
         internal ReadonlyList<IdOfPlayingCards> GetCenterStack(CenterStackPlace placeObj)
         {
-            return new ReadonlyList<IdOfPlayingCards>(this.gameModelBuffer.GetCenterStack(placeObj).IdOfCardsOfCenterStacks);
+            return new ReadonlyList<IdOfPlayingCards>(this.gameModelBuffer.GetCenterStack(placeObj).IdOfCards);
         }
 
         /// <summary>
@@ -19,13 +19,13 @@
             var length = this.GetLengthOfCenterStackCards(placeObj);
             var startIndex = length - 1;
 
-            if (startIndex == -1 || this.gameModelBuffer.GetCenterStack(placeObj).IdOfCardsOfCenterStacks.Count <= startIndex)
+            if (startIndex == -1 || this.gameModelBuffer.GetCenterStack(placeObj).IdOfCards.Count <= startIndex)
             {
                 return IdOfPlayingCards.None;
             }
 
             // Debug.Log($"[GameModel GetLastCardOfCenterStack] place:{place} stack-count:{this.gameModelBuffer.IdOfCardsOfCenterStacks[place].Count} startIndex:{startIndex}");
-            return this.gameModelBuffer.GetCenterStack(placeObj).IdOfCardsOfCenterStacks[startIndex]; // 最後のカード
+            return this.gameModelBuffer.GetCenterStack(placeObj).IdOfCards[startIndex]; // 最後のカード
         }
 
         /// <summary>
@@ -34,7 +34,7 @@
         /// <param name="placeObj">右:0, 左:1</param>
         internal int GetLengthOfCenterStackCards(CenterStackPlace placeObj)
         {
-            return this.gameModelBuffer.GetCenterStack(placeObj).IdOfCardsOfCenterStacks.Count;
+            return this.gameModelBuffer.GetCenterStack(placeObj).IdOfCards.Count;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         /// <returns></returns>
         internal IdOfPlayingCards GetTopOfCenterStack(CenterStackPlace placeObj)
         {
-            var centerStack = this.gameModelBuffer.GetCenterStack(placeObj).IdOfCardsOfCenterStacks;
+            var centerStack = this.gameModelBuffer.GetCenterStack(placeObj).IdOfCards;
 
             var length = centerStack.Count;
             if (length < 1)

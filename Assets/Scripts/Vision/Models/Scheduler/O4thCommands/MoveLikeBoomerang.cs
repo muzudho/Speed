@@ -99,8 +99,8 @@
             IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(placeObj);
 
             // モデル更新：次に、台札として置く
-            var indexOfCenterStack = gameModelBuffer.GetLengthOfCenterStack(placeObj);
-            gameModelBuffer.AddCardOfCenterStack(placeObj, targetToRemoveObj);
+            var indexOfCenterStack = gameModelBuffer.GetCenterStack(placeObj).GetLength();
+            gameModelBuffer.GetCenterStack(placeObj).AddCard(targetToRemoveObj);
 
             // 台札へ置く
             setTimespan(ModelOfSchedulerO3rdViewCommand.PutCardToCenterStack.GenerateSpan(
@@ -120,7 +120,7 @@
                         // Debug.Log($"テストB placeObj:{placeObj.AsInt}");
 
                         // 下のカード
-                        var previousCard = gameModelBuffer.GetCardOfCenterStack(placeObj, indexOfCenterStack);
+                        var previousCard = gameModelBuffer.GetCenterStack(placeObj).GetCard(indexOfCenterStack);
                         // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
 
                         // 隣ではないか？

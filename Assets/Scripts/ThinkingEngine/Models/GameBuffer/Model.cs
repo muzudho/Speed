@@ -34,6 +34,7 @@
         // ゲーム内経過時間
         internal GameSeconds ElapsedTimeObj { get; set; } = GameSeconds.Zero;
 
+        #region プロパティ（台札別）
         /// <summary>
         /// ゲーム・モデル・バッファー
         /// 
@@ -45,7 +46,9 @@
         {
             return this.CenterStacks[place.AsInt];
         }
+        #endregion
 
+        #region プロパティ（プレイヤー別）
         /// <summary>
         /// ゲーム・モデル・バッファー
         /// 
@@ -57,6 +60,7 @@
         {
             return this.Players[player.AsInt];
         }
+        #endregion
 
         /// <summary>
         /// ｎプレイヤーが選択している場札は、先頭から何枚目
@@ -66,49 +70,6 @@
         internal HandCardIndex[] IndexOfFocusedCardOfPlayersObj { get; set; } = { Commons.HandCardIndexNoSelected, Commons.HandCardIndexNoSelected };
 
         // - メソッド
-
-        #region メソッド（台札関連）
-        /// <summary>
-        /// 台札の枚数
-        /// </summary>
-        /// <param name="placeObj"></param>
-        /// <param name="idOfCard"></param>
-        internal IdOfPlayingCards GetCardOfCenterStack(CenterStackPlace placeObj, int index)
-        {
-            return this.CenterStacks[placeObj.AsInt].IdOfCardsOfCenterStacks[index];
-        }
-
-        /// <summary>
-        /// 台札の枚数
-        /// </summary>
-        /// <param name="placeObj"></param>
-        /// <param name="idOfCard"></param>
-        internal int GetLengthOfCenterStack(CenterStackPlace placeObj)
-        {
-            return this.CenterStacks[placeObj.AsInt].IdOfCardsOfCenterStacks.Count;
-        }
-
-        /// <summary>
-        /// 台札を追加
-        /// </summary>
-        /// <param name="placeObj"></param>
-        /// <param name="idOfCard"></param>
-        internal void AddCardOfCenterStack(CenterStackPlace placeObj, IdOfPlayingCards idOfCard)
-        {
-            // TODO スレッド・セーフだろうか？
-            this.CenterStacks[placeObj.AsInt].IdOfCardsOfCenterStacks.Add(idOfCard);
-        }
-
-        /// <summary>
-        /// 台札を削除
-        /// </summary>
-        /// <param name="place"></param>
-        /// <param name="startIndexObj"></param>
-        internal void RemoveCardAtOfCenterStack(CenterStackPlace place, CenterStackCardIndex startIndexObj)
-        {
-            this.CenterStacks[place.AsInt].IdOfCardsOfCenterStacks.RemoveAt(startIndexObj.AsInt);
-        }
-        #endregion
 
         #region メソッド（手札関連）
         /// <summary>

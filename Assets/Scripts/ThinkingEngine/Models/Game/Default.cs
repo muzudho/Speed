@@ -48,13 +48,13 @@
                     // 右
                     new(
                         // 台札
-                        idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(this.gameModelBuffer.GetCenterStack(Commons.RightCenterStack).IdOfCardsOfCenterStacks.ToArray())
+                        idOfCards: new List<IdOfPlayingCards>(this.gameModelBuffer.GetCenterStack(Commons.RightCenterStack).IdOfCards.ToArray())
                         ),
 
                     // 左
                     new (
                         // 台札
-                        idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(this.gameModelBuffer.GetCenterStack(Commons.LeftCenterStack).IdOfCardsOfCenterStacks.ToArray())
+                        idOfCards: new List<IdOfPlayingCards>(this.gameModelBuffer.GetCenterStack(Commons.LeftCenterStack).IdOfCards.ToArray())
                         ),
                 },
                 // プレイヤー別
