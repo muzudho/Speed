@@ -153,7 +153,7 @@
                     // 画面上の位置も調整
                     var goCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(idOfCard)];
 
-                    var length = modelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt].Count;
+                    var length = modelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersPile.Count;
                     // 最初の１枚目
                     if (length == 1)
                     {
@@ -167,7 +167,7 @@
                     }
                     else
                     {
-                        var previousTopCard = modelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt][length - 2]; // 天辺より１つ下のカードが、前のカード
+                        var previousTopCard = modelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersPile[length - 2]; // 天辺より１つ下のカードが、前のカード
                         var goPreviousTopCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(previousTopCard)];
                         goCard.transform.position = Vision.Commons.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
                                                                                                                                // 裏返す

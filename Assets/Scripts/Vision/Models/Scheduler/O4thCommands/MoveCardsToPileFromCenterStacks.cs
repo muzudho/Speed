@@ -81,7 +81,7 @@
                 setTimespan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
-                    idOfPlayerPileCards: gameModelBuffer.IdOfCardsOfPlayersPile[playerObj.AsInt],
+                    idOfPlayerPileCards: gameModelBuffer.Players[playerObj.AsInt].IdOfCardsOfPlayersPile,
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
             }
         }

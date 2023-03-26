@@ -51,20 +51,19 @@
                 {
                     // １プレイヤー
                     new(
-                        idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player1.AsInt].IdOfCardsOfCenterStacks.ToArray())// 台札
+                        // 台札
+                        idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player1.AsInt].IdOfCardsOfCenterStacks.ToArray()),
+                        // 手札
+                        idOfCardsOfPlayersPile :new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player1.AsInt].IdOfCardsOfPlayersPile.ToArray())
                         ),
 
                     // ２プレイヤー
                     new(
-                        idOfCardsOfCenterStacks : new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player2.AsInt].IdOfCardsOfCenterStacks.ToArray()) // 台札
+                        // 台札
+                        idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player2.AsInt].IdOfCardsOfCenterStacks.ToArray()),
+                        // 手札
+                        idOfCardsOfPlayersPile :new List<IdOfPlayingCards>(this.gameModelBuffer.Players[Commons.Player2.AsInt].IdOfCardsOfPlayersPile.ToArray())
                         ),
-                },
-
-                // 手札
-                IdOfCardsOfPlayersPile = new List<List<IdOfPlayingCards>>()
-                {
-                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersPile[Commons.Player1.AsInt].ToArray()),
-                    new List<IdOfPlayingCards>(this.gameModelBuffer.IdOfCardsOfPlayersPile[Commons.Player2.AsInt].ToArray()),
                 },
 
                 // 場札

@@ -30,23 +30,16 @@
         {
             // １プレイヤー
             new(
-                idOfCardsOfCenterStacks: new List<IdOfPlayingCards>()
+                idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(),
+                idOfCardsOfPlayersPile: new List<IdOfPlayingCards>()
                 ),
 
             // ２プレイヤー
             new(
-                idOfCardsOfCenterStacks: new List<IdOfPlayingCards>()
+                idOfCardsOfCenterStacks: new List<IdOfPlayingCards>(),
+                idOfCardsOfPlayersPile: new List<IdOfPlayingCards>()
                 ),
         };
-
-        /// <summary>
-        /// 手札
-        /// 
-        /// - プレイヤー側で積んでる札
-        /// - 0: １プレイヤー（黒色）
-        /// - 1: ２プレイヤー（黒色）
-        /// </summary>
-        internal List<List<IdOfPlayingCards>> IdOfCardsOfPlayersPile { get; set; } = new() { new(), new() };
 
         /// <summary>
         /// 場札
@@ -117,7 +110,7 @@
         /// <param name="idOfCard"></param>
         internal void AddCardOfPlayersPile(ModelOfThinkingEngine.Player playerObj, IdOfPlayingCards idOfCard)
         {
-            this.IdOfCardsOfPlayersPile[playerObj.AsInt].Add(idOfCard);
+            this.Players[playerObj.AsInt].IdOfCardsOfPlayersPile.Add(idOfCard);
         }
 
         /// <summary>
@@ -128,7 +121,7 @@
         /// <param name="numberOfCards"></param>
         internal void RemoveRangeCardsOfPlayerPile(ModelOfThinkingEngine.Player playerObj, PlayerPileCardIndex startIndexObj, int numberOfCards)
         {
-            this.IdOfCardsOfPlayersPile[playerObj.AsInt].RemoveRange(startIndexObj.AsInt, numberOfCards);
+            this.Players[playerObj.AsInt].IdOfCardsOfPlayersPile.RemoveRange(startIndexObj.AsInt, numberOfCards);
         }
         #endregion
 
@@ -162,7 +155,7 @@
         /// <param name="numberOfCards"></param>
         internal void MoveCardsToHandFromPile(ModelOfThinkingEngine.Player playerObj, PlayerPileCardIndex startIndexObj, int numberOfCards)
         {
-            var idOfCards = this.IdOfCardsOfPlayersPile[playerObj.AsInt].GetRange(startIndexObj.AsInt, numberOfCards);
+            var idOfCards = this.Players[playerObj.AsInt].IdOfCardsOfPlayersPile.GetRange(startIndexObj.AsInt, numberOfCards);
 
             this.RemoveRangeCardsOfPlayerPile(playerObj, startIndexObj, numberOfCards);
             this.AddRangeCardsOfPlayerHand(playerObj, idOfCards);

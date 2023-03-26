@@ -15,9 +15,11 @@
         /// 生成
         /// </summary>
         internal Player(
-            List<IdOfPlayingCards> idOfCardsOfCenterStacks)
+            List<IdOfPlayingCards> idOfCardsOfCenterStacks,
+            List<IdOfPlayingCards> idOfCardsOfPlayersPile)
         {
             this.IdOfCardsOfCenterStacks = idOfCardsOfCenterStacks;
+            this.IdOfCardsOfPlayersPile = idOfCardsOfPlayersPile;
         }
 
         // - プロパティ
@@ -30,5 +32,12 @@
         /// - 1: 左
         /// </summary>
         internal List<IdOfPlayingCards> IdOfCardsOfCenterStacks { get; private set; }
+
+        /// <summary>
+        /// 手札
+        /// 
+        /// - プレイヤー側で積んでる札
+        /// </summary>
+        internal List<IdOfPlayingCards> IdOfCardsOfPlayersPile { get; private set; }
     }
 }
