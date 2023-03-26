@@ -7,6 +7,7 @@
     /// <summary>
     /// ゲーム・モデル・バッファー
     /// 
+    /// - 編集可
     /// - プレイヤー別
     /// </summary>
     internal class Player
@@ -18,10 +19,12 @@
         /// </summary>
         internal Player(
             List<IdOfPlayingCards> idOfCardsOfPlayersPile,
-            List<IdOfPlayingCards> idOfCardsOfPlayersHand)
+            List<IdOfPlayingCards> idOfCardsOfPlayersHand,
+            HandCardIndex indexOfFocusedCardOfPlayersObj)
         {
             this.IdOfCardsOfPlayersPile = idOfCardsOfPlayersPile;
             this.IdOfCardsOfPlayersHand = idOfCardsOfPlayersHand;
+            this.IndexOfFocusedCardOfPlayersObj = indexOfFocusedCardOfPlayersObj;
         }
 
         // - プロパティ
@@ -41,6 +44,14 @@
         /// - 1: ２プレイヤー（黒色）
         /// </summary>
         internal List<IdOfPlayingCards> IdOfCardsOfPlayersHand { get; private set; }
+
+        /// <summary>
+        /// ｎプレイヤーが選択している場札は、先頭から何枚目
+        /// 
+        /// - 編集可
+        /// - 選択中の場札が無いなら、-1
+        /// </summary>
+        internal HandCardIndex IndexOfFocusedCardOfPlayersObj { get; set; }
 
         // - メソッド
 

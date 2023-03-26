@@ -35,13 +35,15 @@
                 // １プレイヤー
                 new(
                     idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(),
-                    idOfCardsOfPlayersHand: new List<IdOfPlayingCards>()
+                    idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(),
+                    indexOfFocusedCardOfPlayersObj: Commons.HandCardIndexNoSelected
                     ),
 
                 // ２プレイヤー
                 new(
                     idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(),
-                    idOfCardsOfPlayersHand: new List<IdOfPlayingCards>()
+                    idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(),
+                    indexOfFocusedCardOfPlayersObj: Commons.HandCardIndexNoSelected
                     ),
             });
 

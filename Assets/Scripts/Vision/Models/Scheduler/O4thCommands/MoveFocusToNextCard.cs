@@ -49,7 +49,7 @@
             var command = (ModelOfThinkingEngineCommand.MoveFocusToNextCard)this.CommandOfThinkingEngine;
 
             ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
-            var indexOfPreviousObj = gameModelBuffer.IndexOfFocusedCardOfPlayersObj[command.PlayerObj.AsInt]; // 下ろす場札
+            var indexOfPreviousObj = gameModelBuffer.GetPlayer(command.PlayerObj).IndexOfFocusedCardOfPlayersObj; // 下ろす場札
 
             HandCardIndex indexOfCurrentObj; // ピックアップする場札
             var length = gameModelBuffer.GetPlayer(command.PlayerObj).IdOfCardsOfPlayersHand.Count;
@@ -93,7 +93,7 @@
 
             if (Commons.HandCardIndexFirst <= indexOfPreviousObj && indexOfPreviousObj.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(command.PlayerObj, indexOfPreviousObj); // ピックアップしている場札
+                var idOfCard = gameModel.GetPlayer(command.PlayerObj).GetCardAtOfPlayerHand(indexOfPreviousObj); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimespan(ModelOfSchedulerO3rdViewCommand.DropHandCard.GenerateSpan(
@@ -102,11 +102,11 @@
             }
 
             // モデル更新：ピックアップしている場札の、インデックス更新
-            gameModelBuffer.IndexOfFocusedCardOfPlayersObj[command.PlayerObj.AsInt] = indexOfCurrentObj;
+            gameModelBuffer.GetPlayer(command.PlayerObj).IndexOfFocusedCardOfPlayersObj = indexOfCurrentObj;
 
             if (Commons.HandCardIndexFirst <= indexOfCurrentObj && indexOfCurrentObj.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetCardAtOfPlayerHand(command.PlayerObj, indexOfCurrentObj); // ピックアップしている場札
+                var idOfCard = gameModel.GetPlayer(command.PlayerObj).GetCardAtOfPlayerHand(indexOfCurrentObj); // ピックアップしている場札
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる

@@ -46,7 +46,7 @@
 
             var gameModel = new ModelOfGame.Default(gameModelBuffer);
             var playerObj = command.PlayerObj;
-            var indexToRemoveObj = gameModelBuffer.IndexOfFocusedCardOfPlayersObj[playerObj.AsInt]; // 何枚目の場札をピックアップしているか
+            var indexToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCardOfPlayersObj; // 何枚目の場札をピックアップしているか
 
             // 範囲外は無視
             if (indexToRemoveObj < Commons.HandCardIndexFirst || gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPlayersHand.Count <= indexToRemoveObj.AsInt)
@@ -87,13 +87,13 @@
             gameModelBuffer.GetPlayer(playerObj).RemoveCardAtOfPlayerHand(indexToRemoveObj);
 
             // 確定：場札の枚数
-            var lengthOfHandCards = gameModel.GetLengthOfPlayerHandCards(playerObj);
+            var lengthOfHandCards = gameModel.GetPlayer(playerObj).GetLengthOfPlayerHandCards();
 
             // 確定：抜いたあとの場札リスト
-            var idOfHandCardsAfterRemove = gameModel.GetCardsOfPlayerHand(playerObj);
+            var idOfHandCardsAfterRemove = gameModel.GetPlayer(playerObj).GetCardsOfPlayerHand();
 
             // モデル更新：何枚目の場札をピックアップしているか
-            gameModelBuffer.IndexOfFocusedCardOfPlayersObj[playerObj.AsInt] = indexOfNextPickObj;
+            gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCardOfPlayersObj = indexOfNextPickObj;
 
             // 確定：前の台札の天辺のカード
             IdOfPlayingCards idOfPreviousTop = gameModel.GetTopOfCenterStack(placeObj);

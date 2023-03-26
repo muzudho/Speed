@@ -23,7 +23,7 @@
                 return false;
             }
 
-            var numberOfPickup = gameModel.GetCardsOfPlayerHand(playerObj)[indexObj.AsInt];
+            var numberOfPickup = gameModel.GetPlayer(playerObj).GetCardsOfPlayerHand()[indexObj.AsInt];
             var numberOfTopCard = topCard;
 
             return CardNumberHelper.IsNext(

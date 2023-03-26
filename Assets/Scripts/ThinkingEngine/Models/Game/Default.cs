@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
+    using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
 
     /// <summary>
@@ -16,6 +17,11 @@
         public Default(ModelOfGameBuffer.Model gameModelBuffer)
         {
             this.gameModelBuffer = gameModelBuffer;
+            this.Players = new Player[2]
+            {
+                new Player(gameModelBuffer, Commons.Player1),
+                new Player(gameModelBuffer, Commons.Player2),
+            };
         }
 
         // - フィールド
@@ -31,6 +37,20 @@
         /// </summary>
         /// <returns></returns>
         internal bool IsGameActive => this.gameModelBuffer.IsGameActive;
+
+        #region プロパティ（プレイヤー別）
+        internal Player[] Players { get; private set; }
+
+        /// <summary>
+        /// プレイヤー取得
+        /// </summary>
+        /// <param name="playerObj"></param>
+        /// <returns></returns>
+        public Player GetPlayer(ModelOfThinkingEngine.Player playerObj)
+        {
+            return this.Players[playerObj.AsInt];
+        }
+        #endregion
 
         // - メソッド
 
@@ -65,7 +85,9 @@
                         // 手札
                         idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player1).IdOfCardsOfPlayersPile.ToArray()),
                         // 場札
-                        idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player1).IdOfCardsOfPlayersHand.ToArray())
+                        idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player1).IdOfCardsOfPlayersHand.ToArray()),
+                        // ピックアップ場札
+                        indexOfFocusedCardOfPlayersObj: this.gameModelBuffer.GetPlayer(Commons.Player1).IndexOfFocusedCardOfPlayersObj
                         ),
 
                     // ２プレイヤー
@@ -73,20 +95,15 @@
                         // 手札
                         idOfCardsOfPlayersPile: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player2).IdOfCardsOfPlayersPile.ToArray()),
                         // 場札
-                        idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player2).IdOfCardsOfPlayersHand.ToArray())
+                        idOfCardsOfPlayersHand: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player2).IdOfCardsOfPlayersHand.ToArray()),
+                        // ピックアップ場札
+                        indexOfFocusedCardOfPlayersObj: this.gameModelBuffer.GetPlayer(Commons.Player2).IndexOfFocusedCardOfPlayersObj
                         ),
                 }
                 )
             {
                 // ゲーム内経過時間
                 ElapsedTimeObj = this.gameModelBuffer.ElapsedTimeObj,
-
-                // ピックアップ場札
-                IndexOfFocusedCardOfPlayersObj = new HandCardIndex[]
-                {
-                    this.gameModelBuffer.IndexOfFocusedCardOfPlayersObj[Commons.Player1.AsInt],
-                    this.gameModelBuffer.IndexOfFocusedCardOfPlayersObj[Commons.Player2.AsInt],
-                }
             };
         }
     }

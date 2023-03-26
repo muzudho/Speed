@@ -147,7 +147,7 @@
             if (!this.Rights.IsHandled() &&
                 !stalemateManager.IsStalemate &&
                 this.Meaning.MoveCardToCenterStack(nearOrFarOfCenterStack) &&
-                LegalMove.CanPutToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetIndexOfFocusedCardOfPlayer(this.PlayerIdObj), this.GetCenterStackPlace(nearOrFarOfCenterStack)))
+                LegalMove.CanPutToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetPlayer(this.PlayerIdObj).GetIndexOfFocusedCardOfPlayer(), this.GetCenterStackPlace(nearOrFarOfCenterStack)))
             {
                 // TODO ★ ブーメランになることは？
 
@@ -176,7 +176,7 @@
         {
             // 制約：
             //      場札が２枚以上あるときに限る
-            if (2 <= gameModel.GetCardsOfPlayerHand(this.PlayerIdObj).Count)
+            if (2 <= gameModel.GetPlayer(this.PlayerIdObj).GetCardsOfPlayerHand().Count)
             {
                 var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
                     playerObj: this.PlayerIdObj,

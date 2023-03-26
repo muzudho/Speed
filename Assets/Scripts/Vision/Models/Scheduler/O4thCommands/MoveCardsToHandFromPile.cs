@@ -44,6 +44,7 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
+            ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
             var command = (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)this.CommandOfThinkingEngine;
             var playerObj = command.PlayerObj;
 
@@ -63,24 +64,24 @@
             }
 
             // モデル更新：場札への移動
+            // ========================
             gameModelBuffer.GetPlayer(playerObj).MoveCardsToHandFromPile(
                 startIndexObj: new PlayerPileCardIndex(length - command.NumberOfCards),
                 numberOfCards: command.NumberOfCards);
             // 場札は１枚以上になる
 
             // モデル更新：もし、ピックアップ場札がなかったら、先頭の場札をピックアップする
+            // ============================================================================
             //
             // - 初回配布のケース
             // - 場札無しの勝利後に配ったケース
-            if (gameModelBuffer.IndexOfFocusedCardOfPlayersObj[playerObj.AsInt] == Commons.HandCardIndexNoSelected)
+            if (gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCardOfPlayersObj == Commons.HandCardIndexNoSelected)
             {
-                gameModelBuffer.IndexOfFocusedCardOfPlayersObj[playerObj.AsInt] = Commons.HandCardIndexFirst;
+                gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCardOfPlayersObj = Commons.HandCardIndexFirst;
             }
 
-            ModelOfGame.Default gameModel = new ModelOfGame.Default(gameModelBuffer);
-
             // 確定：場札の枚数
-            int numberOfCards = gameModel.GetLengthOfPlayerHandCards(playerObj);
+            int numberOfCards = gameModel.GetPlayer(playerObj).GetLengthOfPlayerHandCards();
 
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
@@ -88,8 +89,8 @@
                 ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
-                    indexOfPickupObj: gameModel.GetIndexOfFocusedCardOfPlayer(playerObj),
-                    idOfHandCards: gameModel.GetCardsOfPlayerHand(playerObj),
+                    indexOfPickupObj: gameModel.GetPlayer(playerObj).GetIndexOfFocusedCardOfPlayer(),
+                    idOfHandCards: gameModel.GetPlayer(playerObj).GetCardsOfPlayerHand(),
                     keepPickup: true,
                     setTimespan: setTimespan,
                     onProgressOrNull: (progress) =>
