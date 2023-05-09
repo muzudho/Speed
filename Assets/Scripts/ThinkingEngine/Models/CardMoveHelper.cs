@@ -38,25 +38,26 @@
             var targetToRemoveObj = gameModel.GetPlayer(playerObj).GetCardAtOfHand(indexToRemoveObj);
 
             // 台札はあるか？
-            if (0 < indexOnCenterStackToNextCard)
+            if (indexOnCenterStackToNextCard == 0)
             {
-                // 下のカード
-                Debug.Log($"下のカードテストC indexOnCenterStackToNextCard:{indexOnCenterStackToNextCard} 台札サイズ:{gameModel.GetCenterStack(placeObj).GetLength()}");
-                previousCard = gameModel.GetCenterStack(placeObj).GetCard(indexOnCenterStackToNextCard - 1);
-                // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
-
-                // 連続する数か？
-                if (CardNumberHelper.IsNext(
-                    topCard: previousCard,
-                    pickupCard: targetToRemoveObj))
-                {
-                    return true;
-                }
-
+                // 前のカードはないし、ブーメランでもない
+                previousCard = IdOfPlayingCards.None;
                 return false;
             }
 
-            previousCard = IdOfPlayingCards.None;
+            // 下のカード
+            Debug.Log($"下のカードテストC indexOnCenterStackToNextCard:{indexOnCenterStackToNextCard} 台札サイズ:{gameModel.GetCenterStack(placeObj).GetLength()}");
+            previousCard = gameModel.GetCenterStack(placeObj).GetCard(indexOnCenterStackToNextCard - 1);
+            // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
+
+            // 連続する数か？
+            if (CardNumberHelper.IsNext(
+                topCard: previousCard,
+                pickupCard: targetToRemoveObj))
+            {
+                return true;
+            }
+
             return false;
         }
     }

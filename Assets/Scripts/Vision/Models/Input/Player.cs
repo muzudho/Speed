@@ -4,7 +4,7 @@
     using Assets.Scripts.Vision.Behaviours;
     using System;
     using UnityEngine;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game.Model;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
@@ -95,8 +95,7 @@
         /// <summary>
         /// 入力を翻訳
         /// </summary>
-        internal void Translate(
-            ModelOfGame.Model gameModel)
+        internal void Translate(ModelOfGame gameModel)
         {
             // キー入力の解析：クリアー
             this.Meaning.Clear();
@@ -140,7 +139,7 @@
         /// <param name="nearOrFarOfCenterStack">自分に近い方の台札、または、自分から遠い方の台札</param>
         internal void MoveCardToCenterStackFromHand(
             NearFar nearOrFarOfCenterStack,
-            ModelOfGame.Model gameModel,
+            ModelOfGame gameModel,
             StalemateManager stalemateManager,
             ModelOfScheduler.Model schedulerModel)
         {
@@ -152,6 +151,7 @@
                 var playerObj = this.PlayerIdObj;
                 var placeObj = this.GetCenterStackPlace(nearOrFarOfCenterStack);
 
+                // TODO ブーメラン判定すると、カードを置かなくなる？
                 //if (CardMoveHelper.IsBoomerang(gameModel, playerObj, placeObj, out IdOfPlayingCards previousCard))
                 //{
                 //    // ブーメラン
@@ -178,7 +178,7 @@
         /// </summary>
         internal void PickupCardToNext(
             PickingDirection pickingDirection,
-            ModelOfGame.Model gameModel,
+            ModelOfGame gameModel,
             StalemateManager stalemateManager,
             ModelOfScheduler.Model schedulerModel)
         {
@@ -203,7 +203,7 @@
         /// 手札を引く
         /// </summary>
         internal void DrawingHandCardFromPileCard(
-            ModelOfGame.Model gameModel,
+            ModelOfGame gameModel,
             ModelOfScheduler.Model schedulerModel)
         {
             // 場札を並べる
