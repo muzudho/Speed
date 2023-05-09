@@ -8,7 +8,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
+    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdSimplexCommand;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
@@ -78,7 +78,7 @@
                 // プレイヤーの手札を積み上げる
                 gameModelBuffer.GetPlayer(playerObj).AddCardOfPile(idOfCardOfCenterStack);
 
-                setTimespan(ModelOfSchedulerO3rdViewCommand.PutCardToPile.GenerateSpan(
+                setTimespan(ModelOfSchedulerO3rdSimplexCommand.PutCardToPile.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile,
@@ -87,3 +87,4 @@
         }
     }
 }
+

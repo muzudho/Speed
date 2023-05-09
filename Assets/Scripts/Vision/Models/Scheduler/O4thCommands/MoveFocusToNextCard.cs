@@ -10,7 +10,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
+    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdSimplexCommand;
     using ModelOfSchedulerO4thCommand = Assets.Scripts.Vision.Models.Scheduler.O4thCommands;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
@@ -96,7 +96,7 @@
                 var idOfCard = gameModel.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfPreviousObj); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
-                setTimespan(ModelOfSchedulerO3rdViewCommand.DropHandCard.GenerateSpan(
+                setTimespan(ModelOfSchedulerO3rdSimplexCommand.DropHandCard.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard));
             }
@@ -110,7 +110,7 @@
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
-                setTimespan(ModelOfSchedulerO3rdViewCommand.PickupHandCard.GenerateSpan(
+                setTimespan(ModelOfSchedulerO3rdSimplexCommand.PickupHandCard.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
@@ -139,3 +139,4 @@
         }
     }
 }
+

@@ -8,7 +8,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
+    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdSimplexCommand;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
@@ -86,7 +86,7 @@
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
             {
-                ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
+                ModelOfSchedulerO3rdSimplexCommand.ArrangeHandCards.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     indexOfPickupObj: gameModel.GetPlayer(playerObj).GetIndexOfFocusedCard(),
@@ -110,3 +110,4 @@
         }
     }
 }
+

@@ -9,7 +9,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdViewCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdViewCommand;
+    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdSimplexCommand;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
@@ -106,7 +106,7 @@
             gameModelBuffer.GetCenterStack(placeObj).AddCard(targetToRemoveObj);
 
             // 台札へ置く
-            setTimespan(ModelOfSchedulerO3rdViewCommand.PutCardToCenterStack.GenerateSpan(
+            setTimespan(ModelOfSchedulerO3rdSimplexCommand.PutCardToCenterStack.GenerateSpan(
                 timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
                     start: this.TimeRangeObj.StartObj,
                     duration: new GameSeconds(CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
@@ -163,7 +163,7 @@
                 }));
 
             // 場札の位置調整（をしないと歯抜けになる）
-            ModelOfSchedulerO3rdViewCommand.ArrangeHandCards.GenerateSpan(
+            ModelOfSchedulerO3rdSimplexCommand.ArrangeHandCards.GenerateSpan(
                 timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
                     start: new GameSeconds(this.TimeRangeObj.StartObj.AsFloat + CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
                     duration: new GameSeconds(CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
@@ -176,3 +176,4 @@
         }
     }
 }
+
