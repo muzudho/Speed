@@ -41,6 +41,11 @@
             return this.gameModelBuffer.GetCenterStack(this.placeObj).IdOfCards[index];
         }
 
+        internal int GetLength()
+        {
+            return this.gameModelBuffer.GetCenterStack(this.placeObj).GetLength();
+        }
+
         /// <summary>
         /// 右（または左）の天辺の台札
         /// </summary>

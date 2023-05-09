@@ -129,7 +129,7 @@
                     //
                     // - `previousCard` - 下のカード
                     //
-                    if (CardMoveHelper.IsBoomerang(indexOnCenterStackToNextCard, gameModel, placeObj, targetToRemoveObj, out IdOfPlayingCards previousCard))
+                    if (CardMoveHelper.IsBoomerang(gameModel, playerObj, placeObj, out IdOfPlayingCards previousCard))
                     {
                         Debug.Log($"置いたカードが連続する数ではなかった topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
 

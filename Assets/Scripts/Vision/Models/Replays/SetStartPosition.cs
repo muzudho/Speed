@@ -1,7 +1,8 @@
 ﻿namespace Assets.Scripts.Vision.Models.Replays
 {
     using Assets.Scripts.ThinkingEngine;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game.Model;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -14,14 +15,14 @@
     static class SetStartPosition
     {
         internal static void DoIt(
-            ModelOfGameBuffer.Model modelBuffer,
+            ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel)
         {
-            var model = new ModelOfGame.Model(modelBuffer);
+            var gameModel = new ModelOfGame(gameModelBuffer);
 
             // とりあえず右の台札
-            while (0 < model.GetCenterStack(Commons.RightCenterStack).GetLengthOfCards())
+            while (0 < gameModel.GetCenterStack(Commons.RightCenterStack).GetLengthOfCards())
             {
                 // 即実行
                 // ======
@@ -37,7 +38,7 @@
 
                 // タイムスパン作成・登録
                 commandOfScheduler.GenerateSpan(
-                    gameModelBuffer: modelBuffer,
+                    gameModelBuffer: gameModelBuffer,
                     inputModel: inputModel,
                     schedulerModel: schedulerModel,
                     setTimespan: (timespan) => timespan.Lerp(1.0f));
@@ -73,15 +74,27 @@
             // 登録：ピックアップ場札を、台札へ積み上げる
             {
                 {
+                    // １プレイヤーが
+                    var playerObj = Commons.Player1;
+                    // ピックアップしているカードは、場札から抜くカード
+                    // 右の
+                    var placeObj = Commons.RightCenterStack;
+
                     // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
                     //
                     // TODO 台札から連続する数か？
                     //
-                    var playerObj = Commons.Player1;
-                    var spanModel = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                            playerObj: playerObj, // １プレイヤーが
-                            placeObj: Commons.RightCenterStack); // 右の
-                    schedulerModel.Timeline.AddWithinScheduler(playerObj, spanModel);
+                    if (CardMoveHelper.IsBoomerang(gameModel, playerObj, placeObj, out IdOfPlayingCards previousCard))
+                    {
+                        // ブーメラン
+                    }
+                    else
+                    {
+                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                                playerObj: playerObj,
+                                placeObj: placeObj);
+                        schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
+                    }
                 }
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
@@ -89,10 +102,10 @@
                     // TODO 台札から連続する数か？
                     //
                     var playerObj = Commons.Player2;
-                    var spanModel = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // ２プレイヤーが
                             placeObj: Commons.LeftCenterStack); // 左の;
-                    schedulerModel.Timeline.AddWithinScheduler(playerObj, spanModel);
+                    schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
                 }
             }
 
