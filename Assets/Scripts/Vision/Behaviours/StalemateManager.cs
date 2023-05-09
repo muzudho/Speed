@@ -124,35 +124,45 @@
             Debug.Log("強制 カード発射");
             this.countDownText.text = "";
             {
-                // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
-                //
-                // TODO 台札から連続する数か？
-                //
-                var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                    playerObj: Commons.Player1,             // １プレイヤーが
-                    placeObj: Commons.RightCenterStack);    // 右の
+                // １プレイヤーが
+                var playerObj = Commons.Player1;
+                // 右の台札へ
+                var placeObj = Commons.RightCenterStack;
 
+                //
+                // （ステールメート時は）ブーメラン判定しません。強制的にカードを置きます
+                //
+                var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                playerObj: playerObj,
+                placeObj: placeObj);
+
+                // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
                 this.SchedulerModel.Timeline.AddCommand(
                     startObj: this.gameModel.ElapsedSeconds,
-                    command: command);
+                    command: digitalCommand);
             }
             {
+                // ２プレイヤーが
+                var playerObj = Commons.Player2;
+                // 左の台札へ
+                var placeObj = Commons.LeftCenterStack;
+
+                //
+                // （ステールメート時は）ブーメラン判定しません。強制的にカードを置きます
+                //
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                //
-                // TODO 台札から連続する数か？
-                //
-                var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                    playerObj: Commons.Player2,             // ２プレイヤーが
-                    placeObj: Commons.LeftCenterStack);     // 左の
+                var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                    playerObj: playerObj,
+                    placeObj: placeObj);
 
                 this.SchedulerModel.Timeline.AddCommand(
                     startObj: this.gameModel.ElapsedSeconds,
-                    command: command);
+                    command: digitalCommand);
             }
             yield return new WaitForSeconds(1f);
 
             Debug.Log("ステールメート解除");
-            this.IsStalemate = false;            
+            this.IsStalemate = false;
             yield return null;
         }
 

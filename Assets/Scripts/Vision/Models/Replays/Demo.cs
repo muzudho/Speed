@@ -1,8 +1,10 @@
 ﻿namespace Assets.Scripts.Vision.Models.Replays
 {
     using Assets.Scripts.ThinkingEngine;
+    using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game.Model;
 
     static class Demo
     {
@@ -13,7 +15,7 @@
         /// 
         /// - デモ
         /// </summary>
-        static void SetupDemo(ModelOfScheduler.Model schedulerModel)
+        static void SetupDemo(ModelOfGame gameModel, ModelOfScheduler.Model schedulerModel)
         {
             // 卓準備
 
@@ -61,24 +63,40 @@
             // 登録：台札を積み上げる
             {
                 {
-                    //
-                    // TODO 台札から連続する数か？
-                    //
+                    // １プレイヤーが
                     var playerObj = Commons.Player1;
-                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                            playerObj: playerObj, // １プレイヤーが
-                            placeObj: Commons.LeftCenterStack); // 左の台札
-                    schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
+                    // 左の台札
+                    var placeObj = Commons.LeftCenterStack;
+
+                    if (CardMoveHelper.IsBoomerang(gameModel, playerObj, placeObj, out IdOfPlayingCards previousCard))
+                    {
+                        // ブーメラン
+                    }
+                    else
+                    {
+                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                                playerObj: playerObj,
+                                placeObj: placeObj);
+                        schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
+                    }
                 }
                 {
-                    //
-                    // TODO 台札から連続する数か？
-                    //
+                    // ２プレイヤーが
                     var playerObj = Commons.Player2;
-                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                            playerObj: playerObj, // ２プレイヤーが
-                            placeObj: Commons.RightCenterStack); // 右の台札
-                    schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
+                    // 右の台札
+                    var placeObj = Commons.RightCenterStack;
+
+                    if (CardMoveHelper.IsBoomerang(gameModel, playerObj, placeObj, out IdOfPlayingCards previousCard))
+                    {
+                        // ブーメラン
+                    }
+                    else
+                    {
+                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                                playerObj: playerObj,
+                                placeObj: placeObj);
+                        schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
+                    }
                 }
             }
 
@@ -93,18 +111,20 @@
                 {
                     // １プレイヤーは手札から１枚抜いて、場札として置く
                     var playerObj = Commons.Player1;
-                    var parameter = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
-                            playerObj: playerObj,
-                            numberOfCards: 1);
-                    schedulerModel.Timeline.AddWithinScheduler(playerObj, parameter);
+
+                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+                        playerObj: playerObj,
+                        numberOfCards: 1);
+                    schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
                 }
                 {
                     // ２プレイヤーは手札から１枚抜いて、場札として置く
                     var playerObj = Commons.Player2;
-                    var parameter = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
-                            playerObj: playerObj,
-                            numberOfCards: 1);
-                    schedulerModel.Timeline.AddWithinScheduler(playerObj, parameter);
+
+                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+                        playerObj: playerObj,
+                        numberOfCards: 1);
+                    schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
                 }
             }
         }

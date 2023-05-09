@@ -76,20 +76,16 @@
                 {
                     // １プレイヤーが
                     var playerObj = Commons.Player1;
-                    // ピックアップしているカードは、場札から抜くカード
-                    // 右の
+                    // 右の台札へ
                     var placeObj = Commons.RightCenterStack;
 
-                    // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
-                    //
-                    // TODO 台札から連続する数か？
-                    //
                     if (CardMoveHelper.IsBoomerang(gameModel, playerObj, placeObj, out IdOfPlayingCards previousCard))
                     {
                         // ブーメラン
                     }
                     else
                     {
+                        // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
                         var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                                 playerObj: playerObj,
                                 placeObj: placeObj);
@@ -97,15 +93,23 @@
                     }
                 }
                 {
-                    // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
-                    //
-                    // TODO 台札から連続する数か？
-                    //
+                    // ２プレイヤーが
                     var playerObj = Commons.Player2;
-                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                            playerObj: playerObj, // ２プレイヤーが
-                            placeObj: Commons.LeftCenterStack); // 左の;
-                    schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
+                    // 左の台札へ
+                    var placeObj = Commons.LeftCenterStack;
+
+                    if (CardMoveHelper.IsBoomerang(gameModel, playerObj, placeObj, out IdOfPlayingCards previousCard))
+                    {
+                        // ブーメラン
+                    }
+                    else
+                    {
+                        // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
+                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                            playerObj: playerObj,
+                            placeObj: placeObj);
+                        schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
+                    }
                 }
             }
 

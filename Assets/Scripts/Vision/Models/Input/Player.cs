@@ -149,22 +149,27 @@
                 this.Meaning.MoveCardToCenterStack(nearOrFarOfCenterStack) &&
                 LegalMove.CanPutToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetPlayer(this.PlayerIdObj).GetIndexOfFocusedCard(), this.GetCenterStackPlace(nearOrFarOfCenterStack)))
             {
-                // TODO ★ ブーメランになることは？
+                var playerObj = this.PlayerIdObj;
+                var placeObj = this.GetCenterStackPlace(nearOrFarOfCenterStack);
 
-                // ピックアップ中の場札を抜いて、台札へ積み上げる
-                //
-                // TODO 台札から連続する数か？
-                //
-                var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
-                    playerObj: this.PlayerIdObj,
-                    placeObj: this.GetCenterStackPlace(nearOrFarOfCenterStack));
+                //if (CardMoveHelper.IsBoomerang(gameModel, playerObj, placeObj, out IdOfPlayingCards previousCard))
+                //{
+                //    // ブーメラン
+                //}
+                //else
+                //{
+                    // ピックアップ中の場札を抜いて、台札へ積み上げる
+                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                        playerObj: playerObj,
+                        placeObj: placeObj);
 
-                // 制約の付加
-                this.Rights.IsThrowingCardIntoCenterStack = true;
+                    // 制約の付加
+                    this.Rights.IsThrowingCardIntoCenterStack = true;
 
-                schedulerModel.Timeline.AddCommand(
-                    startObj: gameModel.ElapsedSeconds,
-                    command: command);
+                    schedulerModel.Timeline.AddCommand(
+                        startObj: gameModel.ElapsedSeconds,
+                        command: digitalCommand);
+                //}
             }
         }
 
