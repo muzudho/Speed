@@ -4,7 +4,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using UnityEngine;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game.Model;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -47,7 +47,7 @@
         {
             var command = (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)this.CommandOfThinkingEngine;
 
-            var gameModel = new ModelOfGame.Model(gameModelBuffer);
+            var gameModel = new ModelOfGame(gameModelBuffer);
             var playerObj = command.PlayerObj;
             var indexToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard; // 何枚目の場札をピックアップしているか
 
@@ -109,7 +109,8 @@
             // 台札１枚増やす
             // ==============
             //
-            var indexOfCenterStack = gameModelBuffer.GetCenterStack(placeObj).GetLength();
+            // これから置く札の台札でのインデックス
+            var indexOnCenterStackToNextCard = gameModelBuffer.GetCenterStack(placeObj).GetLength();
             gameModelBuffer.GetCenterStack(placeObj).AddCard(targetToRemoveObj);
 
             // 台札へ置く
@@ -123,43 +124,34 @@
                 idOfPreviousTop: idOfPreviousTop,
                 onProgressOrNull: (progress) =>
                 {
-                    // 下のカードの数が、自分のカードの数の隣でなければ
-                    // Debug.Log($"テストA indexOfCenterStack:{indexOfCenterStack}");
-                    if (0 < indexOfCenterStack)
+                    //
+                    // ブーメランか？
+                    //
+                    // - `previousCard` - 下のカード
+                    //
+                    if (CardMoveHelper.IsBoomerang(indexOnCenterStackToNextCard, gameModel, placeObj, targetToRemoveObj, out IdOfPlayingCards previousCard))
                     {
-                        // Debug.Log($"テストB placeObj:{placeObj.AsInt}");
+                        Debug.Log($"置いたカードが連続する数ではなかった topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
 
-                        // 下のカード
-                        var previousCard = gameModelBuffer.GetCenterStack(placeObj).GetCard(indexOfCenterStack);
-                        // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
+                        // TODO ★ この動作をキャンセルし、元に戻す動作に変えたい
 
-                        // 連続する数ではないか？
-                        if (!CardNumberHelper.IsNext(
-                            topCard: previousCard,
-                            pickupCard: targetToRemoveObj))
-                        {
-                            Debug.Log($"置いたカードが連続する数ではなかった topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
+                        // 即実行
+                        // ======
 
-                            // TODO ★ この動作をキャンセルし、元に戻す動作に変えたい
+                        //// コマンド作成（思考エンジン用）
+                        //var commandOfThinkingEngine = new ModelOfThinkingEngineCommand.Ignore();
 
-                            // 即実行
-                            // ======
+                        //// コマンド作成（画面用）
+                        //var commandOfScheduler = new MoveBackCardToHand(
+                        //    startObj: GameSeconds.Zero,
+                        //    command: commandOfThinkingEngine);
 
-                            //// コマンド作成（思考エンジン用）
-                            //var commandOfThinkingEngine = new ModelOfThinkingEngineCommand.Ignore();
-
-                            //// コマンド作成（画面用）
-                            //var commandOfScheduler = new MoveBackCardToHand(
-                            //    startObj: GameSeconds.Zero,
-                            //    command: commandOfThinkingEngine);
-
-                            //// タイムスパン作成・登録
-                            //commandOfScheduler.GenerateSpan(
-                            //    gameModelBuffer: gameModelBuffer,
-                            //    inputModel: inputModel,
-                            //    schedulerModel: schedulerModel,
-                            //    setTimespan: setTimespan);
-                        }
+                        //// タイムスパン作成・登録
+                        //commandOfScheduler.GenerateSpan(
+                        //    gameModelBuffer: gameModelBuffer,
+                        //    inputModel: inputModel,
+                        //    schedulerModel: schedulerModel,
+                        //    setTimespan: setTimespan);
                     }
 
                     if (1.0f <= progress)

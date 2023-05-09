@@ -36,6 +36,11 @@
             return new ReadonlyList<IdOfPlayingCards>(this.gameModelBuffer.GetCenterStack(this.placeObj).IdOfCards);
         }
 
+        internal IdOfPlayingCards GetCard(int index)
+        {
+            return this.gameModelBuffer.GetCenterStack(this.placeObj).IdOfCards[index];
+        }
+
         /// <summary>
         /// 右（または左）の天辺の台札
         /// </summary>
