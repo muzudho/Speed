@@ -35,19 +35,19 @@
                     // １プレイヤーの右隣のカードへフォーカスを移します
                     {
                         var playerObj = Commons.Player1;
-                        var spanModel = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
+                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
                                 playerObj: playerObj,
                                 directionObj: Commons.PickRight);
-                        schedulerModel.Timeline.AddWithinScheduler(playerObj, spanModel);
+                        schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
                     }
 
                     // ２プレイヤーの右隣のカードへフォーカスを移します
                     {
                         var playerObj = Commons.Player2;
-                        var spanModel = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
+                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
                                 playerObj: playerObj,
                                 directionObj: Commons.PickRight);
-                        schedulerModel.Timeline.AddWithinScheduler(playerObj, spanModel);
+                        schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
                     }
 
                     // 間
@@ -65,20 +65,20 @@
                     // TODO 台札から連続する数か？
                     //
                     var playerObj = Commons.Player1;
-                    var spanModel = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // １プレイヤーが
                             placeObj: Commons.LeftCenterStack); // 左の台札
-                    schedulerModel.Timeline.AddWithinScheduler(playerObj, spanModel);
+                    schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
                 }
                 {
                     //
                     // TODO 台札から連続する数か？
                     //
                     var playerObj = Commons.Player2;
-                    var spanModel = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // ２プレイヤーが
                             placeObj: Commons.RightCenterStack); // 右の台札
-                    schedulerModel.Timeline.AddWithinScheduler(playerObj, spanModel);
+                    schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
                 }
             }
 
