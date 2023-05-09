@@ -61,6 +61,9 @@
             // 登録：台札を積み上げる
             {
                 {
+                    //
+                    // TODO 台札から連続する数か？
+                    //
                     var playerObj = Commons.Player1;
                     var spanModel = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // １プレイヤーが
@@ -68,6 +71,9 @@
                     schedulerModel.Timeline.AddWithinScheduler(playerObj, spanModel);
                 }
                 {
+                    //
+                    // TODO 台札から連続する数か？
+                    //
                     var playerObj = Commons.Player2;
                     var spanModel = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // ２プレイヤーが

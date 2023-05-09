@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommands
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thComplexCommands
 {
     using Assets.Scripts.Coding;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
@@ -8,9 +8,9 @@
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
-    /// なんにもしません
+    /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    class SetIdling : ItsAbstract
+    class SetGameActive : ItsAbstract
     {
         // - その他
 
@@ -19,12 +19,16 @@
         /// </summary>
         /// <param name="startObj"></param>
         /// <param name="command"></param>
-        public SetIdling(
+        public SetGameActive(
             GameSeconds startObj,
             ModelOfThinkingEngineCommand.IModel command)
             : base(startObj, command)
         {
         }
+
+        // - フィールド
+
+        bool handled;
 
         // - メソッド
 
@@ -37,7 +41,18 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
-            // なんにもしません
+            if (handled)
+            {
+                return;
+            }
+
+            var command = (ModelOfThinkingEngineCommand.SetGameActive)this.CommandOfThinkingEngine;
+
+            // モデル更新：１回実行すれば充分
+            gameModelBuffer.IsGameActive = command.IsGameActive;
+            handled = true;
+
+            // ビュー更新：なし
         }
     }
 }

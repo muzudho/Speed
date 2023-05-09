@@ -74,6 +74,9 @@
             {
                 {
                     // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
+                    //
+                    // TODO 台札から連続する数か？
+                    //
                     var playerObj = Commons.Player1;
                     var spanModel = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // １プレイヤーが
@@ -82,6 +85,9 @@
                 }
                 {
                     // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
+                    //
+                    // TODO 台札から連続する数か？
+                    //
                     var playerObj = Commons.Player2;
                     var spanModel = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                             playerObj: playerObj, // ２プレイヤーが

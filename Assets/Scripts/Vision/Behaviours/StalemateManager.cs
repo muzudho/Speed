@@ -125,6 +125,9 @@
             this.countDownText.text = "";
             {
                 // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
+                //
+                // TODO 台札から連続する数か？
+                //
                 var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                     playerObj: Commons.Player1,             // １プレイヤーが
                     placeObj: Commons.RightCenterStack);    // 右の
@@ -135,6 +138,9 @@
             }
             {
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
+                //
+                // TODO 台札から連続する数か？
+                //
                 var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                     playerObj: Commons.Player2,             // ２プレイヤーが
                     placeObj: Commons.LeftCenterStack);     // 左の

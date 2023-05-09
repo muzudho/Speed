@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommands
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thComplexCommands
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
@@ -9,13 +9,13 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdSimplexCommand;
+    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdSimplexCommands;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
-    /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
+    /// 場札から、台札へ向かったカードが、場札へまた戻ってくる動き
     /// </summary>
-    class MoveCardToCenterStackFromHand : ItsAbstract
+    internal class MoveLikeBoomerang : ItsAbstract
     {
         // - その他
 
@@ -24,7 +24,7 @@
         /// </summary>
         /// <param name="startObj"></param>
         /// <param name="command"></param>
-        public MoveCardToCenterStackFromHand(
+        public MoveLikeBoomerang(
             GameSeconds startObj,
             ModelOfThinkingEngineCommand.IModel command)
             : base(startObj, command)
@@ -84,7 +84,6 @@
             var targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand[indexToRemoveObj.AsInt];
 
             // モデル更新：場札を１枚抜く
-            // ==========================
             gameModelBuffer.GetPlayer(playerObj).RemoveCardAtOfHand(indexToRemoveObj);
 
             // 確定：場札の枚数
@@ -94,14 +93,12 @@
             var idOfHandCardsAfterRemove = gameModel.GetPlayer(playerObj).GetCardsOfHand();
 
             // モデル更新：何枚目の場札をピックアップしているか
-            // ================================================
             gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard = indexOfNextPickObj;
 
             // 確定：前の台札の天辺のカード
             IdOfPlayingCards idOfPreviousTop = gameModel.GetCenterStack(placeObj).GetTopCard();
 
             // モデル更新：次に、台札として置く
-            // ================================
             var indexOfCenterStack = gameModelBuffer.GetCenterStack(placeObj).GetLength();
             gameModelBuffer.GetCenterStack(placeObj).AddCard(targetToRemoveObj);
 
@@ -176,4 +173,3 @@
         }
     }
 }
-

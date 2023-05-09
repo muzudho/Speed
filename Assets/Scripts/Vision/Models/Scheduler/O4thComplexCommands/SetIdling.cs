@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thCommands
+﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thComplexCommands
 {
     using Assets.Scripts.Coding;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
@@ -8,35 +8,36 @@
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
     /// <summary>
-    /// 画面用のコマンド
-    /// 
-    /// - タイムライン上に配置されたもの
-    /// - スパン（IBasecaseSpan）を生成します
+    /// なんにもしません
     /// </summary>
-    interface IModel
+    class SetIdling : ItsAbstract
     {
-        // - プロパティ
+        // - その他
 
         /// <summary>
-        /// ゲーム時間範囲（単位：秒）
+        /// 生成
         /// </summary>
-        ModelOfSchedulerO1stTimelineSpan.Range TimeRangeObj { get; }
-
-        /// <summary>
-        /// 思考エンジン用のコマンド
-        /// </summary>
-        ModelOfThinkingEngineCommand.IModel CommandOfThinkingEngine { get; }
+        /// <param name="startObj"></param>
+        /// <param name="command"></param>
+        public SetIdling(
+            GameSeconds startObj,
+            ModelOfThinkingEngineCommand.IModel command)
+            : base(startObj, command)
+        {
+        }
 
         // - メソッド
 
         /// <summary>
         /// ゲーム画面の同期を始めます
         /// </summary>
-        /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
-        void GenerateSpan(
+        public override void GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan);
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
+        {
+            // なんにもしません
+        }
     }
 }

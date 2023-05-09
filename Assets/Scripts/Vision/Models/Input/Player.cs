@@ -152,6 +152,9 @@
                 // TODO ★ ブーメランになることは？
 
                 // ピックアップ中の場札を抜いて、台札へ積み上げる
+                //
+                // TODO 台札から連続する数か？
+                //
                 var command = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
                     playerObj: this.PlayerIdObj,
                     placeObj: this.GetCenterStackPlace(nearOrFarOfCenterStack));
