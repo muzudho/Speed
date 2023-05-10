@@ -18,6 +18,7 @@
         [SerializeField] GameObject o2PWin;
         [SerializeField] GameObject restartButton;
 
+        GameManager gameManager;
         InputManager inputManager;
         SchedulerManager schedulerManager;
 
@@ -92,6 +93,12 @@
         public void OnRestart()
         {
             Debug.Log("Restart");
+
+            // Start イベントが発生しない
+            // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+            // 初期化
+            this.gameManager.Init();
         }
 
         public void On1PWin()
@@ -113,6 +120,7 @@
         // Start is called before the first frame update
         void Start()
         {
+            gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
             inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
             schedulerManager = GameObject.Find("Scheduler Manager").GetComponent<SchedulerManager>();
 

@@ -79,6 +79,76 @@
         }
         #endregion
 
+        // - メソッド
+
+        /// <summary>
+        /// ゲームを初期状態にする
+        /// 
+        /// - スタート時、リスタート時に呼び出される
+        /// </summary>
+        public void Init()
+        {
+            // ゲーム開始時、とりあえず、すべてのカードを集める
+            List<ModelOfThinkingEngine.IdOfPlayingCards> cardsOfGame = new();
+            foreach (var idOfGo in GameObjectStorage.CreatePlayingCards().Keys)
+            {
+                cardsOfGame.Add(ModelOfThinkingEngine.IdMapping.GetIdOfPlayingCard(idOfGo));
+            }
+
+            // すべてのカードをシャッフル
+            cardsOfGame = cardsOfGame.OrderBy(i => Guid.NewGuid()).ToList();
+
+            // すべてのカードを、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
+            foreach (var idOfCard in cardsOfGame)
+            {
+                ModelOfThinkingEngine.Player playerObj;
+                switch (idOfCard.Suit())
+                {
+                    case ModelOfThinkingEngine.IdOfCardSuits.Clubs:
+                    case ModelOfThinkingEngine.IdOfCardSuits.Spades:
+                        playerObj = Commons.Player1;
+                        break;
+
+                    case ModelOfThinkingEngine.IdOfCardSuits.Diamonds:
+                    case ModelOfThinkingEngine.IdOfCardSuits.Hearts:
+                        playerObj = Commons.Player2;
+                        break;
+
+                    default:
+                        throw new Exception();
+                }
+
+                modelBuffer.GetPlayer(playerObj).AddCardOfPile(idOfCard);
+
+                // 画面上の位置も調整
+                var goCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(idOfCard)];
+
+                var length = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPile.Count;
+                // 最初の１枚目
+                if (length == 1)
+                {
+                    var position = Vision.Commons.positionOfPileCardsOrigin[playerObj.AsInt];
+                    goCard.transform.position = position.ToMutable();
+                    // 裏返す
+                    goCard.transform.rotation = Quaternion.Euler(
+                        x: goCard.transform.rotation.x,
+                        y: goCard.transform.rotation.y,
+                        z: 180.0f);
+                }
+                else
+                {
+                    var previousTopCard = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPile[length - 2]; // 天辺より１つ下のカードが、前のカード
+                    var goPreviousTopCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(previousTopCard)];
+                    goCard.transform.position = Vision.Commons.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
+                                                                                                                           // 裏返す
+                    goCard.transform.rotation = Quaternion.Euler(
+                        x: goCard.transform.rotation.x,
+                        y: goCard.transform.rotation.y,
+                        z: 180.0f);
+                }
+            }
+        }
+
         // - イベントハンドラ
 
         // Start is called before the first frame update
@@ -142,67 +212,7 @@
             GameObjectStorage.Add(IdOfGameObjects.Spades13, GameObject.Find($"Spades 13"));
 
             // ゲーム初期状態へセット
-            {
-                // ゲーム開始時、とりあえず、すべてのカードを集める
-                List<ModelOfThinkingEngine.IdOfPlayingCards> cardsOfGame = new();
-                foreach (var idOfGo in GameObjectStorage.CreatePlayingCards().Keys)
-                {
-                    cardsOfGame.Add(ModelOfThinkingEngine.IdMapping.GetIdOfPlayingCard(idOfGo));
-                }
-
-                // すべてのカードをシャッフル
-                cardsOfGame = cardsOfGame.OrderBy(i => Guid.NewGuid()).ToList();
-
-                // すべてのカードを、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
-                foreach (var idOfCard in cardsOfGame)
-                {
-                    ModelOfThinkingEngine.Player playerObj;
-                    switch (idOfCard.Suit())
-                    {
-                        case ModelOfThinkingEngine.IdOfCardSuits.Clubs:
-                        case ModelOfThinkingEngine.IdOfCardSuits.Spades:
-                            playerObj = Commons.Player1;
-                            break;
-
-                        case ModelOfThinkingEngine.IdOfCardSuits.Diamonds:
-                        case ModelOfThinkingEngine.IdOfCardSuits.Hearts:
-                            playerObj = Commons.Player2;
-                            break;
-
-                        default:
-                            throw new Exception();
-                    }
-
-                    modelBuffer.GetPlayer(playerObj).AddCardOfPile(idOfCard);
-
-                    // 画面上の位置も調整
-                    var goCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(idOfCard)];
-
-                    var length = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPile.Count;
-                    // 最初の１枚目
-                    if (length == 1)
-                    {
-                        var position = Vision.Commons.positionOfPileCardsOrigin[playerObj.AsInt];
-                        goCard.transform.position = position.ToMutable();
-                        // 裏返す
-                        goCard.transform.rotation = Quaternion.Euler(
-                            x: goCard.transform.rotation.x,
-                            y: goCard.transform.rotation.y,
-                            z: 180.0f);
-                    }
-                    else
-                    {
-                        var previousTopCard = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPile[length - 2]; // 天辺より１つ下のカードが、前のカード
-                        var goPreviousTopCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(previousTopCard)];
-                        goCard.transform.position = Vision.Commons.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
-                                                                                                                               // 裏返す
-                        goCard.transform.rotation = Quaternion.Euler(
-                            x: goCard.transform.rotation.x,
-                            y: goCard.transform.rotation.y,
-                            z: 180.0f);
-                    }
-                }
-            }
+            this.Init();
         }
 
         // Update is called once per frame
