@@ -1,13 +1,43 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Models
 {
+    using Assets.Scripts.ThinkingEngine;
+    using System;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game.Model;
+    using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>
     /// カード移動ヘルパー
     /// </summary>
     internal static class CardMoveHelper
     {
+        /// <summary>
+        /// すべてのカードを、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
+        /// </summary>
+        /// <param name="idOfCard"></param>
+        /// <returns></returns>
+        internal static ModelOfThinkingEngine.Player GetPlayerAtStart(IdOfPlayingCards idOfCard)
+        {
+            ModelOfThinkingEngine.Player playerObj;
+            switch (idOfCard.Suit())
+            {
+                case ModelOfThinkingEngine.IdOfCardSuits.Clubs:
+                case ModelOfThinkingEngine.IdOfCardSuits.Spades:
+                    playerObj = Commons.Player1;
+                    break;
+
+                case ModelOfThinkingEngine.IdOfCardSuits.Diamonds:
+                case ModelOfThinkingEngine.IdOfCardSuits.Hearts:
+                    playerObj = Commons.Player2;
+                    break;
+
+                default:
+                    throw new Exception();
+            }
+
+            return playerObj;
+        }
+
         /// <summary>
         /// TODO 場札を台札へ移動する要求を出したが、相手の方が早く場札を台札へ移動するのを先着し、
         /// 自分の場札をまた場へ戻すケースか？

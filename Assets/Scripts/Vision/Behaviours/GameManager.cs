@@ -6,7 +6,6 @@
     using Assets.Scripts.Vision.Models.World;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
@@ -81,6 +80,7 @@
 
         // - メソッド
 
+        #region メソッド（初期化）
         /// <summary>
         /// ゲームを初期状態にする
         /// 
@@ -88,39 +88,17 @@
         /// </summary>
         public void Init()
         {
-            // ゲーム開始時、とりあえず、すべてのカードを集める
-            List<ModelOfThinkingEngine.IdOfPlayingCards> cardsOfGame = new();
-            foreach (var idOfGo in GameObjectStorage.CreatePlayingCards().Keys)
-            {
-                cardsOfGame.Add(ModelOfThinkingEngine.IdMapping.GetIdOfPlayingCard(idOfGo));
-            }
+            this.modelBuffer.CleanUp(out var cardsOfGame);
 
-            // すべてのカードをシャッフル
-            cardsOfGame = cardsOfGame.OrderBy(i => Guid.NewGuid()).ToList();
-
-            // すべてのカードを、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
+            // 画面上の位置も調整
             foreach (var idOfCard in cardsOfGame)
             {
-                ModelOfThinkingEngine.Player playerObj;
-                switch (idOfCard.Suit())
-                {
-                    case ModelOfThinkingEngine.IdOfCardSuits.Clubs:
-                    case ModelOfThinkingEngine.IdOfCardSuits.Spades:
-                        playerObj = Commons.Player1;
-                        break;
+                // すべてのカードを、色分けして、黒色なら１プレイヤーの、赤色なら２プレイヤーの、手札に乗せる
+                var playerObj = CardMoveHelper.GetPlayerAtStart(idOfCard);
 
-                    case ModelOfThinkingEngine.IdOfCardSuits.Diamonds:
-                    case ModelOfThinkingEngine.IdOfCardSuits.Hearts:
-                        playerObj = Commons.Player2;
-                        break;
+                // 手札に積む
+                this.modelBuffer.GetPlayer(playerObj).AddCardOfPile(idOfCard);
 
-                    default:
-                        throw new Exception();
-                }
-
-                modelBuffer.GetPlayer(playerObj).AddCardOfPile(idOfCard);
-
-                // 画面上の位置も調整
                 var goCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(idOfCard)];
 
                 var length = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPile.Count;
@@ -148,6 +126,7 @@
                 }
             }
         }
+        #endregion
 
         // - イベントハンドラ
 

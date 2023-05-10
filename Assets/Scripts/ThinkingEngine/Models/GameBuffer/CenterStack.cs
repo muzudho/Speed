@@ -68,5 +68,13 @@
         {
             this.IdOfCards.RemoveAt(startIndexObj.AsInt);
         }
+
+        /// <summary>
+        /// 台札を空にする
+        /// </summary>
+        internal void Clear()
+        {
+            this.IdOfCards.Clear();
+        }
     }
 }
