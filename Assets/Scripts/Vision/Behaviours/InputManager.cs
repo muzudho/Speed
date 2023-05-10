@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ScriptOfThinkingEngine = Assets.Scripts.ThinkingEngine;
@@ -16,9 +17,14 @@
         // - フィールド
 
         /// <summary>
-        /// コンピューター・プレイヤー用
+        /// ゲーム・モデル
         /// </summary>
         ModelOfGame.Model gameModel;
+
+        /// <summary>
+        /// ゲーム・モデル・バッファー
+        /// </summary>
+        ModelOfGameBuffer.Model gameModelBuffer;
 
         /// <summary>
         /// ステールメート管理
@@ -44,6 +50,7 @@
         {
             var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
             gameModel = gameManager.Model;
+            gameModelBuffer = gameManager.ModelBuffer;
 
             var schedulerManager = GameObject.Find("Scheduler Manager").GetComponent<SchedulerManager>();
             this.schedulerModel = schedulerManager.Model;
@@ -68,6 +75,19 @@
 
                 // キー入力を翻訳する
                 this.Model.Players[playerObj.AsInt].Translate(gameModel);
+            }
+
+            // 場札を使い切ったプレイヤーがいればゲーム終了
+            // ============================================
+            foreach (var playerObj in Commons.Players)
+            {
+                if (gameModel.GetPlayer(playerObj).GetLengthOfHandCards() < 1)
+                {
+                    // 場札を使い切っている
+                    // ゲーム終了
+                    gameModelBuffer.IsGameActive = false;
+                    break;
+                }
             }
 
             // ステールメートしてるかどうかの判定

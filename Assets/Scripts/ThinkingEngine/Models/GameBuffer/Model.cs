@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Models.GameBuffer
 {
     using Assets.Scripts.Vision.Models;
-    using System.Collections.Generic;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>

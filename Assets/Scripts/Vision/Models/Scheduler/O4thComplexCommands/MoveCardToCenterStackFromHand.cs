@@ -15,7 +15,7 @@
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する（確定）
     /// 
-    /// - 置くのをキャンセルするといった動きは行わない
+    /// - 置くのをキャンセルする（ブーメランする）といった動きは行わない
     /// - これから置く場札の数は、これから置く先の台札の数から連続だ（確定）
     /// </summary>
     class MoveCardToCenterStackFromHand : ItsAbstract
@@ -124,36 +124,6 @@
                 idOfPreviousTop: idOfPreviousTop,
                 onProgressOrNull: (progress) =>
                 {
-                    //
-                    // ブーメランか？
-                    //
-                    // - `previousCard` - 下のカード
-                    //
-                    if (CardMoveHelper.IsBoomerang(gameModel, playerObj, placeObj, out IdOfPlayingCards previousCard))
-                    {
-                        Debug.Log($"置いたカードが連続する数ではなかった topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
-
-                        // TODO ★ この動作をキャンセルし、元に戻す動作に変えたい
-
-                        // 即実行
-                        // ======
-
-                        //// コマンド作成（思考エンジン用）
-                        //var commandOfThinkingEngine = new ModelOfThinkingEngineCommand.Ignore();
-
-                        //// コマンド作成（画面用）
-                        //var commandOfScheduler = new MoveBackCardToHand(
-                        //    startObj: GameSeconds.Zero,
-                        //    command: commandOfThinkingEngine);
-
-                        //// タイムスパン作成・登録
-                        //commandOfScheduler.GenerateSpan(
-                        //    gameModelBuffer: gameModelBuffer,
-                        //    inputModel: inputModel,
-                        //    schedulerModel: schedulerModel,
-                        //    setTimespan: setTimespan);
-                    }
-
                     if (1.0f <= progress)
                     {
                         // 制約の解除

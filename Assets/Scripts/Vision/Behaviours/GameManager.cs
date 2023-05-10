@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Behaviours
 {
     using Assets.Scripts.ThinkingEngine;
-    using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
+    using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using Assets.Scripts.Vision.Models.World;
     using System;
@@ -10,7 +10,7 @@
     using UnityEngine;
     using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
-    using Assets.Scripts.ThinkingEngine.Models;
+    using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>
     /// ゲーム・マネージャー
@@ -71,7 +71,7 @@
             {
                 if (model == null)
                 {
-                    // ゲーム・モデルは、ゲーム・モデル・バッファーを持つ
+                    // ゲーム・モデルは、ゲーム・モデル・バッファーを持つ（が、外から見えないようにする）
                     model = new ModelOfGame.Model(modelBuffer);
                 }
                 return model;
