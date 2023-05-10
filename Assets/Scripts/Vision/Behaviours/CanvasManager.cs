@@ -16,6 +16,7 @@
         [SerializeField] GameObject o2PKeys;
         [SerializeField] GameObject o1PWin;
         [SerializeField] GameObject o2PWin;
+        [SerializeField] GameObject restartButton;
 
         InputManager inputManager;
         SchedulerManager schedulerManager;
@@ -88,16 +89,23 @@
             schedulerManager.StartGame();
         }
 
+        public void OnRestart()
+        {
+            Debug.Log("Restart");
+        }
+
         public void On1PWin()
         {
             Debug.Log("1P win");
             o1PWin.SetActive(true);
+            restartButton.SetActive(true);
         }
 
         public void On2PWin()
         {
             Debug.Log("2P win");
             o2PWin.SetActive(true);
+            restartButton.SetActive(true);
         }
 
         // - イベントハンドラ
@@ -111,6 +119,7 @@
             // UI非表示
             o1PWin.SetActive(false);
             o2PWin.SetActive(false);
+            restartButton.SetActive(false);
 
             // 表示
             o1PKeys.SetActive(false);
