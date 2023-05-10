@@ -35,6 +35,10 @@
             o1PWin.SetActive(false);
             o2PWin.SetActive(false);
             restartButton.SetActive(false);
+
+            // UI表示
+            playerSelectBackground.SetActive(true);
+            playerButtons.SetActive(true);
         }
 
         public void Won1P()
