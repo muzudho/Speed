@@ -2,7 +2,6 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models.World;
-    using System;
     using UnityEngine;
 
     /// <summary>

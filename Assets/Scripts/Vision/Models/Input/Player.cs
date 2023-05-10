@@ -33,6 +33,16 @@
             this.NearCenterStackPlace = nearCenterStackPlace;
             this.FarCenterStackPlace = farCenterStackPlace;
             this.Meaning = meaning;
+
+            this.CleanUp();
+        }
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        internal void CleanUp()
+        {
+            this.Rights.CleanUp();
         }
 
         // - プロパティ

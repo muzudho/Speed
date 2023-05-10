@@ -49,11 +49,25 @@
         /// </summary>
         internal readonly ModelOfInput.Init Model = new ModelOfInput.Init();
 
+        // - メソッド
+
+        #region メソッド（初期化）
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        internal void CleanUp()
+        {
+            this.Model.CleanUp();
+        }
+        #endregion
+
         // - イベントハンドラ
 
         // Start is called before the first frame update
         void Start()
         {
+            this.Model.CleanUp();
+
             var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
             gameModel = gameManager.Model;
             gameModelBuffer = gameManager.ModelBuffer;

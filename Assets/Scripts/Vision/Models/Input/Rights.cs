@@ -53,5 +53,17 @@
                 this.IsPileCardDrawing ||               // 手札を、引いている途中
                 (0.0f < this.TimeOfRestObj.AsFloat);    // モーション中
         }
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        internal void CleanUp()
+        {
+            this.IsGameInactive = false;
+            this.IsThrowingCardIntoCenterStack = false;
+            this.IsPickupCartToNext = false;
+            this.IsPileCardDrawing = false;
+            this.TimeOfRestObj = GameSeconds.Zero;
+        }
     }
 }

@@ -10,6 +10,16 @@
     /// </summary>
     internal class Init
     {
+        // - その他
+
+        internal void CleanUp()
+        {
+            foreach (var playerObj in Commons.Players)
+            {
+                this.GetPlayer(playerObj).CleanUp();
+            }
+        }
+
         // - プロパティ
 
         /// <summary>

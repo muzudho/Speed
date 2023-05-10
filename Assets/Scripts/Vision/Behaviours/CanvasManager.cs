@@ -8,7 +8,7 @@
     /// </summary>
     public class CanvasManager : MonoBehaviour
     {
-        // フィールド
+        // - フィールド
 
         [SerializeField] GameObject playerSelectBackground;
         [SerializeField] GameObject playerButtons;
@@ -22,8 +22,9 @@
         InputManager inputManager;
         SchedulerManager schedulerManager;
 
-        // - メソッド
+        // - その他
 
+        #region その他（初期化）
         /// <summary>
         /// 初期化
         /// </summary>
@@ -40,6 +41,9 @@
             playerSelectBackground.SetActive(true);
             playerButtons.SetActive(true);
         }
+        #endregion
+
+        // - メソッド
 
         public void Won1P()
         {
@@ -134,6 +138,7 @@
             this.Init();
             this.gameManager.Init();
             this.schedulerManager.CleanUp();
+            this.inputManager.CleanUp();
         }
 
         // - イベントハンドラ
