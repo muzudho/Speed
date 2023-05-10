@@ -17,15 +17,29 @@
     {
         // - その他（生成）
 
+        #region その他（生成）
+        /// <summary>
+        /// 生成
+        /// </summary>
+        /// <param name="gameModel"></param>
         public Model(ModelOfGame.Model gameModel)
         {
             this.GameModel = gameModel;
+
+            this.CleanUp();
         }
+        #endregion
 
         // - プロパティ
 
+        #region プロパティ（ゲーム・モデル）
+        /// <summary>
+        /// ゲーム・モデル
+        /// </summary>
         internal ModelOfGame.Model GameModel { get; private set; }
+        #endregion
 
+        #region プロパティ（スケジュールに登録されている残りの項目）
         /// <summary>
         /// スケジュールに登録されている残りの項目
         /// 
@@ -35,16 +49,20 @@
         List<ModelOfSchedulerO4thCommand.IModel> commands = new();
 
         internal List<ModelOfSchedulerO4thCommand.IModel> Commands => this.commands;
+        #endregion
 
+        #region プロパティ（タイム・ライン作成用カウンター）
         /// <summary>
         /// タイム・ライン作成用カウンター
         /// 
         /// - プレイヤー別
         /// </summary>
-        internal GameSeconds[] ScheduledTimesObj { get; private set; } = { GameSeconds.Zero, GameSeconds.Zero };
+        internal GameSeconds[] ScheduledTimesObj { get; private set; } = new GameSeconds[2];
+        #endregion
 
         // - メソッド
 
+        #region メソッド（追加）
         /// <summary>
         /// 追加
         /// </summary>
@@ -57,7 +75,9 @@
                 startObj: startObj,
                 command: command));
         }
+        #endregion
 
+        #region メソッド（追加）
         /// <summary>
         /// 追加
         /// 
@@ -77,6 +97,7 @@
             this.ScheduledTimesObj[playerObj.AsInt] = new GameSeconds(
                 this.ScheduledTimesObj[playerObj.AsInt].AsFloat + commandOfScheduler.TimeRangeObj.DurationObj.AsFloat);
         }
+        #endregion
 
         internal void AddScheduleSeconds(Player playerObj, GameSeconds time)
         {
@@ -104,5 +125,18 @@
         }
 
         internal float LastSeconds() => Mathf.Max(this.ScheduledTimesObj[0].AsFloat, ScheduledTimesObj[1].AsFloat);
+
+        #region メソッド（初期化）
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        internal void CleanUp()
+        {
+            this.commands.Clear();
+
+            this.ScheduledTimesObj[0] = GameSeconds.Zero;
+            this.ScheduledTimesObj[1] = GameSeconds.Zero;
+        }
+        #endregion
     }
 }

@@ -133,6 +133,7 @@
             // 初期化
             this.Init();
             this.gameManager.Init();
+            this.schedulerManager.CleanUp();
         }
 
         // - イベントハンドラ

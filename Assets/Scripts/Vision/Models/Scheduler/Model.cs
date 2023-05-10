@@ -15,11 +15,19 @@
     {
         // - その他（生成）
 
+        #region その他（生成）
+        /// <summary>
+        /// 生成
+        /// </summary>
+        /// <param name="gameModel"></param>
         public Model(ModelOfGame.Model gameModel)
         {
             // タイムラインは、ゲーム・モデルを持つ。
             this.Timeline = new ModelOfSchedulerO7thTimeline.Model(gameModel);
+
+            this.CleanUp();
         }
+        #endregion
 
         // - プロパティ
 
@@ -30,15 +38,18 @@
         internal ModelOfSchedulerO7thTimeline.Model Timeline { get; }
         #endregion
 
+        #region プロパティ（補間を実行中の項目）
         /// <summary>
         /// 補間を実行中の項目
         /// 
         /// - 持続時間が切れると、消えていく
         /// </summary>
         List<ModelOfSchedulerO1stTimelineSpan.IModel> ongoingSpans = new();
+        #endregion
 
         // - メソッド
 
+        #region メソッド（追加）
         /// <summary>
         /// 追加
         /// </summary>
@@ -52,7 +63,9 @@
 
             // Debug.Log($"[Assets.Scripts.Vision.World.Views.Timeline.View Lerp] リープ ongoingCardMovementViews count:{ongoingCardMovementViews.Count}");
         }
+        #endregion
 
+        #region メソッド（この瞬間を描画）
         /// <summary>
         /// この瞬間を描画
         /// </summary>
@@ -103,6 +116,15 @@
                 i++;
             }
         }
+        #endregion
+
+        #region メソッド（初期化）
+        internal void CleanUp()
+        {
+            this.Timeline.CleanUp();
+            this.ongoingSpans.Clear();
+        }
+        #endregion
 
         internal void DebugWrite()
         {

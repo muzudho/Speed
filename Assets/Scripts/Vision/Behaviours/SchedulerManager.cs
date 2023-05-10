@@ -1,4 +1,4 @@
-using Assets.Scripts.Vision.Behaviours;
+ï»¿using Assets.Scripts.Vision.Behaviours;
 using Assets.Scripts.Vision.Models;
 using Assets.Scripts.Vision.Models.Replays;
 using System.Collections.Generic;
@@ -10,67 +10,70 @@ using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
 using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
 
 /// <summary>
-/// ƒ^ƒCƒ€ƒ‰ƒCƒ“Eƒ}ƒl[ƒWƒƒ[
+/// ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³ãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
 /// </summary>
 public class SchedulerManager : MonoBehaviour
 {
-    // - ƒtƒB[ƒ‹ƒh
+    // - ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
 
-    // ƒQ[ƒ€“à’PˆÊŠÔ
+    // ã‚²ãƒ¼ãƒ å†…å˜ä½æ™‚é–“
     GameSeconds gameTimeObj = new GameSeconds(1.0f / 60.0f);
 
     /// <summary>
-    /// “ü—ÍEƒ‚ƒfƒ‹
+    /// å…¥åŠ›ãƒ»ãƒ¢ãƒ‡ãƒ«
     /// </summary>
     internal ModelOfInput.Init InputModel { get; private set; }
 
     /// <summary>
-    /// ƒXƒPƒWƒ…[ƒ‰[Eƒ‚ƒfƒ‹
+    /// ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ©ãƒ¼ãƒ»ãƒ¢ãƒ‡ãƒ«
     /// </summary>
     internal ModelOfScheduler.Model Model { get; private set; }
 
     /// <summary>
-    /// ƒRƒ“ƒsƒ…[ƒ^[EƒvƒŒƒCƒ„[—p
+    /// ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ãƒ¼ãƒ»ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç”¨
     /// </summary>
     ModelOfGame.Model gameModel;
 
     /// <summary>
-    /// ƒQ[ƒ€Eƒ‚ƒfƒ‹Eƒoƒbƒtƒ@[
+    /// ã‚²ãƒ¼ãƒ ãƒ»ãƒ¢ãƒ‡ãƒ«ãƒ»ãƒãƒƒãƒ•ã‚¡ãƒ¼
     /// </summary>
     ModelOfGameBuffer.Model gameModelBuffer;
 
-    // - ƒƒ\ƒbƒh
+    // - ãƒ¡ã‚½ãƒƒãƒ‰
 
+    #region ãƒ¡ã‚½ãƒƒãƒ‰ï¼ˆå¯¾å±€é–‹å§‹ï¼‰
     /// <summary>
-    /// ‘Î‹ÇŠJn
+    /// å¯¾å±€é–‹å§‹
     /// </summary>
     internal void StartGame()
     {
-        // ŠJn‹Ç–Ê‚Ü‚Å“o˜^
+        // é–‹å§‹å±€é¢ã¾ã§ç™»éŒ²
         SetStartPosition.DoIt(
             gameModelBuffer,
             this.InputModel,
             this.Model);
 
-        // ˆÈ‰ºAƒfƒ‚EƒvƒŒƒC‚ğ“o˜^
+        // ä»¥ä¸‹ã€ãƒ‡ãƒ¢ãƒ»ãƒ—ãƒ¬ã‚¤ã‚’ç™»éŒ²
         // SetupDemo(this.Timeline);
 
-        // yOnTick ‚ğ ›•bŒã‚ÉŒÄ‚Ño‚µAˆÈ~‚Í tickSeconds •b–ˆ‚ÉÀsz
+        // ã€OnTick ã‚’ â—‹ç§’å¾Œã«å‘¼ã³å‡ºã—ã€ä»¥é™ã¯ tickSeconds ç§’æ¯ã«å®Ÿè¡Œã€‘
         InvokeRepeating(
             methodName: nameof(OnTick),
             time: this.Model.Timeline.LastSeconds(),
             repeatRate: gameTimeObj.AsFloat);
     }
+    #endregion
 
+    #region ãƒ¡ã‚½ãƒƒãƒ‰ï¼ˆä¸€å®šé–“éš”ã§å‘¼ã³å‡ºã•ã‚Œã‚‹ï¼‰
     /// <summary>
-    /// ˆê’èŠÔŠu‚ÅŒÄ‚Ño‚³‚ê‚é
+    /// ä¸€å®šé–“éš”ã§å‘¼ã³å‡ºã•ã‚Œã‚‹
     /// </summary>
     void OnTick()
     {
-        // ƒ‚ƒfƒ‹‚©‚çƒrƒ…[‚ÖA‹N“®‚µ‚½ƒ^ƒCƒ€EƒXƒpƒ“‚ğˆø‚«Œp‚¬‚½‚¢
+        // ãƒ¢ãƒ‡ãƒ«ã‹ã‚‰ãƒ“ãƒ¥ãƒ¼ã¸ã€èµ·å‹•ã—ãŸã‚¿ã‚¤ãƒ ãƒ»ã‚¹ãƒ‘ãƒ³ã‚’å¼•ãç¶™ããŸã„
         var additionSpansToLerp = new List<ModelOfSchedulerO1stTimelineSpan.IModel>();
 
-        // ƒXƒPƒWƒ…[ƒ‹‚ğÁ‰»‚µ‚Ä‚¢‚«‚Ü‚·
+        // ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’æ¶ˆåŒ–ã—ã¦ã„ãã¾ã™
         ModelOfScheduler.Helper.ConvertToSpans(
             gameModelBuffer,
             this.InputModel,
@@ -80,7 +83,7 @@ public class SchedulerManager : MonoBehaviour
                 additionSpansToLerp.Add(spanToLerp);
             });
 
-        // ƒ‚[ƒVƒ‡ƒ“‚Ì•âŠÔ
+        // ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®è£œé–“
         this.Model.Add(additionSpansToLerp);
         this.Model.Update(gameModelBuffer.ElapsedTimeObj);
 
@@ -89,8 +92,17 @@ public class SchedulerManager : MonoBehaviour
 
         gameModelBuffer.ElapsedTimeObj = new GameSeconds(gameModelBuffer.ElapsedTimeObj.AsFloat + gameTimeObj.AsFloat);
     }
+    #endregion
 
-    // - ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
+    /// <summary>
+    /// åˆæœŸåŒ–
+    /// </summary>
+    internal void CleanUp()
+    {
+        this.Model.CleanUp();
+    }
+
+    // - ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
 
     // Start is called before the first frame update
     void Start()
@@ -102,8 +114,11 @@ public class SchedulerManager : MonoBehaviour
         var inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
         this.InputModel = inputManager.Model;
 
-        // ƒXƒPƒWƒ…[ƒ‰[Eƒ‚ƒfƒ‹
+        // ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ©ãƒ¼ãƒ»ãƒ¢ãƒ‡ãƒ«
         this.Model = new ModelOfScheduler.Model(this.gameModel);
+
+        // åˆæœŸåŒ–
+        this.CleanUp();
     }
 
     // Update is called once per frame
