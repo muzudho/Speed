@@ -8,7 +8,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ScriptOfThinkingEngine = Assets.Scripts.ThinkingEngine;
-    using ManagerOfUserInterface = Assets.Scripts.Vision.Behaviours.UserInterfaceManager;
+    using ManagerOfUserInterface = Assets.Scripts.Vision.Behaviours.CanvasManager;
 
     /// <summary>
     /// 入力マネージャー
@@ -40,7 +40,7 @@
         /// <summary>
         /// ユーザー・インターフェース・マネージャー
         /// </summary>
-        ManagerOfUserInterface userInterfaceManager;
+        ManagerOfUserInterface canvasManager;
 
         // - プロパティ
 
@@ -64,7 +64,7 @@
             this.stalemateManager = GameObject.Find("Stalemate Manager").GetComponent<StalemateManager>();
             this.stalemateManager.Init(this.schedulerModel);
 
-            this.userInterfaceManager = GameObject.Find("UI Manager").GetComponent<UserInterfaceManager>();
+            this.canvasManager = GameObject.Find("Canvas Manager").GetComponent<CanvasManager>();
         }
 
         /// <summary>
@@ -103,11 +103,11 @@
 
                     if (playerObj== Commons.Player1)
                     {
-                        this.userInterfaceManager.On1PWin();
+                        this.canvasManager.On1PWin();
                     }
                     else if (playerObj == Commons.Player2)
                     {
-                        this.userInterfaceManager.On2PWin();
+                        this.canvasManager.On2PWin();
                     }
                     else
                     {

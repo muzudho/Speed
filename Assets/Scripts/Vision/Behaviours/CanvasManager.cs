@@ -4,9 +4,9 @@
     using UnityEngine;
 
     /// <summary>
-    /// ユーザー・インターフェース・マネージャー
+    /// キャンバス・マネージャー
     /// </summary>
-    public class UserInterfaceManager : MonoBehaviour
+    public class CanvasManager : MonoBehaviour
     {
         // フィールド
 
