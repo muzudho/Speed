@@ -95,7 +95,7 @@
             // ============================================
             foreach (var playerObj in Commons.Players)
             {
-                if (gameModel.GetPlayer(playerObj).GetLengthOfHandCards() < 1)
+                if (gameModel.GetPlayer(playerObj).GetLengthOfHandCards() < 1 && !this.Model.GetPlayer(playerObj).Rights.IsThrowingCardIntoCenterStack)
                 {
                     // 場札を使い切っている
                     // ゲーム終了

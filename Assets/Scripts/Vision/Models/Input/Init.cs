@@ -3,6 +3,7 @@
     using Assets.Scripts.ThinkingEngine;
     using UnityEngine;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
+    using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>
     /// 入力モデル
@@ -40,5 +41,10 @@
                 onPickupCardToBackward: ()=>Input.GetKeyDown(KeyCode.A),
                 onDrawing:()=>Input.GetKeyDown(KeyCode.Space))),        // １プレイヤーと、２プレイヤーの２回判定されてしまう
         };
+
+        internal ModelOfInput.Player GetPlayer(ModelOfThinkingEngine.Player playerObj)
+        {
+            return this.Players[playerObj.AsInt];
+        }
     }
 }
