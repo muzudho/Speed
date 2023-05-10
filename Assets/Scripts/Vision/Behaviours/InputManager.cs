@@ -103,11 +103,11 @@
 
                     if (playerObj== Commons.Player1)
                     {
-                        this.canvasManager.On1PWin();
+                        this.canvasManager.Won1P();
                     }
                     else if (playerObj == Commons.Player2)
                     {
-                        this.canvasManager.On2PWin();
+                        this.canvasManager.Won2P();
                     }
                     else
                     {

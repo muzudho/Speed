@@ -24,6 +24,35 @@
 
         // - メソッド
 
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        public void Init()
+        {
+            // UI非表示
+            o1PKeys.SetActive(false);
+            o2PKeys.SetActive(false);
+            o1PWin.SetActive(false);
+            o2PWin.SetActive(false);
+            restartButton.SetActive(false);
+        }
+
+        public void Won1P()
+        {
+            Debug.Log("1P win");
+            o1PWin.SetActive(true);
+            restartButton.SetActive(true);
+        }
+
+        public void Won2P()
+        {
+            Debug.Log("2P win");
+            o2PWin.SetActive(true);
+            restartButton.SetActive(true);
+        }
+
+        // - イベントハンドラ
+
         public void On1pVs2p()
         {
             // コンピューター設定
@@ -98,21 +127,8 @@
             // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
             // 初期化
+            this.Init();
             this.gameManager.Init();
-        }
-
-        public void On1PWin()
-        {
-            Debug.Log("1P win");
-            o1PWin.SetActive(true);
-            restartButton.SetActive(true);
-        }
-
-        public void On2PWin()
-        {
-            Debug.Log("2P win");
-            o2PWin.SetActive(true);
-            restartButton.SetActive(true);
         }
 
         // - イベントハンドラ
@@ -124,14 +140,7 @@
             inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
             schedulerManager = GameObject.Find("Scheduler Manager").GetComponent<SchedulerManager>();
 
-            // UI非表示
-            o1PWin.SetActive(false);
-            o2PWin.SetActive(false);
-            restartButton.SetActive(false);
-
-            // 表示
-            o1PKeys.SetActive(false);
-            o2PKeys.SetActive(false);
+            this.Init();
         }
 
         // Update is called once per frame
