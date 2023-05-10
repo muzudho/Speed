@@ -203,9 +203,6 @@
                     }
                 }
             }
-
-            // UI ボタンを押下して、ゲーム開始
-            // this.StartGame();
         }
 
         // Update is called once per frame

@@ -8,6 +8,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ScriptOfThinkingEngine = Assets.Scripts.ThinkingEngine;
+    using ManagerOfUserInterface = Assets.Scripts.Vision.Behaviours.UserInterfaceManager;
 
     /// <summary>
     /// 入力マネージャー
@@ -36,6 +37,11 @@
         /// </summary>
         ModelOfScheduler.Model schedulerModel;
 
+        /// <summary>
+        /// ユーザー・インターフェース・マネージャー
+        /// </summary>
+        ManagerOfUserInterface userInterfaceManager;
+
         // - プロパティ
 
         /// <summary>
@@ -57,6 +63,8 @@
 
             this.stalemateManager = GameObject.Find("Stalemate Manager").GetComponent<StalemateManager>();
             this.stalemateManager.Init(this.schedulerModel);
+
+            this.userInterfaceManager = GameObject.Find("UI Manager").GetComponent<UserInterfaceManager>();
         }
 
         /// <summary>
@@ -67,6 +75,12 @@
         /// </summary>
         void Update()
         {
+            // ゲームが始まっていなければ無視
+            if (!gameModelBuffer.IsGameActive)
+            {
+                return;
+            }
+
             // 初期化
             foreach (var playerObj in Commons.Players)
             {
@@ -86,6 +100,20 @@
                     // 場札を使い切っている
                     // ゲーム終了
                     gameModelBuffer.IsGameActive = false;
+
+                    if (playerObj== Commons.Player1)
+                    {
+                        this.userInterfaceManager.On1PWin();
+                    }
+                    else if (playerObj == Commons.Player2)
+                    {
+                        this.userInterfaceManager.On2PWin();
+                    }
+                    else
+                    {
+                        throw new System.Exception($"unexpected player:{playerObj.AsInt}");
+                    }
+
                     break;
                 }
             }

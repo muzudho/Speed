@@ -12,8 +12,10 @@
 
         [SerializeField] GameObject playerSelectBackground;
         [SerializeField] GameObject playerButtons;
-        [SerializeField] GameObject p1Keys;
-        [SerializeField] GameObject p2Keys;
+        [SerializeField] GameObject o1PKeys;
+        [SerializeField] GameObject o2PKeys;
+        [SerializeField] GameObject o1PWin;
+        [SerializeField] GameObject o2PWin;
 
         InputManager inputManager;
         SchedulerManager schedulerManager;
@@ -31,8 +33,8 @@
             playerButtons.SetActive(false);
 
             // UI表示
-            p1Keys.SetActive(true);
-            p2Keys.SetActive(true);
+            o1PKeys.SetActive(true);
+            o2PKeys.SetActive(true);
 
             // 対局開始
             schedulerManager.StartGame();
@@ -49,7 +51,7 @@
             playerButtons.SetActive(false);
 
             // UI表示
-            p1Keys.SetActive(true);
+            o1PKeys.SetActive(true);
 
             // 対局開始
             schedulerManager.StartGame();
@@ -66,7 +68,7 @@
             playerButtons.SetActive(false);
 
             // UI表示
-            p2Keys.SetActive(true);
+            o2PKeys.SetActive(true);
 
             // 対局開始
             schedulerManager.StartGame();
@@ -86,6 +88,18 @@
             schedulerManager.StartGame();
         }
 
+        public void On1PWin()
+        {
+            Debug.Log("1P win");
+            o1PWin.SetActive(true);
+        }
+
+        public void On2PWin()
+        {
+            Debug.Log("2P win");
+            o2PWin.SetActive(true);
+        }
+
         // - イベントハンドラ
 
         // Start is called before the first frame update
@@ -94,8 +108,13 @@
             inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
             schedulerManager = GameObject.Find("Scheduler Manager").GetComponent<SchedulerManager>();
 
-            p1Keys.SetActive(false);
-            p2Keys.SetActive(false);
+            // UI非表示
+            o1PWin.SetActive(false);
+            o2PWin.SetActive(false);
+
+            // 表示
+            o1PKeys.SetActive(false);
+            o2PKeys.SetActive(false);
         }
 
         // Update is called once per frame

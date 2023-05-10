@@ -104,6 +104,8 @@
 
         /// <summary>
         /// コルーチン
+        /// 
+        /// - 再開
         /// </summary>
         IEnumerator WorkingOfReopening()
         {

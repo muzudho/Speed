@@ -87,6 +87,9 @@
 
         /// <summary>
         /// 整数型形式で取得
+        /// 
+        /// - プレイヤー1 は 0
+        /// - プレイヤー2 は 1
         /// </summary>
         internal int AsInt => source;
     }
