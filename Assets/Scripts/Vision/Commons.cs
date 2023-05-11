@@ -4,6 +4,7 @@
     using Assets.Scripts.Vision.Models.World;
     using System;
     using UnityEngine;
+    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
 
     /// <summary>
     /// 画面表示関連
@@ -73,7 +74,8 @@
         /// <returns></returns>
         internal static Vector3 CreatePositionOfNewCenterStackCard(
             CenterStackPlace placeObj,
-            IdOfPlayingCards previousTop)
+            IdOfPlayingCards previousTop,
+            ModelOfGame.Model gameModel)
         {
             if (previousTop == IdOfPlayingCards.None)
             {
@@ -81,16 +83,22 @@
                 return positionOfCenterStacksOrigin[placeObj.AsInt].ToMutable();
             }
 
-            // 置く前の台札の天辺
+            // 台札の枚数
+            var num = gameModel.GetCenterStack(placeObj).GetLength();
+
+            // 置くカードのY座標
+            var nextTopY = (num + 1) * Commons.yOfCardThickness.Y;
+
+            // 置く前の台札の天辺の札
             var goLastCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(previousTop)];
 
             var pos = new Vector3(
                 x: (positionOfCenterStacksOrigin[placeObj.AsInt].X - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[placeObj.AsInt].X,
-                y: goLastCard.transform.position.y,
+                y: nextTopY,// goLastCard.transform.position.y,
                 z: (positionOfCenterStacksOrigin[placeObj.AsInt].Z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[placeObj.AsInt].Z);
 
             // カードの厚み分、上へ
-            pos = Commons.yOfCardThickness.Add(pos);
+            //pos = Commons.yOfCardThickness.Add(pos);
 
             return pos;
         }

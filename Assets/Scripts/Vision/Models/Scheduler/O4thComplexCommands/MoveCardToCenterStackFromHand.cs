@@ -124,7 +124,8 @@
             {
                 nextTop = ScriptForVisionCommons.CreatePositionOfNewCenterStackCard(
                             placeObj: placeObj,
-                            previousTop: idOfPreviousTop);
+                            previousTop: idOfPreviousTop,
+                            gameModel: gameModel);
             }
 
             // 台札へ置く
