@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
 using ModelOfInput = Assets.Scripts.Vision.Models.Input;
 using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
 using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -39,6 +40,11 @@ public class SchedulerManager : MonoBehaviour
     /// </summary>
     ModelOfGameBuffer.Model gameModelBuffer;
 
+    /// <summary>
+    /// ゲーム・モデル・バッファー
+    /// </summary>
+    ModelOfGameWriter.Model gameModelWriter;
+
     // - メソッド
 
     #region メソッド（対局開始）
@@ -50,6 +56,7 @@ public class SchedulerManager : MonoBehaviour
         // 開始局面まで登録
         SetStartPosition.DoIt(
             gameModelBuffer,
+            gameModelWriter,
             this.InputModel,
             this.Model);
 
@@ -76,6 +83,7 @@ public class SchedulerManager : MonoBehaviour
         // スケジュールを消化していきます
         ModelOfScheduler.Helper.ConvertToSpans(
             gameModelBuffer,
+            gameModelWriter,
             this.InputModel,
             this.Model,
             setTimespan: (spanToLerp) =>
@@ -108,8 +116,9 @@ public class SchedulerManager : MonoBehaviour
     void Start()
     {
         var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        this.gameModel = gameManager.Model;
+        this.gameModel = gameManager.ObservableModel;
         this.gameModelBuffer = gameManager.ModelBuffer;
+        this.gameModelWriter = gameManager.ModelWriter;
 
         var inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
         this.InputModel = inputManager.Model;

@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+    using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -39,6 +40,7 @@
         /// </summary>
         public override void GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
@@ -63,7 +65,7 @@
 
             // モデル更新：場札への移動
             // ========================
-            gameModelBuffer.GetPlayer(playerObj).MoveCardsToHandFromPile(
+            gameModelWriter.GetPlayer(playerObj).MoveCardsToHandFromPile(
                 startIndexObj: new PlayerPileCardIndex(length - command.NumberOfCards),
                 numberOfCards: command.NumberOfCards);
             // 場札は１枚以上になる
@@ -75,11 +77,11 @@
             // - 場札無しの勝利後に配ったケース
             if (gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard == Commons.HandCardIndexNoSelected)
             {
-                gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard = Commons.HandCardIndexFirst;
+                gameModelWriter.GetPlayer(playerObj).IndexOfFocusedCard = Commons.HandCardIndexFirst;
             }
 
             // 確定：場札の枚数
-            int numberOfCards = gameModelBuffer.GetPlayer(playerObj).GetLengthOfHandCards();
+            int numberOfCards = gameModelWriter.GetPlayer(playerObj).GetLengthOfHandCards();
 
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
@@ -87,8 +89,8 @@
                 ModelOfSchedulerO3rdSimplexCommand.ArrangeHandCards.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
-                    indexOfPickupObj: gameModelBuffer.GetPlayer(playerObj).GetIndexOfFocusedCard(),
-                    idOfHandCards: gameModelBuffer.GetPlayer(playerObj).GetCardsOfHand(),
+                    indexOfPickupObj: gameModelWriter.GetPlayer(playerObj).GetIndexOfFocusedCard(),
+                    idOfHandCards: gameModelWriter.GetPlayer(playerObj).GetCardsOfHand(),
                     keepPickup: true,
                     setTimespan: setTimespan,
                     onProgressOrNull: (progress) =>

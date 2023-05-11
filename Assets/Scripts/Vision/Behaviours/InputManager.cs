@@ -69,7 +69,7 @@
             this.Model.CleanUp();
 
             var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-            gameModel = gameManager.Model;
+            gameModel = gameManager.ObservableModel;
             gameModelBuffer = gameManager.ModelBuffer;
 
             var schedulerManager = GameObject.Find("Scheduler Manager").GetComponent<SchedulerManager>();

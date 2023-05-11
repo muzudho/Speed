@@ -6,6 +6,7 @@
     using Assets.Scripts.Vision.Models.World;
     using System;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+    using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -41,6 +42,7 @@
         /// </summary>
         public override void GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
@@ -91,7 +93,7 @@
 
             if (Commons.HandCardIndexFirst <= indexOfPreviousObj && indexOfPreviousObj.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModelBuffer.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfPreviousObj); // ピックアップしている場札
+                var idOfCard = gameModelWriter.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfPreviousObj); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimespan(ModelOfSchedulerO3rdSimplexCommand.DropHandCard.GenerateSpan(
@@ -100,11 +102,11 @@
             }
 
             // モデル更新：ピックアップしている場札の、インデックス更新
-            gameModelBuffer.GetPlayer(command.PlayerObj).IndexOfFocusedCard = indexOfCurrentObj;
+            gameModelWriter.GetPlayer(command.PlayerObj).IndexOfFocusedCard = indexOfCurrentObj;
 
             if (Commons.HandCardIndexFirst <= indexOfCurrentObj && indexOfCurrentObj.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModelBuffer.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfCurrentObj); // ピックアップしている場札
+                var idOfCard = gameModelWriter.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfCurrentObj); // ピックアップしている場札
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる

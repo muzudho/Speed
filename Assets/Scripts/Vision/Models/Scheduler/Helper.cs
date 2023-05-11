@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler
 {
     using Assets.Scripts.Coding;
+    using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -21,6 +22,7 @@
         /// <param name="setTimespan"></param>
         internal static void ConvertToSpans(
             ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
@@ -49,6 +51,7 @@
                 // タイムスパン作成・登録
                 commandOfScheduler.GenerateSpan(
                     gameModelBuffer,
+                    gameModelWriter,
                     inputModel,
                     schedulerModel,
                     setTimespan: setTimespan);

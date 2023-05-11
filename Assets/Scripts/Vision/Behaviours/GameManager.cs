@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using UnityEngine;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+    using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
 
@@ -57,21 +58,40 @@
         #endregion
 
         #region プロパティ（ゲーム・モデル）
-        ModelOfObservableGame.Model model;
+        ModelOfObservableGame.Model observableModel;
 
         /// <summary>
         /// ゲーム・モデル
         /// </summary>
-        internal ModelOfObservableGame.Model Model
+        internal ModelOfObservableGame.Model ObservableModel
         {
             get
             {
-                if (model == null)
+                if (observableModel == null)
                 {
                     // ゲーム・モデルは、ゲーム・モデル・バッファーを持つ（が、外から見えないようにする）
-                    model = new ModelOfObservableGame.Model(modelBuffer);
+                    observableModel = new ModelOfObservableGame.Model(modelBuffer);
                 }
-                return model;
+                return observableModel;
+            }
+        }
+        #endregion
+
+        #region プロパティ（ゲーム・モデル・ライター）
+        ModelOfGameWriter.Model modelWriter;
+
+        /// <summary>
+        /// ゲーム・モデル・ライター
+        /// </summary>
+        internal ModelOfGameWriter.Model ModelWriter
+        {
+            get
+            {
+                if (modelWriter == null)
+                {
+                    modelWriter = new ModelOfGameWriter.Model(modelBuffer);
+                }
+                return modelWriter;
             }
         }
         #endregion

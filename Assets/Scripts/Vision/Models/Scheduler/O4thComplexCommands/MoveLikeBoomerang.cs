@@ -5,6 +5,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using UnityEngine;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+    using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -38,6 +39,7 @@
         /// </summary>
         public override void GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
@@ -83,23 +85,23 @@
             var targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand[indexToRemoveObj.AsInt];
 
             // モデル更新：場札を１枚抜く
-            gameModelBuffer.GetPlayer(playerObj).RemoveCardAtOfHand(indexToRemoveObj);
+            gameModelWriter.GetPlayer(playerObj).RemoveCardAtOfHand(indexToRemoveObj);
 
             // 確定：場札の枚数
-            var lengthOfHandCards = gameModelBuffer.GetPlayer(playerObj).GetLengthOfHandCards();
+            var lengthOfHandCards = gameModelWriter.GetPlayer(playerObj).GetLengthOfHandCards();
 
             // 確定：抜いたあとの場札リスト
-            var idOfHandCardsAfterRemove = gameModelBuffer.GetPlayer(playerObj).GetCardsOfHand();
+            var idOfHandCardsAfterRemove = gameModelWriter.GetPlayer(playerObj).GetCardsOfHand();
 
             // モデル更新：何枚目の場札をピックアップしているか
-            gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard = indexOfNextPickObj;
+            gameModelWriter.GetPlayer(playerObj).IndexOfFocusedCard = indexOfNextPickObj;
 
             // 確定：前の台札の天辺のカード
-            IdOfPlayingCards idOfPreviousTop = gameModelBuffer.GetCenterStack(placeObj).GetTopCard();
+            IdOfPlayingCards idOfPreviousTop = gameModelWriter.GetCenterStack(placeObj).GetTopCard();
 
             // モデル更新：次に、台札として置く
-            var indexOfCenterStack = gameModelBuffer.GetCenterStack(placeObj).GetLength();
-            gameModelBuffer.GetCenterStack(placeObj).AddCard(targetToRemoveObj);
+            var indexOfCenterStack = gameModelWriter.GetCenterStack(placeObj).GetLength();
+            gameModelWriter.GetCenterStack(placeObj).AddCard(targetToRemoveObj);
 
             //
             // 台札の新しい天辺の座標
@@ -131,7 +133,7 @@
                         // Debug.Log($"テストB placeObj:{placeObj.AsInt}");
 
                         // 下のカード
-                        var previousCard = gameModelBuffer.GetCenterStack(placeObj).GetCard(indexOfCenterStack);
+                        var previousCard = gameModelWriter.GetCenterStack(placeObj).GetCard(indexOfCenterStack);
                         // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
 
                         // 隣ではないか？

@@ -5,6 +5,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using System;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+    using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
@@ -41,6 +42,7 @@
         /// <param name="place">右:0, 左:1</param>
         public override void GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
@@ -54,7 +56,7 @@
             {
                 var startIndexObj = new CenterStackCardIndex(length - numberOfCards);
                 var idOfCardOfCenterStack = gameModelBuffer.GetCenterStack(command.PlaceObj).IdOfCards[startIndexObj.AsInt]; // 台札の１番上のカード
-                gameModelBuffer.GetCenterStack(command.PlaceObj).RemoveCardAt(startIndexObj);
+                gameModelWriter.GetCenterStack(command.PlaceObj).RemoveCardAt(startIndexObj);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 Player playerObj;
@@ -76,7 +78,7 @@
                 }
 
                 // プレイヤーの手札を積み上げる
-                gameModelBuffer.GetPlayer(playerObj).AddCardOfPile(idOfCardOfCenterStack);
+                gameModelWriter.GetPlayer(playerObj).AddCardOfPile(idOfCardOfCenterStack);
 
                 setTimespan(ModelOfSchedulerO3rdSimplexCommand.PutCardToPile.GenerateSpan(
                     timeRange: this.TimeRangeObj,

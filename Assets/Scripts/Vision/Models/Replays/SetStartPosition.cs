@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+    using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;
@@ -16,6 +17,7 @@
     {
         internal static void DoIt(
             ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel)
         {
@@ -39,6 +41,7 @@
                 // タイムスパン作成・登録
                 commandOfScheduler.GenerateSpan(
                     gameModelBuffer: gameModelBuffer,
+                    gameModelWriter: gameModelWriter,
                     inputModel: inputModel,
                     schedulerModel: schedulerModel,
                     setTimespan: (timespan) => timespan.Lerp(1.0f));
