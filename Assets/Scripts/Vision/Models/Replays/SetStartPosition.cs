@@ -3,7 +3,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
-    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;

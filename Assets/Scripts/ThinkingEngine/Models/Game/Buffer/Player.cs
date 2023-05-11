@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.GameBuffer
+﻿namespace Assets.Scripts.ThinkingEngine.Models.Game.Buffer
 {
     using System.Collections.Generic;
 

@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler
 {
     using Assets.Scripts.Coding;
-    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;

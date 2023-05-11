@@ -2,11 +2,10 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using Assets.Scripts.Vision.Models.World;
     using System.Collections.Generic;
     using UnityEngine;
-    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
 
@@ -21,7 +20,7 @@
 
         #region プロパティ（ゲーム・モデル・バッファー）
         ModelOfGameBuffer.Model modelBuffer = new ModelOfGameBuffer.Model(
-            centerStacks: new CenterStack[2]
+            centerStacks: new ModelOfGameBuffer.CenterStack[2]
             {
                 // 右
                 new(idOfCards: new List<ModelOfThinkingEngine.IdOfPlayingCards>()),

@@ -6,7 +6,7 @@
     using Assets.Scripts.Vision.Models.World;
     using System;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
-    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;

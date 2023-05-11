@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Models.Game.Observable
 {
-    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
 
     /// <summary>
     /// ゲーム・モデル

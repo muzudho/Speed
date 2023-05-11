@@ -3,7 +3,7 @@
     using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
-    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
 
     /// <summary>
     /// ゲーム・モデル
