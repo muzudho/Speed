@@ -3,7 +3,7 @@
     using Assets.Scripts.ThinkingEngine;
     using System;
     using UnityEngine;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game.Model;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>
@@ -45,7 +45,7 @@
         /// <param name="indexOnCenterStackToNextCard">これから置く札の台札でのインデックス</param>
         /// <returns></returns>
         internal static bool IsBoomerang(
-            ModelOfGame gameModel,
+            ModelOfObservableGame gameModel,
             Player playerObj,
             CenterStackPlace placeObj,
             out IdOfPlayingCards previousCard)

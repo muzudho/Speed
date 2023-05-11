@@ -4,7 +4,7 @@
     using Assets.Scripts.Vision.Behaviours;
     using System;
     using UnityEngine;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game.Model;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
@@ -105,7 +105,7 @@
         /// <summary>
         /// 入力を翻訳
         /// </summary>
-        internal void Translate(ModelOfGame gameModel)
+        internal void Translate(ModelOfObservableGame gameModel)
         {
             // キー入力の解析：クリアー
             this.Meaning.Clear();
@@ -149,7 +149,7 @@
         /// <param name="nearOrFarOfCenterStack">自分に近い方の台札、または、自分から遠い方の台札</param>
         internal void MoveCardToCenterStackFromHand(
             NearFar nearOrFarOfCenterStack,
-            ModelOfGame gameModel,
+            ModelOfObservableGame gameModel,
             StalemateManager stalemateManager,
             ModelOfScheduler.Model schedulerModel)
         {
@@ -188,7 +188,7 @@
         /// </summary>
         internal void PickupCardToNext(
             PickingDirection pickingDirection,
-            ModelOfGame gameModel,
+            ModelOfObservableGame gameModel,
             StalemateManager stalemateManager,
             ModelOfScheduler.Model schedulerModel)
         {
@@ -213,7 +213,7 @@
         /// 手札を引く
         /// </summary>
         internal void DrawingHandCardFromPileCard(
-            ModelOfGame gameModel,
+            ModelOfObservableGame gameModel,
             ModelOfScheduler.Model schedulerModel)
         {
             // 場札を並べる

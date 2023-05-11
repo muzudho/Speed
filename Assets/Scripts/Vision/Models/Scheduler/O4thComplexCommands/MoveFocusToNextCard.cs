@@ -5,7 +5,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
     using System;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -48,7 +48,7 @@
         {
             var command = (ModelOfThinkingEngineCommand.MoveFocusToNextCard)this.CommandOfThinkingEngine;
 
-            ModelOfGame.Model gameModel = new ModelOfGame.Model(gameModelBuffer);
+            ModelOfObservableGame.Model gameModel = new ModelOfObservableGame.Model(gameModelBuffer);
             var indexOfPreviousObj = gameModelBuffer.GetPlayer(command.PlayerObj).IndexOfFocusedCard; // 下ろす場札
 
             HandCardIndex indexOfCurrentObj; // ピックアップする場札

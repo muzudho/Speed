@@ -4,7 +4,7 @@
     using Assets.Scripts.Vision.Models.World;
     using System;
     using UnityEngine;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 
     /// <summary>
     /// 画面表示関連
@@ -72,7 +72,7 @@
         /// <returns></returns>
         internal static Vector3 CreatePositionOfNewCenterStackCard(
             CenterStackPlace placeObj,
-            ModelOfGame.Model gameModel)
+            ModelOfObservableGame.Model gameModel)
         {
             // 台札の枚数
             var num = gameModel.GetCenterStack(placeObj).GetLength();

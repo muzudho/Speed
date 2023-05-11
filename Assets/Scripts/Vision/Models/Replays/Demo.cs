@@ -4,7 +4,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game.Model;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
 
     static class Demo
     {
@@ -15,7 +15,7 @@
         /// 
         /// - デモ
         /// </summary>
-        static void SetupDemo(ModelOfGame gameModel, ModelOfScheduler.Model schedulerModel)
+        static void SetupDemo(ModelOfObservableGame gameModel, ModelOfScheduler.Model schedulerModel)
         {
             // 卓準備
 

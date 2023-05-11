@@ -3,7 +3,7 @@ using Assets.Scripts.Vision.Models;
 using Assets.Scripts.Vision.Models.Replays;
 using System.Collections.Generic;
 using UnityEngine;
-using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
 using ModelOfInput = Assets.Scripts.Vision.Models.Input;
 using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -32,7 +32,7 @@ public class SchedulerManager : MonoBehaviour
     /// <summary>
     /// コンピューター・プレイヤー用
     /// </summary>
-    ModelOfGame.Model gameModel;
+    ModelOfObservableGame.Model gameModel;
 
     /// <summary>
     /// ゲーム・モデル・バッファー

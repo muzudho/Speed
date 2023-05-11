@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.Game
+﻿namespace Assets.Scripts.ThinkingEngine.Models.Game.Observable
 {
     using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;

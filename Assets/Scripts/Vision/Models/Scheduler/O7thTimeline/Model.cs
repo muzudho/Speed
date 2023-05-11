@@ -3,7 +3,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using System.Collections.Generic;
     using UnityEngine;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfSchedulerO4thCommand = Assets.Scripts.Vision.Models.Scheduler.O4thComplexCommands;
     using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
@@ -22,7 +22,7 @@
         /// 生成
         /// </summary>
         /// <param name="gameModel"></param>
-        public Model(ModelOfGame.Model gameModel)
+        public Model(ModelOfObservableGame.Model gameModel)
         {
             this.GameModel = gameModel;
 
@@ -36,7 +36,7 @@
         /// <summary>
         /// ゲーム・モデル
         /// </summary>
-        internal ModelOfGame.Model GameModel { get; private set; }
+        internal ModelOfObservableGame.Model GameModel { get; private set; }
         #endregion
 
         #region プロパティ（スケジュールに登録されている残りの項目）

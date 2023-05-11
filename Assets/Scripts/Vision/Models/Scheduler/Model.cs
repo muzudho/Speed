@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using UnityEngine;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO7thTimeline = Assets.Scripts.Vision.Models.Scheduler.O7thTimeline;
 
@@ -20,7 +20,7 @@
         /// 生成
         /// </summary>
         /// <param name="gameModel"></param>
-        public Model(ModelOfGame.Model gameModel)
+        public Model(ModelOfObservableGame.Model gameModel)
         {
             // タイムラインは、ゲーム・モデルを持つ。
             this.Timeline = new ModelOfSchedulerO7thTimeline.Model(gameModel);

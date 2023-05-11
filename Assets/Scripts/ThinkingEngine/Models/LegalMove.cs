@@ -1,13 +1,13 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Models
 {
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 
     static class LegalMove
     {
         // - メソッド
 
         internal static bool CanPutToCenterStack(
-            ModelOfGame.Model gameModel,
+            ModelOfObservableGame.Model gameModel,
             Player playerObj,
             HandCardIndex indexObj,
             CenterStackPlace placeOfCenterStackObj)

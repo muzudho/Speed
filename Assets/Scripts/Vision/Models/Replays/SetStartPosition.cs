@@ -2,7 +2,7 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game.Model;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -19,7 +19,7 @@
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel)
         {
-            var gameModel = new ModelOfGame(gameModelBuffer);
+            var gameModel = new ModelOfObservableGame(gameModelBuffer);
 
             // とりあえず右の台札
             while (0 < gameModel.GetCenterStack(Commons.RightCenterStack).GetLengthOfCards())

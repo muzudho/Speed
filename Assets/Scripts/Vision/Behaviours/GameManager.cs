@@ -4,11 +4,10 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.ThinkingEngine.Models.GameBuffer;
     using Assets.Scripts.Vision.Models.World;
-    using System;
     using System.Collections.Generic;
     using UnityEngine;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.GameBuffer;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
 
     /// <summary>
@@ -59,19 +58,19 @@
         #endregion
 
         #region プロパティ（ゲーム・モデル）
-        ModelOfGame.Model model;
+        ModelOfObservableGame.Model model;
 
         /// <summary>
         /// ゲーム・モデル
         /// </summary>
-        internal ModelOfGame.Model Model
+        internal ModelOfObservableGame.Model Model
         {
             get
             {
                 if (model == null)
                 {
                     // ゲーム・モデルは、ゲーム・モデル・バッファーを持つ（が、外から見えないようにする）
-                    model = new ModelOfGame.Model(modelBuffer);
+                    model = new ModelOfObservableGame.Model(modelBuffer);
                 }
                 return model;
             }

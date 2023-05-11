@@ -5,7 +5,7 @@
     using System.Collections;
     using TMPro;
     using UnityEngine;
-    using ModelOfGame = Assets.Scripts.ThinkingEngine.Models.Game;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
 
@@ -35,7 +35,7 @@
 
         TMP_Text countDownText;
 
-        ModelOfGame.Model gameModel;
+        ModelOfObservableGame.Model gameModel;
 
         // - プロパティ
 
@@ -49,7 +49,7 @@
         /// <summary>
         /// ステールメートしているか確認します
         /// </summary>
-        internal void CheckStalemate(ModelOfGame.Model gameModel)
+        internal void CheckStalemate(ModelOfObservableGame.Model gameModel)
         {
             this.gameModel = gameModel;
 
