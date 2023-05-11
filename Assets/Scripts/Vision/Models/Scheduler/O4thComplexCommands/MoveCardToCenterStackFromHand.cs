@@ -124,7 +124,6 @@
             {
                 nextTop = ScriptForVisionCommons.CreatePositionOfNewCenterStackCard(
                             placeObj: placeObj,
-                            previousTop: idOfPreviousTop,
                             gameModel: gameModel);
             }
 

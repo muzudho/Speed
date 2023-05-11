@@ -67,22 +67,13 @@
         /// <summary>
         /// 台札の次の天辺の位置
         /// </summary>
-        /// <param name="gameModel"></param>
         /// <param name="placeObj"></param>
-        /// <param name="getLengthOfCenterStackCards"></param>
-        /// <param name="getLastCardOfCenterStack">天辺（最後）のカード</param>
+        /// <param name="gameModel"></param>
         /// <returns></returns>
         internal static Vector3 CreatePositionOfNewCenterStackCard(
             CenterStackPlace placeObj,
-            IdOfPlayingCards previousTop,
             ModelOfGame.Model gameModel)
         {
-            if (previousTop == IdOfPlayingCards.None)
-            {
-                // 床上
-                return positionOfCenterStacksOrigin[placeObj.AsInt].ToMutable();
-            }
-
             // 台札の枚数
             var num = gameModel.GetCenterStack(placeObj).GetLength();
 
