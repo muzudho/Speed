@@ -11,6 +11,7 @@
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdSimplexCommands;
     using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ScriptForVisionCommons = Assets.Scripts.Vision.Commons;
 
     /// <summary>
     /// 場札から、台札へ向かったカードが、場札へまた戻ってくる動き
@@ -102,6 +103,19 @@
             var indexOfCenterStack = gameModelBuffer.GetCenterStack(placeObj).GetLength();
             gameModelBuffer.GetCenterStack(placeObj).AddCard(targetToRemoveObj);
 
+            //
+            // 台札の新しい天辺の座標
+            // ======================
+            //
+            // - (Analog) 相手が台札へ向かって投げた場札が、まだ空中を移動中かも
+            //
+            Vector3 nextTop;
+            {
+                nextTop = ScriptForVisionCommons.CreatePositionOfNewCenterStackCard(
+                            placeObj: placeObj,
+                            previousTop: idOfPreviousTop);
+            }
+
             // 台札へ置く
             setTimespan(ModelOfSchedulerO3rdSimplexCommand.PutCardToCenterStack.GenerateSpan(
                 timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
@@ -111,6 +125,7 @@
                 placeObj: placeObj,
                 target: targetToRemoveObj,
                 idOfPreviousTop: idOfPreviousTop,
+                nextTop: nextTop,
                 onProgressOrNull: (progress) =>
                 {
                     // 下のカードの数が、自分のカードの数の隣でなければ

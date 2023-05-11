@@ -26,16 +26,9 @@
             CenterStackPlace placeObj,
             IdOfPlayingCards target,
             IdOfPlayingCards idOfPreviousTop,
+            Vector3 nextTop,
             LazyArgs.SetValue<float> onProgressOrNull)
         {
-            // 台札の新しい天辺の座標
-            Vector3 nextTop;
-            {
-                nextTop = Commons.CreatePositionOfNewCenterStackCard(
-                            placeObj: placeObj,
-                            previousTop: idOfPreviousTop);
-            }
-
             var targetGo = IdMapping.GetIdOfGameObject(target);
 
             Vector3? startPosition = null;
@@ -84,7 +77,6 @@
                             // また、元の捻りを保存していないと、補間で大回転してしまうようだ
 
                             var src = GameObjectStorage.Items[targetGo].transform.rotation; // 抜いた場札
-                            var shake = Commons.ShakeRotation();
                             float yByPlayer;
                             if (playerObj.AsInt == 0) // １プレイヤーの方を 180°回転させる
                             {
@@ -95,10 +87,18 @@
                                 yByPlayer = 0.0f;
                             }
 
+                            // ぶれさせるなら
+                            var shake = Commons.ShakeRotation();
                             endRotation = Quaternion.Euler(
                                 x: src.x + shake.x,
                                 y: src.y + shake.y + yByPlayer,
                                 z: src.z + shake.z);
+
+                            // ぶれさせないなら
+                            //endRotation = Quaternion.Euler(
+                            //    x: src.x,
+                            //    y: src.y + yByPlayer,
+                            //    z: src.z);
                         }
                         return endRotation ?? throw new Exception();
                     }),
