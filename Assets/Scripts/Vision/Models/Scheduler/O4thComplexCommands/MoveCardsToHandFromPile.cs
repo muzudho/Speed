@@ -3,7 +3,6 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -44,7 +43,6 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
-            ModelOfObservableGame.Model gameModel = new ModelOfObservableGame.Model(gameModelBuffer);
             var command = (ModelOfThinkingEngineCommand.MoveCardsToHandFromPile)this.CommandOfThinkingEngine;
             var playerObj = command.PlayerObj;
 
@@ -81,7 +79,7 @@
             }
 
             // 確定：場札の枚数
-            int numberOfCards = gameModel.GetPlayer(playerObj).GetLengthOfHandCards();
+            int numberOfCards = gameModelBuffer.GetPlayer(playerObj).GetLengthOfHandCards();
 
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
@@ -89,8 +87,8 @@
                 ModelOfSchedulerO3rdSimplexCommand.ArrangeHandCards.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
-                    indexOfPickupObj: gameModel.GetPlayer(playerObj).GetIndexOfFocusedCard(),
-                    idOfHandCards: gameModel.GetPlayer(playerObj).GetCardsOfHand(),
+                    indexOfPickupObj: gameModelBuffer.GetPlayer(playerObj).GetIndexOfFocusedCard(),
+                    idOfHandCards: gameModelBuffer.GetPlayer(playerObj).GetCardsOfHand(),
                     keepPickup: true,
                     setTimespan: setTimespan,
                     onProgressOrNull: (progress) =>

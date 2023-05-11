@@ -24,7 +24,6 @@
         /// ムーブメント生成
         /// </summary>
         /// <param name="timeRange"></param>
-        /// <param name="gameModel"></param>
         /// <param name="playerObj"></param>
         /// <param name="indexOfPickupObj">ピックアップしている場札は何番目</param>
         /// <param name="idOfHandCards">場札のIdリスト</param>

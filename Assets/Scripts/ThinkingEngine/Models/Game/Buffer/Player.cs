@@ -111,5 +111,43 @@
             this.RemoveRangeCardsOfPile(startIndexObj, numberOfCards);
             this.AddRangeCardsOfHand(idOfCards);
         }
+
+        /// <summary>
+        /// ｎプレイヤーが選択している場札は、先頭から何枚目
+        /// 
+        /// - 選択中の場札が無いなら、-1
+        /// </summary>
+        internal HandCardIndex GetIndexOfFocusedCard()
+        {
+            return this.IndexOfFocusedCard;
+        }
+
+        /// <summary>
+        /// ｎプレイヤーの、場札の枚数
+        /// </summary>
+        /// <returns></returns>
+        internal int GetLengthOfHandCards()
+        {
+            return this.IdOfCardsOfHand.Count;
+        }
+
+        /// <summary>
+        /// ｎプレイヤーの、場札をリストで取得
+        /// </summary>
+        /// <returns></returns>
+        internal List<IdOfPlayingCards> GetCardsOfHand()
+        {
+            return this.IdOfCardsOfHand;
+        }
+
+        /// <summary>
+        /// ｎプレイヤーの、ｍ枚目の場札を取得
+        /// </summary>
+        /// <param name="handIndexObj"></param>
+        /// <returns></returns>
+        internal IdOfPlayingCards GetCardAtOfHand(HandCardIndex handIndexObj)
+        {
+            return this.IdOfCardsOfHand[handIndexObj.AsInt];
+        }
     }
 }

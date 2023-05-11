@@ -17,7 +17,9 @@
         /// ムーブメント生成
         /// </summary>
         /// <param name="timeRange"></param>
-        /// <param name="target">ゲーム・オブジェクトId</param>
+        /// <param name="playerObj"></param>
+        /// <param name="idOfPlayerPileCards"></param>
+        /// <param name="idOfPlayingCard"></param>
         /// <returns></returns>
         internal static ModelOfSchedulerO1stTimelineSpan.IModel GenerateSpan(
             ModelOfSchedulerO1stTimelineSpan.Range timeRange,

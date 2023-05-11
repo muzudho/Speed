@@ -4,7 +4,6 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using UnityEngine;
-    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -45,7 +44,6 @@
         {
             var command = (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)this.CommandOfThinkingEngine;
 
-            var gameModel = new ModelOfObservableGame.Model(gameModelBuffer);
             var playerObj = command.PlayerObj;
             var indexToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard; // 何枚目の場札をピックアップしているか
 
@@ -88,16 +86,16 @@
             gameModelBuffer.GetPlayer(playerObj).RemoveCardAtOfHand(indexToRemoveObj);
 
             // 確定：場札の枚数
-            var lengthOfHandCards = gameModel.GetPlayer(playerObj).GetLengthOfHandCards();
+            var lengthOfHandCards = gameModelBuffer.GetPlayer(playerObj).GetLengthOfHandCards();
 
             // 確定：抜いたあとの場札リスト
-            var idOfHandCardsAfterRemove = gameModel.GetPlayer(playerObj).GetCardsOfHand();
+            var idOfHandCardsAfterRemove = gameModelBuffer.GetPlayer(playerObj).GetCardsOfHand();
 
             // モデル更新：何枚目の場札をピックアップしているか
             gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard = indexOfNextPickObj;
 
             // 確定：前の台札の天辺のカード
-            IdOfPlayingCards idOfPreviousTop = gameModel.GetCenterStack(placeObj).GetTopCard();
+            IdOfPlayingCards idOfPreviousTop = gameModelBuffer.GetCenterStack(placeObj).GetTopCard();
 
             // モデル更新：次に、台札として置く
             var indexOfCenterStack = gameModelBuffer.GetCenterStack(placeObj).GetLength();
@@ -113,7 +111,7 @@
             {
                 nextTop = ScriptForVisionCommons.CreatePositionOfNewCenterStackCard(
                             placeObj: placeObj,
-                            gameModel: gameModel);
+                            gameModelBuffer: gameModelBuffer);
             }
 
             // 台札へ置く
@@ -122,9 +120,7 @@
                     start: this.TimeRangeObj.StartObj,
                     duration: new GameSeconds(CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
                 playerObj: playerObj,
-                placeObj: placeObj,
                 target: targetToRemoveObj,
-                idOfPreviousTop: idOfPreviousTop,
                 nextTop: nextTop,
                 onProgressOrNull: (progress) =>
                 {

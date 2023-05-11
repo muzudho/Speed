@@ -76,5 +76,24 @@
         {
             this.IdOfCards.Clear();
         }
+
+        /// <summary>
+        /// 台札の天辺
+        /// </summary>
+        /// <returns></returns>
+        internal IdOfPlayingCards GetTopCard()
+        {
+            var centerStack = this.IdOfCards;
+
+            var length = centerStack.Count;
+            if (length < 1)
+            {
+                // 床上
+                return IdOfPlayingCards.None;
+            }
+
+            // 台札の天辺
+            return centerStack[length - 1];
+        }
     }
 }

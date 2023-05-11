@@ -18,14 +18,15 @@
         /// ムーブメント生成
         /// </summary>
         /// <param name="timeRange"></param>
-        /// <param name="getBegin"></param>
-        /// <param name="idOfCard">カードId</param>
+        /// <param name="playerObj"></param>
+        /// <param name="target"></param>
+        /// <param name="nextTop"></param>
+        /// <param name="onProgressOrNull"></param>
+        /// <returns></returns>
         internal static ModelOfSchedulerO1stTimelineSpan.IModel GenerateSpan(
             ModelOfSchedulerO1stTimelineSpan.Range timeRange,
             Player playerObj,
-            CenterStackPlace placeObj,
             IdOfPlayingCards target,
-            IdOfPlayingCards idOfPreviousTop,
             Vector3 nextTop,
             LazyArgs.SetValue<float> onProgressOrNull)
         {

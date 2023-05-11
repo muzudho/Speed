@@ -5,7 +5,6 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models.World;
     using System;
-    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
@@ -48,7 +47,6 @@
         {
             var command = (ModelOfThinkingEngineCommand.MoveFocusToNextCard)this.CommandOfThinkingEngine;
 
-            ModelOfObservableGame.Model gameModel = new ModelOfObservableGame.Model(gameModelBuffer);
             var indexOfPreviousObj = gameModelBuffer.GetPlayer(command.PlayerObj).IndexOfFocusedCard; // 下ろす場札
 
             HandCardIndex indexOfCurrentObj; // ピックアップする場札
@@ -93,7 +91,7 @@
 
             if (Commons.HandCardIndexFirst <= indexOfPreviousObj && indexOfPreviousObj.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfPreviousObj); // ピックアップしている場札
+                var idOfCard = gameModelBuffer.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfPreviousObj); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimespan(ModelOfSchedulerO3rdSimplexCommand.DropHandCard.GenerateSpan(
@@ -106,7 +104,7 @@
 
             if (Commons.HandCardIndexFirst <= indexOfCurrentObj && indexOfCurrentObj.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModel.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfCurrentObj); // ピックアップしている場札
+                var idOfCard = gameModelBuffer.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfCurrentObj); // ピックアップしている場札
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
