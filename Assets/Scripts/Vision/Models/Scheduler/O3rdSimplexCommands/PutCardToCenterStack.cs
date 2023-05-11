@@ -88,17 +88,17 @@
                             }
 
                             // ぶれさせるなら
-                            var shake = Commons.ShakeRotation();
-                            endRotation = Quaternion.Euler(
-                                x: src.x + shake.x,
-                                y: src.y + shake.y + yByPlayer,
-                                z: src.z + shake.z);
+                            //var shake = Commons.ShakeRotation();
+                            //endRotation = Quaternion.Euler(
+                            //    x: src.x + shake.x,
+                            //    y: src.y + shake.y + yByPlayer,
+                            //    z: src.z + shake.z);
 
                             // ぶれさせないなら
-                            //endRotation = Quaternion.Euler(
-                            //    x: src.x,
-                            //    y: src.y + yByPlayer,
-                            //    z: src.z);
+                            endRotation = Quaternion.Euler(
+                                x: src.x,
+                                y: src.y + yByPlayer,
+                                z: src.z);
                         }
                         return endRotation ?? throw new Exception();
                     }),
