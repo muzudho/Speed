@@ -89,16 +89,20 @@
             // 置くカードのY座標
             var nextTopY = (num + 1) * Commons.yOfCardThickness.Y;
 
-            // 置く前の台札の天辺の札
-            var goLastCard = GameObjectStorage.Items[IdMapping.GetIdOfGameObject(previousTop)];
+            // ひねりを入れる
+            //var shake = Commons.ShakeRotation();
+            //endRotation = Quaternion.Euler(
+            //    x: src.x + shake.x,
+            //    y: src.y + shake.y + yByPlayer,
+            //    z: src.z + shake.z);
+
+            // ずらしを入れる
+            var shift = Commons.ShakePosition(placeObj);
 
             var pos = new Vector3(
-                x: (positionOfCenterStacksOrigin[placeObj.AsInt].X - goLastCard.transform.position.x) / 2 + positionOfCenterStacksOrigin[placeObj.AsInt].X,
-                y: nextTopY,// goLastCard.transform.position.y,
-                z: (positionOfCenterStacksOrigin[placeObj.AsInt].Z - goLastCard.transform.position.z) / 2 + positionOfCenterStacksOrigin[placeObj.AsInt].Z);
-
-            // カードの厚み分、上へ
-            //pos = Commons.yOfCardThickness.Add(pos);
+                x: positionOfCenterStacksOrigin[placeObj.AsInt].X + shift.x,
+                y: nextTopY,
+                z: positionOfCenterStacksOrigin[placeObj.AsInt].Z + shift.z);
 
             return pos;
         }

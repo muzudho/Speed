@@ -64,7 +64,7 @@
                         // 初回アクセス時に、値固定
                         if (endPosition == null)
                         {
-                            endPosition = nextTop + Commons.ShakePosition(placeObj);
+                            endPosition = nextTop;
                         }
                         return endPosition ?? throw new Exception();
                     },
@@ -87,14 +87,6 @@
                                 yByPlayer = 0.0f;
                             }
 
-                            // ぶれさせるなら
-                            //var shake = Commons.ShakeRotation();
-                            //endRotation = Quaternion.Euler(
-                            //    x: src.x + shake.x,
-                            //    y: src.y + shake.y + yByPlayer,
-                            //    z: src.z + shake.z);
-
-                            // ぶれさせないなら
                             endRotation = Quaternion.Euler(
                                 x: src.x,
                                 y: src.y + yByPlayer,
