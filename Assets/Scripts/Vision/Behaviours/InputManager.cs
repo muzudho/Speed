@@ -115,7 +115,7 @@
                     // ゲーム終了
                     gameModelBuffer.IsGameActive = false;
 
-                    if (playerObj== Commons.Player1)
+                    if (playerObj == Commons.Player1)
                     {
                         this.canvasManager.Won1P();
                     }
@@ -244,16 +244,28 @@
                 }
             }
 
-            // 場札の補充
-            if (this.Model.Players[Commons.Player1.AsInt].Meaning.Drawing ||
-                this.Model.Players[Commons.Player2.AsInt].Meaning.Drawing)
+            // 場札の補充（手札から１枚抜いて、場札として置く）
             {
-                // 両プレイヤーは手札から１枚抜いて、場札として置く
-                foreach (var playerObj in Commons.Players)
                 {
-                    this.Model.Players[playerObj.AsInt].DrawingHandCardFromPileCard(
-                        this.gameModel,
-                        this.schedulerModel);
+                    var playerObj = Commons.Player1;
+
+                    if (this.Model.Players[playerObj.AsInt].Meaning.Drawing)
+                    {
+                        this.Model.Players[playerObj.AsInt].DrawingHandCardFromPileCard(
+                            this.gameModel,
+                            this.schedulerModel);
+                    }
+                }
+
+                {
+                    var playerObj = Commons.Player2;
+
+                    if (this.Model.Players[playerObj.AsInt].Meaning.Drawing)
+                    {
+                        this.Model.Players[playerObj.AsInt].DrawingHandCardFromPileCard(
+                            this.gameModel,
+                            this.schedulerModel);
+                    }
                 }
             }
         }
