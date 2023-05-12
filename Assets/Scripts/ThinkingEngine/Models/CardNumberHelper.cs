@@ -34,10 +34,10 @@
         }
 
         /// <summary>
-        /// 隣か
+        /// 隣の番号か
         /// </summary>
         /// <returns></returns>
-        internal static bool IsNext(
+        internal static bool IsNextNumber(
             IdOfPlayingCards topCard,
             IdOfPlayingCards pickupCard)
         {

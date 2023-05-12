@@ -6,29 +6,46 @@
     {
         // - メソッド
 
-        internal static bool CanPutToCenterStack(
-            ModelOfObservableGame.Model gameModel,
+        /// <summary>
+        /// 台札へ、カードを置いていいか？
+        /// </summary>
+        /// <param name="observableGameModel">ゲーム・モデル</param>
+        /// <param name="playerObj">プレイヤー</param>
+        /// <param name="indexObj">手札のインデックス</param>
+        /// <param name="placeOfCenterStackObj">どちらの台札か</param>
+        /// <returns></returns>
+        internal static bool CanPutCardToCenterStack(
+            ModelOfObservableGame.Model observableGameModel,
             Player playerObj,
             HandCardIndex indexObj,
             CenterStackPlace placeOfCenterStackObj)
         {
+            // 場札が選ばれていない
             if (indexObj == Commons.HandCardIndexNoSelected)
             {
                 return false;
             }
 
-            IdOfPlayingCards topCard = gameModel.GetCenterStack(placeOfCenterStackObj).GetLastCard();
+            // 台札の天辺の札はある
+            IdOfPlayingCards topCard = observableGameModel.GetCenterStack(placeOfCenterStackObj).GetLastCard();
             if (topCard == IdOfPlayingCards.None)
             {
                 return false;
             }
 
-            var numberOfPickup = gameModel.GetPlayer(playerObj).GetCardsOfHand()[indexObj.AsInt];
-            var numberOfTopCard = topCard;
+            // 範囲外か？
+            if(observableGameModel.GetPlayer(playerObj).GetLengthOfHandCards() <= indexObj.AsInt)
+            {
+                return false;
+            }
 
-            return CardNumberHelper.IsNext(
-                topCard: numberOfTopCard,
-                pickupCard: numberOfPickup);
+            // 選んでいる場札
+            var pickupHand = observableGameModel.GetPlayer(playerObj).GetCardsOfHand()[indexObj.AsInt];
+
+            // 隣の番号か？
+            return CardNumberHelper.IsNextNumber(
+                topCard: topCard,
+                pickupCard: pickupHand);
         }
     }
 }

@@ -65,7 +65,7 @@
                         var max = gameModel.GetPlayer(playerObj).GetCardsOfHand().Count;
                         for (int i = 0; i < max; i++)
                         {
-                            if (LegalMove.CanPutToCenterStack(
+                            if (LegalMove.CanPutCardToCenterStack(
                                 gameModel,
                                 playerObj,
                                 new HandCardIndex(i),

@@ -81,7 +81,7 @@
             // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
 
             // 連続する数か？
-            if (CardNumberHelper.IsNext(
+            if (CardNumberHelper.IsNextNumber(
                 topCard: previousCard,
                 pickupCard: targetToRemoveObj))
             {

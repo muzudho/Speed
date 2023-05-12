@@ -137,7 +137,7 @@
                         // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
 
                         // 隣ではないか？
-                        if (!CardNumberHelper.IsNext(
+                        if (!CardNumberHelper.IsNextNumber(
                             topCard: previousCard,
                             pickupCard: targetToRemoveObj))
                         {
