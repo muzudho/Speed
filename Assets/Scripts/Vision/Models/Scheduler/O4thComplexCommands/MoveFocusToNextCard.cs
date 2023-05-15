@@ -95,11 +95,15 @@
                 }
             }
 
-            if (HandCardIndex.First <= previousFocusedHandCardObj.Index && previousFocusedHandCardObj.Index.AsInt < length) // 範囲内なら
+            if (
+                // インデックスが範囲内であり、
+                HandCardIndex.First <= previousFocusedHandCardObj.Index && previousFocusedHandCardObj.Index.AsInt < length &&
+                // ピックアップされている状態なら
+                previousFocusedHandCardObj.IsPickUp)
             {
                 var idOfCard = gameModelWriter.GetPlayer(command.PlayerObj).GetCardAtOfHand(previousFocusedHandCardObj.Index); // ピックアップしている場札
 
-                // 前にフォーカスしていたカードを、盤に下ろす
+                // 前にピックアップしていたカードを、盤に下ろす
                 setTimespan(ModelOfSchedulerO3rdSimplexCommand.DropHandCard.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard));
