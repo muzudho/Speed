@@ -29,17 +29,19 @@
                 // 即実行
                 // ======
 
-                // コマンド作成（思考エンジン用）
-                var commandOfThinkingEngine = new ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks(
+                //
+                // 台札のカードを、手札へ分配
+                //
+                // デジタル・コマンド（思考エンジン内部用）　→　アナログ・コマンド（画面用）に変換
+                //
+                var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks(
                         placeObj: Commons.RightCenterStack);
-
-                // コマンド作成（画面用）
-                var commandOfScheduler = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
+                var analogCommand = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
                     startObj: GameSeconds.Zero,
-                    command: commandOfThinkingEngine);
+                    command: digitalCommand);
 
                 // タイムスパン作成・登録
-                commandOfScheduler.GenerateSpan(
+                analogCommand.GenerateSpan(
                     gameModelBuffer: gameModelBuffer,
                     gameModelWriter: gameModelWriter,
                     inputModel: inputModel,
@@ -50,17 +52,17 @@
             // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
             {
                 var playerObj = Commons.Player1;
-                var parameter = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+                var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 5);
-                schedulerModel.Timeline.AddWithinScheduler(playerObj, parameter);
+                schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
             }
             {
                 var playerObj = Commons.Player2;
-                var parameter = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+                var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 5);
-                schedulerModel.Timeline.AddWithinScheduler(playerObj, parameter);
+                schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
             }
 
             // 間
@@ -118,18 +120,18 @@
 
             // 対局開始の合図
             {
-                var command = new ModelOfThinkingEngineCommand.SetGameActive(
+                var digitalCommand = new ModelOfThinkingEngineCommand.SetGameActive(
                     isGameActive: true);
 
                 {
                     var playerObj = Commons.Player1; // どっちでもいいが、とりあえず、プレイヤー１に　合図を出させる
-                    schedulerModel.Timeline.AddWithinScheduler(playerObj, command);
+                    schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
                 }
                 {
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
                     schedulerModel.Timeline.AddScheduleSeconds(
                         playerObj: playerObj,
-                        time: ModelOfScheduler.CommandDurationMapping.GetDurationBy(command.GetType()));
+                        time: ModelOfScheduler.CommandDurationMapping.GetDurationBy(digitalCommand.GetType()));
                 }
             }
 

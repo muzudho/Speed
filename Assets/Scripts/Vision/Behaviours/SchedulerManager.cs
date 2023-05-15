@@ -129,10 +129,4 @@ public class SchedulerManager : MonoBehaviour
         // 初期化
         this.CleanUp();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

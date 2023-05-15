@@ -118,13 +118,17 @@
                 // 手札に積む
                 this.modelBuffer.GetPlayer(playerObj).AddCardOfPile(idOfCard);
 
+                // 積んだカード
                 var goCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(idOfCard)];
 
+                // 手札の枚数
                 var length = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPile.Count;
-                // 最初の１枚目
+
+                // 手札の最初の１枚目
                 if (length == 1)
                 {
                     var position = Vision.Commons.positionOfPileCardsOrigin[playerObj.AsInt];
+                    // 手札の原点の位置へ
                     goCard.transform.position = position.ToMutable();
                     // 裏返す
                     goCard.transform.rotation = Quaternion.Euler(
@@ -134,10 +138,12 @@
                 }
                 else
                 {
-                    var previousTopCard = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPile[length - 2]; // 天辺より１つ下のカードが、前のカード
+                    // 天辺より１つ下のカードが、前のカード
+                    var previousTopCard = modelBuffer.GetPlayer(playerObj).IdOfCardsOfPile[length - 2];
                     var goPreviousTopCard = GameObjectStorage.Items[ModelOfThinkingEngine.IdMapping.GetIdOfGameObject(previousTopCard)];
-                    goCard.transform.position = Vision.Commons.yOfCardThickness.Add(goPreviousTopCard.transform.position); // 下のカードの上に被せる
-                                                                                                                           // 裏返す
+                    // 下のカードの上に被せる
+                    goCard.transform.position = Vision.Commons.yOfCardThickness.Add(goPreviousTopCard.transform.position);
+                    // 裏返す
                     goCard.transform.rotation = Quaternion.Euler(
                         x: goCard.transform.rotation.x,
                         y: goCard.transform.rotation.y,

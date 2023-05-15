@@ -50,10 +50,10 @@
             var command = (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)this.CommandOfThinkingEngine;
 
             var playerObj = command.PlayerObj;
-            var RemoveHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj; // 何枚目の場札をピックアップしているか
+            var oldHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj; // 何枚目の場札をピックアップしているか
 
             // 範囲外は無視
-            if (RemoveHandCardObj.Index < HandCardIndex.First || gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count <= RemoveHandCardObj.Index.AsInt)
+            if (oldHandCardObj.Index < HandCardIndex.First || gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count <= oldHandCardObj.Index.AsInt)
             {
                 return;
             }
@@ -72,30 +72,26 @@
                     lengthAfterRemove = lengthBeforeRemove - 1;
                 }
 
-                if (lengthAfterRemove <= RemoveHandCardObj.Index.AsInt) // 範囲外アクセス防止対応
+                if (lengthAfterRemove <= oldHandCardObj.Index.AsInt) // 範囲外アクセス防止対応
                 {
                     // 一旦、最後尾へ
-                    // ピックアップ状態は解除
-                    var isPickUp = false;
-                    nextFocusedHandCardObj = new FocusedHandCard(isPickUp, new HandCardIndex(lengthAfterRemove - 1));
+                    nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(lengthAfterRemove - 1));
                 }
                 else
                 {
                     // そのまま
-                    // ピックアップ状態は解除
-                    var isPickUp = false;
-                    nextFocusedHandCardObj = new FocusedHandCard(isPickUp, RemoveHandCardObj.Index);
+                    nextFocusedHandCardObj = new FocusedHandCard(true, oldHandCardObj.Index);
                 }
             }
 
             // 確定：場札から台札へ移動するカード
-            var targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand[RemoveHandCardObj.Index.AsInt];
+            var targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand[oldHandCardObj.Index.AsInt];
 
             //
             // 場札１枚減らす
             // ==============
             //
-            gameModelWriter.GetPlayer(playerObj).RemoveCardAtOfHand(RemoveHandCardObj.Index);
+            gameModelWriter.GetPlayer(playerObj).RemoveCardAtOfHand(oldHandCardObj.Index);
 
             // 確定：場札の枚数
             var lengthOfHandCards = gameModelWriter.GetPlayer(playerObj).GetLengthOfHandCards();
