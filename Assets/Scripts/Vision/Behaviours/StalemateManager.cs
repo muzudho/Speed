@@ -33,9 +33,15 @@
         /// </summary>
         ModelOfScheduler.Model SchedulerModel { get; set; }
 
-        TMP_Text countDownText;
-
+        /// <summary>
+        /// ゲーム・モデル
+        /// </summary>
         ModelOfObservableGame.Model gameModel;
+
+        /// <summary>
+        /// キャンバス・マネージャー
+        /// </summary>
+        CanvasManager canvasManager;
 
         // - プロパティ
 
@@ -112,19 +118,22 @@
             // カウントダウン
             // ==============
             Debug.Log("再開 3");
-            this.countDownText.text = "3";
+            this.canvasManager.SetVisibleOfCountDownText(true);
+            this.canvasManager.SetCountDownText("3");
             yield return new WaitForSeconds(1f);
 
             Debug.Log("再開 2");
-            this.countDownText.text = "2";
+            this.canvasManager.SetCountDownText("2");
             yield return new WaitForSeconds(1f);
 
             Debug.Log("再開 1");
-            this.countDownText.text = "1";
+            this.canvasManager.SetCountDownText("1");
             yield return new WaitForSeconds(1f);
 
             Debug.Log("強制 カード発射");
-            this.countDownText.text = "";
+            this.canvasManager.SetCountDownText("");
+            this.canvasManager.SetVisibleOfCountDownText(false);
+
             {
                 // １プレイヤーが
                 var playerObj = Commons.Player1;
@@ -173,8 +182,7 @@
         // Start is called before the first frame update
         void Start()
         {
-            this.countDownText = GameObject.Find("Count Down Text").GetComponent<TMP_Text>();
-            this.countDownText.text = "";
+            canvasManager = GameObject.Find("Canvas Manager").GetComponent<CanvasManager>();
         }
     }
 }

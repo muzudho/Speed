@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Vision.Behaviours
 {
     using Assets.Scripts.ThinkingEngine;
+    using TMPro;
     using UnityEngine;
 
     /// <summary>
@@ -17,10 +18,18 @@
         [SerializeField] GameObject o1PWin;
         [SerializeField] GameObject o2PWin;
         [SerializeField] GameObject restartButton;
+        [SerializeField] GameObject draw1;
+        [SerializeField] GameObject draw2;
+        [SerializeField] GameObject countDownText;
 
         GameManager gameManager;
         InputManager inputManager;
         SchedulerManager schedulerManager;
+
+        /// <summary>
+        /// カウントダウン・テキスト
+        /// </summary>
+        TMP_Text countDownTextTMP;
 
         // - その他
 
@@ -36,6 +45,9 @@
             o1PWin.SetActive(false);
             o2PWin.SetActive(false);
             restartButton.SetActive(false);
+            draw1.SetActive(false);
+            draw2.SetActive(false);
+            countDownText.SetActive(false);
 
             // UI表示
             playerSelectBackground.SetActive(true);
@@ -44,6 +56,29 @@
         #endregion
 
         // - メソッド
+
+        /// <summary>
+        /// カウントダウン・テキストの文字設定
+        /// </summary>
+        /// <param name="text"></param>
+        public void SetCountDownText(string text)
+        {
+            this.countDownTextTMP.text = text;
+        }
+
+        /// <summary>
+        /// カウントダウン・テキストの非表示
+        /// </summary>
+        public void SetVisibleOfCountDownText(bool visible)
+        {
+            this.countDownText.SetActive(visible);
+        }
+
+        public void OnStalemate()
+        {
+            Debug.Log("Stalemate");
+            countDownText.SetActive(true);
+        }
 
         public void Won1P()
         {
@@ -59,7 +94,13 @@
             restartButton.SetActive(true);
         }
 
-        // - イベントハンドラ
+        public void Draw()
+        {
+            Debug.Log("Draw");
+            draw1.SetActive(true);
+            draw2.SetActive(true);
+            restartButton.SetActive(true);
+        }
 
         public void On1pVs2p()
         {
@@ -150,13 +191,10 @@
             inputManager = GameObject.Find("Input Manager").GetComponent<InputManager>();
             schedulerManager = GameObject.Find("Scheduler Manager").GetComponent<SchedulerManager>();
 
+            this.countDownTextTMP = this.countDownText.GetComponent<TMP_Text>();
+            this.countDownTextTMP.text = "";
+
             this.Init();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
     }
 }

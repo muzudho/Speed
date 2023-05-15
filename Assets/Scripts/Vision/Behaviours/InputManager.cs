@@ -9,6 +9,7 @@
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ScriptOfThinkingEngine = Assets.Scripts.ThinkingEngine;
     using ManagerOfUserInterface = Assets.Scripts.Vision.Behaviours.CanvasManager;
+    using System;
 
     /// <summary>
     /// 入力マネージャー
@@ -107,30 +108,25 @@
 
             // 場札を使い切ったプレイヤーがいればゲーム終了
             // ============================================
-            foreach (var playerObj in Commons.Players)
-            {
-                if (gameModel.GetPlayer(playerObj).GetLengthOfHandCards() < 1 && !this.Model.GetPlayer(playerObj).Rights.IsThrowingCardIntoCenterStack)
+            InputManager.CheckGameResult(
+                thisModel: this.Model,
+                gameModel: this.gameModel,
+                onGameFinished: () =>
                 {
-                    // 場札を使い切っている
-                    // ゲーム終了
                     gameModelBuffer.IsGameActive = false;
-
-                    if (playerObj == Commons.Player1)
-                    {
-                        this.canvasManager.Won1P();
-                    }
-                    else if (playerObj == Commons.Player2)
-                    {
-                        this.canvasManager.Won2P();
-                    }
-                    else
-                    {
-                        throw new System.Exception($"unexpected player:{playerObj.AsInt}");
-                    }
-
-                    break;
-                }
-            }
+                },
+                onDraw: ()=>
+                {
+                    this.canvasManager.Draw();
+                },
+                onWon1P: ()=>
+                {
+                    this.canvasManager.Won1P();
+                },
+                onWon2P:()=>
+                {
+                    this.canvasManager.Won2P();
+                });
 
             // ステールメートしてるかどうかの判定
             // ==================================
@@ -266,6 +262,51 @@
                             this.gameModel,
                             this.schedulerModel);
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// ゲームの結果調べ
+        /// </summary>
+        static void CheckGameResult(
+            ModelOfInput.Init thisModel,
+            ModelOfObservableGame.Model gameModel,
+            Action onGameFinished,
+            Action onDraw,
+            Action onWon1P,
+            Action onWon2P)
+        {
+            // 場札を使い切っているか？
+            bool[] resultArray = new bool[2];
+
+            foreach (var playerObj in Commons.Players)
+            {
+                // - 場札を使い切っている
+                // - カードを投げている最中ではない
+                resultArray[playerObj.AsInt] = gameModel.GetPlayer(playerObj).GetLengthOfHandCards() < 1 && !thisModel.GetPlayer(playerObj).Rights.IsThrowingCardIntoCenterStack;
+            }
+
+            // いずれかが場札を使い切っていれば、ゲーム終了
+            if (resultArray[Commons.Player1.AsInt] || resultArray[Commons.Player2.AsInt])
+            {
+                // ゲーム終了
+                onGameFinished();
+
+                // 両方が場札を使い切っていれば、引き分け
+                if (resultArray[Commons.Player1.AsInt] && resultArray[Commons.Player2.AsInt])
+                {
+                    onDraw();
+                }
+                // １プレイヤーが場札を使い切っていれば、１プレイヤーの勝ち
+                else if (resultArray[Commons.Player1.AsInt])
+                {
+                    onWon1P();
+                }
+                // それ以外は２プレイヤーの勝ち
+                else
+                {
+                    onWon2P();
                 }
             }
         }
