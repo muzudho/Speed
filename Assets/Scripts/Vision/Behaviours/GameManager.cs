@@ -34,7 +34,6 @@
                 new(
                     idOfCardsOfPile: new List<IdOfPlayingCards>(),
                     idOfCardsOfHand: new List<IdOfPlayingCards>(),
-                    indexOfPreviousFocusedCard: Commons.HandCardIndexNoSelected,
                     indexOfFocusedCard: Commons.HandCardIndexNoSelected
                     ),
 
@@ -42,7 +41,6 @@
                 new(
                     idOfCardsOfPile: new List<IdOfPlayingCards>(),
                     idOfCardsOfHand: new List<IdOfPlayingCards>(),
-                    indexOfPreviousFocusedCard: Commons.HandCardIndexNoSelected,
                     indexOfFocusedCard: Commons.HandCardIndexNoSelected
                     ),
             });

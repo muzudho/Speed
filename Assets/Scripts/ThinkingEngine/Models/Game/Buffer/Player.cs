@@ -18,12 +18,10 @@
         internal Player(
             List<IdOfPlayingCards> idOfCardsOfPile,
             List<IdOfPlayingCards> idOfCardsOfHand,
-            HandCardIndex indexOfPreviousFocusedCard,
             HandCardIndex indexOfFocusedCard)
         {
             this.IdOfCardsOfPile = idOfCardsOfPile;
             this.IdOfCardsOfHand = idOfCardsOfHand;
-            this.IndexOfPreviousFocusedCard = indexOfPreviousFocusedCard;
             this.IndexOfFocusedCard = indexOfFocusedCard;
         }
 
@@ -46,14 +44,6 @@
         internal List<IdOfPlayingCards> IdOfCardsOfHand { get; private set; }
 
         /// <summary>
-        /// プレイヤーが前に選択していた場札は、先頭から何枚目
-        /// 
-        /// - 編集可
-        /// - 選択中の場札が無いなら、-1
-        /// </summary>
-        internal HandCardIndex IndexOfPreviousFocusedCard { get; set; }
-
-        /// <summary>
         /// プレイヤーが選択している場札は、先頭から何枚目
         /// 
         /// - 編集可
@@ -69,7 +59,6 @@
         /// <param name="hand"></param>
         internal void UpdateIndexOfFocusedCard(HandCardIndex hand)
         {
-            this.IndexOfPreviousFocusedCard = this.IndexOfFocusedCard;
             this.IndexOfFocusedCard = hand;
         }
 
@@ -130,16 +119,6 @@
 
             this.RemoveRangeCardsOfPile(startIndexObj, numberOfCards);
             this.AddRangeCardsOfHand(idOfCards);
-        }
-
-        /// <summary>
-        /// ｎプレイヤーが選択している場札は、先頭から何枚目
-        /// 
-        /// - 選択中の場札が無いなら、-1
-        /// </summary>
-        internal HandCardIndex GetIndexOfFocusedCard()
-        {
-            return this.IndexOfFocusedCard;
         }
 
         /// <summary>
