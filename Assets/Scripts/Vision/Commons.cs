@@ -17,6 +17,11 @@
         // - プロパティー
 
         /// <summary>
+        /// 大きくすると、ゲーム・スピードが遅くなる
+        /// </summary>
+        internal static readonly float gameSpeedScale = 2.0f;
+
+        /// <summary>
         /// カードを積み重ねるときの厚み
         /// </summary>
         internal static readonly Vector3Immutable yOfCardThickness = new Vector3Immutable(0f, 0.2f, 0f);
@@ -28,6 +33,9 @@
 
         /// <summary>
         /// ピックアップしているカードの捻り。 -5°
+        /// 
+        /// - `Y` を -5.0f にすると盤に潜り込んでしまった
+        /// - `Z` 軸は左（右）を浮き上げる（反対側は落ち込む）
         /// </summary>
         internal static readonly QuaternionImmutable rotationOfPickup = QuaternionImmutable.Euler(0f, -5.0f, -5.0f);
 
