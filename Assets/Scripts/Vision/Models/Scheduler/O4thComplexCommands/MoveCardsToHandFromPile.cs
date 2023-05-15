@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.Vision.Models.Scheduler.O4thComplexCommands
 {
     using Assets.Scripts.Coding;
-    using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
