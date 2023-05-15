@@ -18,10 +18,12 @@
         internal Player(
             List<IdOfPlayingCards> idOfCardsOfPile,
             List<IdOfPlayingCards> idOfCardsOfHand,
+            HandCardIndex indexOfPreviousFocusedCard,
             HandCardIndex indexOfFocusedCard)
         {
             this.IdOfCardsOfPile = idOfCardsOfPile;
             this.IdOfCardsOfHand = idOfCardsOfHand;
+            this.IndexOfPreviousFocusedCard = indexOfPreviousFocusedCard;
             this.IndexOfFocusedCard = indexOfFocusedCard;
         }
 
@@ -44,14 +46,32 @@
         internal List<IdOfPlayingCards> IdOfCardsOfHand { get; private set; }
 
         /// <summary>
-        /// ｎプレイヤーが選択している場札は、先頭から何枚目
+        /// プレイヤーが前に選択していた場札は、先頭から何枚目
         /// 
         /// - 編集可
         /// - 選択中の場札が無いなら、-1
         /// </summary>
-        internal HandCardIndex IndexOfFocusedCard { get; set; }
+        internal HandCardIndex IndexOfPreviousFocusedCard { get; set; }
+
+        /// <summary>
+        /// プレイヤーが選択している場札は、先頭から何枚目
+        /// 
+        /// - 編集可
+        /// - 選択中の場札が無いなら、-1
+        /// </summary>
+        internal HandCardIndex IndexOfFocusedCard { get; private set; }
 
         // - メソッド
+
+        /// <summary>
+        /// プレイヤーが選択している場札を更新
+        /// </summary>
+        /// <param name="hand"></param>
+        internal void UpdateIndexOfFocusedCard(HandCardIndex hand)
+        {
+            this.IndexOfPreviousFocusedCard = this.IndexOfFocusedCard;
+            this.IndexOfFocusedCard = hand;
+        }
 
         #region メソッド（手札関連）
         /// <summary>

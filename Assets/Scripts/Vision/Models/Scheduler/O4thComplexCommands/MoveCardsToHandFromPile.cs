@@ -77,7 +77,7 @@
             // - 場札無しの勝利後に配ったケース
             if (gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard == Commons.HandCardIndexNoSelected)
             {
-                gameModelWriter.GetPlayer(playerObj).IndexOfFocusedCard = Commons.HandCardIndexFirst;
+                gameModelWriter.GetPlayer(playerObj).UpdateIndexOfFocusedCard(Commons.HandCardIndexFirst);
             }
 
             // 確定：場札の枚数

@@ -108,6 +108,7 @@
                         // 場札
                         idOfCardsOfHand: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player1).IdOfCardsOfHand.ToArray()),
                         // ピックアップ場札
+                        indexOfPreviousFocusedCard: this.gameModelBuffer.GetPlayer(Commons.Player1).IndexOfPreviousFocusedCard,
                         indexOfFocusedCard: this.gameModelBuffer.GetPlayer(Commons.Player1).IndexOfFocusedCard
                         ),
 
@@ -118,6 +119,7 @@
                         // 場札
                         idOfCardsOfHand: new List<IdOfPlayingCards>(this.gameModelBuffer.GetPlayer(Commons.Player2).IdOfCardsOfHand.ToArray()),
                         // ピックアップ場札
+                        indexOfPreviousFocusedCard: this.gameModelBuffer.GetPlayer(Commons.Player2).IndexOfPreviousFocusedCard,
                         indexOfFocusedCard: this.gameModelBuffer.GetPlayer(Commons.Player2).IndexOfFocusedCard
                         ),
                 }

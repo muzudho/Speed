@@ -19,7 +19,7 @@
         /// <summary>
         /// 大きくすると、ゲーム・スピードが遅くなる
         /// </summary>
-        internal static readonly float gameSpeedScale = 2.0f;
+        internal static readonly float gameSpeedScale = 3.0f;
 
         /// <summary>
         /// カードを積み重ねるときの厚み

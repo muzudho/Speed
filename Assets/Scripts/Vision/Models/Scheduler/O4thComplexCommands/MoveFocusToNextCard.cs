@@ -49,6 +49,10 @@
         {
             var command = (ModelOfThinkingEngineCommand.MoveFocusToNextCard)this.CommandOfThinkingEngine;
 
+            // TODO 前のカードは、ピックアップしているという前提
+            //
+            // - 台札へ投げた直後は、前のカードはピックアップしていない
+            //
             var indexOfPreviousObj = gameModelBuffer.GetPlayer(command.PlayerObj).IndexOfFocusedCard; // 下ろす場札
 
             HandCardIndex indexOfCurrentObj; // ピックアップする場札
@@ -102,7 +106,7 @@
             }
 
             // モデル更新：ピックアップしている場札の、インデックス更新
-            gameModelWriter.GetPlayer(command.PlayerObj).IndexOfFocusedCard = indexOfCurrentObj;
+            gameModelWriter.GetPlayer(command.PlayerObj).UpdateIndexOfFocusedCard(indexOfCurrentObj);
 
             if (Commons.HandCardIndexFirst <= indexOfCurrentObj && indexOfCurrentObj.AsInt < length) // 範囲内なら
             {

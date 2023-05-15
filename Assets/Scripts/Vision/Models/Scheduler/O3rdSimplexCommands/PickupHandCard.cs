@@ -26,6 +26,7 @@
             Quaternion homeRotationOfHand)
         {
             return new PositionAndRotation(
+                // 「ピックアップ」で上げる分だけ上げる
                 position: homePositionOfHand + Commons.yOfPickup.ToMutable(),
                 rotation: Quaternion.Euler(
                     homeRotationOfHand.eulerAngles.x,
@@ -84,6 +85,7 @@
                             // 初回アクセス時に、値固定
                             if (endPosition == null)
                             {
+                                // 「ピックアップ」の分だげ上げる
                                 endPosition = getBegin().GetPosition() + Commons.yOfPickup.ToMutable();
                             }
                             return endPosition ?? throw new Exception();

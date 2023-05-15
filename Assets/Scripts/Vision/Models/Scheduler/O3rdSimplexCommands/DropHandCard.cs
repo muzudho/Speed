@@ -58,6 +58,8 @@
                         if (endPosition == null)
                         {
                             var goCard = GameObjectStorage.Items[idOfGo];
+
+                            // 「ピックアップ」で上げた分だけ、下げる
                             endPosition = goCard.transform.position - Commons.yOfPickup.ToMutable();
                         }
                         return endPosition ?? throw new Exception();

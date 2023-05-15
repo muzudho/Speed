@@ -94,7 +94,7 @@
             var idOfHandCardsAfterRemove = gameModelWriter.GetPlayer(playerObj).GetCardsOfHand();
 
             // モデル更新：何枚目の場札をピックアップしているか
-            gameModelWriter.GetPlayer(playerObj).IndexOfFocusedCard = indexOfNextPickObj;
+            gameModelWriter.GetPlayer(playerObj).UpdateIndexOfFocusedCard(indexOfNextPickObj);
 
             // 確定：前の台札の天辺のカード
             IdOfPlayingCards idOfPreviousTop = gameModelWriter.GetCenterStack(placeObj).GetTopCard();

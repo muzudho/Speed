@@ -27,7 +27,7 @@
 
         readonly ModelOfThinkingEngine.Player playerObj;
 
-        // - プロパティ
+        // - メソッド
 
         /// <summary>
         /// ｎプレイヤーが選択している場札は、先頭から何枚目
@@ -35,15 +35,10 @@
         /// - 編集可
         /// - 選択中の場札が無いなら、-1
         /// </summary>
-        internal HandCardIndex IndexOfFocusedCard
+        internal void UpdateIndexOfFocusedCard(HandCardIndex hand)
         {
-            set
-            {
-                this.gameModelBuffer.GetPlayer(this.playerObj).IndexOfFocusedCard = value;
-            }
+            this.gameModelBuffer.GetPlayer(this.playerObj).UpdateIndexOfFocusedCard(hand);
         }
-
-        // - メソッド
 
         /// <summary>
         /// ｎプレイヤーが選択している場札は、先頭から何枚目
