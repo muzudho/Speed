@@ -53,40 +53,40 @@
             //
             // - 台札へ投げた直後は、前のカードはピックアップしていない
             //
-            var indexOfPreviousObj = gameModelBuffer.GetPlayer(command.PlayerObj).IndexOfFocusedCard; // 下ろす場札
+            var previousFocusedHandCardObj = gameModelBuffer.GetPlayer(command.PlayerObj).FocusedHandCardObj; // 下ろす場札
 
-            HandCardIndex indexOfCurrentObj; // ピックアップする場札
+            FocusedHandCard currentFocusedHandCardObj; // ピックアップする場札
             var length = gameModelBuffer.GetPlayer(command.PlayerObj).IdOfCardsOfHand.Count;
 
             if (length < 1)
             {
                 // 場札が無いなら、何もピックアップされていません
-                indexOfCurrentObj = Commons.HandCardIndexNoSelected;
+                currentFocusedHandCardObj = FocusedHandCard.Empty;
             }
             else
             {
                 if (command.DirectionObj == Commons.PickRight)
                 {
-                    if (indexOfPreviousObj == Commons.HandCardIndexNoSelected || length <= indexOfPreviousObj.AsInt + 1)
+                    if (previousFocusedHandCardObj.Index == HandCardIndex.Empty || length <= previousFocusedHandCardObj.Index.AsInt + 1)
                     {
                         // （ピックアップしているカードが無いとき）先頭の外から、先頭へ入ってくる
-                        indexOfCurrentObj = Commons.HandCardIndexFirst;
+                        currentFocusedHandCardObj = FocusedHandCard.PickupFirst;
                     }
                     else
                     {
-                        indexOfCurrentObj = new HandCardIndex(indexOfPreviousObj.AsInt + 1);
+                        currentFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(previousFocusedHandCardObj.Index.AsInt + 1));
                     }
                 }
                 else if (command.DirectionObj == Commons.PickLeft)
                 {
-                    if (indexOfPreviousObj.AsInt - 1 < 0)
+                    if (previousFocusedHandCardObj.Index.AsInt - 1 < 0)
                     {
                         // （ピックアップしているカードが無いとき）最後尾の外から、最後尾へ入ってくる
-                        indexOfCurrentObj = new HandCardIndex(length - 1);
+                        currentFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(length - 1));
                     }
                     else
                     {
-                        indexOfCurrentObj = new HandCardIndex(indexOfPreviousObj.AsInt - 1);
+                        currentFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(previousFocusedHandCardObj.Index.AsInt - 1));
                     }
                 }
                 else
@@ -95,9 +95,9 @@
                 }
             }
 
-            if (Commons.HandCardIndexFirst <= indexOfPreviousObj && indexOfPreviousObj.AsInt < length) // 範囲内なら
+            if (HandCardIndex.First <= previousFocusedHandCardObj.Index && previousFocusedHandCardObj.Index.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModelWriter.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfPreviousObj); // ピックアップしている場札
+                var idOfCard = gameModelWriter.GetPlayer(command.PlayerObj).GetCardAtOfHand(previousFocusedHandCardObj.Index); // ピックアップしている場札
 
                 // 前にフォーカスしていたカードを、盤に下ろす
                 setTimespan(ModelOfSchedulerO3rdSimplexCommand.DropHandCard.GenerateSpan(
@@ -106,11 +106,11 @@
             }
 
             // モデル更新：ピックアップしている場札の、インデックス更新
-            gameModelWriter.GetPlayer(command.PlayerObj).UpdateIndexOfFocusedCard(indexOfCurrentObj);
+            gameModelWriter.GetPlayer(command.PlayerObj).UpdateFocusedHandCardObj(currentFocusedHandCardObj);
 
-            if (Commons.HandCardIndexFirst <= indexOfCurrentObj && indexOfCurrentObj.AsInt < length) // 範囲内なら
+            if (HandCardIndex.First <= currentFocusedHandCardObj.Index && currentFocusedHandCardObj.Index.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModelWriter.GetPlayer(command.PlayerObj).GetCardAtOfHand(indexOfCurrentObj); // ピックアップしている場札
+                var idOfCard = gameModelWriter.GetPlayer(command.PlayerObj).GetCardAtOfHand(currentFocusedHandCardObj.Index); // ピックアップしている場札
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる

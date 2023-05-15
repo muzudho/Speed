@@ -54,10 +54,10 @@
             var indexOnCenterStackToNextCard = gameModel.GetCenterStack(placeObj).GetLength();
 
             // 何枚目の場札をピックアップしているか
-            var indexToRemoveObj = gameModel.GetPlayer(playerObj).GetIndexOfFocusedCard();
+            var RemoveHandCardObj = gameModel.GetPlayer(playerObj).GetFocusedHandCardObj();
 
             // 範囲外は無視
-            if (indexToRemoveObj < Commons.HandCardIndexFirst || gameModel.GetPlayer(playerObj).GetCardsOfHand().Count <= indexToRemoveObj.AsInt)
+            if (RemoveHandCardObj.Index < HandCardIndex.First || gameModel.GetPlayer(playerObj).GetCardsOfHand().Count <= RemoveHandCardObj.Index.AsInt)
             {
                 // Ignored
                 previousCard = IdOfPlayingCards.None;
@@ -65,7 +65,7 @@
             }
 
             // 確定：場札から台札へ移動するカード
-            var targetToRemoveObj = gameModel.GetPlayer(playerObj).GetCardAtOfHand(indexToRemoveObj);
+            var targetToRemoveObj = gameModel.GetPlayer(playerObj).GetCardAtOfHand(RemoveHandCardObj.Index);
 
             // 台札はあるか？
             if (indexOnCenterStackToNextCard == 0)

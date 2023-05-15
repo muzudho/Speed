@@ -138,6 +138,18 @@
             this.source = source;
         }
 
+        // - 静的フィールド
+
+        /// <summary>
+        /// 未選択
+        /// </summary>
+        internal static readonly HandCardIndex Empty = new HandCardIndex(-1);
+
+        /// <summary>
+        /// 1プレイヤーから見て右端
+        /// </summary>
+        internal static readonly HandCardIndex First = new HandCardIndex(0);
+
         // - フィールド
 
         /// <summary>

@@ -36,14 +36,5 @@
             PickRight,
             PickLeft,
         };
-
-        /// <summary>
-        /// 手札は未選択
-        /// </summary>
-        internal static readonly HandCardIndex HandCardIndexNoSelected = new HandCardIndex(-1);
-        /// <summary>
-        /// 1プレイヤーから見て右端
-        /// </summary>
-        internal static readonly HandCardIndex HandCardIndexFirst = new HandCardIndex(0);
     }
 }

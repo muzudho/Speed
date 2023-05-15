@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+    using Assets.Scripts.Vision.Models;
 
     /// <summary>
     /// ゲーム・モデル
@@ -35,19 +36,17 @@
         /// - 編集可
         /// - 選択中の場札が無いなら、-1
         /// </summary>
-        internal void UpdateIndexOfFocusedCard(HandCardIndex hand)
+        internal void UpdateFocusedHandCardObj(FocusedHandCard hand)
         {
-            this.gameModelBuffer.GetPlayer(this.playerObj).UpdateIndexOfFocusedCard(hand);
+            this.gameModelBuffer.GetPlayer(this.playerObj).UpdateFocusedHandCard(hand);
         }
 
         /// <summary>
-        /// ｎプレイヤーが選択している場札は、先頭から何枚目
-        /// 
-        /// - 選択中の場札が無いなら、-1
+        /// プレイヤーが選択している場札は、先頭から何枚目
         /// </summary>
-        internal HandCardIndex GetIndexOfFocusedCard()
+        internal FocusedHandCard GetFocusedHandCardObj()
         {
-            return this.gameModelBuffer.GetPlayer(this.playerObj).IndexOfFocusedCard;
+            return this.gameModelBuffer.GetPlayer(this.playerObj).FocusedHandCardObj;
         }
 
         /// <summary>

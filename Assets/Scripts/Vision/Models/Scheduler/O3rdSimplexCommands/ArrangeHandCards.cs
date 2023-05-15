@@ -76,7 +76,7 @@
             // 場札を並べなおすと、持ち上げていたカードを下ろしてしまうので、再度、持ち上げる
             IdOfPlayingCards idOfPickupCard = IdOfPlayingCards.None;    // ピックアップしている場札
             // Debug.Log($"[ArrangeHandCards] 再度持上げ handIndex:{indexOfPickup}");
-            if (Commons.HandCardIndexFirst <= indexOfPickupObj && indexOfPickupObj.AsInt < idOfHandCards.Count) // 範囲内なら
+            if (HandCardIndex.First <= indexOfPickupObj && indexOfPickupObj.AsInt < idOfHandCards.Count) // 範囲内なら
             {
                 idOfPickupCard = idOfHandCards[indexOfPickupObj.AsInt];
             }

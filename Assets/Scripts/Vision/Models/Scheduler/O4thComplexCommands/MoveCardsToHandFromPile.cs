@@ -75,9 +75,9 @@
             //
             // - 初回配布のケース
             // - 場札無しの勝利後に配ったケース
-            if (gameModelBuffer.GetPlayer(playerObj).IndexOfFocusedCard == Commons.HandCardIndexNoSelected)
+            if (gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj.Index == HandCardIndex.Empty)
             {
-                gameModelWriter.GetPlayer(playerObj).UpdateIndexOfFocusedCard(Commons.HandCardIndexFirst);
+                gameModelWriter.GetPlayer(playerObj).UpdateFocusedHandCardObj(FocusedHandCard.PickupFirst);
             }
 
             // 確定：場札の枚数
@@ -89,7 +89,7 @@
                 ModelOfSchedulerO3rdSimplexCommand.ArrangeHandCards.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
-                    indexOfPickupObj: gameModelWriter.GetPlayer(playerObj).GetIndexOfFocusedCard(),
+                    indexOfPickupObj: gameModelWriter.GetPlayer(playerObj).GetFocusedHandCardObj().Index,
                     idOfHandCards: gameModelWriter.GetPlayer(playerObj).GetCardsOfHand(),
                     keepPickup: true,
                     setTimespan: setTimespan,

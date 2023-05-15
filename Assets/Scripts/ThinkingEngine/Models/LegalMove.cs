@@ -21,7 +21,7 @@
             CenterStackPlace placeOfCenterStackObj)
         {
             // 場札が選ばれていない
-            if (indexObj == Commons.HandCardIndexNoSelected)
+            if (indexObj == HandCardIndex.Empty)
             {
                 return false;
             }

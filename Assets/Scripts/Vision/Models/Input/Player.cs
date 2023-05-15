@@ -156,7 +156,7 @@
             if (!this.Rights.IsHandled() &&
                 !stalemateManager.IsStalemate &&
                 this.Meaning.MoveCardToCenterStack(nearOrFarOfCenterStack) &&
-                LegalMove.CanPutCardToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetPlayer(this.PlayerIdObj).GetIndexOfFocusedCard(), this.GetCenterStackPlace(nearOrFarOfCenterStack)))
+                LegalMove.CanPutCardToCenterStack(gameModel, this.PlayerIdObj, gameModel.GetPlayer(this.PlayerIdObj).GetFocusedHandCardObj().Index, this.GetCenterStackPlace(nearOrFarOfCenterStack)))
             {
                 var playerObj = this.PlayerIdObj;
                 var placeObj = this.GetCenterStackPlace(nearOrFarOfCenterStack);

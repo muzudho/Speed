@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
+    using Assets.Scripts.Vision.Models;
     using Assets.Scripts.Vision.Models.World;
     using System.Collections.Generic;
     using UnityEngine;
@@ -34,14 +35,14 @@
                 new(
                     idOfCardsOfPile: new List<IdOfPlayingCards>(),
                     idOfCardsOfHand: new List<IdOfPlayingCards>(),
-                    indexOfFocusedCard: Commons.HandCardIndexNoSelected
+                    focusedHandCardObj: FocusedHandCard.Empty
                     ),
 
                 // ２プレイヤー
                 new(
                     idOfCardsOfPile: new List<IdOfPlayingCards>(),
                     idOfCardsOfHand: new List<IdOfPlayingCards>(),
-                    indexOfFocusedCard: Commons.HandCardIndexNoSelected
+                    focusedHandCardObj: FocusedHandCard.Empty
                     ),
             });
 

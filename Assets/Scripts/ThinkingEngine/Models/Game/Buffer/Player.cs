@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.ThinkingEngine.Models.Game.Buffer
 {
+    using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
 
     /// <summary>
@@ -18,11 +19,11 @@
         internal Player(
             List<IdOfPlayingCards> idOfCardsOfPile,
             List<IdOfPlayingCards> idOfCardsOfHand,
-            HandCardIndex indexOfFocusedCard)
+            FocusedHandCard focusedHandCardObj)
         {
             this.IdOfCardsOfPile = idOfCardsOfPile;
             this.IdOfCardsOfHand = idOfCardsOfHand;
-            this.IndexOfFocusedCard = indexOfFocusedCard;
+            this.FocusedHandCardObj = focusedHandCardObj;
         }
 
         // - プロパティ
@@ -49,7 +50,7 @@
         /// - 編集可
         /// - 選択中の場札が無いなら、-1
         /// </summary>
-        internal HandCardIndex IndexOfFocusedCard { get; private set; }
+        internal FocusedHandCard FocusedHandCardObj { get; private set; }
 
         // - メソッド
 
@@ -57,9 +58,9 @@
         /// プレイヤーが選択している場札を更新
         /// </summary>
         /// <param name="hand"></param>
-        internal void UpdateIndexOfFocusedCard(HandCardIndex hand)
+        internal void UpdateFocusedHandCard(FocusedHandCard focusedHandCardObj)
         {
-            this.IndexOfFocusedCard = hand;
+            this.FocusedHandCardObj = focusedHandCardObj;
         }
 
         #region メソッド（手札関連）
