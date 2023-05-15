@@ -71,12 +71,16 @@
                 if (lengthAfterRemove <= RemoveHandCardObj.Index.AsInt) // 範囲外アクセス防止対応
                 {
                     // 一旦、最後尾へ
-                    nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(lengthAfterRemove - 1));
+                    // ピックアップ状態は解除
+                    var isPickUp = false;
+                    nextFocusedHandCardObj = new FocusedHandCard(isPickUp, new HandCardIndex(lengthAfterRemove - 1));
                 }
                 else
                 {
                     // そのまま
-                    nextFocusedHandCardObj = RemoveHandCardObj;
+                    // ピックアップ状態は解除
+                    var isPickUp = false;
+                    nextFocusedHandCardObj = new FocusedHandCard(isPickUp, RemoveHandCardObj.Index);
                 }
             }
 
