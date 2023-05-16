@@ -76,6 +76,65 @@
         // - メソッド
 
         /// <summary>
+        /// 手札の枚数を取得
+        /// </summary>
+        /// <returns></returns>
+        internal int GetLengthOfPile(ModelOfThinkingEngine.Player playerObj)
+        {
+            return this.gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile.Count;
+        }
+
+        /// <summary>
+        /// 場札の枚数を取得
+        /// </summary>
+        /// <returns></returns>
+        internal int GetLengthOfHand(ModelOfThinkingEngine.Player playerObj)
+        {
+            return this.gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count;
+        }
+
+        /// <summary>
+        /// 台札の枚数を取得
+        /// </summary>
+        /// <returns></returns>
+        internal int GetLengthOfCenterStack(ModelOfThinkingEngine.CenterStackPlace placeObj)
+        {
+            return this.gameModelBuffer.GetCenterStack(placeObj).IdOfCards.Count;
+        }
+
+        /// <summary>
+        /// 選択されている場札
+        /// </summary>
+        /// <param name="playerObj"></param>
+        /// <returns></returns>
+        internal FocusedHandCard GetFocusedHandCardObj(ModelOfThinkingEngine.Player playerObj)
+        {
+            return this.gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj;
+        }
+
+        /// <summary>
+        /// 場札を取得
+        /// </summary>
+        /// <param name="placeObj"></param>
+        /// <param name="indexObj"></param>
+        /// <returns></returns>
+        internal IdOfPlayingCards GetCardOfHand(ModelOfThinkingEngine.Player playerObj, ModelOfThinkingEngine.HandCardIndex indexObj)
+        {
+            return this.gameModelBuffer.GetPlayer(playerObj).GetCardAtOfHand(indexObj);
+        }
+
+        /// <summary>
+        /// 台札を取得
+        /// </summary>
+        /// <param name="placeObj"></param>
+        /// <param name="indexObj"></param>
+        /// <returns></returns>
+        internal IdOfPlayingCards GetCardOfCenterStack(ModelOfThinkingEngine.CenterStackPlace placeObj, ModelOfThinkingEngine.CenterStackCardIndex indexObj)
+        {
+            return this.gameModelBuffer.GetCenterStack(placeObj).GetCard(indexObj.AsInt);
+        }
+
+        /// <summary>
         /// TODO 本当は JSON か何かで出力して、 GameModelBuffer が JSON を読込むような感じにしたい
         /// </summary>
         /// <returns></returns>

@@ -9,6 +9,7 @@
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -38,7 +39,7 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public override void Setup(ModelOfGameBuffer.Model gameModelBuffer)
+        public override void Setup(ModelOfObservableGame.Model modelOfObservableGame, ModelOfGameBuffer.Model _gameModelBuffer)
         {
 
         }

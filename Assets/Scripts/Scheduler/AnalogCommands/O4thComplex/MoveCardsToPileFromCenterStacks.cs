@@ -12,6 +12,7 @@
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfThinkingEngineCommons = Assets.Scripts.ThinkingEngine.Commons;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
@@ -48,26 +49,26 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public override void Setup(ModelOfGameBuffer.Model gameModelBuffer)
+        public override void Setup(ModelOfObservableGame.Model modelOfObservableGame, ModelOfGameBuffer.Model _gameModelBuffer)
         {
             var digitalCommand = (ModelOfDigitalCommands.MoveCardsToPileFromCenterStacks)this.DigitalCommand;
 
             // 台札の枚数
-            this.lengthOfTargetCenterStack = gameModelBuffer.GetCenterStack(digitalCommand.PlaceObj).IdOfCards.Count;
+            this.lengthOfTargetCenterStack = modelOfObservableGame.GetLengthOfCenterStack(digitalCommand.PlaceObj);
 
             if (1 <= this.lengthOfTargetCenterStack)
             {
                 var startIndexObj = new CenterStackCardIndex(this.lengthOfTargetCenterStack - numberOfCards);
 
                 // 台札の１番上のカード
-                this.idOfCardOfTargetCenterStack = gameModelBuffer.GetCenterStack(digitalCommand.PlaceObj).IdOfCards[startIndexObj.AsInt];
+                this.idOfCardOfTargetCenterStack = modelOfObservableGame.GetCardOfCenterStack(digitalCommand.PlaceObj, startIndexObj);
             }
 
             {
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 Player playerObj = GetPlayerByCardColor();
 
-                this.idOfPlayerPileCards = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile;
+                this.idOfPlayerPileCards = modelOfObservableGame.GetPlayer(playerObj).GetCardsOfPile();
             }
         }
 

@@ -6,6 +6,7 @@
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 
     /// <summary>
     /// スケジューラーのヘルパー
@@ -21,6 +22,7 @@
         /// <param name="gameModelBuffer">ゲームの内部状態（編集可能）</param>
         /// <param name="setTimespan"></param>
         internal static void ConvertToSpans(
+            ModelOfObservableGame.Model observableGameModel,
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
@@ -49,7 +51,7 @@
                 schedulerModel.Timeline.RemoveAt(i);
 
                 // タイムスパン準備・作成
-                analogCommandComplex.Setup(gameModelBuffer);
+                analogCommandComplex.Setup(observableGameModel, gameModelBuffer);
                 var timespanList = analogCommandComplex.CreateTimespanList(
                     gameModelWriter,
                     inputModel,

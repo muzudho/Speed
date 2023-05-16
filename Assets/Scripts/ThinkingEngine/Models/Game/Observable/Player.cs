@@ -39,7 +39,7 @@
         }
 
         /// <summary>
-        /// ｎプレイヤーの、場札の枚数
+        /// プレイヤーの、場札の枚数
         /// </summary>
         /// <returns></returns>
         internal int GetLengthOfHandCards()
@@ -48,7 +48,7 @@
         }
 
         /// <summary>
-        /// ｎプレイヤーの、場札をリストで取得
+        /// プレイヤーの、場札をリストで取得
         /// </summary>
         /// <returns></returns>
         internal List<IdOfPlayingCards> GetCardsOfHand()
@@ -57,7 +57,16 @@
         }
 
         /// <summary>
-        /// ｎプレイヤーの、ｍ枚目の場札を取得
+        /// プレイヤーの、手札をリストで取得
+        /// </summary>
+        /// <returns></returns>
+        internal List<IdOfPlayingCards> GetCardsOfPile()
+        {
+            return this.gameModelBuffer.GetPlayer(this.playerObj).IdOfCardsOfPile;
+        }
+
+        /// <summary>
+        /// プレイヤーの、ｍ枚目の場札を取得
         /// </summary>
         /// <param name="handIndexObj"></param>
         /// <returns></returns>

@@ -16,6 +16,7 @@
     static class SetStartPosition
     {
         internal static void DoIt(
+            ModelOfObservableGame observableGameModel,
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
@@ -41,7 +42,7 @@
                     digitalCommand: digitalCommand);
 
                 // タイムスパン準備・作成
-                analogCommand.Setup(gameModelBuffer);
+                analogCommand.Setup(observableGameModel, gameModelBuffer);
                 var timespanList = analogCommand.CreateTimespanList(
                     gameModelWriter: gameModelWriter,
                     inputModel: inputModel,

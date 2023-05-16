@@ -9,6 +9,7 @@
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 
     /// <summary>
     /// ソースコードのようなもの
@@ -44,7 +45,9 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public abstract void Setup(ModelOfGameBuffer.Model gameModelBuffer);
+        public abstract void Setup(
+            ModelOfObservableGame.Model modelOfObservableGame,
+            ModelOfGameBuffer.Model gameModelBuffer);
 
         /// <summary>
         /// ビルド

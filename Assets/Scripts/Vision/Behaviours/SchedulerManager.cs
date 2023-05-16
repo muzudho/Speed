@@ -33,7 +33,7 @@ public class SchedulerManager : MonoBehaviour
     /// <summary>
     /// コンピューター・プレイヤー用
     /// </summary>
-    ModelOfObservableGame.Model gameModel;
+    ModelOfObservableGame.Model observableGameModel;
 
     /// <summary>
     /// ゲーム・モデル・バッファー
@@ -55,6 +55,7 @@ public class SchedulerManager : MonoBehaviour
     {
         // 開始局面まで登録
         SetStartPosition.DoIt(
+            this.observableGameModel,
             gameModelBuffer,
             gameModelWriter,
             this.InputModel,
@@ -82,6 +83,7 @@ public class SchedulerManager : MonoBehaviour
 
         // スケジュールを消化していきます
         ModelOfScheduler.Helper.ConvertToSpans(
+            this.observableGameModel,
             gameModelBuffer,
             gameModelWriter,
             this.InputModel,
@@ -116,7 +118,7 @@ public class SchedulerManager : MonoBehaviour
     void Start()
     {
         var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        this.gameModel = gameManager.ObservableModel;
+        this.observableGameModel = gameManager.ObservableModel;
         this.gameModelBuffer = gameManager.ModelBuffer;
         this.gameModelWriter = gameManager.ModelWriter;
 
@@ -124,7 +126,7 @@ public class SchedulerManager : MonoBehaviour
         this.InputModel = inputManager.Model;
 
         // スケジューラー・モデル
-        this.Model = new ModelOfScheduler.Model(this.gameModel);
+        this.Model = new ModelOfScheduler.Model(this.observableGameModel);
 
         // 初期化
         this.CleanUp();

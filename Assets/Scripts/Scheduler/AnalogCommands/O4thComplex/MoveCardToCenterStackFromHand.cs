@@ -12,6 +12,7 @@
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelForVisionCommons = Assets.Scripts.Vision.Commons;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する（確定）
@@ -53,19 +54,19 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public override void Setup(ModelOfGameBuffer.Model gameModelBuffer)
+        public override void Setup(ModelOfObservableGame.Model modelOfObservableGame, ModelOfGameBuffer.Model gameModelBuffer)
         {
             var digitalCommand = (ModelOfDigitalCommands.MoveCardToCenterStackFromHand)this.DigitalCommand;
             var playerObj = digitalCommand.PlayerObj;
 
             // 何枚目の場札をピックアップしているか
-            this.oldHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj;
+            this.oldHandCardObj = modelOfObservableGame.GetFocusedHandCardObj(playerObj);
 
             // 抜く前の場札の数
-            this.lengthOfHand = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count;
+            this.lengthOfHand = modelOfObservableGame.GetLengthOfHand(playerObj);
 
             // 確定：場札から台札へ移動するカード
-            this.targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand[this.oldHandCardObj.Index.AsInt];
+            this.targetToRemoveObj = modelOfObservableGame.GetCardOfHand(playerObj, this.oldHandCardObj.Index);
 
             // ピックアップしているカードは、場札から抜くカード
             var placeObj = digitalCommand.PlaceObj;

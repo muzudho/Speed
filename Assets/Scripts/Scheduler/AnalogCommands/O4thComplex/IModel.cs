@@ -1,10 +1,10 @@
 ﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
-    using Assets.Scripts.Coding;
     using System.Collections.Generic;
     using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
@@ -34,7 +34,9 @@
         /// <summary>
         /// 準備
         /// </summary>
-        void Setup(ModelOfGameBuffer.Model gameModelBuffer);
+        void Setup(
+            ModelOfObservableGame.Model modelOfObservableGame,
+            ModelOfGameBuffer.Model gameModelBuffer);
 
         /// <summary>
         /// ゲーム画面の同期を始めます

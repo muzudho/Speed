@@ -10,6 +10,7 @@
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -40,16 +41,16 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public override void Setup(ModelOfGameBuffer.Model gameModelBuffer)
+        public override void Setup(ModelOfObservableGame.Model modelOfObservableGame, ModelOfGameBuffer.Model _gameModelBuffer)
         {
             var digitalCommand = (ModelOfDigitalCommands.MoveCardsToHandFromPile)this.DigitalCommand;
             var playerObj = digitalCommand.PlayerObj;
 
             // 確定：手札の枚数
-            this.lengthOfPile = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile.Count;
+            this.lengthOfPile = modelOfObservableGame.GetLengthOfPile(playerObj);
 
             // フォーカスしている場札
-            this.focusedHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj;
+            this.focusedHandCardObj = modelOfObservableGame.GetFocusedHandCardObj(playerObj);
         }
 
         /// <summary>
