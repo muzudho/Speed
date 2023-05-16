@@ -41,7 +41,6 @@
         /// </summary>
         /// <param name="gameModelWriter">ゲームの内部状態（編集用）</param>
         List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
-            ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel);

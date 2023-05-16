@@ -54,17 +54,9 @@
         /// <param name="commandOfScheduler"></param>
         /// <param name="gameModelWriter"></param>
         /// <param name="setTimespan"></param>
-        virtual public List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
-            ModelOfGameBuffer.Model gameModelBuffer,
+        public abstract List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfAnalogCommands.Model schedulerModel)
-        {
-            var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
-
-            // Ignored
-
-            return result;
-        }
+            ModelOfAnalogCommands.Model schedulerModel);
     }
 }

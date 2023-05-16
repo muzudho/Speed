@@ -43,7 +43,6 @@
                 // タイムスパン準備・作成
                 analogCommand.Setup(gameModelBuffer);
                 var timespanList = analogCommand.CreateTimespanList(
-                    gameModelBuffer: gameModelBuffer,
                     gameModelWriter: gameModelWriter,
                     inputModel: inputModel,
                     schedulerModel: schedulerModel);
