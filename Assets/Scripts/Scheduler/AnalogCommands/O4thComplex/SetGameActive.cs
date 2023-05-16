@@ -36,6 +36,14 @@
         // - メソッド
 
         /// <summary>
+        /// 準備
+        /// </summary>
+        public void Setup()
+        {
+
+        }
+
+        /// <summary>
         /// ゲーム画面の同期を始めます
         /// </summary>
         public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(

@@ -4,9 +4,9 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using System.Collections;
     using UnityEngine;
+    using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
+    using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
-    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
-    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// 両プレイヤーが置けるカードがなくなってしまったとき、
@@ -20,7 +20,7 @@
         /// <summary>
         /// 初期化
         /// </summary>
-        internal void Init(ModelOfScheduler.Model schedulerModel)
+        internal void Init(ModelOfAnalogCommands.Model schedulerModel)
         {
             this.SchedulerModel = schedulerModel;
         }
@@ -30,7 +30,7 @@
         /// <summary>
         /// スケジューラー・モデル
         /// </summary>
-        ModelOfScheduler.Model SchedulerModel { get; set; }
+        ModelOfAnalogCommands.Model SchedulerModel { get; set; }
 
         /// <summary>
         /// ゲーム・モデル
@@ -142,9 +142,9 @@
                 //
                 // （ステールメート時は）ブーメラン判定しません。強制的にカードを置きます
                 //
-                var digitalCommand = new ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand(
-                playerObj: playerObj,
-                placeObj: placeObj);
+                var digitalCommand = new ModelOfDigitalCommands.MoveCardToCenterStackFromHand(
+                    playerObj: playerObj,
+                    placeObj: placeObj);
 
                 // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
                 this.SchedulerModel.Timeline.AddCommand(
@@ -161,7 +161,7 @@
                 // （ステールメート時は）ブーメラン判定しません。強制的にカードを置きます
                 //
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                var digitalCommand = new ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand(
+                var digitalCommand = new ModelOfDigitalCommands.MoveCardToCenterStackFromHand(
                     playerObj: playerObj,
                     placeObj: placeObj);
 

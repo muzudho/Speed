@@ -36,6 +36,14 @@
         // - メソッド
 
         /// <summary>
+        /// 準備
+        /// </summary>
+        public void Setup()
+        {
+
+        }
+
+        /// <summary>
         /// タイムスパン作成・登録
         /// </summary>
         public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(

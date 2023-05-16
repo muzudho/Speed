@@ -42,6 +42,14 @@
         // - メソッド
 
         /// <summary>
+        /// 準備
+        /// </summary>
+        public void Setup()
+        {
+
+        }
+
+        /// <summary>
         /// ビルド
         /// 
         /// - ゲーム画面の同期を始めます

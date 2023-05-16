@@ -32,6 +32,11 @@
         // - メソッド
 
         /// <summary>
+        /// 準備
+        /// </summary>
+        void Setup();
+
+        /// <summary>
         /// ゲーム画面の同期を始めます
         /// </summary>
         /// <param name="gameModelWriter">ゲームの内部状態（編集用）</param>

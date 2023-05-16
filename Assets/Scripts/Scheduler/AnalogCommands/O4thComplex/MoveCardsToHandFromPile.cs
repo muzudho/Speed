@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
-    using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
@@ -32,6 +31,14 @@
         }
 
         // - メソッド
+
+        /// <summary>
+        /// 準備
+        /// </summary>
+        public void Setup()
+        {
+
+        }
 
         /// <summary>
         /// ゲーム画面の同期を始めます

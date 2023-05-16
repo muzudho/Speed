@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O6thDACommandMapping
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O6thDAMapping
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models;

@@ -6,7 +6,7 @@
     using UnityEngine;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfAnalogCommand4thComplex = Assets.Scripts.Scheduler.AnalogCommands.O4thComplex;
-    using ModelOfAnalogCommand6thMapping = Assets.Scripts.Scheduler.AnalogCommands.O6thDACommandMapping;
+    using ModelOfAnalogCommand6thMapping = Assets.Scripts.Scheduler.AnalogCommands.O6thDAMapping;
     using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
