@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
-    using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models;
     using Assets.Scripts.Vision.Models.World;
@@ -35,6 +34,16 @@
         {
         }
 
+        // - フィールド
+
+        // TODO 前のカードは、ピックアップしているという前提
+        //
+        // - 台札へ投げた直後は、前のカードはピックアップしていない
+        //
+        FocusedHandCard oldFocusedHandCardObj;
+
+        int lengthOfHand;
+
         // - メソッド
 
         /// <summary>
@@ -42,7 +51,13 @@
         /// </summary>
         public override void Setup(ModelOfGameBuffer.Model gameModelBuffer)
         {
+            var digitalCommand = (ModelOfDigitalCommands.MoveFocusToNextCard)this.DigitalCommand;
 
+            // 下ろす場札
+            this.oldFocusedHandCardObj = gameModelBuffer.GetPlayer(digitalCommand.PlayerObj).FocusedHandCardObj;
+
+            // 場札の枚数
+            this.lengthOfHand = gameModelBuffer.GetPlayer(digitalCommand.PlayerObj).IdOfCardsOfHand.Count;
         }
 
         /// <summary>
@@ -51,7 +66,7 @@
         /// - ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
         /// </summary>
         public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
-            ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameBuffer.Model _gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel)
@@ -60,16 +75,9 @@
 
             var digitalCommand = (ModelOfDigitalCommands.MoveFocusToNextCard)this.DigitalCommand;
 
-            // TODO 前のカードは、ピックアップしているという前提
-            //
-            // - 台札へ投げた直後は、前のカードはピックアップしていない
-            //
-            var oldFocusedHandCardObj = gameModelBuffer.GetPlayer(digitalCommand.PlayerObj).FocusedHandCardObj; // 下ろす場札
-
             FocusedHandCard nextFocusedHandCardObj; // ピックアップする場札
-            var length = gameModelBuffer.GetPlayer(digitalCommand.PlayerObj).IdOfCardsOfHand.Count;
 
-            if (length < 1)
+            if (this.lengthOfHand < 1)
             {
                 // 場札が無いなら、何もピックアップされていません
                 nextFocusedHandCardObj = FocusedHandCard.Empty;
@@ -78,7 +86,7 @@
             {
                 if (digitalCommand.DirectionObj == ModelOfThinkingEngineCommons.PickRight)
                 {
-                    if (oldFocusedHandCardObj.Index == HandCardIndex.Empty || length <= oldFocusedHandCardObj.Index.AsInt + 1)
+                    if (this.oldFocusedHandCardObj.Index == HandCardIndex.Empty || this.lengthOfHand <= this.oldFocusedHandCardObj.Index.AsInt + 1)
                     {
                         // （ピックアップしているカードが無いか、最後尾のカードをピックアップしていたとき）先頭のカードをピックアップする
                         nextFocusedHandCardObj = FocusedHandCard.PickupFirst;
@@ -86,20 +94,20 @@
                     else
                     {
                         // （ピックアップしていたカードの）次のカードをピックアップする
-                        nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(oldFocusedHandCardObj.Index.AsInt + 1));
+                        nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(this.oldFocusedHandCardObj.Index.AsInt + 1));
                     }
                 }
                 else if (digitalCommand.DirectionObj == ModelOfThinkingEngineCommons.PickLeft)
                 {
-                    if (oldFocusedHandCardObj.Index.AsInt < 1)
+                    if (this.oldFocusedHandCardObj.Index.AsInt < 1)
                     {
                         // （ピックアップしているカードが先頭だったとき）最後尾のカードをピックアップする
-                        nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(length - 1));
+                        nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(this.lengthOfHand - 1));
                     }
                     else
                     {
                         // （ピックアップしていたカードの）次のカードをピックアップする
-                        nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(oldFocusedHandCardObj.Index.AsInt - 1));
+                        nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(this.oldFocusedHandCardObj.Index.AsInt - 1));
                     }
                 }
                 else
@@ -111,11 +119,11 @@
 
             if (
                 // インデックスが範囲内であり、
-                HandCardIndex.First <= oldFocusedHandCardObj.Index && oldFocusedHandCardObj.Index.AsInt < length &&
+                HandCardIndex.First <= this.oldFocusedHandCardObj.Index && this.oldFocusedHandCardObj.Index.AsInt < this.lengthOfHand &&
                 // ピックアップされている状態なら
-                oldFocusedHandCardObj.IsPickUp)
+                this.oldFocusedHandCardObj.IsPickUp)
             {
-                var idOfCard = gameModelWriter.GetPlayer(digitalCommand.PlayerObj).GetCardAtOfHand(oldFocusedHandCardObj.Index); // ピックアップしている場札
+                var idOfCard = gameModelWriter.GetPlayer(digitalCommand.PlayerObj).GetCardAtOfHand(this.oldFocusedHandCardObj.Index); // ピックアップしている場札
 
                 // 前にピックアップしていたカードを、盤に下ろす
                 result.Add(ModelOfAnalogCommand3rdSimplex.DropHandCard.CreateTimespan(
@@ -126,7 +134,7 @@
             // モデル更新：ピックアップしている場札の、インデックス更新
             gameModelWriter.GetPlayer(digitalCommand.PlayerObj).UpdateFocusedHandCardObj(nextFocusedHandCardObj);
 
-            if (HandCardIndex.First <= nextFocusedHandCardObj.Index && nextFocusedHandCardObj.Index.AsInt < length) // 範囲内なら
+            if (HandCardIndex.First <= nextFocusedHandCardObj.Index && nextFocusedHandCardObj.Index.AsInt < this.lengthOfHand) // 範囲内なら
             {
                 var idOfCard = gameModelWriter.GetPlayer(digitalCommand.PlayerObj).GetCardAtOfHand(nextFocusedHandCardObj.Index); // ピックアップしている場札
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);

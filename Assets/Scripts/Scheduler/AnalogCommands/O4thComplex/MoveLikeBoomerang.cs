@@ -12,7 +12,7 @@
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ScriptForVisionCommons = Assets.Scripts.Vision.Commons;
+    using ModelForVisionCommons = Assets.Scripts.Vision.Commons;
 
     /// <summary>
     /// 場札から、台札へ向かったカードが、場札へまた戻ってくる動き
@@ -33,6 +33,17 @@
         {
         }
 
+        // - フィールド
+
+        FocusedHandCard oldHandCardObj;
+        int lengthOfHand;
+
+        // 確定：場札から台札へ移動するカード
+        IdOfPlayingCards targetToRemoveObj;
+
+        // 台札の新しい天辺の座標
+        Vector3 nextTop;
+
         // - メソッド
 
         /// <summary>
@@ -40,14 +51,37 @@
         /// </summary>
         public override void Setup(ModelOfGameBuffer.Model gameModelBuffer)
         {
+            var digitalCommand = (ModelOfDigitalCommands.MoveCardToCenterStackFromHand)this.DigitalCommand;
+            var playerObj = digitalCommand.PlayerObj;
 
+            // 何枚目の場札をピックアップしているか
+            this.oldHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj;
+
+            // カードを抜く前の場札の枚数
+            this.lengthOfHand = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count;
+
+            // 確定：場札から台札へ移動するカード
+            this.targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand[this.oldHandCardObj.Index.AsInt];
+
+            // ピックアップしているカードは、場札から抜くカード
+            var placeObj = digitalCommand.PlaceObj;
+
+            //
+            // 台札の新しい天辺の座標
+            // ======================
+            //
+            // - (Analog) 相手が台札へ向かって投げた場札が、まだ空中を移動中かも
+            //
+            this.nextTop = ModelForVisionCommons.CreatePositionOfNewCenterStackCard(
+                                placeObj: placeObj,
+                                gameModelBuffer: gameModelBuffer) + ModelForVisionCommons.yOfCardThickness.ToMutable();
         }
 
         /// <summary>
         /// タイムスパン作成・登録
         /// </summary>
         public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
-            ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameBuffer.Model _gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel)
@@ -57,10 +91,9 @@
             var digitalCommand = (ModelOfDigitalCommands.MoveCardToCenterStackFromHand)this.DigitalCommand;
 
             var playerObj = digitalCommand.PlayerObj;
-            var RemoveHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj; // 何枚目の場札をピックアップしているか
 
             // 範囲外は無視
-            if (RemoveHandCardObj.Index < HandCardIndex.First || gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count <= RemoveHandCardObj.Index.AsInt)
+            if (this.oldHandCardObj.Index < HandCardIndex.First || this.lengthOfHand <= this.oldHandCardObj.Index.AsInt)
             {
                 return result;
             }
@@ -74,12 +107,10 @@
                 // 確定：抜いた後の場札の数
                 int lengthAfterRemove;
                 {
-                    // 抜く前の場札の数
-                    var lengthBeforeRemove = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count;
-                    lengthAfterRemove = lengthBeforeRemove - 1;
+                    lengthAfterRemove = this.lengthOfHand - 1;
                 }
 
-                if (lengthAfterRemove <= RemoveHandCardObj.Index.AsInt) // 範囲外アクセス防止対応
+                if (lengthAfterRemove <= this.oldHandCardObj.Index.AsInt) // 範囲外アクセス防止対応
                 {
                     // 一旦、最後尾へ
                     nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(lengthAfterRemove - 1));
@@ -87,15 +118,12 @@
                 else
                 {
                     // そのまま
-                    nextFocusedHandCardObj = new FocusedHandCard(true, RemoveHandCardObj.Index);
+                    nextFocusedHandCardObj = new FocusedHandCard(true, this.oldHandCardObj.Index);
                 }
             }
 
-            // 確定：場札から台札へ移動するカード
-            var targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand[RemoveHandCardObj.Index.AsInt];
-
             // モデル更新：場札を１枚抜く
-            gameModelWriter.GetPlayer(playerObj).RemoveCardAtOfHand(RemoveHandCardObj.Index);
+            gameModelWriter.GetPlayer(playerObj).RemoveCardAtOfHand(this.oldHandCardObj.Index);
 
             // 確定：場札の枚数
             var lengthOfHandCards = gameModelWriter.GetPlayer(playerObj).GetLengthOfHandCards();
@@ -111,20 +139,7 @@
 
             // モデル更新：次に、台札として置く
             var indexOfCenterStack = gameModelWriter.GetCenterStack(placeObj).GetLength();
-            gameModelWriter.GetCenterStack(placeObj).AddCard(targetToRemoveObj);
-
-            //
-            // 台札の新しい天辺の座標
-            // ======================
-            //
-            // - (Analog) 相手が台札へ向かって投げた場札が、まだ空中を移動中かも
-            //
-            Vector3 nextTop;
-            {
-                nextTop = ScriptForVisionCommons.CreatePositionOfNewCenterStackCard(
-                            placeObj: placeObj,
-                            gameModelBuffer: gameModelBuffer);
-            }
+            gameModelWriter.GetCenterStack(placeObj).AddCard(this.targetToRemoveObj);
 
             // 台札へ置く
             result.Add(ModelOfAnalogCommands3rdSimplex.PutCardToCenterStack.CreateTimespan(
@@ -132,8 +147,8 @@
                     start: this.TimeRangeObj.StartObj,
                     duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
                 playerObj: playerObj,
-                target: targetToRemoveObj,
-                nextTop: nextTop,
+                target: this.targetToRemoveObj,
+                nextTop: this.nextTop,
                 onProgressOrNull: (progress) =>
                 {
                     // 下のカードの数が、自分のカードの数の隣でなければ
@@ -144,14 +159,14 @@
 
                         // 下のカード
                         var previousCard = gameModelWriter.GetCenterStack(placeObj).GetCard(indexOfCenterStack);
-                        // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
+                        // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{this.targetToRemoveObj.Number()}");
 
                         // 隣ではないか？
                         if (!CardNumberHelper.IsNextNumber(
                             topCard: previousCard,
-                            pickupCard: targetToRemoveObj))
+                            pickupCard: this.targetToRemoveObj))
                         {
-                            Debug.Log($"置いたカードが隣ではなかった topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
+                            Debug.Log($"置いたカードが隣ではなかった topCard:{previousCard.Number()} pickupCard:{this.targetToRemoveObj.Number()}");
 
                             // TODO ★ この動作をキャンセルし、元に戻す動作に変えたい
 
