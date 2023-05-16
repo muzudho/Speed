@@ -5,6 +5,7 @@
     using System;
     using UnityEngine;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
 
     /// <summary>
     /// 画面表示関連
@@ -76,14 +77,14 @@
         /// 台札の次の天辺の位置
         /// </summary>
         /// <param name="placeObj"></param>
-        /// <param name="gameModelBuffer"></param>
+        /// <param name="observableGameModel"></param>
         /// <returns></returns>
         internal static Vector3 CreatePositionOfNewCenterStackCard(
             CenterStackPlace placeObj,
-            ModelOfGameBuffer.Model gameModelBuffer)
+            ModelOfObservableGame.Model observableGameModel)
         {
             // 台札の枚数
-            var num = gameModelBuffer.GetCenterStack(placeObj).GetLength();
+            var num = observableGameModel.GetCenterStack(placeObj).GetLength();
 
             // 置くカードのY座標
             var nextTopY = (num + 1) * Commons.yOfCardThickness.Y;

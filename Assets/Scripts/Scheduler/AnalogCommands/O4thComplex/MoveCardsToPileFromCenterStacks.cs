@@ -49,26 +49,26 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public override void Setup(ModelOfObservableGame.Model modelOfObservableGame, ModelOfGameBuffer.Model _gameModelBuffer)
+        public override void Setup(ModelOfObservableGame.Model observableGameModel)
         {
             var digitalCommand = (ModelOfDigitalCommands.MoveCardsToPileFromCenterStacks)this.DigitalCommand;
 
             // 台札の枚数
-            this.lengthOfTargetCenterStack = modelOfObservableGame.GetLengthOfCenterStack(digitalCommand.PlaceObj);
+            this.lengthOfTargetCenterStack = observableGameModel.GetLengthOfCenterStack(digitalCommand.PlaceObj);
 
             if (1 <= this.lengthOfTargetCenterStack)
             {
                 var startIndexObj = new CenterStackCardIndex(this.lengthOfTargetCenterStack - numberOfCards);
 
                 // 台札の１番上のカード
-                this.idOfCardOfTargetCenterStack = modelOfObservableGame.GetCardOfCenterStack(digitalCommand.PlaceObj, startIndexObj);
+                this.idOfCardOfTargetCenterStack = observableGameModel.GetCardOfCenterStack(digitalCommand.PlaceObj, startIndexObj);
             }
 
             {
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 Player playerObj = GetPlayerByCardColor();
 
-                this.idOfPlayerPileCards = modelOfObservableGame.GetPlayer(playerObj).GetCardsOfPile();
+                this.idOfPlayerPileCards = observableGameModel.GetPlayer(playerObj).GetCardsOfPile();
             }
         }
 

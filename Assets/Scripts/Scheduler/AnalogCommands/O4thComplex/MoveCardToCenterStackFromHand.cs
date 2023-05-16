@@ -54,19 +54,19 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public override void Setup(ModelOfObservableGame.Model modelOfObservableGame, ModelOfGameBuffer.Model gameModelBuffer)
+        public override void Setup(ModelOfObservableGame.Model observableGameModel)
         {
             var digitalCommand = (ModelOfDigitalCommands.MoveCardToCenterStackFromHand)this.DigitalCommand;
             var playerObj = digitalCommand.PlayerObj;
 
             // 何枚目の場札をピックアップしているか
-            this.oldHandCardObj = modelOfObservableGame.GetFocusedHandCardObj(playerObj);
+            this.oldHandCardObj = observableGameModel.GetFocusedHandCardObj(playerObj);
 
             // 抜く前の場札の数
-            this.lengthOfHand = modelOfObservableGame.GetLengthOfHand(playerObj);
+            this.lengthOfHand = observableGameModel.GetLengthOfHand(playerObj);
 
             // 確定：場札から台札へ移動するカード
-            this.targetToRemoveObj = modelOfObservableGame.GetCardOfHand(playerObj, this.oldHandCardObj.Index);
+            this.targetToRemoveObj = observableGameModel.GetCardOfHand(playerObj, this.oldHandCardObj.Index);
 
             // ピックアップしているカードは、場札から抜くカード
             var placeObj = digitalCommand.PlaceObj;
@@ -79,7 +79,7 @@
             //
             this.nextTop = ModelForVisionCommons.CreatePositionOfNewCenterStackCard(
                                 placeObj: placeObj,
-                                gameModelBuffer: gameModelBuffer) + ModelForVisionCommons.yOfCardThickness.ToMutable();
+                                observableGameModel: observableGameModel) + ModelForVisionCommons.yOfCardThickness.ToMutable();
         }
 
         /// <summary>

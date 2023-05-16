@@ -34,9 +34,7 @@
         /// <summary>
         /// 準備
         /// </summary>
-        void Setup(
-            ModelOfObservableGame.Model modelOfObservableGame,
-            ModelOfGameBuffer.Model gameModelBuffer);
+        void Setup(ModelOfObservableGame.Model observableGameModel);
 
         /// <summary>
         /// ゲーム画面の同期を始めます

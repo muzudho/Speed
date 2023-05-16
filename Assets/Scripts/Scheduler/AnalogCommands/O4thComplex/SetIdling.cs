@@ -34,7 +34,7 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public override void Setup(ModelOfObservableGame.Model modelOfObservableGame, ModelOfGameBuffer.Model _gameModelBuffer)
+        public override void Setup(ModelOfObservableGame.Model observableGameModel)
         {
 
         }

@@ -45,9 +45,7 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public abstract void Setup(
-            ModelOfObservableGame.Model modelOfObservableGame,
-            ModelOfGameBuffer.Model gameModelBuffer);
+        public abstract void Setup(ModelOfObservableGame.Model observableGameModel);
 
         /// <summary>
         /// ビルド

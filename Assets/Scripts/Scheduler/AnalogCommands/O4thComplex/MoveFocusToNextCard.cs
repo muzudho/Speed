@@ -50,15 +50,15 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public override void Setup(ModelOfObservableGame.Model modelOfObservableGame, ModelOfGameBuffer.Model _gameModelBuffer)
+        public override void Setup(ModelOfObservableGame.Model observableGameModel)
         {
             var digitalCommand = (ModelOfDigitalCommands.MoveFocusToNextCard)this.DigitalCommand;
 
             // 下ろす場札
-            this.oldFocusedHandCardObj = modelOfObservableGame.GetFocusedHandCardObj(digitalCommand.PlayerObj);
+            this.oldFocusedHandCardObj = observableGameModel.GetFocusedHandCardObj(digitalCommand.PlayerObj);
 
             // 場札の枚数
-            this.lengthOfHand = modelOfObservableGame.GetLengthOfHand(digitalCommand.PlayerObj);
+            this.lengthOfHand = observableGameModel.GetLengthOfHand(digitalCommand.PlayerObj);
         }
 
         /// <summary>
