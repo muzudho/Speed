@@ -1,6 +1,7 @@
 ﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
     using Assets.Scripts.Coding;
+    using System.Collections.Generic;
     using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
@@ -34,7 +35,7 @@
         /// ゲーム画面の同期を始めます
         /// </summary>
         /// <param name="gameModelWriter">ゲームの内部状態（編集用）</param>
-        void GenerateSpan(
+        List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,

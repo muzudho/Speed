@@ -4,6 +4,7 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models;
     using System;
+    using System.Collections.Generic;
     using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfAnalogCommand3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
     using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
@@ -41,13 +42,15 @@
         /// - ゲーム開始時に使う
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        public override void GenerateSpan(
+        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel,
             LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
+            var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
+
             var digitalCommand = (ModelOfDigitalCommands.MoveCardsToPileFromCenterStacks)this.DigitalCommand;
 
             // 台札の一番上（一番後ろ）のカードを１枚抜く
@@ -87,6 +90,8 @@
                     idOfPlayerPileCards: gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile,
                     idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
             }
+
+            return result;
         }
     }
 }

@@ -41,12 +41,17 @@
                     digitalCommand: digitalCommand);
 
                 // タイムスパン作成・登録
-                analogCommand.GenerateSpan(
+                var timespanList = analogCommand.GenerateSpan(
                     gameModelBuffer: gameModelBuffer,
                     gameModelWriter: gameModelWriter,
                     inputModel: inputModel,
                     schedulerModel: schedulerModel,
                     setTimespan: (timespan) => timespan.Lerp(1.0f));
+
+                foreach (var timespan in timespanList)
+                {
+                    timespan.Lerp(1.0f);
+                }
             }
 
             // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）

@@ -3,6 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models;
+    using System.Collections.Generic;
     using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfAnalogCommand3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
     using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
@@ -38,13 +39,15 @@
         /// - 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
         /// - 画面上の場札は位置調整される
         /// </summary>
-        public override void GenerateSpan(
+        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel,
             LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
+            var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
+
             var digitalCommand = (ModelOfDigitalCommands.MoveCardsToHandFromPile)this.DigitalCommand;
             var playerObj = digitalCommand.PlayerObj;
 
@@ -60,7 +63,7 @@
 
                 // 制約の解除
                 inputModel.Players[playerObj.AsInt].Rights.IsPileCardDrawing = false;
-                return;
+                return result;
             }
 
             // モデル更新：場札への移動
@@ -111,6 +114,8 @@
                 // 制約の解除
                 inputModel.Players[playerObj.AsInt].Rights.IsPileCardDrawing = false;
             }
+
+            return result;
         }
     }
 }

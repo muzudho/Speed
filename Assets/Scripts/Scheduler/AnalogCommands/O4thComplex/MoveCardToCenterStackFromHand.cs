@@ -3,6 +3,7 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models;
+    using System.Collections.Generic;
     using UnityEngine;
     using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfAnalogCommand3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
@@ -40,13 +41,15 @@
         /// <summary>
         /// タイムスパン作成・登録
         /// </summary>
-        public override void GenerateSpan(
+        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel,
             LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
+            var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
+
             var digitalCommand = (ModelOfDigitalCommands.MoveCardToCenterStackFromHand)this.DigitalCommand;
 
             var playerObj = digitalCommand.PlayerObj;
@@ -55,7 +58,7 @@
             // 範囲外は無視
             if (oldHandCardObj.Index < HandCardIndex.First || gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count <= oldHandCardObj.Index.AsInt)
             {
-                return;
+                return result;
             }
 
             // ピックアップしているカードは、場札から抜くカード
@@ -159,6 +162,8 @@
             {
                 setTimespan(timespan);
             }
+
+            return result;
         }
     }
 }

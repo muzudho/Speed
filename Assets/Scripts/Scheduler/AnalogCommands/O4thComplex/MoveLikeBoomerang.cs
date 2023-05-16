@@ -3,9 +3,10 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models;
+    using System.Collections.Generic;
     using UnityEngine;
     using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
-    using ModelOfAnalogCommands1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfAnalogCommands3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
     using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
@@ -37,13 +38,15 @@
         /// <summary>
         /// タイムスパン作成・登録
         /// </summary>
-        public override void GenerateSpan(
+        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfAnalogCommands1stTimelineSpan.IModel> setTimespan)
+            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
+            var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
+
             var digitalCommand = (ModelOfDigitalCommands.MoveCardToCenterStackFromHand)this.DigitalCommand;
 
             var playerObj = digitalCommand.PlayerObj;
@@ -52,7 +55,7 @@
             // 範囲外は無視
             if (RemoveHandCardObj.Index < HandCardIndex.First || gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count <= RemoveHandCardObj.Index.AsInt)
             {
-                return;
+                return result;
             }
 
             // ピックアップしているカードは、場札から抜くカード
@@ -118,7 +121,7 @@
 
             // 台札へ置く
             setTimespan(ModelOfAnalogCommands3rdSimplex.PutCardToCenterStack.CreateTimespan(
-                timeRange: new ModelOfAnalogCommands1stTimelineSpan.Range(
+                timeRange: new ModelOfAnalogCommand1stTimelineSpan.Range(
                     start: this.TimeRangeObj.StartObj,
                     duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
                 playerObj: playerObj,
@@ -174,7 +177,7 @@
 
             // 場札の位置調整（をしないと歯抜けになる）
             var timespanList = ModelOfAnalogCommands3rdSimplex.ArrangeHandCards.CreateTimespanList(
-                timeRange: new ModelOfAnalogCommands1stTimelineSpan.Range(
+                timeRange: new ModelOfAnalogCommand1stTimelineSpan.Range(
                     start: new GameSeconds(this.TimeRangeObj.StartObj.AsFloat + DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f),
                     duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
                 playerObj: playerObj,
@@ -187,6 +190,8 @@
             {
                 setTimespan(timespan);
             }
+
+            return result;
         }
     }
 }

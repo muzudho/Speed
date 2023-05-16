@@ -5,6 +5,7 @@
     using Assets.Scripts.Vision.Models;
     using Assets.Scripts.Vision.Models.World;
     using System;
+    using System.Collections.Generic;
     using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfAnalogCommand3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
     using ModelOfAnalogCommand4thComplex = Assets.Scripts.Scheduler.AnalogCommands.O4thComplex;
@@ -41,13 +42,15 @@
         /// 
         /// - ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
         /// </summary>
-        public override void GenerateSpan(
+        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel,
             LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
+            var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
+
             var digitalCommand = (ModelOfDigitalCommands.MoveFocusToNextCard)this.DigitalCommand;
 
             // TODO 前のカードは、ピックアップしているという前提
@@ -142,6 +145,8 @@
                 // 制約の解除
                 inputModel.Players[digitalCommand.PlayerObj.AsInt].Rights.IsPickupCartToNext = false;
             }
+
+            return result;
         }
 
         ModelOfDigitalCommands.MoveFocusToNextCard GetCommandOfThinkingEngine(

@@ -2,6 +2,7 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models;
+    using System.Collections.Generic;
     using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
@@ -48,14 +49,18 @@
         /// <param name="commandOfScheduler"></param>
         /// <param name="gameModelWriter"></param>
         /// <param name="setTimespan"></param>
-        virtual public void GenerateSpan(
+        virtual public List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel,
             LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
+            var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
+
             // Ignored
+
+            return result;
         }
     }
 }
