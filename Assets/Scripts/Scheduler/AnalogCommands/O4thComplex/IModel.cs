@@ -33,11 +33,15 @@
 
         /// <summary>
         /// 準備
+        /// 
+        /// - 内部状態、表示状態を読み取る
         /// </summary>
         void Setup(ModelOfObservableGame.Model observableGameModel);
 
         /// <summary>
         /// ゲーム画面の同期を始めます
+        /// 
+        /// - 内部状態、表示状態を書き換える
         /// </summary>
         /// <param name="gameModelWriter">ゲームの内部状態（編集用）</param>
         List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(

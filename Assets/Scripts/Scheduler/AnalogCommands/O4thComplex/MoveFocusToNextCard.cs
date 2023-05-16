@@ -10,11 +10,10 @@
     using ModelOfAnalogCommand4thComplex = Assets.Scripts.Scheduler.AnalogCommands.O4thComplex;
     using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
-    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfThinkingEngineCommons = Assets.Scripts.ThinkingEngine.Commons;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
+    using ModelOfThinkingEngineCommons = Assets.Scripts.ThinkingEngine.Commons;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します

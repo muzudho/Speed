@@ -7,7 +7,6 @@
     using ModelOfAnalogCommand3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
     using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
-    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
@@ -69,7 +68,10 @@
             var digitalCommand = (ModelOfDigitalCommands.MoveCardsToHandFromPile)this.DigitalCommand;
             var playerObj = digitalCommand.PlayerObj;
 
+            //
+            // TODO 関数の外に出したい
             // 手札がないのに、手札を引こうとしたとき
+            //
             if (this.lengthOfPile < digitalCommand.NumberOfCards)
             {
                 // TODO ★ なぜここにくる？

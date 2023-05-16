@@ -50,6 +50,12 @@
                 // スケジュールから除去
                 schedulerModel.Timeline.RemoveAt(i);
 
+                //
+                // TODO ゲーム・モデルをこのタイミングで更新完了したい
+                // TODO ビューへの命令をこのタイミングで設定し確定したい
+                // TODO ビューは時間をかけて更新される（モデルとビューは即時に同期しない。時間をかけて同期する）
+                //
+
                 // タイムスパン準備・作成
                 analogCommandComplex.Setup(observableGameModel);
                 var timespanList = analogCommandComplex.CreateTimespanList(
