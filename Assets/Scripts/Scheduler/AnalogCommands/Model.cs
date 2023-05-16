@@ -3,9 +3,9 @@
     using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
     using UnityEngine;
+    using ModelOfAnalogCommands1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommands7thTimeline = Assets.Scripts.Scheduler.AnalogCommands.O7thTimeline;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfSchedulerO7thTimeline = Assets.Scripts.Scheduler.AnalogCommands.O7thTimeline;
 
     /// <summary>
     /// スケジューラーのモデル
@@ -24,7 +24,7 @@
         public Model(ModelOfObservableGame.Model gameModel)
         {
             // タイムラインは、ゲーム・モデルを持つ。
-            this.Timeline = new ModelOfSchedulerO7thTimeline.Model(gameModel);
+            this.Timeline = new ModelOfAnalogCommands7thTimeline.Model(gameModel);
 
             this.CleanUp();
         }
@@ -36,7 +36,7 @@
         /// <summary>
         /// タイムライン
         /// </summary>
-        internal ModelOfSchedulerO7thTimeline.Model Timeline { get; }
+        internal ModelOfAnalogCommands7thTimeline.Model Timeline { get; }
         #endregion
 
         #region プロパティ（補間を実行中の項目）
@@ -45,7 +45,7 @@
         /// 
         /// - 持続時間が切れると、消えていく
         /// </summary>
-        List<ModelOfSchedulerO1stTimelineSpan.IModel> ongoingSpans = new();
+        List<ModelOfAnalogCommands1stTimelineSpan.IModel> ongoingSpans = new();
         #endregion
 
         // - メソッド
@@ -55,7 +55,7 @@
         /// 追加
         /// </summary>
         /// <param name="additionOfSpans">追加の要素</param>
-        internal void Add(List<ModelOfSchedulerO1stTimelineSpan.IModel> additionOfSpans)
+        internal void Add(List<ModelOfAnalogCommands1stTimelineSpan.IModel> additionOfSpans)
         {
             foreach (var spanToLerp in additionOfSpans)
             {

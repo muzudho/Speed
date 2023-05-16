@@ -2,12 +2,12 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models;
+    using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
+    using ModelOfAnalogCommands1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -23,7 +23,7 @@
         /// <param name="digitalCommand"></param>
         public SetGameActive(
             GameSeconds startObj,
-            ModelOfThinkingEngineDigitalCommands.IModel digitalCommand)
+            ModelOfDigitalCommands.IModel digitalCommand)
             : base(startObj, digitalCommand)
         {
         }
@@ -41,15 +41,15 @@
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel,
+            LazyArgs.SetValue<ModelOfAnalogCommands1stTimelineSpan.IModel> setTimespan)
         {
             if (handled)
             {
                 return;
             }
 
-            var digitalCommand = (ModelOfThinkingEngineDigitalCommands.SetGameActive)this.DigitalCommand;
+            var digitalCommand = (ModelOfDigitalCommands.SetGameActive)this.DigitalCommand;
 
             // モデル更新：１回実行すれば充分
             gameModelWriter.IsGameActive = digitalCommand.IsGameActive;

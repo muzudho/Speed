@@ -6,7 +6,7 @@
     using System;
     using System.Collections.Generic;
     using UnityEngine;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
 
     /// <summary>
     /// 指定のカード（台札を想定）を手札へ移動
@@ -21,8 +21,8 @@
         /// <param name="idOfPlayerPileCards"></param>
         /// <param name="idOfPlayingCard"></param>
         /// <returns></returns>
-        internal static ModelOfSchedulerO1stTimelineSpan.IModel GenerateSpan(
-            ModelOfSchedulerO1stTimelineSpan.Range timeRange,
+        internal static ModelOfAnalogCommand1stTimelineSpan.IModel GenerateSpan(
+            ModelOfAnalogCommand1stTimelineSpan.Range timeRange,
             Player playerObj,
             List<IdOfPlayingCards> idOfPlayerPileCards,
             IdOfPlayingCards idOfPlayingCard)
@@ -38,7 +38,7 @@
             Vector3? endPosition = null;
             Quaternion? endRotation = null;
 
-            return new ModelOfSchedulerO1stTimelineSpan.Model(
+            return new ModelOfAnalogCommand1stTimelineSpan.Model(
                 timeRange: timeRange,
                 target: target,
                 getBegin: () => new PositionAndRotationLazy(

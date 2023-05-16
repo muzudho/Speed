@@ -1,11 +1,11 @@
 ﻿namespace Assets.Scripts.Scheduler.AnalogCommands
 {
     using Assets.Scripts.Coding;
+    using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
+    using ModelOfAnalogCommands1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
 
     /// <summary>
     /// スケジューラーのヘルパー
@@ -24,8 +24,8 @@
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel,
+            LazyArgs.SetValue<ModelOfAnalogCommands1stTimelineSpan.IModel> setTimespan)
         {
             // TODO ★ スレッド・セーフにしたい
             // キューに溜まっている分を全て消化

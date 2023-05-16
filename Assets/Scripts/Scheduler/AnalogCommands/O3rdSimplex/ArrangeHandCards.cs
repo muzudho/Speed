@@ -6,8 +6,8 @@
     using System;
     using System.Collections.Generic;
     using UnityEngine;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
+    using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommand3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
 
     /// <summary>
     /// 場札を並べる
@@ -29,12 +29,12 @@
         /// <param name="setTimespan"></param>
         /// <exception cref="Exception"></exception>
         internal static void GenerateSpan(
-            ModelOfSchedulerO1stTimelineSpan.Range timeRange,
+            ModelOfAnalogCommand1stTimelineSpan.Range timeRange,
             Player playerObj,
             HandCardIndex indexOfPickupObj,
             List<IdOfPlayingCards> idOfHandCards,
             bool keepPickup,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan,
+            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan,
             LazyArgs.SetValue<float> onProgressOrNull)
         {
             // 最大25枚の場札が並べるように調整してある
@@ -102,11 +102,11 @@
                     Quaternion? startRotation = null;
 
                     // ピックアップ後の座標を計算したい。ピックアップ前の座標は指定する
-                    var endPositionAndRotation = ModelOfSchedulerO3rdSimplexCommand.PickupHandCard.CalculateEnd(
+                    var endPositionAndRotation = ModelOfAnalogCommand3rdSimplex.PickupHandCard.CalculateEnd(
                         homePositionOfHand: staticDestination.GetPosition(),
                         homeRotationOfHand: staticDestination.GetRotation());
 
-                    setTimespan(new ModelOfSchedulerO1stTimelineSpan.Model(
+                    setTimespan(new ModelOfAnalogCommand1stTimelineSpan.Model(
                         timeRange: timeRange,
                         target: idOfGo,
                         getBegin: () =>
@@ -142,7 +142,7 @@
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;
 
-                    setTimespan(new ModelOfSchedulerO1stTimelineSpan.Model(
+                    setTimespan(new ModelOfAnalogCommand1stTimelineSpan.Model(
                         timeRange: timeRange,
                         target: idOfGo,
                         getBegin: () =>

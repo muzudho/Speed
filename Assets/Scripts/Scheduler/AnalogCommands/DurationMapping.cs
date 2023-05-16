@@ -4,7 +4,7 @@
     using Assets.Scripts.Vision.Models;
     using System;
     using System.Collections.Generic;
-    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
+    using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// 思考エンジンと、画面の、コマンドの紐づき
@@ -23,12 +23,12 @@
             // 隣の場札をピックアップする秒
             float durationOfMoveFocusToNextCard = 0.15f;
 
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineDigitalCommands.MoveCardsToHandFromPile).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * (0.15f + durationOfMoveFocusToNextCard)));
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineDigitalCommands.MoveCardsToPileFromCenterStacks).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * 0.3f));
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * (0.15f + durationOfMoveFocusToNextCard)));
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineDigitalCommands.MoveFocusToNextCard).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * durationOfMoveFocusToNextCard));
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineDigitalCommands.SetGameActive).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * forMoment));
-            DurationOfModels.Add(typeof(ModelOfThinkingEngineDigitalCommands.SetIdling).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * forMoment)); // Idling の duration は可変の想定
+            DurationOfModels.Add(typeof(ModelOfDigitalCommands.MoveCardsToHandFromPile).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * (0.15f + durationOfMoveFocusToNextCard)));
+            DurationOfModels.Add(typeof(ModelOfDigitalCommands.MoveCardsToPileFromCenterStacks).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * 0.3f));
+            DurationOfModels.Add(typeof(ModelOfDigitalCommands.MoveCardToCenterStackFromHand).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * (0.15f + durationOfMoveFocusToNextCard)));
+            DurationOfModels.Add(typeof(ModelOfDigitalCommands.MoveFocusToNextCard).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * durationOfMoveFocusToNextCard));
+            DurationOfModels.Add(typeof(ModelOfDigitalCommands.SetGameActive).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * forMoment));
+            DurationOfModels.Add(typeof(ModelOfDigitalCommands.SetIdling).GetHashCode(), new GameSeconds(Commons.gameSpeedScale * forMoment)); // Idling の duration は可変の想定
         }
 
         // - プロパティ

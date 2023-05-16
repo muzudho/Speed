@@ -4,13 +4,13 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models;
     using System;
+    using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommand3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
+    using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
+    using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
-    using ModelOfThinkingEngineCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfThinkingEngineCommons = Assets.Scripts.ThinkingEngine.Commons;
 
     /// <summary>
@@ -27,7 +27,7 @@
         /// <param name="digitalCommand"></param>
         public MoveCardsToPileFromCenterStacks(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommands.IModel digitalCommand)
+            ModelOfDigitalCommands.IModel digitalCommand)
             : base(startObj, digitalCommand)
         {
         }
@@ -45,10 +45,10 @@
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel,
+            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
-            var digitalCommand = (ModelOfThinkingEngineCommands.MoveCardsToPileFromCenterStacks)this.DigitalCommand;
+            var digitalCommand = (ModelOfDigitalCommands.MoveCardsToPileFromCenterStacks)this.DigitalCommand;
 
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
@@ -81,7 +81,7 @@
                 // プレイヤーの手札を積み上げる
                 gameModelWriter.GetPlayer(playerObj).AddCardOfPile(idOfCardOfCenterStack);
 
-                setTimespan(ModelOfSchedulerO3rdSimplexCommand.PutCardToPile.GenerateSpan(
+                setTimespan(ModelOfAnalogCommand3rdSimplex.PutCardToPile.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile,

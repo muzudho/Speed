@@ -5,7 +5,7 @@
     using Assets.Scripts.Vision.Models.World;
     using System;
     using UnityEngine;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfVisionCommons = Assets.Scripts.Vision.Commons;
 
     /// <summary>
@@ -41,8 +41,8 @@
         /// <param name="timeRange"></param>
         /// <param name="getBegin"></param>
         /// <param name="idOfCard">カードId</param>
-        internal static ModelOfSchedulerO1stTimelineSpan.IModel GenerateSpan(
-            ModelOfSchedulerO1stTimelineSpan.Range timeRange,
+        internal static ModelOfAnalogCommand1stTimelineSpan.IModel GenerateSpan(
+            ModelOfAnalogCommand1stTimelineSpan.Range timeRange,
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
             IdOfPlayingCards idOfCard,
             LazyArgs.SetValue<float> onProgressOrNull)
@@ -53,7 +53,7 @@
             Vector3? endPosition = null;
             Quaternion? endRotation = null;
 
-            return new ModelOfSchedulerO1stTimelineSpan.Model(
+            return new ModelOfAnalogCommand1stTimelineSpan.Model(
                 timeRange: timeRange,
                 target: IdMapping.GetIdOfGameObject(idOfCard),
                 getBegin: () =>

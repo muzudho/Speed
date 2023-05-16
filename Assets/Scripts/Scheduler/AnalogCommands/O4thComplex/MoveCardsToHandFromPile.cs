@@ -3,13 +3,13 @@
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models;
+    using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommand3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
+    using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
+    using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
-    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -25,7 +25,7 @@
         /// <param name="digitalCommand"></param>
         public MoveCardsToHandFromPile(
             GameSeconds startObj,
-            ModelOfThinkingEngineDigitalCommands.IModel digitalCommand)
+            ModelOfDigitalCommands.IModel digitalCommand)
             : base(startObj, digitalCommand)
         {
         }
@@ -42,10 +42,10 @@
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel,
+            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
-            var digitalCommand = (ModelOfThinkingEngineDigitalCommands.MoveCardsToHandFromPile)this.DigitalCommand;
+            var digitalCommand = (ModelOfDigitalCommands.MoveCardsToHandFromPile)this.DigitalCommand;
             var playerObj = digitalCommand.PlayerObj;
 
             // 確定：手札の枚数
@@ -86,7 +86,7 @@
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
             {
-                ModelOfSchedulerO3rdSimplexCommand.ArrangeHandCards.GenerateSpan(
+                ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     indexOfPickupObj: gameModelWriter.GetPlayer(playerObj).GetFocusedHandCardObj().Index,

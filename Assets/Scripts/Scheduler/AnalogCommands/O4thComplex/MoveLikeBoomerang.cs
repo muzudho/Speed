@@ -4,13 +4,13 @@
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models;
     using UnityEngine;
+    using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
+    using ModelOfAnalogCommands1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommands3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
+    using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
-    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ScriptForVisionCommons = Assets.Scripts.Vision.Commons;
 
     /// <summary>
@@ -27,7 +27,7 @@
         /// <param name="digitalCommand"></param>
         public MoveLikeBoomerang(
             GameSeconds startObj,
-            ModelOfThinkingEngineDigitalCommands.IModel digitalCommand)
+            ModelOfDigitalCommands.IModel digitalCommand)
             : base(startObj, digitalCommand)
         {
         }
@@ -41,10 +41,10 @@
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel,
+            LazyArgs.SetValue<ModelOfAnalogCommands1stTimelineSpan.IModel> setTimespan)
         {
-            var digitalCommand = (ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand)this.DigitalCommand;
+            var digitalCommand = (ModelOfDigitalCommands.MoveCardToCenterStackFromHand)this.DigitalCommand;
 
             var playerObj = digitalCommand.PlayerObj;
             var RemoveHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj; // 何枚目の場札をピックアップしているか
@@ -117,8 +117,8 @@
             }
 
             // 台札へ置く
-            setTimespan(ModelOfSchedulerO3rdSimplexCommand.PutCardToCenterStack.GenerateSpan(
-                timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
+            setTimespan(ModelOfAnalogCommands3rdSimplex.PutCardToCenterStack.GenerateSpan(
+                timeRange: new ModelOfAnalogCommands1stTimelineSpan.Range(
                     start: this.TimeRangeObj.StartObj,
                     duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
                 playerObj: playerObj,
@@ -173,8 +173,8 @@
                 }));
 
             // 場札の位置調整（をしないと歯抜けになる）
-            ModelOfSchedulerO3rdSimplexCommand.ArrangeHandCards.GenerateSpan(
-                timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
+            ModelOfAnalogCommands3rdSimplex.ArrangeHandCards.GenerateSpan(
+                timeRange: new ModelOfAnalogCommands1stTimelineSpan.Range(
                     start: new GameSeconds(this.TimeRangeObj.StartObj.AsFloat + DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f),
                     duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
                 playerObj: playerObj,

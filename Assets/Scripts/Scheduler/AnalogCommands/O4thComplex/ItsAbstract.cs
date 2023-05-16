@@ -2,12 +2,12 @@
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models;
+    using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
+    using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// ソースコードのようなもの
@@ -20,9 +20,9 @@
 
         protected ItsAbstract(
             GameSeconds startTimeObj,
-            ModelOfThinkingEngineDigitalCommands.IModel digitalCommand)
+            ModelOfDigitalCommands.IModel digitalCommand)
         {
-            this.TimeRangeObj = new ModelOfSchedulerO1stTimelineSpan.Range(startTimeObj, DurationMapping.GetDurationBy(digitalCommand.GetType()));
+            this.TimeRangeObj = new ModelOfAnalogCommand1stTimelineSpan.Range(startTimeObj, DurationMapping.GetDurationBy(digitalCommand.GetType()));
             this.DigitalCommand = digitalCommand;
         }
 
@@ -31,12 +31,12 @@
         /// <summary>
         /// ゲーム時間範囲（単位：秒）
         /// </summary>
-        public ModelOfSchedulerO1stTimelineSpan.Range TimeRangeObj { get; private set; }
+        public ModelOfAnalogCommand1stTimelineSpan.Range TimeRangeObj { get; private set; }
 
         /// <summary>
         /// 思考エンジン用のコマンド
         /// </summary>
-        public ModelOfThinkingEngineDigitalCommands.IModel DigitalCommand { get; private set; }
+        public ModelOfDigitalCommands.IModel DigitalCommand { get; private set; }
 
         // - メソッド
 
@@ -52,8 +52,8 @@
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel,
+            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
             // Ignored
         }

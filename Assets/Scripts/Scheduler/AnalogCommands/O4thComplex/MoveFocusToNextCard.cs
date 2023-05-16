@@ -5,15 +5,15 @@
     using Assets.Scripts.Vision.Models;
     using Assets.Scripts.Vision.Models.World;
     using System;
-    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
-    using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
-    using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
     using ModelOfAnalogCommand3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
     using ModelOfAnalogCommand4thComplex = Assets.Scripts.Scheduler.AnalogCommands.O4thComplex;
-    using ModelOfThinkingEngineCommons = Assets.Scripts.ThinkingEngine.Commons;
+    using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+    using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
+    using ModelOfInput = Assets.Scripts.Vision.Models.Input;
+    using ModelOfThinkingEngineCommons = Assets.Scripts.ThinkingEngine.Commons;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
@@ -45,7 +45,7 @@
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfScheduler.Model schedulerModel,
+            ModelOfAnalogCommands.Model schedulerModel,
             LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
             var digitalCommand = (ModelOfDigitalCommands.MoveFocusToNextCard)this.DigitalCommand;

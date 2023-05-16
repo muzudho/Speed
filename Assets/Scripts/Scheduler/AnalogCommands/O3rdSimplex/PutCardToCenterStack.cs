@@ -5,7 +5,7 @@
     using Assets.Scripts.Vision.Models.World;
     using System;
     using UnityEngine;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
 
     /// <summary>
     /// 指定のカードを、台札の上へ置く
@@ -23,8 +23,8 @@
         /// <param name="nextTop"></param>
         /// <param name="onProgressOrNull"></param>
         /// <returns></returns>
-        internal static ModelOfSchedulerO1stTimelineSpan.IModel GenerateSpan(
-            ModelOfSchedulerO1stTimelineSpan.Range timeRange,
+        internal static ModelOfAnalogCommand1stTimelineSpan.IModel GenerateSpan(
+            ModelOfAnalogCommand1stTimelineSpan.Range timeRange,
             Player playerObj,
             IdOfPlayingCards target,
             Vector3 nextTop,
@@ -37,7 +37,7 @@
             Vector3? endPosition = null;
             Quaternion? endRotation = null;
 
-            return new ModelOfSchedulerO1stTimelineSpan.Model(
+            return new ModelOfAnalogCommand1stTimelineSpan.Model(
                 timeRange: timeRange,
                 target: targetGo,
                 getBegin: () => new PositionAndRotationLazy(
