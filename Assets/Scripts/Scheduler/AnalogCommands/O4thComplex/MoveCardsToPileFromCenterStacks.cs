@@ -65,23 +65,7 @@
 
             {
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
-                Player playerObj;
-                var suit = this.idOfCardOfTargetCenterStack.Suit();
-                switch (suit)
-                {
-                    case IdOfCardSuits.Clubs:
-                    case IdOfCardSuits.Spades:
-                        playerObj = ModelOfThinkingEngineCommons.Player1;
-                        break;
-
-                    case IdOfCardSuits.Diamonds:
-                    case IdOfCardSuits.Hearts:
-                        playerObj = ModelOfThinkingEngineCommons.Player2;
-                        break;
-
-                    default:
-                        throw new Exception();
-                }
+                Player playerObj = GetPlayerByCardColor();
 
                 this.idOfPlayerPileCards = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile;
             }
@@ -111,23 +95,7 @@
                 gameModelWriter.GetCenterStack(digitalCommand.PlaceObj).RemoveCardAt(startIndexObj);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
-                Player playerObj;
-                var suit = this.idOfCardOfTargetCenterStack.Suit();
-                switch (suit)
-                {
-                    case IdOfCardSuits.Clubs:
-                    case IdOfCardSuits.Spades:
-                        playerObj = ModelOfThinkingEngineCommons.Player1;
-                        break;
-
-                    case IdOfCardSuits.Diamonds:
-                    case IdOfCardSuits.Hearts:
-                        playerObj = ModelOfThinkingEngineCommons.Player2;
-                        break;
-
-                    default:
-                        throw new Exception();
-                }
+                Player playerObj = GetPlayerByCardColor();
 
                 // プレイヤーの手札を積み上げる
                 gameModelWriter.GetPlayer(playerObj).AddCardOfPile(this.idOfCardOfTargetCenterStack);
@@ -140,6 +108,29 @@
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 黒いカードは１プレイヤー、赤いカードは２プレイヤー
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        Player GetPlayerByCardColor()
+        {
+            var suit = this.idOfCardOfTargetCenterStack.Suit();
+            switch (suit)
+            {
+                case IdOfCardSuits.Clubs:
+                case IdOfCardSuits.Spades:
+                    return ModelOfThinkingEngineCommons.Player1;
+
+                case IdOfCardSuits.Diamonds:
+                case IdOfCardSuits.Hearts:
+                    return ModelOfThinkingEngineCommons.Player2;
+
+                default:
+                    throw new Exception();
+            }
         }
     }
 }
