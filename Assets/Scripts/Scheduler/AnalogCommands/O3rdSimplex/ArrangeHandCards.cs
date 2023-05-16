@@ -28,15 +28,16 @@
         /// <param name="idOfHandCards">場札のIdリスト</param>
         /// <param name="setTimespan"></param>
         /// <exception cref="Exception"></exception>
-        internal static void GenerateSpan(
+        internal static List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
             ModelOfAnalogCommand1stTimelineSpan.Range timeRange,
             Player playerObj,
             HandCardIndex indexOfPickupObj,
             List<IdOfPlayingCards> idOfHandCards,
             bool keepPickup,
-            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan,
             LazyArgs.SetValue<float> onProgressOrNull)
         {
+            var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
+
             // 最大25枚の場札が並べるように調整してある
 
             float cardAngleZ = -5; // カードの少しの傾き
@@ -106,7 +107,7 @@
                         homePositionOfHand: staticDestination.GetPosition(),
                         homeRotationOfHand: staticDestination.GetRotation());
 
-                    setTimespan(new ModelOfAnalogCommand1stTimelineSpan.Model(
+                    result.Add(new ModelOfAnalogCommand1stTimelineSpan.Model(
                         timeRange: timeRange,
                         target: idOfGo,
                         getBegin: () =>
@@ -142,7 +143,7 @@
                     Vector3? startPosition = null;
                     Quaternion? startRotation = null;
 
-                    setTimespan(new ModelOfAnalogCommand1stTimelineSpan.Model(
+                    result.Add(new ModelOfAnalogCommand1stTimelineSpan.Model(
                         timeRange: timeRange,
                         target: idOfGo,
                         getBegin: () =>
@@ -175,6 +176,8 @@
                 theta += thetaStep;
                 i++;
             }
+
+            return result;
         }
     }
 }

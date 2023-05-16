@@ -86,13 +86,12 @@
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
             {
-                ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.GenerateSpan(
+                var timespanList = ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     indexOfPickupObj: gameModelWriter.GetPlayer(playerObj).GetFocusedHandCardObj().Index,
                     idOfHandCards: gameModelWriter.GetPlayer(playerObj).GetCardsOfHand(),
                     keepPickup: true,
-                    setTimespan: setTimespan,
                     onProgressOrNull: (progress) =>
                     {
                         if (1.0f <= progress)
@@ -101,6 +100,11 @@
                             inputModel.Players[playerObj.AsInt].Rights.IsPileCardDrawing = false;
                         }
                     });
+
+                foreach (var timespan in timespanList)
+                {
+                    setTimespan(timespan);
+                }
             }
             else
             {

@@ -173,7 +173,7 @@
                 }));
 
             // 場札の位置調整（をしないと歯抜けになる）
-            ModelOfAnalogCommands3rdSimplex.ArrangeHandCards.GenerateSpan(
+            var timespanList = ModelOfAnalogCommands3rdSimplex.ArrangeHandCards.GenerateSpan(
                 timeRange: new ModelOfAnalogCommands1stTimelineSpan.Range(
                     start: new GameSeconds(this.TimeRangeObj.StartObj.AsFloat + DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f),
                     duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
@@ -181,8 +181,12 @@
                 indexOfPickupObj: nextFocusedHandCardObj.Index, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                 idOfHandCards: idOfHandCardsAfterRemove,
                 keepPickup: true,
-                setTimespan: setTimespan,
                 onProgressOrNull: null);
+
+            foreach (var timespan in timespanList)
+            {
+                setTimespan(timespan);
+            }
         }
     }
 }
