@@ -28,7 +28,7 @@
         /// <param name="idOfHandCards">場札のIdリスト</param>
         /// <param name="setTimespan"></param>
         /// <exception cref="Exception"></exception>
-        internal static List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
+        internal static List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
             ModelOfAnalogCommand1stTimelineSpan.Range timeRange,
             Player playerObj,
             HandCardIndex indexOfPickupObj,

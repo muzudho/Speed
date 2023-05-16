@@ -23,7 +23,7 @@
         /// <param name="nextTop"></param>
         /// <param name="onProgressOrNull"></param>
         /// <returns></returns>
-        internal static ModelOfAnalogCommand1stTimelineSpan.IModel GenerateSpan(
+        internal static ModelOfAnalogCommand1stTimelineSpan.IModel CreateTimespan(
             ModelOfAnalogCommand1stTimelineSpan.Range timeRange,
             Player playerObj,
             IdOfPlayingCards target,

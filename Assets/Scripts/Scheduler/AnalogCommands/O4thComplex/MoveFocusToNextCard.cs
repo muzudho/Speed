@@ -108,7 +108,7 @@
                 var idOfCard = gameModelWriter.GetPlayer(digitalCommand.PlayerObj).GetCardAtOfHand(oldFocusedHandCardObj.Index); // ピックアップしている場札
 
                 // 前にピックアップしていたカードを、盤に下ろす
-                setTimespan(ModelOfAnalogCommand3rdSimplex.DropHandCard.GenerateSpan(
+                setTimespan(ModelOfAnalogCommand3rdSimplex.DropHandCard.CreateTimespan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard));
             }
@@ -122,7 +122,7 @@
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
-                setTimespan(ModelOfAnalogCommand3rdSimplex.PickupHandCard.GenerateSpan(
+                setTimespan(ModelOfAnalogCommand3rdSimplex.PickupHandCard.CreateTimespan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(

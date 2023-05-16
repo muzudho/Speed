@@ -19,7 +19,7 @@
         /// </summary>
         /// <param name="timeRange"></param>
         /// <param name="idOfCard">ピックアップしているカードのId</param>
-        internal static ModelOfAnalogCommand1stTimelineSpan.IModel GenerateSpan(
+        internal static ModelOfAnalogCommand1stTimelineSpan.IModel CreateTimespan(
             ModelOfAnalogCommand1stTimelineSpan.Range timeRange,
             IdOfPlayingCards idOfCard)
         {

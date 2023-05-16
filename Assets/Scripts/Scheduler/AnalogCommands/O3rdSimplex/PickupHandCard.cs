@@ -41,7 +41,7 @@
         /// <param name="timeRange"></param>
         /// <param name="getBegin"></param>
         /// <param name="idOfCard">カードId</param>
-        internal static ModelOfAnalogCommand1stTimelineSpan.IModel GenerateSpan(
+        internal static ModelOfAnalogCommand1stTimelineSpan.IModel CreateTimespan(
             ModelOfAnalogCommand1stTimelineSpan.Range timeRange,
             LazyArgs.GetValue<PositionAndRotationLazy> getBegin,
             IdOfPlayingCards idOfCard,

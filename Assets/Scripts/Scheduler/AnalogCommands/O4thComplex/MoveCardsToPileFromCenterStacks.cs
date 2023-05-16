@@ -81,7 +81,7 @@
                 // プレイヤーの手札を積み上げる
                 gameModelWriter.GetPlayer(playerObj).AddCardOfPile(idOfCardOfCenterStack);
 
-                setTimespan(ModelOfAnalogCommand3rdSimplex.PutCardToPile.GenerateSpan(
+                setTimespan(ModelOfAnalogCommand3rdSimplex.PutCardToPile.CreateTimespan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile,

@@ -128,7 +128,7 @@
             }
 
             // 台札へ置く
-            setTimespan(ModelOfAnalogCommand3rdSimplex.PutCardToCenterStack.GenerateSpan(
+            setTimespan(ModelOfAnalogCommand3rdSimplex.PutCardToCenterStack.CreateTimespan(
                 timeRange: new ModelOfAnalogCommand1stTimelineSpan.Range(
                     start: this.TimeRangeObj.StartObj,
                     duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
@@ -145,7 +145,7 @@
                 }));
 
             // 場札の位置調整（をしないと歯抜けになる）
-            var timespanList = ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.GenerateSpan(
+            var timespanList = ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.CreateTimespanList(
                 timeRange: new ModelOfAnalogCommand1stTimelineSpan.Range(
                     start: new GameSeconds(this.TimeRangeObj.StartObj.AsFloat + DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f),
                     duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),

@@ -86,7 +86,7 @@
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
             {
-                var timespanList = ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.GenerateSpan(
+                var timespanList = ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.CreateTimespanList(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     indexOfPickupObj: gameModelWriter.GetPlayer(playerObj).GetFocusedHandCardObj().Index,
