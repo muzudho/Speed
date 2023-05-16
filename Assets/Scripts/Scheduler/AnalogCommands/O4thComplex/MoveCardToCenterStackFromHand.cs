@@ -41,12 +41,11 @@
         /// <summary>
         /// タイムスパン作成・登録
         /// </summary>
-        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
+        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfAnalogCommands.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel)
         {
             var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
 
@@ -131,7 +130,7 @@
             }
 
             // 台札へ置く
-            setTimespan(ModelOfAnalogCommand3rdSimplex.PutCardToCenterStack.CreateTimespan(
+            result.Add(ModelOfAnalogCommand3rdSimplex.PutCardToCenterStack.CreateTimespan(
                 timeRange: new ModelOfAnalogCommand1stTimelineSpan.Range(
                     start: this.TimeRangeObj.StartObj,
                     duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
@@ -148,7 +147,7 @@
                 }));
 
             // 場札の位置調整（をしないと歯抜けになる）
-            var timespanList = ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.CreateTimespanList(
+            result.AddRange(ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.CreateTimespanList(
                 timeRange: new ModelOfAnalogCommand1stTimelineSpan.Range(
                     start: new GameSeconds(this.TimeRangeObj.StartObj.AsFloat + DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f),
                     duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
@@ -156,12 +155,7 @@
                 indexOfPickupObj: nextFocusedHandCardObj.Index, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                 idOfHandCards: idOfHandCardsAfterRemove,
                 keepPickup: true,
-                onProgressOrNull: null);
-
-            foreach (var timespan in timespanList)
-            {
-                setTimespan(timespan);
-            }
+                onProgressOrNull: null));
 
             return result;
         }

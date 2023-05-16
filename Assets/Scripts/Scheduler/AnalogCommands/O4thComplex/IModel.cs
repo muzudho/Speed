@@ -35,11 +35,10 @@
         /// ゲーム画面の同期を始めます
         /// </summary>
         /// <param name="gameModelWriter">ゲームの内部状態（編集用）</param>
-        List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
+        List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfAnalogCommands.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan);
+            ModelOfAnalogCommands.Model schedulerModel);
     }
 }

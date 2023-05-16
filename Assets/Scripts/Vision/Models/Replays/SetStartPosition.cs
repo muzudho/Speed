@@ -41,12 +41,11 @@
                     digitalCommand: digitalCommand);
 
                 // タイムスパン作成・登録
-                var timespanList = analogCommand.GenerateSpan(
+                var timespanList = analogCommand.CreateTimespanList(
                     gameModelBuffer: gameModelBuffer,
                     gameModelWriter: gameModelWriter,
                     inputModel: inputModel,
-                    schedulerModel: schedulerModel,
-                    setTimespan: (timespan) => timespan.Lerp(1.0f));
+                    schedulerModel: schedulerModel);
 
                 foreach (var timespan in timespanList)
                 {

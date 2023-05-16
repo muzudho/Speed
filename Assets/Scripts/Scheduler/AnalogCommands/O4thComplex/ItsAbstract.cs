@@ -49,12 +49,11 @@
         /// <param name="commandOfScheduler"></param>
         /// <param name="gameModelWriter"></param>
         /// <param name="setTimespan"></param>
-        virtual public List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
+        virtual public List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfAnalogCommands.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel)
         {
             var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
 

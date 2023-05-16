@@ -49,12 +49,11 @@
                 schedulerModel.Timeline.RemoveAt(i);
 
                 // タイムスパン作成・登録
-                var timespanList = analogCommandComplex.GenerateSpan(
+                var timespanList = analogCommandComplex.CreateTimespanList(
                     gameModelBuffer,
                     gameModelWriter,
                     inputModel,
-                    schedulerModel,
-                    setTimespan: setTimespan);
+                    schedulerModel);
 
                 foreach (var timespan in timespanList)
                 {

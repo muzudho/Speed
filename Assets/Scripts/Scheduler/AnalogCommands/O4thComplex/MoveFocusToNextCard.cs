@@ -42,12 +42,11 @@
         /// 
         /// - ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
         /// </summary>
-        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
+        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfAnalogCommands.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel)
         {
             var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
 
@@ -111,7 +110,7 @@
                 var idOfCard = gameModelWriter.GetPlayer(digitalCommand.PlayerObj).GetCardAtOfHand(oldFocusedHandCardObj.Index); // ピックアップしている場札
 
                 // 前にピックアップしていたカードを、盤に下ろす
-                setTimespan(ModelOfAnalogCommand3rdSimplex.DropHandCard.CreateTimespan(
+                result.Add(ModelOfAnalogCommand3rdSimplex.DropHandCard.CreateTimespan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard));
             }
@@ -125,7 +124,7 @@
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
-                setTimespan(ModelOfAnalogCommand3rdSimplex.PickupHandCard.CreateTimespan(
+                result.Add(ModelOfAnalogCommand3rdSimplex.PickupHandCard.CreateTimespan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(

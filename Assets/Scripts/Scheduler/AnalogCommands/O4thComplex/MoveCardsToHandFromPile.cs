@@ -39,12 +39,11 @@
         /// - 手札の上の方からｎ枚抜いて、場札の後ろへ追加する
         /// - 画面上の場札は位置調整される
         /// </summary>
-        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
+        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfAnalogCommands.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel)
         {
             var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
 
@@ -89,7 +88,7 @@
             // ビュー：場札の位置の再調整（をしないと、手札から移動しない）
             if (0 < numberOfCards)
             {
-                var timespanList = ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.CreateTimespanList(
+                result.AddRange(ModelOfAnalogCommand3rdSimplex.ArrangeHandCards.CreateTimespanList(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     indexOfPickupObj: gameModelWriter.GetPlayer(playerObj).GetFocusedHandCardObj().Index,
@@ -102,12 +101,7 @@
                             // 制約の解除
                             inputModel.Players[playerObj.AsInt].Rights.IsPileCardDrawing = false;
                         }
-                    });
-
-                foreach (var timespan in timespanList)
-                {
-                    setTimespan(timespan);
-                }
+                    }));
             }
             else
             {

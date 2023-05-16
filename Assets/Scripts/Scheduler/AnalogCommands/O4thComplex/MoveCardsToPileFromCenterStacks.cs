@@ -42,12 +42,11 @@
         /// - ゲーム開始時に使う
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
-        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> GenerateSpan(
+        public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
             ModelOfGameBuffer.Model gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
-            ModelOfAnalogCommands.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
+            ModelOfAnalogCommands.Model schedulerModel)
         {
             var result = new List<ModelOfAnalogCommand1stTimelineSpan.IModel>();
 
@@ -84,7 +83,7 @@
                 // プレイヤーの手札を積み上げる
                 gameModelWriter.GetPlayer(playerObj).AddCardOfPile(idOfCardOfCenterStack);
 
-                setTimespan(ModelOfAnalogCommand3rdSimplex.PutCardToPile.CreateTimespan(
+                result.Add(ModelOfAnalogCommand3rdSimplex.PutCardToPile.CreateTimespan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
                     idOfPlayerPileCards: gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile,
