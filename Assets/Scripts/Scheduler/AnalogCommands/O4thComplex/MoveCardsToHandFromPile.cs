@@ -30,14 +30,26 @@
         {
         }
 
+        // - フィールド
+
+        int lengthOfPile;
+        FocusedHandCard focusedHandCardObj;
+
         // - メソッド
 
         /// <summary>
         /// 準備
         /// </summary>
-        public void Setup()
+        public override void Setup(ModelOfGameBuffer.Model gameModelBuffer)
         {
+            var digitalCommand = (ModelOfDigitalCommands.MoveCardsToHandFromPile)this.DigitalCommand;
+            var playerObj = digitalCommand.PlayerObj;
 
+            // 確定：手札の枚数
+            this.lengthOfPile = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile.Count;
+
+            // フォーカスしている場札
+            this.focusedHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj;
         }
 
         /// <summary>
@@ -47,7 +59,7 @@
         /// - 画面上の場札は位置調整される
         /// </summary>
         public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
-            ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameBuffer.Model _gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel)
@@ -57,11 +69,8 @@
             var digitalCommand = (ModelOfDigitalCommands.MoveCardsToHandFromPile)this.DigitalCommand;
             var playerObj = digitalCommand.PlayerObj;
 
-            // 確定：手札の枚数
-            var length = gameModelBuffer.GetPlayer(digitalCommand.PlayerObj).IdOfCardsOfPile.Count;
-
             // 手札がないのに、手札を引こうとしたとき
-            if (length < digitalCommand.NumberOfCards)
+            if (this.lengthOfPile < digitalCommand.NumberOfCards)
             {
                 // TODO ★ なぜここにくる？
                 // できない指示は無視
@@ -75,7 +84,7 @@
             // モデル更新：場札への移動
             // ========================
             gameModelWriter.GetPlayer(playerObj).MoveCardsToHandFromPile(
-                startIndexObj: new PlayerPileCardIndex(length - digitalCommand.NumberOfCards),
+                startIndexObj: new PlayerPileCardIndex(this.lengthOfPile - digitalCommand.NumberOfCards),
                 numberOfCards: digitalCommand.NumberOfCards);
             // 場札は１枚以上になる
 
@@ -84,7 +93,7 @@
             //
             // - 初回配布のケース
             // - 場札無しの勝利後に配ったケース
-            if (gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj.Index == HandCardIndex.Empty)
+            if (this.focusedHandCardObj.Index == HandCardIndex.Empty)
             {
                 gameModelWriter.GetPlayer(playerObj).UpdateFocusedHandCardObj(FocusedHandCard.PickupFirst);
             }

@@ -44,10 +44,7 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public void Setup()
-        {
-
-        }
+        public abstract void Setup(ModelOfGameBuffer.Model gameModelBuffer);
 
         /// <summary>
         /// ビルド

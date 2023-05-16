@@ -38,7 +38,7 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public void Setup()
+        public override void Setup(ModelOfGameBuffer.Model gameModelBuffer)
         {
 
         }

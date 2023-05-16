@@ -1,6 +1,5 @@
 ﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
-    using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
     using Assets.Scripts.Vision.Models;
     using System;
@@ -33,14 +32,59 @@
         {
         }
 
+        // 静的フィールド
+
+        // 台札の一番上（一番後ろ）のカードを１枚抜く
+        static readonly int numberOfCards = 1;
+
+        // フィールド
+
+        int lengthOfTargetCenterStack;
+        IdOfPlayingCards idOfCardOfTargetCenterStack;
+        List<IdOfPlayingCards> idOfPlayerPileCards;
+
         // - メソッド
 
         /// <summary>
         /// 準備
         /// </summary>
-        public void Setup()
+        public override void Setup(ModelOfGameBuffer.Model gameModelBuffer)
         {
+            var digitalCommand = (ModelOfDigitalCommands.MoveCardsToPileFromCenterStacks)this.DigitalCommand;
 
+            // 台札の枚数
+            this.lengthOfTargetCenterStack = gameModelBuffer.GetCenterStack(digitalCommand.PlaceObj).IdOfCards.Count;
+
+            if (1 <= this.lengthOfTargetCenterStack)
+            {
+                var startIndexObj = new CenterStackCardIndex(this.lengthOfTargetCenterStack - numberOfCards);
+
+                // 台札の１番上のカード
+                this.idOfCardOfTargetCenterStack = gameModelBuffer.GetCenterStack(digitalCommand.PlaceObj).IdOfCards[startIndexObj.AsInt];
+            }
+
+            {
+                // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
+                Player playerObj;
+                var suit = this.idOfCardOfTargetCenterStack.Suit();
+                switch (suit)
+                {
+                    case IdOfCardSuits.Clubs:
+                    case IdOfCardSuits.Spades:
+                        playerObj = ModelOfThinkingEngineCommons.Player1;
+                        break;
+
+                    case IdOfCardSuits.Diamonds:
+                    case IdOfCardSuits.Hearts:
+                        playerObj = ModelOfThinkingEngineCommons.Player2;
+                        break;
+
+                    default:
+                        throw new Exception();
+                }
+
+                this.idOfPlayerPileCards = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile;
+            }
         }
 
         /// <summary>
@@ -51,7 +95,7 @@
         /// </summary>
         /// <param name="place">右:0, 左:1</param>
         public override List<ModelOfAnalogCommand1stTimelineSpan.IModel> CreateTimespanList(
-            ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameBuffer.Model _gameModelBuffer,
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfAnalogCommands.Model schedulerModel)
@@ -60,18 +104,15 @@
 
             var digitalCommand = (ModelOfDigitalCommands.MoveCardsToPileFromCenterStacks)this.DigitalCommand;
 
-            // 台札の一番上（一番後ろ）のカードを１枚抜く
-            var numberOfCards = 1;
-            var length = gameModelBuffer.GetCenterStack(digitalCommand.PlaceObj).IdOfCards.Count; // 台札の枚数
-            if (1 <= length)
+            if (1 <= this.lengthOfTargetCenterStack)
             {
-                var startIndexObj = new CenterStackCardIndex(length - numberOfCards);
-                var idOfCardOfCenterStack = gameModelBuffer.GetCenterStack(digitalCommand.PlaceObj).IdOfCards[startIndexObj.AsInt]; // 台札の１番上のカード
+                var startIndexObj = new CenterStackCardIndex(this.lengthOfTargetCenterStack - numberOfCards);
+
                 gameModelWriter.GetCenterStack(digitalCommand.PlaceObj).RemoveCardAt(startIndexObj);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 Player playerObj;
-                var suit = idOfCardOfCenterStack.Suit();
+                var suit = this.idOfCardOfTargetCenterStack.Suit();
                 switch (suit)
                 {
                     case IdOfCardSuits.Clubs:
@@ -89,13 +130,13 @@
                 }
 
                 // プレイヤーの手札を積み上げる
-                gameModelWriter.GetPlayer(playerObj).AddCardOfPile(idOfCardOfCenterStack);
+                gameModelWriter.GetPlayer(playerObj).AddCardOfPile(this.idOfCardOfTargetCenterStack);
 
                 result.Add(ModelOfAnalogCommand3rdSimplex.PutCardToPile.CreateTimespan(
                     timeRange: this.TimeRangeObj,
                     playerObj: playerObj,
-                    idOfPlayerPileCards: gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfPile,
-                    idOfPlayingCard: idOfCardOfCenterStack)); // 台札から手札へ移動するカード
+                    idOfPlayerPileCards: this.idOfPlayerPileCards,
+                    idOfPlayingCard: this.idOfCardOfTargetCenterStack)); // 台札から手札へ移動するカード
             }
 
             return result;

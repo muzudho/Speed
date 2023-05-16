@@ -34,7 +34,7 @@
         /// <summary>
         /// 準備
         /// </summary>
-        void Setup();
+        void Setup(ModelOfGameBuffer.Model gameModelBuffer);
 
         /// <summary>
         /// ゲーム画面の同期を始めます

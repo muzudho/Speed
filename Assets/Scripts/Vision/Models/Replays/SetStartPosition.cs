@@ -41,7 +41,7 @@
                     digitalCommand: digitalCommand);
 
                 // タイムスパン準備・作成
-                analogCommand.Setup();
+                analogCommand.Setup(gameModelBuffer);
                 var timespanList = analogCommand.CreateTimespanList(
                     gameModelBuffer: gameModelBuffer,
                     gameModelWriter: gameModelWriter,

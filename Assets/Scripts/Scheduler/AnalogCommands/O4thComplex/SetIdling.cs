@@ -1,10 +1,9 @@
 ﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
-    using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models;
     using System.Collections.Generic;
-    using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommands = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
@@ -34,7 +33,7 @@
         /// <summary>
         /// 準備
         /// </summary>
-        public void Setup()
+        public override void Setup(ModelOfGameBuffer.Model gameModelBuffer)
         {
 
         }

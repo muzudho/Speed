@@ -49,7 +49,7 @@
                 schedulerModel.Timeline.RemoveAt(i);
 
                 // タイムスパン準備・作成
-                analogCommandComplex.Setup();
+                analogCommandComplex.Setup(gameModelBuffer);
                 var timespanList = analogCommandComplex.CreateTimespanList(
                     gameModelBuffer,
                     gameModelWriter,
