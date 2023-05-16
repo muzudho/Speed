@@ -47,9 +47,9 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<ModelOfAnalogCommand4thComplex.IModel> analogCommands = new();
+        List<ModelOfAnalogCommand4thComplex.IModel> analogCommandComplexList = new();
 
-        internal List<ModelOfAnalogCommand4thComplex.IModel> AnalogCommands => this.analogCommands;
+        internal List<ModelOfAnalogCommand4thComplex.IModel> AnalogCommandComplexList => this.analogCommandComplexList;
         #endregion
 
         #region プロパティ（タイム・ライン作成用カウンター）
@@ -72,7 +72,7 @@
             GameSeconds startObj,
             ModelOfDigitalCommands.IModel digitalCommand)
         {
-            this.AnalogCommands.Add(ModelOfAnalogCommand6thMapping.Model.WrapCommand(
+            this.AnalogCommandComplexList.Add(ModelOfAnalogCommand6thMapping.Model.WrapCommand(
                 startObj: startObj,
                 digitalCommand: digitalCommand));
         }
@@ -92,7 +92,7 @@
                         startObj: this.ScheduledTimesObj[playerObj.AsInt],
                         digitalCommand: digitalCommand);
 
-            this.AnalogCommands.Add(analogCommand);
+            this.AnalogCommandComplexList.Add(analogCommand);
 
             // 次の時間
             this.ScheduledTimesObj[playerObj.AsInt] = new GameSeconds(
@@ -105,24 +105,24 @@
             this.ScheduledTimesObj[playerObj.AsInt] = new GameSeconds(this.ScheduledTimesObj[playerObj.AsInt].AsFloat + time.AsFloat);
         }
 
-        internal ModelOfAnalogCommand4thComplex.IModel GetCommandAt(int index)
+        internal ModelOfAnalogCommand4thComplex.IModel GetAnalogCommandComplexAt(int index)
         {
-            return this.AnalogCommands[index];
+            return this.AnalogCommandComplexList[index];
         }
 
         internal int GetCountCommands()
         {
-            return this.AnalogCommands.Count;
+            return this.AnalogCommandComplexList.Count;
         }
 
         internal void RemoveAt(int index)
         {
-            this.AnalogCommands.RemoveAt(index);
+            this.AnalogCommandComplexList.RemoveAt(index);
         }
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Scheduler.AnalogCommands.O7thTimeline.Model DebugWrite] commands.Count:{analogCommands.Count}");
+            Debug.Log($"[Assets.Scripts.Scheduler.AnalogCommands.O7thTimeline.Model DebugWrite] commands.Count:{analogCommandComplexList.Count}");
         }
 
         internal float LastSeconds() => Mathf.Max(this.ScheduledTimesObj[0].AsFloat, ScheduledTimesObj[1].AsFloat);
@@ -133,7 +133,7 @@
         /// </summary>
         internal void CleanUp()
         {
-            this.analogCommands.Clear();
+            this.analogCommandComplexList.Clear();
 
             this.ScheduledTimesObj[0] = GameSeconds.Zero;
             this.ScheduledTimesObj[1] = GameSeconds.Zero;

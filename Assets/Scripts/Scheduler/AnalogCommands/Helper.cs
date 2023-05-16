@@ -32,10 +32,10 @@
             int i = 0;
             while (i < schedulerModel.Timeline.GetCountCommands())
             {
-                var commandOfScheduler = schedulerModel.Timeline.GetCommandAt(i);
+                var analogCommandComplex = schedulerModel.Timeline.GetAnalogCommandComplexAt(i);
 
                 // まだ
-                if (gameModelBuffer.ElapsedTimeObj.AsFloat < commandOfScheduler.TimeRangeObj.StartObj.AsFloat)
+                if (gameModelBuffer.ElapsedTimeObj.AsFloat < analogCommandComplex.TimeRangeObj.StartObj.AsFloat)
                 {
                     i++;
                     continue;
@@ -49,7 +49,7 @@
                 schedulerModel.Timeline.RemoveAt(i);
 
                 // タイムスパン作成・登録
-                commandOfScheduler.GenerateSpan(
+                analogCommandComplex.GenerateSpan(
                     gameModelBuffer,
                     gameModelWriter,
                     inputModel,
