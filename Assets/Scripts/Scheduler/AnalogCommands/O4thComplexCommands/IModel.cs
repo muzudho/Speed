@@ -1,0 +1,44 @@
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands
+{
+    using Assets.Scripts.Coding;
+    using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
+    using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
+    using ModelOfInput = Assets.Scripts.Vision.Models.Input;
+    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
+    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
+
+    /// <summary>
+    /// 画面用のコマンド
+    /// 
+    /// - タイムライン上に配置されたもの
+    /// - スパン（IBasecaseSpan）を生成します
+    /// </summary>
+    interface IModel
+    {
+        // - プロパティ
+
+        /// <summary>
+        /// ゲーム時間範囲（単位：秒）
+        /// </summary>
+        ModelOfSchedulerO1stTimelineSpan.Range TimeRangeObj { get; }
+
+        /// <summary>
+        /// 思考エンジン用のコマンド
+        /// </summary>
+        ModelOfThinkingEngineDigitalCommands.IModel CommandOfThinkingEngine { get; }
+
+        // - メソッド
+
+        /// <summary>
+        /// ゲーム画面の同期を始めます
+        /// </summary>
+        /// <param name="gameModelWriter">ゲームの内部状態（編集用）</param>
+        void GenerateSpan(
+            ModelOfGameBuffer.Model gameModelBuffer,
+            ModelOfGameWriter.Model gameModelWriter,
+            ModelOfInput.Init inputModel,
+            ModelOfScheduler.Model schedulerModel,
+            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan);
+    }
+}

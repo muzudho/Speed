@@ -3,10 +3,9 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using System.Collections;
-    using TMPro;
     using UnityEngine;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
-    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
+    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>

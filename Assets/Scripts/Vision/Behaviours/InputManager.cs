@@ -2,14 +2,14 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
+    using System;
     using UnityEngine;
-    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
+    using ManagerOfUserInterface = Assets.Scripts.Vision.Behaviours.CanvasManager;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
+    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
     using ScriptOfThinkingEngine = Assets.Scripts.ThinkingEngine;
-    using ManagerOfUserInterface = Assets.Scripts.Vision.Behaviours.CanvasManager;
-    using System;
 
     /// <summary>
     /// 入力マネージャー

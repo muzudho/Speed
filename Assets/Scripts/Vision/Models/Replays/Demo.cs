@@ -2,9 +2,9 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
-    using ModelOfThinkingEngineCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
+    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
+    using ModelOfThinkingEngineCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     static class Demo
     {

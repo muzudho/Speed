@@ -2,12 +2,12 @@
 {
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
-    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
-    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
-    using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;
+    using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
+    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
+    using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Scheduler.AnalogCommands.O6thCommandMapping;
     using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>

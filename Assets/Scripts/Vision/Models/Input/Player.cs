@@ -5,7 +5,7 @@
     using System;
     using UnityEngine;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
-    using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
+    using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
     using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ScriptOfThinkingEngine = Assets.Scripts.ThinkingEngine;
