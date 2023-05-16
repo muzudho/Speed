@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -9,11 +9,11 @@
     using ModelOfGameWriter = Assets.Scripts.ThinkingEngine.Models.Game.Writer;
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
-    using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplexCommands;
-    using ModelOfSchedulerO4thCommand = Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands;
+    using ModelOfAnalogCommand1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
+    using ModelOfAnalogCommand3rdSimplex = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
+    using ModelOfAnalogCommand4thComplex = Assets.Scripts.Scheduler.AnalogCommands.O4thComplex;
     using ModelOfThinkingEngineCommons = Assets.Scripts.ThinkingEngine.Commons;
-    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
+    using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
@@ -26,11 +26,11 @@
         /// 生成
         /// </summary>
         /// <param name="startObj"></param>
-        /// <param name="command"></param>
+        /// <param name="digitalCommand"></param>
         public MoveFocusToNextCard(
             GameSeconds startObj,
-            ModelOfThinkingEngineDigitalCommands.IModel command)
-            : base(startObj, command)
+            ModelOfDigitalCommands.IModel digitalCommand)
+            : base(startObj, digitalCommand)
         {
         }
 
@@ -46,18 +46,18 @@
             ModelOfGameWriter.Model gameModelWriter,
             ModelOfInput.Init inputModel,
             ModelOfScheduler.Model schedulerModel,
-            LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
+            LazyArgs.SetValue<ModelOfAnalogCommand1stTimelineSpan.IModel> setTimespan)
         {
-            var command = (ModelOfThinkingEngineDigitalCommands.MoveFocusToNextCard)this.CommandOfThinkingEngine;
+            var digitalCommand = (ModelOfDigitalCommands.MoveFocusToNextCard)this.DigitalCommand;
 
             // TODO 前のカードは、ピックアップしているという前提
             //
             // - 台札へ投げた直後は、前のカードはピックアップしていない
             //
-            var oldFocusedHandCardObj = gameModelBuffer.GetPlayer(command.PlayerObj).FocusedHandCardObj; // 下ろす場札
+            var oldFocusedHandCardObj = gameModelBuffer.GetPlayer(digitalCommand.PlayerObj).FocusedHandCardObj; // 下ろす場札
 
             FocusedHandCard nextFocusedHandCardObj; // ピックアップする場札
-            var length = gameModelBuffer.GetPlayer(command.PlayerObj).IdOfCardsOfHand.Count;
+            var length = gameModelBuffer.GetPlayer(digitalCommand.PlayerObj).IdOfCardsOfHand.Count;
 
             if (length < 1)
             {
@@ -66,7 +66,7 @@
             }
             else
             {
-                if (command.DirectionObj == ModelOfThinkingEngineCommons.PickRight)
+                if (digitalCommand.DirectionObj == ModelOfThinkingEngineCommons.PickRight)
                 {
                     if (oldFocusedHandCardObj.Index == HandCardIndex.Empty || length <= oldFocusedHandCardObj.Index.AsInt + 1)
                     {
@@ -79,7 +79,7 @@
                         nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(oldFocusedHandCardObj.Index.AsInt + 1));
                     }
                 }
-                else if (command.DirectionObj == ModelOfThinkingEngineCommons.PickLeft)
+                else if (digitalCommand.DirectionObj == ModelOfThinkingEngineCommons.PickLeft)
                 {
                     if (oldFocusedHandCardObj.Index.AsInt < 1)
                     {
@@ -105,24 +105,24 @@
                 // ピックアップされている状態なら
                 oldFocusedHandCardObj.IsPickUp)
             {
-                var idOfCard = gameModelWriter.GetPlayer(command.PlayerObj).GetCardAtOfHand(oldFocusedHandCardObj.Index); // ピックアップしている場札
+                var idOfCard = gameModelWriter.GetPlayer(digitalCommand.PlayerObj).GetCardAtOfHand(oldFocusedHandCardObj.Index); // ピックアップしている場札
 
                 // 前にピックアップしていたカードを、盤に下ろす
-                setTimespan(ModelOfSchedulerO3rdSimplexCommand.DropHandCard.GenerateSpan(
+                setTimespan(ModelOfAnalogCommand3rdSimplex.DropHandCard.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard));
             }
 
             // モデル更新：ピックアップしている場札の、インデックス更新
-            gameModelWriter.GetPlayer(command.PlayerObj).UpdateFocusedHandCardObj(nextFocusedHandCardObj);
+            gameModelWriter.GetPlayer(digitalCommand.PlayerObj).UpdateFocusedHandCardObj(nextFocusedHandCardObj);
 
             if (HandCardIndex.First <= nextFocusedHandCardObj.Index && nextFocusedHandCardObj.Index.AsInt < length) // 範囲内なら
             {
-                var idOfCard = gameModelWriter.GetPlayer(command.PlayerObj).GetCardAtOfHand(nextFocusedHandCardObj.Index); // ピックアップしている場札
+                var idOfCard = gameModelWriter.GetPlayer(digitalCommand.PlayerObj).GetCardAtOfHand(nextFocusedHandCardObj.Index); // ピックアップしている場札
                 var idOfGo = IdMapping.GetIdOfGameObject(idOfCard);
 
                 // 今回フォーカスするカードを持ち上げる
-                setTimespan(ModelOfSchedulerO3rdSimplexCommand.PickupHandCard.GenerateSpan(
+                setTimespan(ModelOfAnalogCommand3rdSimplex.PickupHandCard.GenerateSpan(
                     timeRange: this.TimeRangeObj,
                     idOfCard: idOfCard,
                     getBegin: () => new PositionAndRotationLazy(
@@ -133,21 +133,21 @@
                         if (1.0f <= progress)
                         {
                             // 制約の解除
-                            inputModel.Players[command.PlayerObj.AsInt].Rights.IsPickupCartToNext = false;
+                            inputModel.Players[digitalCommand.PlayerObj.AsInt].Rights.IsPickupCartToNext = false;
                         }
                     }));
             }
             else
             {
                 // 制約の解除
-                inputModel.Players[command.PlayerObj.AsInt].Rights.IsPickupCartToNext = false;
+                inputModel.Players[digitalCommand.PlayerObj.AsInt].Rights.IsPickupCartToNext = false;
             }
         }
 
-        ModelOfThinkingEngineDigitalCommands.MoveFocusToNextCard GetCommandOfThinkingEngine(
-            ModelOfSchedulerO4thCommand.IModel commandOfScheduler)
+        ModelOfDigitalCommands.MoveFocusToNextCard GetCommandOfThinkingEngine(
+            ModelOfAnalogCommand4thComplex.IModel analogCommand)
         {
-            return (ModelOfThinkingEngineDigitalCommands.MoveFocusToNextCard)commandOfScheduler.CommandOfThinkingEngine;
+            return (ModelOfDigitalCommands.MoveFocusToNextCard)analogCommand.DigitalCommand;
         }
     }
 }

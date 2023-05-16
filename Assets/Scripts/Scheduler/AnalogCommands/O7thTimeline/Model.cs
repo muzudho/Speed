@@ -5,9 +5,9 @@
     using System.Collections.Generic;
     using UnityEngine;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
-    using ModelOfSchedulerO4thCommand = Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands;
-    using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Scheduler.AnalogCommands.O6thCommandMapping;
-    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
+    using ModelOfAnalogCommand4thComplex = Assets.Scripts.Scheduler.AnalogCommands.O4thComplex;
+    using ModelOfAnalogCommand6thMapping = Assets.Scripts.Scheduler.AnalogCommands.O6thDACommandMapping;
+    using ModelOfDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// タイムライン
@@ -47,9 +47,9 @@
         /// - 実行されると、 `ongoingItems` へ移動する
         /// </summary>
 
-        List<ModelOfSchedulerO4thCommand.IModel> commands = new();
+        List<ModelOfAnalogCommand4thComplex.IModel> analogCommands = new();
 
-        internal List<ModelOfSchedulerO4thCommand.IModel> Commands => this.commands;
+        internal List<ModelOfAnalogCommand4thComplex.IModel> AnalogCommands => this.analogCommands;
         #endregion
 
         #region プロパティ（タイム・ライン作成用カウンター）
@@ -63,18 +63,18 @@
 
         // - メソッド
 
-        #region メソッド（追加）
+        #region メソッド（コマンド追加）
         /// <summary>
-        /// 追加
+        /// コマンド追加
         /// </summary>
-        /// <param name="command">コマンド</param>
+        /// <param name="digitalCommand">コマンド</param>
         internal void AddCommand(
             GameSeconds startObj,
-            ModelOfThinkingEngineDigitalCommands.IModel command)
+            ModelOfDigitalCommands.IModel digitalCommand)
         {
-            this.Commands.Add(ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
+            this.AnalogCommands.Add(ModelOfAnalogCommand6thMapping.Model.WrapCommand(
                 startObj: startObj,
-                command: command));
+                digitalCommand: digitalCommand));
         }
         #endregion
 
@@ -85,18 +85,18 @@
         /// - タイムを自動的に付ける
         /// </summary>
         /// <param name="playerObj"></param>
-        /// <param name="command">コマンド引数</param>
-        internal void AddWithinScheduler(Player playerObj, ModelOfThinkingEngineDigitalCommands.IModel command)
+        /// <param name="digitalCommand">コマンド引数</param>
+        internal void AddWithinScheduler(Player playerObj, ModelOfDigitalCommands.IModel digitalCommand)
         {
-            var commandOfScheduler = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
+            var analogCommand = ModelOfAnalogCommand6thMapping.Model.WrapCommand(
                         startObj: this.ScheduledTimesObj[playerObj.AsInt],
-                        command: command);
+                        digitalCommand: digitalCommand);
 
-            this.Commands.Add(commandOfScheduler);
+            this.AnalogCommands.Add(analogCommand);
 
             // 次の時間
             this.ScheduledTimesObj[playerObj.AsInt] = new GameSeconds(
-                this.ScheduledTimesObj[playerObj.AsInt].AsFloat + commandOfScheduler.TimeRangeObj.DurationObj.AsFloat);
+                this.ScheduledTimesObj[playerObj.AsInt].AsFloat + analogCommand.TimeRangeObj.DurationObj.AsFloat);
         }
         #endregion
 
@@ -105,24 +105,24 @@
             this.ScheduledTimesObj[playerObj.AsInt] = new GameSeconds(this.ScheduledTimesObj[playerObj.AsInt].AsFloat + time.AsFloat);
         }
 
-        internal ModelOfSchedulerO4thCommand.IModel GetCommandAt(int index)
+        internal ModelOfAnalogCommand4thComplex.IModel GetCommandAt(int index)
         {
-            return this.Commands[index];
+            return this.AnalogCommands[index];
         }
 
         internal int GetCountCommands()
         {
-            return this.Commands.Count;
+            return this.AnalogCommands.Count;
         }
 
         internal void RemoveAt(int index)
         {
-            this.Commands.RemoveAt(index);
+            this.AnalogCommands.RemoveAt(index);
         }
 
         internal void DebugWrite()
         {
-            Debug.Log($"[Assets.Scripts.Scheduler.AnalogCommands.SpanOfLerp.TimedGenerator.Simulator DebugWrite] commands.Count:{commands.Count}");
+            Debug.Log($"[Assets.Scripts.Scheduler.AnalogCommands.O7thTimeline.Model DebugWrite] commands.Count:{analogCommands.Count}");
         }
 
         internal float LastSeconds() => Mathf.Max(this.ScheduledTimesObj[0].AsFloat, ScheduledTimesObj[1].AsFloat);
@@ -133,7 +133,7 @@
         /// </summary>
         internal void CleanUp()
         {
-            this.commands.Clear();
+            this.analogCommands.Clear();
 
             this.ScheduledTimesObj[0] = GameSeconds.Zero;
             this.ScheduledTimesObj[1] = GameSeconds.Zero;

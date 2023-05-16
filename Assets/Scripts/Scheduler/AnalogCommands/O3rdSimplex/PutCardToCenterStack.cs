@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplexCommands
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;

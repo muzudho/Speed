@@ -178,7 +178,7 @@
 
                     schedulerModel.Timeline.AddCommand(
                         startObj: gameModel.ElapsedSeconds,
-                        command: digitalCommand);
+                        digitalCommand: digitalCommand);
                 //}
             }
         }
@@ -205,7 +205,7 @@
 
                 schedulerModel.Timeline.AddCommand(
                     startObj: gameModel.ElapsedSeconds,
-                    command: command);
+                    digitalCommand: command);
             }
         }
 
@@ -226,7 +226,7 @@
 
             schedulerModel.Timeline.AddCommand(
                 startObj: gameModel.ElapsedSeconds,
-                command: command);
+                digitalCommand: command);
         }
 
     }

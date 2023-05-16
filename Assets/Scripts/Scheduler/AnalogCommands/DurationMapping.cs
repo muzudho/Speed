@@ -11,11 +11,11 @@
     /// 
     /// - コマンド引数に、推定実行時間を紐づけます
     /// </summary>
-    internal class CommandDurationMapping
+    internal class DurationMapping
     {
         // - その他
 
-        static CommandDurationMapping()
+        static DurationMapping()
         {
             // 一瞬
             float forMoment = 0.16f;

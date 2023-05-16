@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -9,7 +9,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplexCommands;
+    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
     using ModelOfThinkingEngineCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfThinkingEngineCommons = Assets.Scripts.ThinkingEngine.Commons;
 
@@ -24,11 +24,11 @@
         /// 生成
         /// </summary>
         /// <param name="startObj"></param>
-        /// <param name="command"></param>
+        /// <param name="digitalCommand"></param>
         public MoveCardsToPileFromCenterStacks(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommands.IModel command)
-            : base(startObj, command)
+            ModelOfThinkingEngineCommands.IModel digitalCommand)
+            : base(startObj, digitalCommand)
         {
         }
 
@@ -48,16 +48,16 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
-            var command = (ModelOfThinkingEngineCommands.MoveCardsToPileFromCenterStacks)this.CommandOfThinkingEngine;
+            var digitalCommand = (ModelOfThinkingEngineCommands.MoveCardsToPileFromCenterStacks)this.DigitalCommand;
 
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;
-            var length = gameModelBuffer.GetCenterStack(command.PlaceObj).IdOfCards.Count; // 台札の枚数
+            var length = gameModelBuffer.GetCenterStack(digitalCommand.PlaceObj).IdOfCards.Count; // 台札の枚数
             if (1 <= length)
             {
                 var startIndexObj = new CenterStackCardIndex(length - numberOfCards);
-                var idOfCardOfCenterStack = gameModelBuffer.GetCenterStack(command.PlaceObj).IdOfCards[startIndexObj.AsInt]; // 台札の１番上のカード
-                gameModelWriter.GetCenterStack(command.PlaceObj).RemoveCardAt(startIndexObj);
+                var idOfCardOfCenterStack = gameModelBuffer.GetCenterStack(digitalCommand.PlaceObj).IdOfCards[startIndexObj.AsInt]; // 台札の１番上のカード
+                gameModelWriter.GetCenterStack(digitalCommand.PlaceObj).RemoveCardAt(startIndexObj);
 
                 // 黒いカードは１プレイヤー、赤いカードは２プレイヤー
                 Player playerObj;

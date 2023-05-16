@@ -7,7 +7,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
     using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
-    using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Scheduler.AnalogCommands.O6thCommandMapping;
+    using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Scheduler.AnalogCommands.O6thDACommandMapping;
     using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
@@ -38,7 +38,7 @@
                         placeObj: Commons.RightCenterStack);
                 var analogCommand = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
                     startObj: GameSeconds.Zero,
-                    command: digitalCommand);
+                    digitalCommand: digitalCommand);
 
                 // タイムスパン作成・登録
                 analogCommand.GenerateSpan(
@@ -131,7 +131,7 @@
                     var playerObj = Commons.Player2; // プレイヤー２も、間を合わせる
                     schedulerModel.Timeline.AddScheduleSeconds(
                         playerObj: playerObj,
-                        time: ModelOfScheduler.CommandDurationMapping.GetDurationBy(digitalCommand.GetType()));
+                        time: ModelOfScheduler.DurationMapping.GetDurationBy(digitalCommand.GetType()));
                 }
             }
 

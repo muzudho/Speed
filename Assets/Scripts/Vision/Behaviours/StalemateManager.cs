@@ -149,7 +149,7 @@
                 // １プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）右の台札へ積み上げる
                 this.SchedulerModel.Timeline.AddCommand(
                     startObj: this.gameModel.ElapsedSeconds,
-                    command: digitalCommand);
+                    digitalCommand: digitalCommand);
             }
             {
                 // ２プレイヤーが
@@ -167,7 +167,7 @@
 
                 this.SchedulerModel.Timeline.AddCommand(
                     startObj: this.gameModel.ElapsedSeconds,
-                    command: digitalCommand);
+                    digitalCommand: digitalCommand);
             }
             yield return new WaitForSeconds(1f);
 

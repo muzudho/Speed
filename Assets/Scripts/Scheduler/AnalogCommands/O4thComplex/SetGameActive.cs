@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models;
@@ -10,9 +10,9 @@
     using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
-    /// なんにもしません
+    /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>
-    class SetIdling : ItsAbstract
+    class SetGameActive : ItsAbstract
     {
         // - その他
 
@@ -20,13 +20,17 @@
         /// 生成
         /// </summary>
         /// <param name="startObj"></param>
-        /// <param name="command"></param>
-        public SetIdling(
+        /// <param name="digitalCommand"></param>
+        public SetGameActive(
             GameSeconds startObj,
-            ModelOfThinkingEngineDigitalCommands.IModel command)
-            : base(startObj, command)
+            ModelOfThinkingEngineDigitalCommands.IModel digitalCommand)
+            : base(startObj, digitalCommand)
         {
         }
+
+        // - フィールド
+
+        bool handled;
 
         // - メソッド
 
@@ -40,7 +44,18 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
-            // なんにもしません
+            if (handled)
+            {
+                return;
+            }
+
+            var digitalCommand = (ModelOfThinkingEngineDigitalCommands.SetGameActive)this.DigitalCommand;
+
+            // モデル更新：１回実行すれば充分
+            gameModelWriter.IsGameActive = digitalCommand.IsGameActive;
+            handled = true;
+
+            // ビュー更新：なし
         }
     }
 }

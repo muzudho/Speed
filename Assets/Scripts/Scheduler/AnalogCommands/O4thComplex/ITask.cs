@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
     internal interface ITask
     {

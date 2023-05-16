@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.Vision.Models;
@@ -20,10 +20,10 @@
 
         protected ItsAbstract(
             GameSeconds startTimeObj,
-            ModelOfThinkingEngineDigitalCommands.IModel commandOfThinkingEngine)
+            ModelOfThinkingEngineDigitalCommands.IModel digitalCommand)
         {
-            this.TimeRangeObj = new ModelOfSchedulerO1stTimelineSpan.Range(startTimeObj, CommandDurationMapping.GetDurationBy(commandOfThinkingEngine.GetType()));
-            this.CommandOfThinkingEngine = commandOfThinkingEngine;
+            this.TimeRangeObj = new ModelOfSchedulerO1stTimelineSpan.Range(startTimeObj, DurationMapping.GetDurationBy(digitalCommand.GetType()));
+            this.DigitalCommand = digitalCommand;
         }
 
         // - プロパティ
@@ -36,7 +36,7 @@
         /// <summary>
         /// 思考エンジン用のコマンド
         /// </summary>
-        public ModelOfThinkingEngineDigitalCommands.IModel CommandOfThinkingEngine { get; private set; }
+        public ModelOfThinkingEngineDigitalCommands.IModel DigitalCommand { get; private set; }
 
         // - メソッド
 

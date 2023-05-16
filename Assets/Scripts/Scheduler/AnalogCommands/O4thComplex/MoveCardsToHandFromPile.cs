@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -8,8 +8,8 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplexCommands;
-    using ModelOfThinkingEngineCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
+    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -22,11 +22,11 @@
         /// 生成
         /// </summary>
         /// <param name="startObj"></param>
-        /// <param name="command"></param>
+        /// <param name="digitalCommand"></param>
         public MoveCardsToHandFromPile(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommands.IModel command)
-            : base(startObj, command)
+            ModelOfThinkingEngineDigitalCommands.IModel digitalCommand)
+            : base(startObj, digitalCommand)
         {
         }
 
@@ -45,14 +45,14 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
-            var command = (ModelOfThinkingEngineCommands.MoveCardsToHandFromPile)this.CommandOfThinkingEngine;
-            var playerObj = command.PlayerObj;
+            var digitalCommand = (ModelOfThinkingEngineDigitalCommands.MoveCardsToHandFromPile)this.DigitalCommand;
+            var playerObj = digitalCommand.PlayerObj;
 
             // 確定：手札の枚数
-            var length = gameModelBuffer.GetPlayer(command.PlayerObj).IdOfCardsOfPile.Count;
+            var length = gameModelBuffer.GetPlayer(digitalCommand.PlayerObj).IdOfCardsOfPile.Count;
 
             // 手札がないのに、手札を引こうとしたとき
-            if (length < command.NumberOfCards)
+            if (length < digitalCommand.NumberOfCards)
             {
                 // TODO ★ なぜここにくる？
                 // できない指示は無視
@@ -66,8 +66,8 @@
             // モデル更新：場札への移動
             // ========================
             gameModelWriter.GetPlayer(playerObj).MoveCardsToHandFromPile(
-                startIndexObj: new PlayerPileCardIndex(length - command.NumberOfCards),
-                numberOfCards: command.NumberOfCards);
+                startIndexObj: new PlayerPileCardIndex(length - digitalCommand.NumberOfCards),
+                numberOfCards: digitalCommand.NumberOfCards);
             // 場札は１枚以上になる
 
             // モデル更新：もし、ピックアップ場札がなかったら、先頭の場札をピックアップする

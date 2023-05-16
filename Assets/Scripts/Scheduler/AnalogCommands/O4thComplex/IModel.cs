@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
     using Assets.Scripts.Coding;
     using ModelOfGameBuffer = Assets.Scripts.ThinkingEngine.Models.Game.Buffer;
@@ -26,7 +26,7 @@
         /// <summary>
         /// 思考エンジン用のコマンド
         /// </summary>
-        ModelOfThinkingEngineDigitalCommands.IModel CommandOfThinkingEngine { get; }
+        ModelOfThinkingEngineDigitalCommands.IModel DigitalCommand { get; }
 
         // - メソッド
 

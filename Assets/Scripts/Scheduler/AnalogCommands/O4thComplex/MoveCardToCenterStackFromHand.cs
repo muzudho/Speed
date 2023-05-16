@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplexCommands
+﻿namespace Assets.Scripts.Scheduler.AnalogCommands.O4thComplex
 {
     using Assets.Scripts.Coding;
     using Assets.Scripts.ThinkingEngine.Models;
@@ -9,14 +9,17 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Scheduler.AnalogCommands;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Scheduler.AnalogCommands.O1stTimelineSpan;
-    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplexCommands;
+    using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Scheduler.AnalogCommands.O3rdSimplex;
     using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ScriptForVisionCommons = Assets.Scripts.Vision.Commons;
 
     /// <summary>
-    /// 場札から、台札へ向かったカードが、場札へまた戻ってくる動き
+    /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する（確定）
+    /// 
+    /// - 置くのをキャンセルする（ブーメランする）といった動きは行わない
+    /// - これから置く場札の数は、これから置く先の台札の数から連続だ（確定）
     /// </summary>
-    internal class MoveLikeBoomerang : ItsAbstract
+    class MoveCardToCenterStackFromHand : ItsAbstract
     {
         // - その他
 
@@ -24,11 +27,11 @@
         /// 生成
         /// </summary>
         /// <param name="startObj"></param>
-        /// <param name="command"></param>
-        public MoveLikeBoomerang(
+        /// <param name="digitalCommand"></param>
+        public MoveCardToCenterStackFromHand(
             GameSeconds startObj,
-            ModelOfThinkingEngineDigitalCommands.IModel command)
-            : base(startObj, command)
+            ModelOfThinkingEngineDigitalCommands.IModel digitalCommand)
+            : base(startObj, digitalCommand)
         {
         }
 
@@ -44,19 +47,19 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
-            var command = (ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand)this.CommandOfThinkingEngine;
+            var digitalCommand = (ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand)this.DigitalCommand;
 
-            var playerObj = command.PlayerObj;
-            var RemoveHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj; // 何枚目の場札をピックアップしているか
+            var playerObj = digitalCommand.PlayerObj;
+            var oldHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj; // 何枚目の場札をピックアップしているか
 
             // 範囲外は無視
-            if (RemoveHandCardObj.Index < HandCardIndex.First || gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count <= RemoveHandCardObj.Index.AsInt)
+            if (oldHandCardObj.Index < HandCardIndex.First || gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand.Count <= oldHandCardObj.Index.AsInt)
             {
                 return;
             }
 
             // ピックアップしているカードは、場札から抜くカード
-            var placeObj = command.PlaceObj;
+            var placeObj = digitalCommand.PlaceObj;
 
             // 確定：（抜いた後に）次にピックアップするカード（が先頭から何枚目か）
             FocusedHandCard nextFocusedHandCardObj;
@@ -69,7 +72,7 @@
                     lengthAfterRemove = lengthBeforeRemove - 1;
                 }
 
-                if (lengthAfterRemove <= RemoveHandCardObj.Index.AsInt) // 範囲外アクセス防止対応
+                if (lengthAfterRemove <= oldHandCardObj.Index.AsInt) // 範囲外アクセス防止対応
                 {
                     // 一旦、最後尾へ
                     nextFocusedHandCardObj = new FocusedHandCard(true, new HandCardIndex(lengthAfterRemove - 1));
@@ -77,15 +80,18 @@
                 else
                 {
                     // そのまま
-                    nextFocusedHandCardObj = new FocusedHandCard(true, RemoveHandCardObj.Index);
+                    nextFocusedHandCardObj = new FocusedHandCard(true, oldHandCardObj.Index);
                 }
             }
 
             // 確定：場札から台札へ移動するカード
-            var targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand[RemoveHandCardObj.Index.AsInt];
+            var targetToRemoveObj = gameModelBuffer.GetPlayer(playerObj).IdOfCardsOfHand[oldHandCardObj.Index.AsInt];
 
-            // モデル更新：場札を１枚抜く
-            gameModelWriter.GetPlayer(playerObj).RemoveCardAtOfHand(RemoveHandCardObj.Index);
+            //
+            // 場札１枚減らす
+            // ==============
+            //
+            gameModelWriter.GetPlayer(playerObj).RemoveCardAtOfHand(oldHandCardObj.Index);
 
             // 確定：場札の枚数
             var lengthOfHandCards = gameModelWriter.GetPlayer(playerObj).GetLengthOfHandCards();
@@ -94,13 +100,18 @@
             var idOfHandCardsAfterRemove = gameModelWriter.GetPlayer(playerObj).GetCardsOfHand();
 
             // モデル更新：何枚目の場札をピックアップしているか
+            // ================================================
             gameModelWriter.GetPlayer(playerObj).UpdateFocusedHandCardObj(nextFocusedHandCardObj);
 
             // 確定：前の台札の天辺のカード
             IdOfPlayingCards idOfPreviousTop = gameModelWriter.GetCenterStack(placeObj).GetTopCard();
 
-            // モデル更新：次に、台札として置く
-            var indexOfCenterStack = gameModelWriter.GetCenterStack(placeObj).GetLength();
+            //
+            // 台札１枚増やす
+            // ==============
+            //
+            // これから置く札の台札でのインデックス
+            var indexOnCenterStackToNextCard = gameModelWriter.GetCenterStack(placeObj).GetLength();
             gameModelWriter.GetCenterStack(placeObj).AddCard(targetToRemoveObj);
 
             //
@@ -120,51 +131,12 @@
             setTimespan(ModelOfSchedulerO3rdSimplexCommand.PutCardToCenterStack.GenerateSpan(
                 timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
                     start: this.TimeRangeObj.StartObj,
-                    duration: new GameSeconds(CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
+                    duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
                 playerObj: playerObj,
                 target: targetToRemoveObj,
                 nextTop: nextTop,
                 onProgressOrNull: (progress) =>
                 {
-                    // 下のカードの数が、自分のカードの数の隣でなければ
-                    // Debug.Log($"テストA indexOfCenterStack:{indexOfCenterStack}");
-                    if (0 < indexOfCenterStack)
-                    {
-                        // Debug.Log($"テストB placeObj:{placeObj.AsInt}");
-
-                        // 下のカード
-                        var previousCard = gameModelWriter.GetCenterStack(placeObj).GetCard(indexOfCenterStack);
-                        // Debug.Log($"テストC topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
-
-                        // 隣ではないか？
-                        if (!CardNumberHelper.IsNextNumber(
-                            topCard: previousCard,
-                            pickupCard: targetToRemoveObj))
-                        {
-                            Debug.Log($"置いたカードが隣ではなかった topCard:{previousCard.Number()} pickupCard:{targetToRemoveObj.Number()}");
-
-                            // TODO ★ この動作をキャンセルし、元に戻す動作に変えたい
-
-                            // 即実行
-                            // ======
-
-                            //// コマンド作成（思考エンジン用）
-                            //var commandOfThinkingEngine = new ModelOfThinkingEngineCommand.Ignore();
-
-                            //// コマンド作成（画面用）
-                            //var commandOfScheduler = new MoveBackCardToHand(
-                            //    startObj: GameSeconds.Zero,
-                            //    command: commandOfThinkingEngine);
-
-                            //// タイムスパン作成・登録
-                            //commandOfScheduler.GenerateSpan(
-                            //    gameModelBuffer: gameModelBuffer,
-                            //    inputModel: inputModel,
-                            //    schedulerModel: schedulerModel,
-                            //    setTimespan: setTimespan);
-                        }
-                    }
-
                     if (1.0f <= progress)
                     {
                         // 制約の解除
@@ -175,8 +147,8 @@
             // 場札の位置調整（をしないと歯抜けになる）
             ModelOfSchedulerO3rdSimplexCommand.ArrangeHandCards.GenerateSpan(
                 timeRange: new ModelOfSchedulerO1stTimelineSpan.Range(
-                    start: new GameSeconds(this.TimeRangeObj.StartObj.AsFloat + CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f),
-                    duration: new GameSeconds(CommandDurationMapping.GetDurationBy(this.CommandOfThinkingEngine.GetType()).AsFloat / 2.0f)),
+                    start: new GameSeconds(this.TimeRangeObj.StartObj.AsFloat + DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f),
+                    duration: new GameSeconds(DurationMapping.GetDurationBy(this.DigitalCommand.GetType()).AsFloat / 2.0f)),
                 playerObj: playerObj,
                 indexOfPickupObj: nextFocusedHandCardObj.Index, // 抜いたカードではなく、次にピックアップするカードを指定。 × indexToRemove
                 idOfHandCards: idOfHandCardsAfterRemove,
@@ -186,3 +158,4 @@
         }
     }
 }
+
