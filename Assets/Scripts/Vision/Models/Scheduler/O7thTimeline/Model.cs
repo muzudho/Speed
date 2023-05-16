@@ -6,7 +6,7 @@
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfSchedulerO4thCommand = Assets.Scripts.Vision.Models.Scheduler.O4thComplexCommands;
     using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// タイムライン
@@ -69,7 +69,7 @@
         /// <param name="command">コマンド</param>
         internal void AddCommand(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommand.IModel command)
+            ModelOfThinkingEngineDigitalCommands.IModel command)
         {
             this.Commands.Add(ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
                 startObj: startObj,
@@ -85,7 +85,7 @@
         /// </summary>
         /// <param name="playerObj"></param>
         /// <param name="command">コマンド引数</param>
-        internal void AddWithinScheduler(Player playerObj, ModelOfThinkingEngineCommand.IModel command)
+        internal void AddWithinScheduler(Player playerObj, ModelOfThinkingEngineDigitalCommands.IModel command)
         {
             var commandOfScheduler = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
                         startObj: this.ScheduledTimesObj[playerObj.AsInt],

@@ -1,5 +1,7 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.Commands
+﻿namespace Assets.Scripts.ThinkingEngine.DigitalCommands
 {
+    using Assets.Scripts.ThinkingEngine.Models;
+
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
     /// </summary>

@@ -6,7 +6,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// ソースコードのようなもの
@@ -19,7 +19,7 @@
 
         protected ItsAbstract(
             GameSeconds startTimeObj,
-            ModelOfThinkingEngineCommand.IModel commandOfThinkingEngine)
+            ModelOfThinkingEngineDigitalCommands.IModel commandOfThinkingEngine)
         {
             this.TimeRangeObj = new ModelOfSchedulerO1stTimelineSpan.Range(startTimeObj, CommandDurationMapping.GetDurationBy(commandOfThinkingEngine.GetType()));
             this.CommandOfThinkingEngine = commandOfThinkingEngine;
@@ -35,7 +35,7 @@
         /// <summary>
         /// 思考エンジン用のコマンド
         /// </summary>
-        public ModelOfThinkingEngineCommand.IModel CommandOfThinkingEngine { get; private set; }
+        public ModelOfThinkingEngineDigitalCommands.IModel CommandOfThinkingEngine { get; private set; }
 
         // - メソッド
 

@@ -12,7 +12,7 @@
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdSimplexCommands;
     using ModelOfSchedulerO4thCommand = Assets.Scripts.Vision.Models.Scheduler.O4thComplexCommands;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// ｎプレイヤーは、右（または左）隣のカードへ、ピックアップを移動します
@@ -28,7 +28,7 @@
         /// <param name="command"></param>
         public MoveFocusToNextCard(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommand.IModel command)
+            ModelOfThinkingEngineDigitalCommands.IModel command)
             : base(startObj, command)
         {
         }
@@ -47,7 +47,7 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
-            var command = (ModelOfThinkingEngineCommand.MoveFocusToNextCard)this.CommandOfThinkingEngine;
+            var command = (ModelOfThinkingEngineDigitalCommands.MoveFocusToNextCard)this.CommandOfThinkingEngine;
 
             // TODO 前のカードは、ピックアップしているという前提
             //
@@ -143,10 +143,10 @@
             }
         }
 
-        ModelOfThinkingEngineCommand.MoveFocusToNextCard GetCommandOfThinkingEngine(
+        ModelOfThinkingEngineDigitalCommands.MoveFocusToNextCard GetCommandOfThinkingEngine(
             ModelOfSchedulerO4thCommand.IModel commandOfScheduler)
         {
-            return (ModelOfThinkingEngineCommand.MoveFocusToNextCard)commandOfScheduler.CommandOfThinkingEngine;
+            return (ModelOfThinkingEngineDigitalCommands.MoveFocusToNextCard)commandOfScheduler.CommandOfThinkingEngine;
         }
     }
 }

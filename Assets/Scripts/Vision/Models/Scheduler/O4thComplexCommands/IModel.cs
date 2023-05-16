@@ -6,7 +6,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// 画面用のコマンド
@@ -26,7 +26,7 @@
         /// <summary>
         /// 思考エンジン用のコマンド
         /// </summary>
-        ModelOfThinkingEngineCommand.IModel CommandOfThinkingEngine { get; }
+        ModelOfThinkingEngineDigitalCommands.IModel CommandOfThinkingEngine { get; }
 
         // - メソッド
 

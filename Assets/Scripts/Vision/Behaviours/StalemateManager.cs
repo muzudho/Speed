@@ -7,7 +7,7 @@
     using UnityEngine;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// 両プレイヤーが置けるカードがなくなってしまったとき、
@@ -143,7 +143,7 @@
                 //
                 // （ステールメート時は）ブーメラン判定しません。強制的にカードを置きます
                 //
-                var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                var digitalCommand = new ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand(
                 playerObj: playerObj,
                 placeObj: placeObj);
 
@@ -162,7 +162,7 @@
                 // （ステールメート時は）ブーメラン判定しません。強制的にカードを置きます
                 //
                 // ２プレイヤーが、ピックアップ中の場札を抜いて、（１プレイヤーから見て）左の台札へ積み上げる
-                var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                var digitalCommand = new ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand(
                     playerObj: playerObj,
                     placeObj: placeObj);
 

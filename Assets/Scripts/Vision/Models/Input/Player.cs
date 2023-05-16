@@ -7,7 +7,7 @@
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfThinkingEngine = Assets.Scripts.ThinkingEngine.Models;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ScriptOfThinkingEngine = Assets.Scripts.ThinkingEngine;
 
     /// <summary>
@@ -169,7 +169,7 @@
                 //else
                 //{
                     // ピックアップ中の場札を抜いて、台札へ積み上げる
-                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                    var digitalCommand = new ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand(
                         playerObj: playerObj,
                         placeObj: placeObj);
 
@@ -196,7 +196,7 @@
             //      場札が２枚以上あるときに限る
             if (2 <= gameModel.GetPlayer(this.PlayerIdObj).GetCardsOfHand().Count)
             {
-                var command = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
+                var command = new ModelOfThinkingEngineDigitalCommands.MoveFocusToNextCard(
                     playerObj: this.PlayerIdObj,
                     directionObj: pickingDirection);
 
@@ -217,7 +217,7 @@
             ModelOfScheduler.Model schedulerModel)
         {
             // 場札を並べる
-            var command = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+            var command = new ModelOfThinkingEngineDigitalCommands.MoveCardsToHandFromPile(
                 playerObj: this.PlayerIdObj,
                 numberOfCards: 1);
 

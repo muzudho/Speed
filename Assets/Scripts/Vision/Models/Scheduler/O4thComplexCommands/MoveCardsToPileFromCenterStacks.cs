@@ -10,7 +10,7 @@
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdSimplexCommands;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// 右（または左）側の台札１枚を、手札へ移動する
@@ -26,7 +26,7 @@
         /// <param name="command"></param>
         public MoveCardsToPileFromCenterStacks(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommand.IModel command)
+            ModelOfThinkingEngineCommands.IModel command)
             : base(startObj, command)
         {
         }
@@ -47,7 +47,7 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
-            var command = (ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks)this.CommandOfThinkingEngine;
+            var command = (ModelOfThinkingEngineCommands.MoveCardsToPileFromCenterStacks)this.CommandOfThinkingEngine;
 
             // 台札の一番上（一番後ろ）のカードを１枚抜く
             var numberOfCards = 1;

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.Commands
+﻿namespace Assets.Scripts.ThinkingEngine.DigitalCommands
 {
     /// <summary>
     /// コマンド引数

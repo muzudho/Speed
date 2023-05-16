@@ -10,7 +10,7 @@
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
     using ModelOfSchedulerO3rdSimplexCommand = Assets.Scripts.Vision.Models.Scheduler.O3rdSimplexCommands;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ScriptForVisionCommons = Assets.Scripts.Vision.Commons;
 
     /// <summary>
@@ -30,7 +30,7 @@
         /// <param name="command"></param>
         public MoveCardToCenterStackFromHand(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommand.IModel command)
+            ModelOfThinkingEngineDigitalCommands.IModel command)
             : base(startObj, command)
         {
         }
@@ -47,7 +47,7 @@
             ModelOfScheduler.Model schedulerModel,
             LazyArgs.SetValue<ModelOfSchedulerO1stTimelineSpan.IModel> setTimespan)
         {
-            var command = (ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand)this.CommandOfThinkingEngine;
+            var command = (ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand)this.CommandOfThinkingEngine;
 
             var playerObj = command.PlayerObj;
             var oldHandCardObj = gameModelBuffer.GetPlayer(playerObj).FocusedHandCardObj; // 何枚目の場札をピックアップしているか

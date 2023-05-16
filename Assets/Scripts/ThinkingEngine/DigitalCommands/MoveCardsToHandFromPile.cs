@@ -1,5 +1,7 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.Commands
+﻿namespace Assets.Scripts.ThinkingEngine.DigitalCommands
 {
+    using Assets.Scripts.ThinkingEngine.Models;
+
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
     /// </summary>

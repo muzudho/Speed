@@ -3,7 +3,7 @@
     using Assets.Scripts.ThinkingEngine;
     using Assets.Scripts.ThinkingEngine.Models;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
     using ModelOfObservableGame = Assets.Scripts.ThinkingEngine.Models.Game.Observable.Model;
 
     static class Demo
@@ -37,7 +37,7 @@
                     // １プレイヤーの右隣のカードへフォーカスを移します
                     {
                         var playerObj = Commons.Player1;
-                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
+                        var digitalCommand = new ModelOfThinkingEngineCommands.MoveFocusToNextCard(
                                 playerObj: playerObj,
                                 directionObj: Commons.PickRight);
                         schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
@@ -46,7 +46,7 @@
                     // ２プレイヤーの右隣のカードへフォーカスを移します
                     {
                         var playerObj = Commons.Player2;
-                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveFocusToNextCard(
+                        var digitalCommand = new ModelOfThinkingEngineCommands.MoveFocusToNextCard(
                                 playerObj: playerObj,
                                 directionObj: Commons.PickRight);
                         schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
@@ -74,7 +74,7 @@
                     }
                     else
                     {
-                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                        var digitalCommand = new ModelOfThinkingEngineCommands.MoveCardToCenterStackFromHand(
                                 playerObj: playerObj,
                                 placeObj: placeObj);
                         schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
@@ -92,7 +92,7 @@
                     }
                     else
                     {
-                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                        var digitalCommand = new ModelOfThinkingEngineCommands.MoveCardToCenterStackFromHand(
                                 playerObj: playerObj,
                                 placeObj: placeObj);
                         schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
@@ -112,7 +112,7 @@
                     // １プレイヤーは手札から１枚抜いて、場札として置く
                     var playerObj = Commons.Player1;
 
-                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+                    var digitalCommand = new ModelOfThinkingEngineCommands.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 1);
                     schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
@@ -121,7 +121,7 @@
                     // ２プレイヤーは手札から１枚抜いて、場札として置く
                     var playerObj = Commons.Player2;
 
-                    var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+                    var digitalCommand = new ModelOfThinkingEngineCommands.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 1);
                     schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);

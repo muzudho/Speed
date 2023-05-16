@@ -8,7 +8,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO6thCommandMapping = Assets.Scripts.Vision.Models.Scheduler.O6thCommandMapping;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// 開始局面まで
@@ -34,7 +34,7 @@
                 //
                 // デジタル・コマンド（思考エンジン内部用）　→　アナログ・コマンド（画面用）に変換
                 //
-                var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardsToPileFromCenterStacks(
+                var digitalCommand = new ModelOfThinkingEngineDigitalCommands.MoveCardsToPileFromCenterStacks(
                         placeObj: Commons.RightCenterStack);
                 var analogCommand = ModelOfSchedulerO6thCommandMapping.Model.WrapCommand(
                     startObj: GameSeconds.Zero,
@@ -52,14 +52,14 @@
             // １，２プレイヤーについて、手札から５枚抜いて、場札として置く（画面上の場札の位置は調整される）
             {
                 var playerObj = Commons.Player1;
-                var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+                var digitalCommand = new ModelOfThinkingEngineDigitalCommands.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 5);
                 schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
             }
             {
                 var playerObj = Commons.Player2;
-                var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardsToHandFromPile(
+                var digitalCommand = new ModelOfThinkingEngineDigitalCommands.MoveCardsToHandFromPile(
                         playerObj: playerObj,
                         numberOfCards: 5);
                 schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
@@ -91,7 +91,7 @@
                     else
                     {
                         // １プレイヤーが、ピックアップ中の場札を抜いて、右の台札へ積み上げる
-                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                        var digitalCommand = new ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand(
                                 playerObj: playerObj,
                                 placeObj: placeObj);
                         schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
@@ -110,7 +110,7 @@
                     else
                     {
                         // ２プレイヤーが、ピックアップ中の場札を抜いて、左の台札へ積み上げる
-                        var digitalCommand = new ModelOfThinkingEngineCommand.MoveCardToCenterStackFromHand(
+                        var digitalCommand = new ModelOfThinkingEngineDigitalCommands.MoveCardToCenterStackFromHand(
                             playerObj: playerObj,
                             placeObj: placeObj);
                         schedulerModel.Timeline.AddWithinScheduler(playerObj, digitalCommand);
@@ -120,7 +120,7 @@
 
             // 対局開始の合図
             {
-                var digitalCommand = new ModelOfThinkingEngineCommand.SetGameActive(
+                var digitalCommand = new ModelOfThinkingEngineDigitalCommands.SetGameActive(
                     isGameActive: true);
 
                 {

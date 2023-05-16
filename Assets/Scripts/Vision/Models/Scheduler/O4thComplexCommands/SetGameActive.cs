@@ -6,7 +6,7 @@
     using ModelOfInput = Assets.Scripts.Vision.Models.Input;
     using ModelOfScheduler = Assets.Scripts.Vision.Models.Scheduler;
     using ModelOfSchedulerO1stTimelineSpan = Assets.Scripts.Vision.Models.Scheduler.O1stTimelineSpan;
-    using ModelOfThinkingEngineCommand = Assets.Scripts.ThinkingEngine.Models.Commands;
+    using ModelOfThinkingEngineDigitalCommands = Assets.Scripts.ThinkingEngine.DigitalCommands;
 
     /// <summary>
     /// ｎプレイヤーの手札から場札へ、ｍ枚のカードを移動
@@ -22,7 +22,7 @@
         /// <param name="command"></param>
         public SetGameActive(
             GameSeconds startObj,
-            ModelOfThinkingEngineCommand.IModel command)
+            ModelOfThinkingEngineDigitalCommands.IModel command)
             : base(startObj, command)
         {
         }
@@ -48,7 +48,7 @@
                 return;
             }
 
-            var command = (ModelOfThinkingEngineCommand.SetGameActive)this.CommandOfThinkingEngine;
+            var command = (ModelOfThinkingEngineDigitalCommands.SetGameActive)this.CommandOfThinkingEngine;
 
             // モデル更新：１回実行すれば充分
             gameModelWriter.IsGameActive = command.IsGameActive;

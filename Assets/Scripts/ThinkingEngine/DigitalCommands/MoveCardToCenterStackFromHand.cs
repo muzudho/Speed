@@ -1,5 +1,7 @@
-﻿namespace Assets.Scripts.ThinkingEngine.Models.Commands
+﻿namespace Assets.Scripts.ThinkingEngine.DigitalCommands
 {
+    using Assets.Scripts.ThinkingEngine.Models;
+
     /// <summary>
     /// ｎプレイヤーがピックアップしている場札を、右（または左）の台札へ移動する
     /// </summary>
